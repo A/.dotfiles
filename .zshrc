@@ -7,9 +7,5 @@ ZSH_THEME="robbyrussell"
 COMPLETION_WAITING_DOTS="true"
 plugins=(git osx)
 source $ZSH/oh-my-zsh.sh
-source $HOME/.dotfiles/.aliases
-
-export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
-export PATH="~/.bin:$PATH"
-export PATH="/usr/local/share/npm/bin/:$PATH"
-export NODE_ENV=development
+source $HOME/.aliases
+source $HOME/.exports
