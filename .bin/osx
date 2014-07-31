@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# setup OS X settings here 
+
+#setup params
+while test $# -gt 0; do
+    case "$1" in
+        -h|--help)
+            echo "--hostname — name of your mac"
+            echo "--email — your email"
+            echo "--git-user — git user's name"
+            echo "--git-editor — git editor. Default '/usr/local/bin/sublime -w'"
+            exit 0
+            ;;
+        --hostname*)
+            COMPUTER_NAME=`echo $1 | sed -e 's/^[^=]*=//g'`
+            shift
+            ;;
+        --email*)
+            GIT_EMAIL=`echo $1 | sed -e 's/^[^=]*=//g'`
+            shift
+            ;;
+        --git-user*)
+            GIT_USERNAME=`echo $1 | sed -e 's/^[^=]*=//g'`
+            shift
+            ;;
+        --git-editor *)
+            GIT_EDITOR=`echo $1 | sed -e 's/^[^=]*=//g'`
+            shift
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+
+# Params
+COMPUTER_NAME=${COMPUTER_NAME:-"r31"}
+GIT_USERNAME=${GIT_USERNAME:-"Shuvalov Anton"}
+GIT_EMAIL=${GIT_EMAIL:-"anton_shuvalov@me.com"}
+GIT_EDITOR=${GIT_EDITOR:-"/usr/local/bin/sublime -w"}
+
+
+ Ask for the administrator password upfront
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until `.osx` has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+###############################################################################
+# General UI/UX                                                               #
+###############################################################################
+
+
+# Set computer name (as done via System Preferences → Sharing)
+sudo scutil --set ComputerName $COMPUTER_NAME
+sudo scutil --set HostName $COMPUTER_NAME
+sudo scutil --set LocalHostName $COMPUTER_NAME
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $COMPUTER_NAME
+
+# Setup GIT
+git config --global user.name "`echo $GIT_USERNAME`"
+git config --global user.email "`echo $GIT_EMAIL`"
+git config --global credential.helper osxkeychain
+git config --global core.editor "`echo $GIT_EDITOR`"
