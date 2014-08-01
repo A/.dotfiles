@@ -1,5 +1,5 @@
 export PATH=$PATH:/usr/local/bin:/usr/local/sbin
 export PATH=$PATH:$HOME/.dotfiles/bin
-export PATH=$PATH:/usr/local/share/npm/bin/
+export PATH=$PATH:/usr/local/share/npm/bin
 
 export NODE_ENV=development
