@@ -33,6 +33,7 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'digitaltoad/vim-jade'
 Bundle 'kien/ctrlp.vim'
+" http://zwiener.org/vimautocomplete.html
 Bundle 'Rip-Rip/clang_complete'
 Bundle 'ervandew/supertab'
 Bundle 'msanders/snipmate.vim'
