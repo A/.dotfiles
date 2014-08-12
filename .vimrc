@@ -25,22 +25,39 @@ set ruler                       " Show the cursor position
 set showmode                    " Show the current mode
 set modelines=4
 set t_Co=256                    " Set 256 colors
+
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
-
+" let Vundle manage Vundle
+" required! 
 Bundle 'gmarik/vundle'
+
+Bundle 'ronny/birds-of-paradise.vim'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'digitaltoad/vim-jade'
 Bundle 'kien/ctrlp.vim'
-" http://zwiener.org/vimautocomplete.html
 Bundle 'Rip-Rip/clang_complete'
 Bundle 'ervandew/supertab'
 Bundle 'msanders/snipmate.vim'
+Bundle 'scrooloose/syntastic'
+Bundle 'scrooloose/nerdtree'
+Bundle 'airblade/vim-gitgutter'
+Bundle 'tpope/vim-haml'
 
-filetype plugin indent on
+set tabstop=2
+
+:autocmd InsertEnter * set cul
+:autocmd InsertLeave * set nocul
+
+filetype plugin indent on     " required!
+let g:syntastic_javascript_checkers = ['jshint']
+
+" NERDTree
+map <C-n> :NERDTreeToggle<CR>
+let NERDTreeHighlightCursorline=0
 
 syntax enable
 let g:solarized_termcolors=256
-set background=dark
-colorscheme birds-of-paradise
+set background=light
+colorscheme solarized
