@@ -1,5 +1,5 @@
 set nocompatible
-filetype off 
+filetype off
 set clipboard=unnamed
 set backspace=indent,eol,start
 set noeol " Don’t add empty newlines at the end of files
@@ -17,9 +17,6 @@ set title                       " Show the filename in the window titlebar
 set visualbell                  " do not beep
 set noerrorbells
 set nostartofline               " Don’t reset cursor to start of line when moving around.
-set tabstop=4                   " Make tabs as wide as two spaces
-set shiftwidth=4
-set expandtab
 set shortmess=atI               " Don’t show the intro message when starting Vim
 set ruler                       " Show the cursor position
 set showmode                    " Show the current mode
@@ -29,7 +26,7 @@ set t_Co=256                    " Set 256 colors
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 " let Vundle manage Vundle
-" required! 
+" required!
 Bundle 'gmarik/vundle'
 
 Bundle 'ronny/birds-of-paradise.vim'
@@ -46,6 +43,11 @@ Bundle 'airblade/vim-gitgutter'
 Bundle 'tpope/vim-haml'
 
 set tabstop=2
+set shiftwidth=2
+set smarttab
+set expandtab
+set autoindent
+set smartindent
 
 :autocmd InsertEnter * set cul
 :autocmd InsertLeave * set nocul
@@ -57,7 +59,8 @@ let g:syntastic_javascript_checkers = ['jshint']
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeHighlightCursorline=0
 
+:nmap <c-s> :w<CR>
+
 syntax enable
-let g:solarized_termcolors=256
-set background=light
+set background=dark
 colorscheme solarized
