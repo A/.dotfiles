@@ -1,35 +1,41 @@
-set nocompatible
-filetype off
-set clipboard=unnamed
-set backspace=indent,eol,start
-set noeol " Don’t add empty newlines at the end of files
-set ignorecase                  " Ignore case of searches
-set incsearch
-set hlsearch                    " Highlight searches
-set smartindent
-set fileencoding=utf-8          " Use UTF-8 without BOM
-set encoding=utf-8 nobomb
-set number                      " Show line numbers
-set nobackup
-set noswapfile
-set history=1000                " remember more commands and search history
-set undolevels=1000             " use many muchos levels of undo
-set title                       " Show the filename in the window titlebar
-set visualbell                  " do not beep
-set noerrorbells
-set nostartofline               " Don’t reset cursor to start of line when moving around.
-set tabstop=4                   " Make tabs as wide as two spaces
-set shiftwidth=4
-set expandtab
-set shortmess=atI               " Don’t show the intro message when starting Vim
-set ruler                       " Show the cursor position
-set showmode                    " Show the current mode
-set modelines=4
-set t_Co=256                    " Set 256 colors
+" Behavior
+    set nocompatible
+    filetype off
+    set nobackup
+    set noswapfile
+    set history=1000                " remember more commands and search history
+    set undolevels=1000             " use many muchos levels of undo
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+" UX
+    set number                      " Show line numbers
+    set nostartofline               " Don’t reset cursor to start of line when moving around.
+    set ruler                       " Show the cursor position
+    set showmode                    " Show the current mode
+    set clipboard=unnamed
+    set backspace=indent,eol,start
+    set noeol                       " Don’t add empty newlines at the end of files
+  " set t_Co=256                    " Set 256 colors
 
+" Encoding
+    set fileencoding=utf-8          " Use UTF-8 without BOM
+    set encoding=utf-8 nobomb
+
+" Search
+    set ignorecase                  " Ignore case of searches
+    set incsearch
+    set hlsearch                    " Highlight searches
+
+" Ident
+    set tabstop=2
+    set shiftwidth=2
+    set smarttab
+    set expandtab
+    set autoindent
+    set smartindent
+
+" Bundle
+    set rtp+=~/.vim/bundle/vundle/
+    call vundle#rc()
 
 " Extend vim
     Bundle 'gmarik/vundle'
@@ -57,12 +63,6 @@ call vundle#rc()
     Bundle 'tpope/vim-haml'
     Bundle 'plasticboy/vim-markdown'
 
-set tabstop=2
-set shiftwidth=2
-set smarttab
-set expandtab
-set autoindent
-set smartindent
 
 :autocmd InsertEnter * set cul
 :autocmd InsertLeave * set nocul
