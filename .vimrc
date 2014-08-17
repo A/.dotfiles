@@ -5,11 +5,13 @@
     set noswapfile
     set history=1000                " remember more commands and search history
     set undolevels=1000             " use many muchos levels of undo
+    set noeb vb t_vb=               " disable error beeping
 
 " UX
     set number                      " Show line numbers
     set nostartofline               " Don’t reset cursor to start of line when moving around.
     set ruler                       " Show the cursor position
+    set colorcolumn=80,120
     set showmode                    " Show the current mode
     set clipboard=unnamed
     set backspace=indent,eol,start
