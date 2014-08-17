@@ -9,6 +9,7 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(git osx)
 
 # Add sourses
+export DOTFILES=$HOME/.dotfiles
 source $DOTFILES/.exports
 source $ZSH/oh-my-zsh.sh
 source $DOTFILES/.aliases
