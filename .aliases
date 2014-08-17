@@ -13,6 +13,7 @@ alias ...='.. ..'
 alias md='mkdir -p'
 alias df='df -h'
 alias ping='ping -c4'
+alias grep='ack'
 
 # Git
 alias gsl="git log --format='%Cgreen%h%Creset %C(cyan)%an%Creset - %s' --graph"
