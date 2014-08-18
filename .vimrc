@@ -16,7 +16,10 @@
     set clipboard=unnamed
     set backspace=indent,eol,start
     set noeol                       " Don’t add empty newlines at the end of files
-  " set t_Co=256                    " Set 256 colors
+    :autocmd InsertEnter * set cul  " Show cursor line in insert mode
+    :autocmd InsertLeave * set nocul " Hide cursor line in insert mode
+
+
 
 " Encoding
     set fileencoding=utf-8          " Use UTF-8 without BOM
@@ -34,6 +37,7 @@
     set expandtab
     set autoindent
     set smartindent
+    set paste " fix stupid ident error
 
 " Bundle
     set rtp+=~/.vim/bundle/vundle/
@@ -42,13 +46,16 @@
 " Extend vim
     Bundle 'gmarik/vundle'
     Bundle 'altercation/vim-colors-solarized'
+      set background=dark
+      colorscheme solarized
     Bundle 'scrooloose/nerdtree'
+      map <C-n> :NERDTreeToggle<CR>
+      let NERDTreeHighlightCursorline=0
     Bundle 'kien/ctrlp.vim'
     Bundle 'mileszs/ack.vim'
 
 " Autocomplite
     Bundle 'ervandew/supertab'
-  " Bundle 'Rip-Rip/clang_complete'
 
 " Snipmate
     Bundle "MarcWeber/vim-addon-mw-utils"
@@ -58,28 +65,14 @@
 
 " Linting
     Bundle 'scrooloose/syntastic'
+      filetype plugin indent on     " required!
+      let g:syntastic_javascript_checkers = ['jshint']
 
 " Syntax support
+    syntax enable
     Bundle 'kchmck/vim-coffee-script'
     Bundle 'digitaltoad/vim-jade'
     Bundle 'tpope/vim-haml'
     Bundle 'plasticboy/vim-markdown'
 
 
-:autocmd InsertEnter * set cul
-:autocmd InsertLeave * set nocul
-
-filetype plugin indent on     " required!
-let g:syntastic_javascript_checkers = ['jshint']
-
-" NERDTree
-map <C-n> :NERDTreeToggle<CR>
-let NERDTreeHighlightCursorline=0
-
-" save by ctrl-s
-nmap <c-s> :w<CR>
-imap <c-s> <Esc>:w<CR>a
-
-syntax enable
-set background=dark
-colorscheme solarized
