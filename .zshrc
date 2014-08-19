@@ -8,6 +8,9 @@ ZSH_THEME="robbyrussell"
 COMPLETION_WAITING_DOTS="true"
 plugins=(git osx)
 
+# Add ssh key for vargant machines
+ssh-add ~/.ssh/id_rsa
+
 # Add sourses
 export DOTFILES=$HOME/.dotfiles
 source $DOTFILES/.exports

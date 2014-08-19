@@ -37,7 +37,11 @@
     set expandtab
     set autoindent
     set smartindent
-    set paste " fix stupid ident error
+    set paste                       " fix stupid ident error
+
+" Invisibles
+    set list                        " show invisibles 
+    set listchars=tab:▸\ ,eol:¬     " Use the same symbols as TextMate for tabstops and EOLs
 
 " Bundle
     set rtp+=~/.vim/bundle/vundle/
@@ -56,7 +60,7 @@
 
 " Autocomplite
     Bundle 'ervandew/supertab'
-
+    " Bundle 'mattn/emmet-vim'
 " Snipmate
     Bundle "MarcWeber/vim-addon-mw-utils"
     Bundle "tomtom/tlib_vim"
