@@ -16,9 +16,32 @@
     set clipboard=unnamed
     set backspace=indent,eol,start
     set noeol                       " Don’t add empty newlines at the end of files
+    set showcmd                     " Display incomplete commands. 
     :autocmd InsertEnter * set cul  " Show cursor line in insert mode
     :autocmd InsertLeave * set nocul " Hide cursor line in insert mode
+    " Shortcuts for moving between tabs.
+    " Alt-j to move to the tab to the left
+    noremap <C-j> gT
+    " Alt-k to move to the tab to the right
+    noremap <C-k> gt
+    " Return to last edit position when opening files (You want this!)
+    autocmd BufReadPost *
+       \ if line("'\"") > 0 && line("'\"") <= line("$") |
+       \   exe "normal! g`\"" |
+       \ endif
+    " Remember info about open buffers on close
+    set viminfo^=%
 
+" Status line
+    set laststatus=2
+    set statusline=
+    set statusline+=%-3.3n\         " buffer number
+    set statusline+=%f\             " filename
+    set statusline+=%h%m%r%w        " file status
+    set statusline+=\[%{strlen(&ft)?&ft:'none'}] " filetype
+    set statusline+=%=
+    set statusline+=%-14(%l,%c%V%)  " line character
+    set statusline+=%<%P            " file position
 
 
 " Encoding
@@ -78,5 +101,6 @@
     Bundle 'digitaltoad/vim-jade'
     Bundle 'tpope/vim-haml'
     Bundle 'plasticboy/vim-markdown'
-
-
+    Bundle 'slim-template/vim-slim.git'
+    Bundle 'vim-scripts/liquid.vim'
+    Bundle 'wavded/vim-stylus'
