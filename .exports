@@ -1,6 +1,6 @@
-export PATH=$PATH:/usr/local/bin
-export PATH=$PATH:/usr/local/sbin
-export PATH=$PATH:$DOTFILES/bin
-export PATH=$PATH:/usr/local/share/npm/bin
+export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/sbin:$PATH
+export PATH=$DOTFILES/bin:$PATH
+export PATH=/usr/local/share/npm/bin:$PATH
 
 export NODE_ENV=development
