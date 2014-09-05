@@ -91,11 +91,9 @@
 
 " Linting
     Bundle 'scrooloose/syntastic'
-      filetype plugin indent on     " required!
       let g:syntastic_javascript_checkers = ['jshint']
 
 " Syntax support
-    syntax enable
     Bundle 'kchmck/vim-coffee-script'
     Bundle 'digitaltoad/vim-jade'
     Bundle 'tpope/vim-haml'
@@ -104,3 +102,7 @@
     Bundle 'vim-scripts/liquid.vim'
     Bundle 'wavded/vim-stylus'
     Bundle 'gorodinskiy/vim-coloresque'
+    
+  syntax enable
+  filetype plugin indent on     " required!
+
