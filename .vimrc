@@ -95,11 +95,7 @@
 " Autocomplite
   Bundle 'ervandew/supertab'
   Bundle 'mattn/emmet-vim'
-  " TODO: one line?
-  autocmd FileType stylus imap <tab> <plug>(emmet-expand-abbr)
-  autocmd FileType sass imap <tab> <plug>(emmet-expand-abbr)
-  autocmd FileType scss imap <tab> <plug>(emmet-expand-abbr)
-  autocmd FileType css imap <tab> <plug>(emmet-expand-abbr)
+    autocmd FileType html,css,scss,sass,stylus imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
   Bundle 'Raimondi/delimitMate'
   Bundle 'tomtom/tcomment_vim'
   "
