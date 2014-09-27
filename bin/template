@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cp $DOTFILES/templates/$1 ./$1
