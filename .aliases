@@ -17,6 +17,7 @@ alias grep='ack'
 
 # Git
 alias gsl="git log --format='%Cgreen%h%Creset %C(cyan)%an%Creset - %s' --graph"
+alias gcl="git clone"
 
 # Misc
 alias whois="whois -h whois-servers.net"
