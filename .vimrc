@@ -41,6 +41,16 @@
   " remove quotes from a word
   nnoremap wq :silent! normal mpeld bhd `ph<CR>
 
+  fun! <SID>StripTrailingWhitespaces()
+      let l = line(".")
+      let c = col(".")
+      %s/\s\+$//e
+      call cursor(l, c)
+  endfun
+
+  " Automatically clean trailing whitespaces on save
+  autocmd BufWritePre *.* :call <SID>StripTrailingWhitespaces()
+
   " Encoding
   set fileencoding=utf-8                                    " Use UTF-8 without BOM
   set encoding=utf-8 nobomb
