@@ -30,10 +30,10 @@
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
     \ endif
-  
+
   " Remember info about open buffers on close
   set viminfo^=%
-  
+
   " 'quote' a word
   nnoremap qw :silent! normal mpea'<Esc>bi'<Esc>`pl
   " double "quote" a word
@@ -120,6 +120,7 @@
     let g:syntastic_javascript_checkers = ['jshint']
 
 " Syntax support
+  Bundle 'fatih/vim-go'
   Bundle 'kchmck/vim-coffee-script'
   Bundle 'digitaltoad/vim-jade'
   Bundle 'tpope/vim-haml'
