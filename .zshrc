@@ -6,7 +6,7 @@ LC_ALL=en_US.UTF-8
 ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 COMPLETION_WAITING_DOTS="true"
-plugins=(git osx)
+plugins=(git osx npm)
 
 # Add ssh key for vargant machines
 ssh-add ~/.ssh/id_rsa
