@@ -1,0 +1,29 @@
+#! /usr/bin/env python3
+import sys
+
+if len(sys.argv) > 1:
+
+    color = sys.argv[-1]
+    if color[0] == "#" and len(color) in {7,4}:
+        rgb = color[1:]
+        rc,gc,bc = {3:(rgb[0]*2,rgb[1]*2,rgb[2]*2,),6:(rgb[0:2],rgb[2:4],rgb[4:6])}[len(rgb)]
+        r,g,b = (int(n,base=16) for n in (rc,gc,bc))
+        sys.stdout.write("\033]6;1;bg;red;brightness;%d\a" % int(r))
+        sys.stdout.write("\033]6;1;bg;green;brightness;%d\a" % int(g))
+        sys.stdout.write("\033]6;1;bg;blue;brightness;%d\a" % int(b))
+
+    elif color.count("."):
+        r,g,b = map(float,sys.argv[-1].split(","))
+        sys.stdout.write("\033]6;1;bg;red;brightness;%d\a" % int(r * 255))
+        sys.stdout.write("\033]6;1;bg;green;brightness;%d\a" % int(g * 255))
+        sys.stdout.write("\033]6;1;bg;blue;brightness;%d\a" % int(b * 255))
+
+else:
+
+    r,g,b = (0,0.147,0.159)
+    sys.stdout.write("\033]6;1;bg;red;brightness;%d\a" % int(r * 255))
+    sys.stdout.write("\033]6;1;bg;green;brightness;%d\a" % int(g * 255))
+    sys.stdout.write("\033]6;1;bg;blue;brightness;%d\a" % int(b * 255))
+
+
+sys.stdout.flush()
