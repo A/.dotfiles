@@ -23,3 +23,8 @@ alias ghcl="github_clone"
 # Misc
 alias whois="whois -h whois-servers.net"
 alias localip="ipconfig getifaddr en0"
+
+# search-me
+alias google="search-me google"
+alias ddg="search-me ddg"
+alias caniuse="search-me caniuse"
