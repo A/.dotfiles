@@ -1,0 +1,12 @@
+[push]
+	default = simple
+[user]
+	name = Shuvalov Anton
+	email = anton_shuvalov@me.com
+[credential]
+	helper = osxkeychain
+[core]
+	editor = vim
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
