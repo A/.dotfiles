@@ -2,7 +2,8 @@
 
 export DOTFILES=$HOME/.dotfileis
 
-ln -s $DOTFILES/.zshrc $HOME/.zshrc
-ln -s $DOTFILES/.vimrc $HOME/.vimrc
-ln -s $DOTFILES/.jshintrc $HOME/.jshintrc
-ln -s $DOTFILES/. $HOME/.gitignore
+ln -s $DOTFILES/.zshrc       $HOME/.zshrc
+ln -s $DOTFILES/.vimrc       $HOME/.vimrc
+ln -s $DOTFILES/.jshintrc    $HOME/.jshintrc
+ln -s $DOTFILES/.gitignore   $HOME/.gitignore
+ln -s $DOTFILES/.search      $HOME/.search
