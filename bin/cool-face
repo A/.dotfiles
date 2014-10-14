@@ -1,0 +1,11 @@
+#!/bin/bash
+
+case "$1" in
+  -a|--all)
+    cat ~/.emotions
+    exit 0
+    ;;
+  *)
+    tail -$((RANDOM/(32767/`wc -l<~/.emotions|tr -d ' '`))) ~/.emotions|head -1
+    ;;
+esac
