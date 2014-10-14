@@ -4,7 +4,7 @@
 
 Port of the [cool-ascii-faces][1] to plain shell.
 
-```shell
+```bash
 cool-face # get random ascii smile
 (づ｡◕‿‿◕｡)づ
 cool-face -a # get all smiles
