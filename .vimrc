@@ -86,7 +86,8 @@
     set background=light
     colorscheme solarized
   Bundle 'scrooloose/nerdtree'
-    map <C-n> :NERDTreeToggle<CR>
+  Bundle 'jistr/vim-nerdtree-tabs'
+    map <C-n> :NERDTreeTabsToggle<CR>
     let NERDTreeHighlightCursorline=0
   Bundle 'kien/ctrlp.vim'
   Bundle 'mileszs/ack.vim'
