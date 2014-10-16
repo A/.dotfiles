@@ -1,8 +1,11 @@
 # Frontend
+mdn           https://developer.mozilla.org/ru/search?q=%s
+caniuse       http://caniuse.com/#search=%s
+
+# Remove?:
 jquery        http://api.jquery.com/?q=%s
 compass       http://compass-style.org/search?q=%s
 html5please   http://html5please.com#%s
-caniuse       http://caniuse.com/#search=%s
 bem           http://google.com//search?as_q=%s&as_sitesearch=bem.info
 angularjs     http://google.com//search?as_q=%s&as_sitesearch=angularjs.org
 reactjs       http://google.com//search?as_q=%s&as_sitesearch=facebook.github.io/react
