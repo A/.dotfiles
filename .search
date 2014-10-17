@@ -5,7 +5,7 @@ so            http://stackoverflow.com/search?q=%s
 github        https://github.com/search?utf8=✓&q=%s
 
 # Remove?:
-jquery        http://api.jquery.com/?q=%s
+jquery        http://api.jquery.com/?s=%s
 compass       http://compass-style.org/search?q=%s
 html5please   http://html5please.com#%s
 bem           http://google.com//search?as_q=%s&as_sitesearch=bem.info
