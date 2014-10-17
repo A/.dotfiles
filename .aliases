@@ -31,3 +31,11 @@ alias ddg="search-me ddg"
 alias caniuse="search-me caniuse"
 alias mdn="search-me mdn"
 alias stackoverflow="search-me so"
+
+# Tab Colors
+alias tabc_green="tabcolor #468966"
+alias tabc_khaki="tabcolor #FFF0A5"
+alias tabc_orange="tabcolor #FFB03B"
+alias tabc_pink="tabcolor #B64926"
+alias tabc_red="tabcolor #8E2800"
+
