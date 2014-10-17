@@ -2,6 +2,7 @@
 mdn           https://developer.mozilla.org/ru/search?q=%s
 caniuse       http://caniuse.com/#search=%s
 so            http://stackoverflow.com/search?q=%s
+github        https://github.com/search?utf8=✓&q=%s
 
 # Remove?:
 jquery        http://api.jquery.com/?q=%s
