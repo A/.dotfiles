@@ -34,13 +34,6 @@
   " Remember info about open buffers on close
   set viminfo^=%
 
-  " 'quote' a word
-  nnoremap qw :silent! normal mpea'<Esc>bi'<Esc>`pl
-  " double "quote" a word
-  nnoremap qd :silent! normal mpea"<Esc>bi"<Esc>`pl
-  " remove quotes from a word
-  nnoremap wq :silent! normal mpeld bhd `ph<CR>
-
   fun! <SID>StripTrailingWhitespaces()
       let l = line(".")
       let c = col(".")
@@ -81,6 +74,16 @@
   Bundle 'wakatime/vim-wakatime'
 
 " Extend vim
+  Bundle 'mattesgroeger/vim-bookmarks'
+  Bundle 'tpope/vim-surround'
+  Bundle 'godlygeek/tabular'
+    let mapleader=','
+      if exists(":Tabularize")
+        nmap <Leader>a= :Tabularize /=<CR>
+        vmap <Leader>a= :Tabularize /=<CR>
+        nmap <Leader>a: :Tabularize /:\zs<CR>
+        vmap <Leader>a: :Tabularize /:\zs<CR>
+      endif
   Bundle 'gmarik/vundle'
   Bundle 'altercation/vim-colors-solarized'
     set background=light
@@ -131,6 +134,8 @@
   Bundle 'vim-scripts/liquid.vim'
   Bundle 'wavded/vim-stylus'
   Bundle 'gorodinskiy/vim-coloresque'
+" Integrations
+  Bundle 'junegunn/vim-github-dashboard'
 
   syntax enable
   filetype plugin indent on
