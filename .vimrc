@@ -1,4 +1,5 @@
 " Behavior set nocompatible
+  set nocompatible
   set nobackup
   set noswapfile
   set history=1000                                          " remember more commands and search history
