@@ -20,10 +20,26 @@
   :autocmd InsertLeave * set nocul                          " Hide cursor line in insert mode
 
   " Shortcuts for moving between tabs.
-  " Alt-j to move to the tab to the left
-  noremap <C-j> gT
-  " Alt-k to move to the tab to the right
-  noremap <C-k> gt
+  " C-Left to move to the tab to the left
+  noremap <C-Left> gT
+  " C-Right to move to the tab to the right
+  noremap <C-Right> gt
+
+  " Disable <Arrow keys>
+  inoremap <Up> <NOP>
+  inoremap <Down> <NOP>
+  inoremap <Left> <NOP>
+  inoremap <Right> <NOP>
+  noremap <Up> <NOP>
+  noremap <Down> <NOP>
+  noremap <Left> <NOP>
+  noremap <Right> <NOP>
+
+  " arrow key to navigate windows
+  noremap <Down> <C-W>j
+  noremap <Up> <C-W>k
+  noremap <Left> <C-W>h
+  noremap <Right> <C-W>l
 
   " Return to last edit position when opening files (You want this!)
   autocmd BufReadPost *
@@ -74,6 +90,8 @@
   Bundle 'wakatime/vim-wakatime'
 
 " Extend vim
+  " use russian layout the only in the insert mode
+  Bundle 'porqz/KeyboardLayoutSwitcher'
   Bundle 'mattesgroeger/vim-bookmarks'
   Bundle 'tpope/vim-surround'
   Bundle 'godlygeek/tabular'
@@ -136,6 +154,7 @@
   Bundle 'gorodinskiy/vim-coloresque'
 " Integrations
   Bundle 'junegunn/vim-github-dashboard'
+
 
   syntax enable
   filetype plugin indent on
