@@ -1,5 +1,4 @@
-" Behavior
-  set nocompatible
+" Behavior set nocompatible
   set nobackup
   set noswapfile
   set history=1000                                          " remember more commands and search history
@@ -7,6 +6,7 @@
   set noeb vb t_vb=                                         " disable error beeping
 
 " UX
+  set title                                                 " Show the (partial) command as it’s being typed
   set number                                                " Show line numbers
   set nostartofline                                         " Don’t reset cursor to start of line when moving around.
   set ruler                                                 " Show the cursor position
@@ -19,11 +19,15 @@
   :autocmd InsertEnter * set cul                            " Show cursor line in insert mode
   :autocmd InsertLeave * set nocul                          " Hide cursor line in insert mode
 
+  set scrolloff=8         "Start scrolling when we're 8 lines away from margins
+  set sidescrolloff=15
+  set sidescroll=1
+  "
   " Shortcuts for moving between tabs.
-  " C-Left to move to the tab to the left
-  noremap <C-Left> gT
-  " C-Right to move to the tab to the right
-  noremap <C-Right> gt
+  " C-j to move to the tab to the left
+  noremap <S-Left> gT
+  " C-k to move to the tab to the right
+  noremap <S-Right> gt
 
   " Disable <Arrow keys>
   inoremap <Up> <NOP>
@@ -80,7 +84,7 @@
 
 " Invisibles
   set list                                                  " show invisibles
-  set listchars=tab:▸\ ,eol:¬                               " Use the same symbols as TextMate for tabstops and EOLs
+  set lcs=tab:▸\ ,eol:¬                                     " Use the same symbols as TextMate for tabstops and EOLs
 
 " Bundle
     set rtp+=~/.vim/bundle/vundle/
