@@ -5,6 +5,7 @@
   set history=1000                                          " remember more commands and search history
   set undolevels=1000                                       " use many muchos levels of undo
   set noeb vb t_vb=                                         " disable error beeping
+  set tildeop                                               " use ~ as operator for text objects like `~iw`
 
 " UX
   set title                                                 " Show the (partial) command as it’s being typed
