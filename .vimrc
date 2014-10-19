@@ -82,7 +82,8 @@
   set expandtab
   set autoindent
   set smartindent
-"  set paste                                                " fix stupid ident error, but break snipmate, supertab and emmet
+  set pastetoggle=<F2>
+
 
 " Invisibles
   set list                                                  " show invisibles
