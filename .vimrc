@@ -1,4 +1,5 @@
-" Behavior
+" Just search by `/# ` to navigate between parts of the file
+" # Behavior
   set nocompatible
   set nobackup
   set noswapfile
@@ -7,7 +8,7 @@
   set noeb vb t_vb=                                         " disable error beeping
   set tildeop                                               " use ~ as operator for text objects like `~iw`
 
-" UX
+" # UX
   set title                                                 " Show the (partial) command as it’s being typed
   set number                                                " Show line numbers
   set nostartofline                                         " Don’t reset cursor to start of line when moving around.
@@ -20,17 +21,14 @@
   set showcmd                                               " Display incomplete commands.
   :autocmd InsertEnter * set cul                            " Show cursor line in insert mode
   :autocmd InsertLeave * set nocul                          " Hide cursor line in insert mode
-
-  set scrolloff=8         "Start scrolling when we're 8 lines away from margins
+  set scrolloff=8                                           " Start scrolling when we're 8 lines away from margins
   set sidescrolloff=15
   set sidescroll=1
-  "
   " Shortcuts for moving between tabs.
-  " C-j to move to the tab to the left
+  " C-Left to move to the tab to the left
   noremap <S-Left> gT
-  " C-k to move to the tab to the right
+  " C-Right to move to the tab to the right
   noremap <S-Right> gt
-
   " Disable <Arrow keys>
   inoremap <Up> <NOP>
   inoremap <Down> <NOP>
@@ -70,12 +68,12 @@
   set fileencoding=utf-8                                    " Use UTF-8 without BOM
   set encoding=utf-8 nobomb
 
-" Search
+" # Search
   set ignorecase                                            " Ignore case of searches
   set incsearch
   set hlsearch                                              " Highlight searches
 
-" Ident
+" # Ident
   set tabstop=2
   set shiftwidth=2
   set smarttab
@@ -85,18 +83,18 @@
   set pastetoggle=<F2>
 
 
-" Invisibles
+" # Invisibles
   set list                                                  " show invisibles
   set lcs=tab:▸\ ,eol:¬                                     " Use the same symbols as TextMate for tabstops and EOLs
 
-" Bundle
+" # Bundle
     set rtp+=~/.vim/bundle/vundle/
     call vundle#rc()
 
-" Timing
+" # Timing
   Bundle 'wakatime/vim-wakatime'
 
-" Extend vim
+" # Extend vim
   " use russian layout the only in the insert mode
   Bundle 'porqz/KeyboardLayoutSwitcher'
   Bundle 'mattesgroeger/vim-bookmarks'
@@ -131,24 +129,24 @@
     let g:airline#extensions#tabline#fnamemod = ':t'        " Display only filename in tab
     let g:airline_section_y = ''                            " Don't display encoding
 
-" Autocomplite
+" # Autocomplite
   Bundle 'ervandew/supertab'
   Bundle 'mattn/emmet-vim'
     autocmd FileType html,css,scss,sass,stylus imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
   Bundle 'Raimondi/delimitMate'
   Bundle 'tomtom/tcomment_vim'
   "
-" Snipmate
+" # Snipmate
   Bundle 'MarcWeber/vim-addon-mw-utils'
   Bundle 'tomtom/tlib_vim'
   Bundle 'garbas/vim-snipmate'
   Bundle 'honza/vim-snippets'
 
-" Linting
+" # Linting
   Bundle 'scrooloose/syntastic'
     let g:syntastic_javascript_checkers = ['jshint']
 
-" Syntax support
+" # Syntax support
   Bundle 'fatih/vim-go'
   Bundle 'kchmck/vim-coffee-script'
   Bundle 'digitaltoad/vim-jade'
@@ -159,7 +157,7 @@
   Bundle 'vim-scripts/liquid.vim'
   Bundle 'wavded/vim-stylus'
   Bundle 'gorodinskiy/vim-coloresque'
-" Integrations
+" # Integrations
   Bundle 'junegunn/vim-github-dashboard'
 
 
