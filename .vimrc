@@ -1,4 +1,4 @@
-" Behavior set nocompatible
+" Behavior
   set nocompatible
   set nobackup
   set noswapfile
