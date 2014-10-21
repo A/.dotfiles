@@ -162,6 +162,7 @@
   Bundle 'wavded/vim-stylus'
   Bundle 'gorodinskiy/vim-coloresque'
 " # Integrations
+  Bundle 'vim-scripts/TaskList.vim'
   Bundle 'junegunn/vim-github-dashboard'
 
 
