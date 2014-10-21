@@ -38,7 +38,11 @@
   noremap <Down> <NOP>
   noremap <Left> <NOP>
   noremap <Right> <NOP>
-
+  " map C-[hjkl] to navigate in the insert mode
+  imap <C-h> <C-o>h
+  imap <C-j> <C-o>j
+  imap <C-k> <C-o>k
+  imap <C-l> <C-o>l
   " arrow key to navigate windows
   noremap <Down> <C-W>j
   noremap <Up> <C-W>k
