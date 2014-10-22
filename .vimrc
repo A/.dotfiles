@@ -101,7 +101,7 @@
 " # Extend vim
   " use russian layout the only in the insert mode
   Bundle 'porqz/KeyboardLayoutSwitcher'
-  Bundle 'mattesgroeger/vim-bookmarks'
+  " Bundle 'mattesgroeger/vim-bookmarks'
   Bundle 'tpope/vim-surround'
   Bundle 'godlygeek/tabular'
     let mapleader=','
@@ -162,7 +162,7 @@
   Bundle 'wavded/vim-stylus'
   Bundle 'gorodinskiy/vim-coloresque'
 " # Integrations
-  Bundle 'vim-scripts/TaskList.vim'
+  " Bundle 'vim-scripts/TaskList.vim'
   Bundle 'junegunn/vim-github-dashboard'
 
 
