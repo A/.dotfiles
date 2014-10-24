@@ -116,6 +116,7 @@
     set background=light
     colorscheme solarized
   Bundle 'scrooloose/nerdtree'
+    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
   Bundle 'jistr/vim-nerdtree-tabs'
     map <C-n> :NERDTreeTabsToggle<CR>
     let NERDTreeHighlightCursorline=0
