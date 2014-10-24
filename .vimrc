@@ -136,8 +136,8 @@
 
 " # Autocomplite
   Bundle 'ervandew/supertab'
-  Bundle 'mattn/emmet-vim'
-    autocmd FileType html,css,scss,sass,stylus imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+  " Bundle 'mattn/emmet-vim'
+    " autocmd FileType html,css,scss,sass,stylus imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
   Bundle 'Raimondi/delimitMate'
   Bundle 'tomtom/tcomment_vim'
   "
