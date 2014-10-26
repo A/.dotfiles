@@ -133,6 +133,7 @@
     let g:airline#extensions#tabline#show_buffers = 0       " Don't display buffers in tab-bar with single tab
     let g:airline#extensions#tabline#fnamemod = ':t'        " Display only filename in tab
     let g:airline_section_y = ''                            " Don't display encoding
+  Bundle 'Shougo/unite.vim'
 
 " # Autocomplite
   Bundle 'ervandew/supertab'
@@ -165,7 +166,7 @@
 " # Integrations
   " Bundle 'vim-scripts/TaskList.vim'
   Bundle 'junegunn/vim-github-dashboard'
-
+  Bundle 'farseer90718/vim-taskwarrior'
 
   syntax enable
   filetype plugin indent on
