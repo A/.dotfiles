@@ -19,6 +19,7 @@ alias grep='ack'
 alias gsl="git log --format='%Cgreen%h%Creset %C(cyan)%an%Creset - %s' --graph"
 alias gcl="git clone"
 alias ghcl="github_clone"
+alias gtodo="git grep --color=always --no-index --exclude-standard --heading --break --ignore-case -e ' FIX: *' -e ' TODO: *' | sed -e 's/^[[:space:]]*//'"
 
 # Misc
 alias serve="python -m SimpleHTTPServer"
@@ -40,3 +41,6 @@ alias tabc_orange="tabcolor #FFB03B"
 alias tabc_pink="tabcolor #B64926"
 alias tabc_red="tabcolor #8E2800"
 
+# Vim
+alias gtd="vim ~/.dotfiles/.gtd"
+alias vimrc="vim ~/.vimrc"
