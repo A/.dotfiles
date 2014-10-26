@@ -1,0 +1,34 @@
+# [Created by task 2.3.0 10/25/2014 02:59:47]
+# Taskwarrior program configuration file.
+# For more documentation, see http://taskwarrior.org or try 'man task', 'man task-faq',
+# 'man task-tutorial', 'man task-color', 'man task-sync' or 'man taskrc'
+
+# Here is an example of entries that use the default, override and blank values
+#   variable=foo   -- By specifying a value, this overrides the default
+#   variable=      -- By specifying no value, this means no default
+#   #variable=foo  -- By commenting out the line, or deleting it, this uses the default
+
+# Use the command 'task show' to see all defaults and overrides
+
+# Files
+data.location=~/.task
+
+# Color theme (uncomment one to use)
+include /usr/local/Cellar/task/2.3.0/share/doc/task/rc/solarized-light-256.theme
+
+color=on
+editor=vim
+verbose=on
+
+# energy
+uda.energy.type=string
+uda.energy.label=Energy lelel
+uda.energy.values=high,middle,low
+
+# estimate
+uda.estimate.type=string
+uda.estimate.label=Size Estimate
+uda.estimate.values=trivial,small,medium,large,huge
+
+# Coefficients
+urgency.user.tag.<tag>.coefficient=-15
