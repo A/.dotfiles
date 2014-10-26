@@ -1,3 +1,4 @@
 # Folder view configuration files
 .DS_Store
 ._*
+.gtd
