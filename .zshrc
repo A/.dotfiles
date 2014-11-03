@@ -19,3 +19,6 @@ export DOTFILES=$HOME/.dotfiles
 source $DOTFILES/.exports
 source $ZSH/oh-my-zsh.sh
 source $DOTFILES/.aliases
+
+# Show hostname
+[[ "$SSH_CONNECTION" != '' ]] && export PROMPT='%{$fg[yellow]%}%n@%m%{$reset_color%}'$PROMPT
