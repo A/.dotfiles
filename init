@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export DOTFILES=$HOME/.dotfileis
+export DOTFILES=$HOME/.dotfiles
 
 ln -s $DOTFILES/.zshrc       $HOME/.zshrc
 ln -s $DOTFILES/.vimrc       $HOME/.vimrc
