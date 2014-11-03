@@ -21,4 +21,4 @@ source $ZSH/oh-my-zsh.sh
 source $DOTFILES/.aliases
 
 # Show hostname
-export PROMPT='%n@%{$fg[yellow]%}%m%{$reset_color%} '$PROMPT
+export PROMPT='%n@%{$fg[blue]%}%m%{$reset_color%} '$PROMPT
