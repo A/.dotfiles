@@ -1,4 +1,10 @@
-![terminal](https://cloud.githubusercontent.com/assets/1410106/4893519/4af1161e-63c3-11e4-898e-14a66e19085e.png)
+### emotional prompt
+
+Super tiny and emotional zsh prompt inspired by [pure][1]. You fall in love with it! (づ｡◕‿‿◕｡)づ
+
+![terminal](https://cloud.githubusercontent.com/assets/1410106/4904770/1a952d70-644a-11e4-88d6-2f378e8a39c3.png)
+
+[1]: https://github.com/sindresorhus/pure
 
 ### Vim
 
