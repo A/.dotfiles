@@ -8,5 +8,5 @@ ZSH_THEME_GIT_PROMPT_CLEAN=""
 local pmt_err="%{$fg_bold[red]%} ಠ_ಠ%{$reset_color%}%{$fg_bold[cyan]%}"
 local pmt_status="%{$fg[blue]%}%(?::${pmt_err}) ❯ %{$reset_color%}"
 [[ "$SSH_CONNECTION" != '' ]] && pmt_user="%n%{$fg_no_bold[blue]%}@%m%{$reset_color%}"
-PROMPT='${pmt_user} %~ %{$fg_bold[blue]%}$(git_prompt_info) %{$reset_color%}${pmt_status}'
+PROMPT='${pmt_user} %~ %{$fg_bold[blue]%}$(git_prompt_info)\%{$reset_color%}${pmt_status}'
 
