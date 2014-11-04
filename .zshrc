@@ -23,8 +23,8 @@ source $DOTFILES/.aliases
 
 # Prompt
 ZSH_THEME_GIT_PROMPT_PREFIX=""
-ZSH_THEME_GIT_PROMPT_SUFFIX=""
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_no_bold[magenta]%} ~(˘▾˘~) "
+ZSH_THEME_GIT_PROMPT_SUFFIX=" "
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_no_bold[magenta]%} ~(˘▾˘~)"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
 local pmt_ok="%{$fg[blue]%}❯%{$reset_color%}"
@@ -32,4 +32,3 @@ local pmt_err="%{$fg_bold[red]%}ಠ_ಠ%{$reset_color%}"
 local pmt_status="%(?:${pmt_ok}:${pmt_err})"
 [[ "$SSH_CONNECTION" != '' ]] && pmt_user="%{%{$fg_bold[magenta]%}%n@%m %{$reset_color%}"
 PROMPT='${pmt_user}%c %{$fg_bold[blue]%}$(git_prompt_info)%{$reset_color%}${pmt_status} '
-
