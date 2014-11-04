@@ -39,15 +39,6 @@ List of templates:
 
 Set computer name (as done via System Preferences → Sharing)
 
-#### tabcolor
-
-Tool to set colors for iTerm2 tabs:
-
-```
-tabcolor #eba
-tabcolor #bada55
-```
-
 #### github_clone
 
 Useful script to clone github repos with short syntax:
