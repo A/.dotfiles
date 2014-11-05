@@ -16,7 +16,7 @@ alias ping='ping -c4'
 alias grep='ack'
 
 # Git
-alias gst="git status -suno"
+alias gst="git status -s"
 alias gsl="git log --format='%Cgreen%h%Creset %C(cyan)%an%Creset - %s' --graph"
 alias gcl="git clone"
 alias ghcl="github_clone"
