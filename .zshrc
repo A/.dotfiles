@@ -11,9 +11,6 @@ plugins=(git osx npm github taskwarrior)
 # Add ssh key for vargant machines
 ssh-add ~/.ssh/id_rsa 2> /dev/null
 
-# Go
-export GOPATH=$HOME
-
 # Add sourses
 export DOTFILES=$HOME/.dotfiles
 source $DOTFILES/.exports
