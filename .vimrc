@@ -8,6 +8,7 @@
   set noeb vb t_vb=                                         " disable error beeping
   set tildeop                                               " use ~ as operator for text objects like `~iw`
   set nowrap                                                " hate wrapping for tiny windows. It makes code absolute unreadable
+  set mouse=nicr                                            " enable scrolling. That better then scroll rendered vim screens
 
 " # UX
   set title                                                 " Show the (partial) command as it’s being typed
@@ -151,7 +152,7 @@
 
 " # Linting
   Bundle 'scrooloose/syntastic'
-    let g:syntastic_javascript_checkers = ['jshint']
+    let g:syntastic_javascript_checkers = ['shint']
 
 " # Syntax support
   Bundle 'fatih/vim-go'
@@ -168,6 +169,7 @@
   " Bundle 'vim-scripts/TaskList.vim'
   Bundle 'junegunn/vim-github-dashboard'
   Bundle 'farseer90718/vim-taskwarrior'
+  Bundle 'heavenshell/vim-jsdoc'
 
   syntax enable
   filetype plugin indent on
