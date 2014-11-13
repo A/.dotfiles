@@ -151,7 +151,7 @@
 
 " # Linting
   Bundle 'scrooloose/syntastic'
-    let g:syntastic_javascript_checkers = ['shint']
+    let g:syntastic_javascript_checkers = ['jshint']
 
 " # Syntax support
   Bundle 'fatih/vim-go'
