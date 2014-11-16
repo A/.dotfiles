@@ -10,3 +10,4 @@ ln -s $DOTFILES/.search      $HOME/.search
 ln -s $DOTFILES/.emotions    $HOME/.emotions
 ln -s $DOTFILES/.gitconfig   $HOME/.gitconfig
 ln -s $DOTFILES/.taskrc      $HOME/.taskrc
+ln -s $DOTFILES/.tmux.conf   $HOME/.tmux.conf
