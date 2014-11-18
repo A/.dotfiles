@@ -27,9 +27,9 @@
   set sidescroll=1
   " Shortcuts for moving between tabs.
   " C-Left to move to the tab to the left
-  noremap <S-Left> gT
+  noremap <c-j> gT
   " C-Right to move to the tab to the right
-  noremap <S-Right> gt
+  noremap <c-k> gt
   " Disable <Arrow keys>
   inoremap <Up> <NOP>
   inoremap <Down> <NOP>
