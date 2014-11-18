@@ -11,3 +11,5 @@ ln -s $DOTFILES/.emotions    $HOME/.emotions
 ln -s $DOTFILES/.gitconfig   $HOME/.gitconfig
 ln -s $DOTFILES/.taskrc      $HOME/.taskrc
 ln -s $DOTFILES/.tmux.conf   $HOME/.tmux.conf
+ln -s $DOTFILES/.tmux        $HOME/.tmux
+ln -s $DOTFILES/.byobu       $HOME/.byoby
