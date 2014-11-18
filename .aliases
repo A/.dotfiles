@@ -7,7 +7,6 @@ alias s='sublime'
 alias a='atom'
 
 # Shell
-alias tmux='TERM=xterm-256color tmux attach || tmux new'
 alias la="ls -halk"
 alias ..='cd ..;' # can then do .. .. .. to move up multiple directories.
 alias ...='.. ..'
