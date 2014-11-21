@@ -23,7 +23,10 @@ brew install byobu
 
 ![image](https://cloud.githubusercontent.com/assets/1410106/5058193/d220b004-6cf6-11e4-9e04-6f2dc2520b9d.png)
 
+[My personal Vim snippets](https://github.com/shuvalov-anton/vim-snippets).
+
 ```
 # Istall Vundle
 git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 ```
+
