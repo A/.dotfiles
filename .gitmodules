@@ -1,3 +1,0 @@
-[submodule "stop-words"]
-	path = stop-words
-	url = git@github.com:miripiruni/stop-words.git
