@@ -37,6 +37,7 @@ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 - [Adobe Photoshop CC](http://www.adobe.com/products/photoshop.html) — you know…
 - [ColorSnapper](http://www.colorsnapper.com/) — awesome tool to picking colors from the screen
 - [Instacast](http://vemedio.com/products/instacast) — podcast player
+- [iTerm 2](http://iterm2.com/) — terminal
 - [Last.fm Scrobbler](http://www.lastfm.ru/download)
 - [Logic Pro X](https://www.apple.com/logic-pro/)
 - [MindNode Pro](https://mindnode.com/) — super cool mind maps app for my researches
@@ -49,5 +50,4 @@ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 - [VLC](http://www.videolan.org/vlc/) — video player that just work and don't make me feeling stupit with codecs and formats.
 - [VirtualBox](https://www.virtualbox.org/) — virtual machines
 - [Visits](http://getvisitsapp.com/) — shows Google Analytics data from menubar
-- [iA Writer Pro](http://writer.pro/) — Vim competitor
-- [iTerm](http://iterm2.com/) — terminal
+- [Yandex Browser](http://browser.yandex.ru/)
