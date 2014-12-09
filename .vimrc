@@ -20,8 +20,8 @@
   set backspace=indent,eol,start
   set noeol                                                 " Don’t add empty newlines at the end of files
   set showcmd                                               " Display incomplete commands.
-  :autocmd InsertEnter * set cul                            " Show cursor line in insert mode
-  :autocmd InsertLeave * set nocul                          " Hide cursor line in insert mode
+  :au InsertEnter * set cul                            " Show cursor line in insert mode
+  :au InsertLeave * set nocul                          " Hide cursor line in insert mode
   set scrolloff=8                                           " Start scrolling when we're 8 lines away from margins
   set sidescrolloff=15
   set sidescroll=1
@@ -164,7 +164,8 @@
   Bundle 'vim-scripts/liquid.vim'
   Bundle 'wavded/vim-stylus'
   Bundle 'gorodinskiy/vim-coloresque'
-" # Integrations
+  au BufRead *.json set filetype=json " fix json mistype
+  " # Integrations
   " Bundle 'vim-scripts/TaskList.vim'
   Bundle 'junegunn/vim-github-dashboard'
   Bundle 'farseer90718/vim-taskwarrior'
