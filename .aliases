@@ -14,6 +14,7 @@ alias md='mkdir -p'
 alias df='df -h'
 alias ping='ping -c4'
 alias grep='ack'
+alias tmux='tmux attach || tmux new'
 
 # Git
 alias gst="git status -s"

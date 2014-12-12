@@ -39,16 +39,11 @@
   noremap <Down> <NOP>
   noremap <Left> <NOP>
   noremap <Right> <NOP>
-  " map C-[hjkl] to navigate in the insert mode
-  imap <C-h> <C-o>h
-  imap <C-j> <C-o>j
-  imap <C-k> <C-o>k
-  imap <C-l> <C-o>l
   " arrow key to navigate windows
-  noremap <Down> <C-W>j
-  noremap <Up> <C-W>k
-  noremap <Left> <C-W>h
-  noremap <Right> <C-W>l
+  noremap <C-j> <C-W>j
+  noremap <C-k> <C-W>k
+  noremap <C-h> <C-W>h
+  noremap <C-l> <C-W>l
 
   " Return to last edit position when opening files (You want this!)
   autocmd BufReadPost *
@@ -114,7 +109,7 @@
       endif
   Bundle 'gmarik/vundle'
   Bundle 'altercation/vim-colors-solarized'
-    set background=light
+    set background=dark
     colorscheme solarized
   Bundle 'scrooloose/nerdtree'
     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
