@@ -109,7 +109,7 @@
       endif
   Bundle 'gmarik/vundle'
   Bundle 'altercation/vim-colors-solarized'
-    set background=dark
+    set background=light
     colorscheme solarized
   Bundle 'scrooloose/nerdtree'
     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
