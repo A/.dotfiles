@@ -17,3 +17,5 @@ source $DOTFILES/.exports
 source $ZSH/oh-my-zsh.sh
 source $DOTFILES/.aliases
 source $DOTFILES/.prompt
+
+mux main
