@@ -3,7 +3,7 @@ root: ~/Projects/shuvalov.info
 
 windows:
   - vim: vim
-  - ED2:
+  - blog:
       layout: main-horizontal
       panes:
         - zsh
