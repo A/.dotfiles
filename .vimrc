@@ -27,9 +27,9 @@
   set sidescroll=1
   " Shortcuts for moving between tabs.
   " C-Left to move to the tab to the left
-  noremap <c-j> gT
+  noremap <f3> gT
   " C-Right to move to the tab to the right
-  noremap <c-k> gt
+  noremap <f4> gt
   " Disable <Arrow keys>
   inoremap <Up> <NOP>
   inoremap <Down> <NOP>
@@ -113,8 +113,8 @@
     colorscheme solarized
   Bundle 'scrooloose/nerdtree'
     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-  Bundle 'jistr/vim-nerdtree-tabs'
-    map <C-n> :NERDTreeTabsToggle<CR>
+    map <C-n> :NERDTreeToggle<CR>
+  " Bundle 'jistr/vim-nerdtree-tabs'
     let NERDTreeHighlightCursorline=0
   Bundle 'kien/ctrlp.vim'
   Bundle 'mileszs/ack.vim'
@@ -165,6 +165,7 @@
   Bundle 'junegunn/vim-github-dashboard'
   Bundle 'farseer90718/vim-taskwarrior'
   Bundle 'heavenshell/vim-jsdoc'
+    let g:jsdoc_default_mapping=0
 
   syntax enable
   filetype plugin indent on
