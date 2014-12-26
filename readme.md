@@ -6,8 +6,6 @@ Super tiny and emotional zsh prompt inspired by [pure][1]. You fall in love with
 
 [1]: https://github.com/sindresorhus/pure
 
-# Dotfiles
-
 `scutil --set HostName a8h333`
 
 - Brew
