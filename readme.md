@@ -1,4 +1,4 @@
-### emotional prompt
+## emotional prompt
 
 Super tiny and emotional zsh prompt inspired by [pure][1]. You fall in love with it! (づ｡◕‿‿◕｡)づ
 
@@ -6,29 +6,17 @@ Super tiny and emotional zsh prompt inspired by [pure][1]. You fall in love with
 
 [1]: https://github.com/sindresorhus/pure
 
+# Dotfiles
 
-### [Byobu](http://byobu.co/)
+`scutil --set HostName a8h333`
 
-Now I use byobu window manager with tmux backend. 
-
-![image](https://cloud.githubusercontent.com/assets/1410106/5080882/9465ede6-6ed7-11e4-8094-a58d71cb7279.png)
-
-```sh
-brew install byobu
-```
-
-[fix for iTerm F-keys](http://stackoverflow.com/questions/26180096/os-x-byobu-vertical-split)
-
-### Vim
-
-![image](https://cloud.githubusercontent.com/assets/1410106/5058193/d220b004-6cf6-11e4-9e04-6f2dc2520b9d.png)
-
-[My personal Vim snippets](https://github.com/shuvalov-anton/vim-snippets).
-
-```
-# Istall Vundle
-git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-```
+- Brew
+- [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)  
+  `git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle #install vundle`
+- Tmux
+- Vim + [my personal Vim snippets](https://github.com/shuvalov-anton/vim-snippets).
+- [Tmuxinator](https://github.com/tmuxinator/tmuxinator)
+- [Fira Mono Font](https://github.com/mozilla/Fira)
 
 ### Apps
 
