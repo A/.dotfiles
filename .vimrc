@@ -109,7 +109,7 @@
       endif
   Bundle 'gmarik/vundle'
   Bundle 'altercation/vim-colors-solarized'
-    set background=light
+    set background=dark
     colorscheme solarized
   Bundle 'scrooloose/nerdtree'
     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -123,8 +123,8 @@
   Bundle 'bling/vim-airline'
     set laststatus=2                                        " vim-airline doesn't appear until I create a new split
     let g:airline_theme='lucius'                            " Colorscheme for airline
-    let g:airline_left_sep = '▶'                            " Set custom left separator
-    let g:airline_right_sep = '◀'                           " Set custom right separator
+    let g:airline_left_sep = ''                             " Set custom left separator
+    let g:airline_right_sep = ''                            " Set custom right separator
     let g:airline#extensions#tabline#enabled = 1            " Enable airline for tab-bar
     let g:airline#extensions#tabline#show_buffers = 0       " Don't display buffers in tab-bar with single tab
     let g:airline#extensions#tabline#fnamemod = ':t'        " Display only filename in tab
@@ -149,23 +149,22 @@
     let g:syntastic_javascript_checkers = ['jshint']
 
 " # Syntax support
-  Bundle 'fatih/vim-go'
-  Bundle 'kchmck/vim-coffee-script'
+  " Bundle 'fatih/vim-go'
+  " Bundle 'kchmck/vim-coffee-script'
   Bundle 'digitaltoad/vim-jade'
-  Bundle 'tpope/vim-haml'
+  " Bundle 'tpope/vim-haml'
   Bundle 'plasticboy/vim-markdown'
     let g:vim_markdown_folding_disabled=1
-  Bundle 'slim-template/vim-slim.git'
+  " Bundle 'slim-template/vim-slim.git'
   Bundle 'vim-scripts/liquid.vim'
   Bundle 'wavded/vim-stylus'
   Bundle 'gorodinskiy/vim-coloresque'
   au BufRead *.json set filetype=json " fix json mistype
   " # Integrations
   " Bundle 'vim-scripts/TaskList.vim'
-  Bundle 'junegunn/vim-github-dashboard'
-  Bundle 'farseer90718/vim-taskwarrior'
-  Bundle 'heavenshell/vim-jsdoc'
-    let g:jsdoc_default_mapping=0
+  " Bundle 'junegunn/vim-github-dashboard'
+  " Bundle 'heavenshell/vim-jsdoc'
+    " let g:jsdoc_default_mapping=0
 
   syntax enable
   filetype plugin indent on

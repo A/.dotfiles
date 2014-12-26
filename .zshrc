@@ -18,4 +18,4 @@ source $ZSH/oh-my-zsh.sh
 source $DOTFILES/.aliases
 source $DOTFILES/.prompt
 
-if { $TMUX }; then mux main; fi
+test -z $TMUX && mux dotfiles
