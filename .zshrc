@@ -19,3 +19,4 @@ source $DOTFILES/.aliases
 source $DOTFILES/.prompt
 
 test -z $TMUX && mux dotfiles
+eval "$(rbenv init -)"
