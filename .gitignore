@@ -3,4 +3,4 @@
 ._*
 .gtd
 .byobu/.ssh-agent
-.tmuxinator/.*.yml
+# .tmuxinator/.*.yml

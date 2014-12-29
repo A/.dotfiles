@@ -1,0 +1,16 @@
+name: ED2
+root: ~/Rambler/ed2
+
+windows:
+  - ED2:
+      layout: main-horizontal
+      panes:
+        - gulp
+        - zsh
+  - VIM: vim
+  - DB:
+      layout: main-horizontal
+      panes:
+        - mongod --dbpath=/var/mongo
+        - postgres -D /usr/local/var/postgres
+        - /usr/local/bin/redis-server
