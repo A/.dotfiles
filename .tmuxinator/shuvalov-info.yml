@@ -1,13 +1,13 @@
 name: shuvalov-info
-root: ~/Projects/shuvalov.info
+root: ~/projects/shuvalov.info
 
 windows:
-  - vim: vim
   - blog:
       layout: main-horizontal
       panes:
         - zsh
         - jekyll:
-          - jekyll serve --watch --config=_config.yml,_local-config.yml
+          - jekyll serve --watch --config="_config.yml,_local-config.yml"
         - stylus:
           - stylus -u autoprefixer-stylus -w -o assets/css/ ./_stylus/main.styl
+  - vim: vim

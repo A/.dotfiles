@@ -6,6 +6,7 @@ windows:
       layout: main-horizontal
       panes:
         - gulp
+        - server: bundle exec foreman start
         - zsh
   - VIM: vim
   - DB:
