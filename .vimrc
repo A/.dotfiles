@@ -84,8 +84,8 @@
 
 
 " # Invisibles
-  set list                                                  " show invisibles
-  set lcs=tab:▸\ ,eol:¬                                     " Use the same symbols as TextMate for tabstops and EOLs
+  " set list                                                  " show invisibles
+  " set lcs=tab:▸\ ,eol:¬                                     " Use the same symbols as TextMate for tabstops and EOLs
 
 " # Bundle
     set rtp+=~/.vim/bundle/vundle/
@@ -108,9 +108,12 @@
         vmap <Leader>a: :Tabularize /:\zs<CR>
       endif
   Bundle 'gmarik/vundle'
-  Bundle 'altercation/vim-colors-solarized'
+  Bundle 'shuvalov-anton/seoul256.vim'
     set background=dark
-    colorscheme solarized
+    colorscheme seoul256
+  " Bundle 'altercation/vim-colors-solarized'
+  "   set background=dark
+  "   colorscheme solarized
   Bundle 'scrooloose/nerdtree'
     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
     map <C-n> :NERDTreeToggle<CR>
