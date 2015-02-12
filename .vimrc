@@ -105,6 +105,9 @@
     map <C-n> :NERDTreeToggle<CR>
   " Bundle 'jistr/vim-nerdtree-tabs'
     let NERDTreeHighlightCursorline=0
+    silent! map <F4> :NERDTreeFind<CR>
+    let g:NERDTreeMapActivateNode="<F4>"
+    let g:NERDTreeMapPreview="<F3>"
   Bundle 'kien/ctrlp.vim'
   Bundle 'mileszs/ack.vim'
   " Git goodies
@@ -149,6 +152,7 @@
   Bundle 'wavded/vim-stylus'
   Bundle 'gorodinskiy/vim-coloresque'
   au BufRead *.json set filetype=json " fix json mistype
+  au BufRead,BufNewFile *.es6 set filetype=javascript
   " # Integrations
   " Bundle 'vim-scripts/TaskList.vim'
   " Bundle 'junegunn/vim-github-dashboard'
