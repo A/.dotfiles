@@ -1,3 +1,6 @@
+# Config for Go Search Me
+# https://github.com/shuvalov-anton/go-search-me
+
 # Frontend
 mdn           https://developer.mozilla.org/ru/search?q=%s
 caniuse       http://caniuse.com/#search=%s
