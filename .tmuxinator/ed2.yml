@@ -6,7 +6,7 @@ windows:
       layout: main-horizontal
       panes:
         - gulp
-        - server: bundle exec foreman start
+        - bundle exec foreman start
         - zsh
   - VIM: vim
   - DB:
@@ -14,4 +14,4 @@ windows:
       panes:
         - mongod --dbpath=/var/mongo
         - postgres -D /usr/local/var/postgres
-        - /usr/local/bin/redis-server
+        - redis-server
