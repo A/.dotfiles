@@ -1,0 +1,3 @@
+#!/bin/bash
+
+for i in `ls ./engines`; do echo "./engines/$i"; cd ./engines/$i; git status -s; cd ../..; done;
