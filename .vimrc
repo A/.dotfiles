@@ -37,6 +37,12 @@
   noremap <Left> <C-W>h
   noremap <Right> <C-W>l
 
+  " Snippets
+  nmap <f5> :tabedit ~/.vim/bundle/vim-snippets/snippets/<CR>
+
+
+
+
   " Return to last edit position when opening files (You want this!)
   autocmd BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -47,10 +53,10 @@
   set viminfo^=%
 
   fun! <SID>StripTrailingWhitespaces()
-      let l = line(".")
-      let c = col(".")
-      %s/\s\+$//e
-      call cursor(l, c)
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
   endfun
 
   " Automatically clean trailing whitespaces on save
