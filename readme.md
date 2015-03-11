@@ -1,14 +1,29 @@
 ![dotfiles](https://cloud.githubusercontent.com/assets/1410106/6609337/298e6f6e-c861-11e4-894b-3b2a322cb81e.png)
 
-`scutil --set HostName a8h333`
+### install
 
-- Brew
+```zsh
+# dotfiles
+git clone --recursive https://github.com/shuvalov-anton/.dotfiles && ~/.dotfiles/init 
+
+# vim's things
+git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+
+# macbook's name
+scutil --set HostName a8h333
+```
+
+### What's under the hood<c-w> terminal?
+
+- [Brew](http://brew.sh)
 - [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
-  `git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle #install vundle`
-- Tmux
+- [Emo](https://github.com/shuvalov-anton/emo) — tiny and emotional zsh prompt
+- Tmux + [Tmuxinator](https://github.com/tmuxinator/tmuxinator)
 - Vim + [my personal Vim snippets](https://github.com/shuvalov-anton/vim-snippets).
-- [Tmuxinator](https://github.com/tmuxinator/tmuxinator)
-- [Fira Mono Font](https://github.com/mozilla/Fira)
+- [Fira Mono Font](https://github.com/mozilla/Fira) — my favorite monospace font
+- `.search` config for [go-search-me](https://github.com/shuvalov-anton/go-search-me)
+- my very own `.jshintrc`
+
 
 ### Apps
 
