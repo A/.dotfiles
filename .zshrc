@@ -13,10 +13,11 @@ ssh-add ~/.ssh/id_rsa 2> /dev/null
 
 # Add sourses
 export DOTFILES=$HOME/.dotfiles
+
 source $DOTFILES/.exports
 source $ZSH/oh-my-zsh.sh
 source $DOTFILES/.aliases
-source $DOTFILES/.prompt
+source $DOTFILES/lib/emo/prompt.zsh
 
 test -z $TMUX && mux dotfiles
 eval "$(rbenv init -)"
