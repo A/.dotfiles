@@ -1,10 +1,4 @@
-## emotional prompt
-
-Super tiny and emotional zsh prompt inspired by [pure][1]. You fall in love with it! (づ｡◕‿‿◕｡)づ
-
-![terminal](https://cloud.githubusercontent.com/assets/1410106/4904770/1a952d70-644a-11e4-88d6-2f378e8a39c3.png)
-
-[1]: https://github.com/sindresorhus/pure
+![dotfiles](https://cloud.githubusercontent.com/assets/1410106/6609337/298e6f6e-c861-11e4-894b-3b2a322cb81e.png)
 
 `scutil --set HostName a8h333`
 
