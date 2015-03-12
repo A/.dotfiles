@@ -39,3 +39,7 @@ scutil --set HostName a8h333
 - [VirtualBox](https://www.virtualbox.org/) — virtual machines
 - [Yandex Browser](http://browser.yandex.ru/)
 - [iTerm 2](http://iterm2.com/) — terminal
+
+## License
+
+MIT. [Shuvalov Anton](http://shuvalov.info) © 2014
