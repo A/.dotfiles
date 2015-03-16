@@ -40,8 +40,7 @@
   " Snippets
   nmap <f5> :tabedit ~/.vim/bundle/vim-snippets/snippets/<CR>
 
-
-
+  com! FormatJSON %!python -m json.tool
 
   " Return to last edit position when opening files (You want this!)
   autocmd BufReadPost *
@@ -155,6 +154,7 @@
     let g:vim_markdown_folding_disabled=1
   " Bundle 'slim-template/vim-slim.git'
   Bundle 'vim-scripts/liquid.vim'
+  Bundle 'mustache/vim-mustache-handlebars'
   Bundle 'wavded/vim-stylus'
   Bundle 'gorodinskiy/vim-coloresque'
   au BufRead *.json set filetype=json " fix json mistype
