@@ -3,7 +3,7 @@ root: ~/Projects/page.js
 
 windows:
   - zsh:
-    panes:
+      panes:
       - zsh
       - test: npm run test-watch
   - vim: vim

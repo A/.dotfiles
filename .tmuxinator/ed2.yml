@@ -1,17 +1,17 @@
 name: ED2
-root: ~/Rambler/ed2
+root: ~/Rambler/ed2-motor
 
 windows:
   - ED2:
       layout: main-horizontal
       panes:
-        - gulp
-        - bundle exec foreman start
-        - zsh
+      - gulp
+      - sleep 3 && bundle exec foreman start
+      - zsh
   - VIM: vim
   - DB:
       layout: main-horizontal
       panes:
-        - mongod --dbpath=/var/mongo
-        - postgres -D /usr/local/var/postgres
-        - redis-server
+      - mongod --dbpath=/var/mongo
+      - postgres -D /usr/local/var/postgres
+      - redis-server
