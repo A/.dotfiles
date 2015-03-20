@@ -27,6 +27,7 @@ alias gtodo="git grep --color=always --no-index --exclude-standard --heading --b
 alias serve="python -m SimpleHTTPServer"
 alias whois="whois -h whois-servers.net"
 alias localip="ipconfig getifaddr en0"
+alias colors='for i in {0..255} ; do printf "\x1b[38;5;${i}mcolour${i}\n"; done;'
 
 # search-me
 alias google="search-me google"
