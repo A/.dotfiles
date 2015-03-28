@@ -6,8 +6,8 @@ windows:
       layout: main-horizontal
       panes:
       - gulp
-      - sleep 3 && bundle exec foreman start
-      - zsh
+      - sleep 3; bundle exec foreman start
+      - # empty
   - VIM: vim
   - DB:
       layout: main-horizontal
