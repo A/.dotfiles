@@ -26,6 +26,17 @@ windows:
       layout: main-vertical
       panes:
         - gulp
-        - serve
+        - serve 8010 # TODO: remove?
         - zsh
   - editor: vim
+  - gh_pages:
+      root: ~/Projects/sloth-ghpages
+      layout: main-vertical
+      panes:
+        - gulp
+        - serve 8011
+        - zsh
+  - gh_vim:
+      root: ~/Projects/sloth-ghpages
+      panes:
+        - vim
