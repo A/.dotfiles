@@ -1,7 +1,7 @@
-# ~/.tmuxinator/sloth.yml
+# ~/.tmuxinator/react.yml
 
-name: sloth
-root: ~/Projects/sloth
+name: react
+root: ~/Projects/react/
 
 # Optional tmux socket
 # socket_name: foo
@@ -22,20 +22,9 @@ root: ~/Projects/sloth
 # startup_window: logs
 
 windows:
-  - sloth:
-      layout: main-vertical
-      panes:
-        - gulp
-        - zsh
+  - react: zsh
+      # layout: main-vertical
+      # panes:
+      #   - vim
+      #   - guard
   - editor: vim
-  - gh_pages:
-      root: ~/Projects/sloth-ghpages
-      layout: main-vertical
-      panes:
-        - gulp
-        - bundle exec jekyll serve 8010
-        - zsh
-  - gh_vim:
-      root: ~/Projects/sloth-ghpages
-      panes:
-        - vim
