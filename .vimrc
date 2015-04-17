@@ -143,12 +143,13 @@
 
 " # Linting
   Bundle 'scrooloose/syntastic'
-    let g:syntastic_javascript_checkers = ['jshint', 'jscs']
+    let g:syntastic_javascript_checkers = ['jshint']
 
 " # Syntax support
   " Bundle 'fatih/vim-go'
   " Bundle 'kchmck/vim-coffee-script'
   Bundle 'digitaltoad/vim-jade'
+  Bundle 'mgechev/vim-jsx'
   " Bundle 'tpope/vim-haml'
   Bundle 'plasticboy/vim-markdown'
     let g:vim_markdown_folding_disabled=1
