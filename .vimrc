@@ -143,7 +143,7 @@
 
 " # Linting
   Bundle 'scrooloose/syntastic'
-    let g:syntastic_javascript_checkers = ['jshint']
+    let g:syntastic_javascript_checkers = ['eslint']
 
 " # Syntax support
   " Bundle 'fatih/vim-go'
