@@ -11,3 +11,4 @@ ln -s $DOTFILES/.emotions    $HOME/.emotions
 ln -s $DOTFILES/.gitconfig   $HOME/.gitconfig
 ln -s $DOTFILES/.tmux.conf   $HOME/.tmux.conf
 ln -s $DOTFILES/.tmuxinator  $HOME/.tmuxinator
+ln -s $DOTFILES/.irssi       $HOME/.irssi
