@@ -1,7 +1,7 @@
 # ~/.tmuxinator/react.yml
 
 name: react
-root: ~/Projects/react/
+root: ~/Projects/react-demo/
 
 # Optional tmux socket
 # socket_name: foo
@@ -22,9 +22,10 @@ root: ~/Projects/react/
 # startup_window: logs
 
 windows:
-  - react: zsh
-      # layout: main-vertical
-      # panes:
-      #   - vim
-      #   - guard
+  - react:
+      layout: main-vertical
+      panes:
+        - npm start
+        - node mock-server
+        - zsh
   - editor: vim

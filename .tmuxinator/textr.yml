@@ -1,13 +1,13 @@
-# ~/.tmuxinator/travel.yml
+# ~/.tmuxinator/textr.yml
 
-name: travel
-root: ~/Rambler/travel_zrelease/
+name: textr
+root: ~/Projects/textr
 
 # Optional tmux socket
 # socket_name: foo
 
 # Runs before everything. Use it to start daemons etc.
-pre: nginx
+# pre: sudo /etc/rc.d/mysqld start
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
 # pre_window: rbenv shell 2.0.0-p247
@@ -22,5 +22,8 @@ pre: nginx
 # startup_window: logs
 
 windows:
-  - travel: zsh
+  - textr:
+      layout: main-vertical
+      panes:
+        - zsh
   - editor: vim
