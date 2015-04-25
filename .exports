@@ -11,7 +11,7 @@ export NODE_ENV=development
 export PATH=./node_modules/.bin:$PATH
 
 # Go
-export GOPATH=$HOME
+export GOPATH=$HOME/.go
 
 # Ruby
 export PATH=$HOME/.rbenv/bin:$PATH
