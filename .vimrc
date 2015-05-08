@@ -130,6 +130,7 @@
 
 " # Autocomplite
   Bundle 'ervandew/supertab'
+  Bundle 'othree/html5.vim'
   " Bundle 'mattn/emmet-vim'
     " autocmd FileType html,css,scss,sass,stylus imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
   Bundle 'Raimondi/delimitMate'
@@ -149,7 +150,10 @@
   " Bundle 'fatih/vim-go'
   " Bundle 'kchmck/vim-coffee-script'
   Bundle 'digitaltoad/vim-jade'
-  Bundle 'mgechev/vim-jsx'
+  Bundle 'othree/javascript-libraries-syntax.vim'
+    let g:used_javascript_libs = 'underscore,backbone,react,flux'
+  Bundle 'pangloss/vim-javascript'
+  " Bundle 'mgechev/vim-jsx'
   " Bundle 'tpope/vim-haml'
   Bundle 'plasticboy/vim-markdown'
     let g:vim_markdown_folding_disabled=1
