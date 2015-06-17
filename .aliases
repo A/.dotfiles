@@ -17,8 +17,7 @@ alias grep='ack'
 alias json_format="python -mjson.tool"
 
 # Git
-alias gst="git status -s"
-alias gsl="git log --format='%Cgreen%h%Creset %C(cyan)%an%Creset - %s' --graph"
+# alias gsl="git log --format='%Cgreen%h%Creset %C(cyan)%an%Creset - %s' --graph"
 alias gcl="git clone"
 alias ghcl="github_clone"
 alias gtodo="git grep --color=always --no-index --exclude-standard --heading --break --ignore-case -e ' FIX: *' -e ' TODO: *' | sed -e 's/^[[:space:]]*//'"
