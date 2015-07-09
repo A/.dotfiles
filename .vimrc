@@ -162,7 +162,8 @@
   Bundle 'mustache/vim-mustache-handlebars'
   Bundle 'wavded/vim-stylus'
   Bundle 'gorodinskiy/vim-coloresque'
-  au BufRead *.json set filetype=json " fix json mistype
+  au BufRead *.mustache set filetype=mustache " fix missed setf for mustache
+  au BufRead *.json set filetype=json " fix missed setf for json
   au BufRead,BufNewFile *.es6 set filetype=javascript
   " # Integrations
   " Bundle 'vim-scripts/TaskList.vim'
