@@ -13,7 +13,7 @@ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 scutil --set HostName a8h333
 ```
 
-### What's under the hood<c-w> terminal?
+### What's under the hood\<c-w\> terminal?
 
 - [Ack](http://beyondgrep.com/)
 - [Brew](http://brew.sh)
