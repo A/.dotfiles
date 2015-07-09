@@ -15,6 +15,7 @@ scutil --set HostName a8h333
 
 ### What's under the hood<c-w> terminal?
 
+- [Ack](http://beyondgrep.com/)
 - [Brew](http://brew.sh)
 - [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
 - [Emo](https://github.com/shuvalov-anton/emo) — tiny and emotional zsh prompt
