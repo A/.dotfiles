@@ -1,5 +1,21 @@
 export EDITOR=vim
 
+# Setup locales
+#
+# If you'll got locale related error by `perl -e exit`, you should generate
+# it by code below:
+#
+# ```shell
+# sudo locale-gen
+# sudo dpkg-reconfigure locales
+# ```
+#
+export LANGUAGE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_TYPE=en_US.UTF-8
+
+
 # Path
 export PATH=/usr/local/bin:$PATH
 export PATH=/usr/local/sbin:$PATH
