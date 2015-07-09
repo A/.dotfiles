@@ -43,4 +43,4 @@ scutil --set HostName a8h333
 
 ## License
 
-MIT. [Shuvalov Anton](http://shuvalov.info) © 2014
+MIT. [Shuvalov Anton](http://shuvalov.info) © 2014 – 2015
