@@ -149,6 +149,7 @@
 " # Syntax support
   " Bundle 'fatih/vim-go'
   " Bundle 'kchmck/vim-coffee-script'
+  Bundle 'groenewege/vim-less'
   Bundle 'digitaltoad/vim-jade'
   Bundle 'othree/javascript-libraries-syntax.vim'
     let g:used_javascript_libs = 'underscore,backbone,react,flux'
