@@ -13,6 +13,18 @@ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 scutil --set HostName a8h333
 ```
 
+#### Lunux things
+
+I'm going to write `install.sh` to install dotfiles by `curl https://raw.githubusercontent.com/shuvalov-anton/.dotfiles/master/install.sh | sh` but now I took an arrow in the knee :D
+
+```zsh
+apt-get update
+apt-get install zsh
+apt-get install tmux
+apt-get install ack-grep
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+```
+
 ### What's under the hood\<c-w\> terminal?
 
 - [Ack](http://beyondgrep.com/)
