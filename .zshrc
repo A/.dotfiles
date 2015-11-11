@@ -18,5 +18,5 @@ source $ZSH/oh-my-zsh.sh
 source $DOTFILES/.aliases
 source $DOTFILES/lib/emo/prompt.zsh
 
-eval "$(rbenv init -)"
-test -z $TMUX && mux dotfiles
+type rbenv > /dev/null && eval "$(rbenv init -)"
+type mux > /dev/null && test -z $TMUX && mux dotfiles

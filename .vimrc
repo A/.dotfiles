@@ -149,6 +149,7 @@
 " # Syntax support
   " Bundle 'fatih/vim-go'
   " Bundle 'kchmck/vim-coffee-script'
+  Bundle 'groenewege/vim-less'
   Bundle 'digitaltoad/vim-jade'
   Bundle 'othree/javascript-libraries-syntax.vim'
     let g:used_javascript_libs = 'underscore,backbone,react,flux'
@@ -162,7 +163,8 @@
   Bundle 'mustache/vim-mustache-handlebars'
   Bundle 'wavded/vim-stylus'
   Bundle 'gorodinskiy/vim-coloresque'
-  au BufRead *.json set filetype=json " fix json mistype
+  au BufRead *.mustache set filetype=mustache " fix missed setf for mustache
+  au BufRead *.json set filetype=json " fix missed setf for json
   au BufRead,BufNewFile *.es6 set filetype=javascript
   " # Integrations
   " Bundle 'vim-scripts/TaskList.vim'
