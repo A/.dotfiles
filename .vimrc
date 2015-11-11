@@ -86,11 +86,11 @@
   call vundle#rc()
 
 " # Timing
-  Bundle 'wakatime/vim-wakatime'
+  " Bundle 'wakatime/vim-wakatime'
 
 " # Extend vim
   " use russian layout the only in the insert mode
-  Bundle 'porqz/KeyboardLayoutSwitcher'
+  " Bundle 'porqz/KeyboardLayoutSwitcher'
   " Bundle 'mattesgroeger/vim-bookmarks'
   " Bundle 'tpope/vim-surround'
   Bundle 'godlygeek/tabular'
