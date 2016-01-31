@@ -28,7 +28,7 @@ export PATH=./node_modules/.bin:$PATH
 
 # Go
 export GOPATH=$HOME/.go
-export PATH=$GOPATH/bin/:$PATH
+export PATH=$GOPATH/bin:$PATH
 
 # Ruby
 export PATH=$HOME/.rbenv/bin:$PATH
