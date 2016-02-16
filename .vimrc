@@ -118,6 +118,7 @@
   " Git goodies
   Bundle 'tpope/vim-fugitive'
   Bundle 'bling/vim-airline'
+  Bundle 'vim-airline/vim-airline-themes'
     set laststatus=2                                  " vim-airline doesn't appear until I create a new split
     let g:airline_theme='lucius'                      " Colorscheme for airline
     let g:airline_left_sep = ''                       " Set custom left separator
