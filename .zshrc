@@ -4,6 +4,7 @@ LC_ALL=en_US.UTF-8
 
 # Setup ZSH
 ZSH=$HOME/.oh-my-zsh
+ZSH_THEME="norm"
 COMPLETION_WAITING_DOTS="true"
 plugins=(git osx npm github)
 
@@ -16,7 +17,7 @@ export DOTFILES=$HOME/.dotfiles
 source $DOTFILES/.exports
 source $ZSH/oh-my-zsh.sh
 source $DOTFILES/.aliases
-source $DOTFILES/lib/emo/prompt.zsh
+# source $DOTFILES/lib/emo/prompt.zsh
 
 type rbenv > /dev/null && eval "$(rbenv init -)"
 type mux > /dev/null && test -z $TMUX && mux dotfiles
