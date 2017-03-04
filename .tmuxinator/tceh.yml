@@ -1,9 +1,0 @@
-name: TCEH
-root: ~/Desktop/tceh
-
-windows:
-  - zsh:
-    panes:
-      - zsh
-  - vim: vim
-

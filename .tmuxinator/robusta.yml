@@ -1,29 +1,30 @@
-# ~/.tmuxinator/textr.yml
+name: robusta
+root: ~/Projects/robusta-app
 
-name: textr
-root: ~/Projects/textr
-
-# Optional tmux socket
+# Optional. tmux socket
 # socket_name: foo
 
 # Runs before everything. Use it to start daemons etc.
 # pre: sudo /etc/rc.d/mysqld start
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-# pre_window: rbenv shell 2.0.0-p247
+# pre_window: export DEBUG=*
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
-# tmux_options: -f ~/.tmux.mac.conf
+# tmux_options: -f ~/.tmux.conf
 
 # Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
 # tmux_command: byobu
 
 # Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
-# startup_window: logs
+# startup_window: robusta
 
 windows:
-  - textr:
-      layout: main-vertical
+  - robusta:
+      layoyt: main-horizontal
       panes:
-        - zsh
-  - editor: vim
+        - vim
+        - export DEBUG=*; clear; yarn start
+        - # zsh
+  # - server: bundle exec rails s
+  # - logs: tail -f log/development.log
