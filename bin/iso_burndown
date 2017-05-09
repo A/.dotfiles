@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# TODO: remove `--rdisk` argument
+
+## Parse params
+for i in "$@"
+do
+case $i in
+    -h|--help)
+      echo 'Script to burndown bootable ISO image to usb-stick. Written for Mac OS X'
+      echo ''
+      echo '  --list|-l   — alias to `diskutil --list`'
+      echo '  --disk      — usb disk to burn'
+      echo '  --rdisk     — rdisk. For example, just replace /dev/disk3` to `/dev/rdisk3`. Just I am lazy. Sorry'
+      echo '  --iso       — iso image to burn'
+      echo ''
+      exit
+    ;;
+    -l|--list)
+      diskutil list
+      exit
+    ;;
+    --disk=*)
+      DISK=${i#*=}
+    ;;
+    --rdisk=*)
+      RDISK=${i#*=}
+    ;;
+    --iso=*)
+      ISO=${i#*=}
+    ;;
+esac
+done
+
+## Info
+echo 'Preparing to burn…'
+echo "DISK: ${DISK}"
+echo "RDISK: ${RDISK}"
+echo "ISO: ${ISO}"
+echo ''
+sleep 1 # for cancel if you made wrong setup
+
+rm /tmp/burndown_tmp.dmg
+hdiutil convert -format UDRW -o /tmp/burndown_tmp ${ISO}
+diskutil unmountDisk ${DISK}
+echo 'Please, enter to su mode to dd into rdisk.'
+sudo dd if=/tmp/burndown_tmp.dmg | pv | sudo dd of=${RDISK} bs=1m
+rm /tmp/burndown_tmp.dmg
+
+exit
