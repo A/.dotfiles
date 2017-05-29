@@ -128,6 +128,7 @@
     let g:airline#extensions#tabline#fnamemod = ':t'  " Display only filename in tab
     let g:airline_section_y = ''                      " Don't display encoding
   Bundle 'Shougo/unite.vim'
+  Bundle 'rizzatti/dash.vim'
 
 " # Autocomplite
   Bundle 'ervandew/supertab'
@@ -144,6 +145,7 @@
   Bundle 'shuvalov-anton/vim-snippets'
 
 " # Linting
+  Bundle 'editorconfig/editorconfig-vim'
   Bundle 'scrooloose/syntastic'
     let g:syntastic_javascript_checkers = ['eslint']
 
