@@ -7,6 +7,6 @@ wget -A zip -rH --level=3 -nd \
     --domains=files.fiftyfootshadows.net,fiftyfootshadows.net \
       http://fiftyfootshadows.net
 for i in `ls`; do unzip $i; done
-mv **/*desktop.jpg ~/Pictures &&
-cd .. &&
-rm -rf fiftyfootshadows
+mv **/*desktop.jpg ~/Pictures \
+  && cd .. \
+  && rm -rf fiftyfootshadows
