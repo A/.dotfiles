@@ -22,3 +22,5 @@ source $DOTFILES/.aliases
 
 type rbenv > /dev/null && eval "$(rbenv init -)"
 type mux > /dev/null && test -z $TMUX && mux dotfiles
+
+rmd () { pandoc $1 | lynx -stdin }
