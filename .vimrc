@@ -16,6 +16,7 @@
   :au InsertEnter * set cul   " Show cursor line in insert mode
   :au InsertLeave * set nocul " Hide cursor line in insert mode
   set scrolloff=8             " Start scrolling when we're 8 lines away from margins
+  set mouse=a
 
   " Shortcuts for moving between tabs.
   noremap [ gT
