@@ -1,0 +1,9 @@
+#!/bin/bash
+
+i3status |  (read line && echo "$line" && read line && echo "$line" && read line && echo "$line" && while : 
+do
+  read line
+  world_length=`cat /var/lib/portage/world | wc -l`
+  all_length=`ls -d /var/db/pkg/*/* | wc -l`
+  echo ",[{\"full_text\":\"A:${all_length}\"},{\"full_text\":\"W:${world_length}\" },${line#,\[}" || exit 1
+done)
