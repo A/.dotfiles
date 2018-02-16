@@ -94,6 +94,7 @@
   " Bundle 'porqz/KeyboardLayoutSwitcher'
   " Bundle 'mattesgroeger/vim-bookmarks'
   " Bundle 'tpope/vim-surround'
+  Bundle 'chrisbra/Colorizer'
   Bundle 'godlygeek/tabular'
     let mapleader=','
       if exists(":Tabularize")
