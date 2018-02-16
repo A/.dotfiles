@@ -6,7 +6,7 @@ LC_ALL=en_US.UTF-8
 ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="norm"
 COMPLETION_WAITING_DOTS="true"
-plugins=(git osx npm github yarn)
+plugins=(git osx npm github yarn zsh-autosuggestions)
 setopt inc_append_history
 
 # Add ssh key for vargant machines
