@@ -39,5 +39,3 @@ export PATH=$GOPATH/bin:$PATH
 # Ruby
 export PATH=$HOME/.rbenv/bin:$PATH
 
-# Plugins
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=1"

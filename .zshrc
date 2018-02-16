@@ -2,6 +2,8 @@
 LANG=en_US.UTF-8
 LC_ALL=en_US.UTF-8
 
+
+
 # Setup ZSH
 ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="norm"
@@ -22,3 +24,6 @@ source $DOTFILES/.aliases
 
 type rbenv > /dev/null && eval "$(rbenv init -)"
 type mux > /dev/null && test -z $TMUX && mux dotfiles
+
+# Plugins Settings
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=1"
