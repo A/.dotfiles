@@ -1,0 +1,2 @@
+#!/bin/bash
+wpa_cli disable_network 0 && wpa_cli enable_network 0;
