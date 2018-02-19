@@ -1,0 +1,2 @@
+#!/bin/bash
+chromium --app=https://feedly.com
