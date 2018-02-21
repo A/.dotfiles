@@ -1,9 +1,10 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-
 exec_always "killall polybar; polybar example"
-exec_always compton
-
+exec compton
+exec feh --bg-scale ~/Images/_wallpaper.png
+exec setxkbmap "us,ru" ",mac" "grp:caps_toggle,grp_led:caps"
+exec run_locker
 
 
 
@@ -31,8 +32,8 @@ set $color_green   #5f8700
 client.focused    $color_base02  $color_base02  $color_base3
 client.unfocused  $color_base00  $color_base00  $color_base2
 
-gaps outer          -12
-gaps inner           12
+gaps outer           0
+gaps inner           8
 focus_follows_mouse  no
 new_window pixel     3
 
