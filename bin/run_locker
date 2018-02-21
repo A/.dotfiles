@@ -1,0 +1,4 @@
+#!/bin/bash
+
+LOCKER="i2lock -ue -i ~/Imanges/_wallpaper.png"
+xautolock -locker $LOCKER -nowlocker $LOCKER &
