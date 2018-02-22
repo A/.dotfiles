@@ -116,8 +116,8 @@ bindsym $mod+Return        exec xterm -ls -fs 13 -xrm 'XTerm*selectToClipboard: 
 bindsym $mod+d             exec rofi -opacity "80" -font "System San Francisco Display 12" -show run
 bindsym $mod+z             exec gnome-screenshot
 bindsym $mod+Shift+z       exec gnome-screenshot -i
-bindsym $mod+Shift+Insert       exec i3lock -ue -i ~/Images/city.png
-bindsym $mod+Shift+Delete  exec i3lock -ue -i ~/Images/city.png && sudo pm-suspend
+bindsym $mod+Shift+Insert       exec i3lock -ue -i ~/Images/_wallpaper.png
+bindsym $mod+Shift+Delete  exec i3lock -ue -i ~/Images/_wallpaper.png && sudo pm-suspend
 bindsym $mod+k exec "keepass"
   for_window [instance=keepass] sticky enable
   for_window [instance=keepass] floating enable
