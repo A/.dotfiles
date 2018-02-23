@@ -50,6 +50,7 @@ floating_modifier $mod
 bindsym $mod+Shift+q kill
 bindsym $mod+f fullscreen toggle
 bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+Tab sticky toggle
 bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
