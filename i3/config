@@ -1,7 +1,8 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 exec_always "killall polybar; polybar example"
-exec compton
+# exec polybar example
+exec compton --config=~/.config/compton/config
 exec feh --bg-scale ~/Images/_wallpaper.png
 exec setxkbmap "us,ru" ",mac" "grp:caps_toggle,grp_led:caps"
 exec run_locker
