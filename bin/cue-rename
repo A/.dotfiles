@@ -1,8 +1,9 @@
 #!/bin/bash
-# USAGE: ls split* | xargs sh cue-rename.sh
+# USAGE: ls split* | xargs cue-rename $CUEPATH
 
+CUEPATH=$1; shift;
 I=1
-LIST=`cat ./index.cue | grep -i title | tail +2 | cut -d '"' -f2`
+LIST=`cat "./$CUEPATH" | grep -i title | tail +2 | cut -d '"' -f2`
 for i in "$@"
 do
   NAME=`echo "${LIST}" | sed "${I}q;d"`
