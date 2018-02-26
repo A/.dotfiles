@@ -2,12 +2,13 @@
 
 exec_always "killall polybar; polybar example"
 # exec polybar example
-exec compton --config=~/.config/compton/config
+exec "compton --config=/home/anton/.config/compton/config"
 exec feh --bg-scale ~/Images/_wallpaper.png
 exec setxkbmap "us,ru" ",mac" "grp:caps_toggle,grp_led:caps"
 exec run_locker
 
 
+ipc-socket ~/.i3/i3-ipc.sock
 
 
 font pango:System San Francisco Display 8
