@@ -14,7 +14,7 @@ pcm.dmixed {
         type hw
         card 2 # your card
         device 0 # your device
-        subdevice 0 #important?
+        # subdevice 0 #important?
       }
       period_size 1024
       buffer_size 8192
@@ -24,7 +24,7 @@ pcm.dmixed {
       1 1
     }
   }
-  capture.pcm "hw:0"
+  capture.pcm "hw:2"
 }
 
 pcm.!default {
