@@ -161,7 +161,7 @@
   " Bundle 'tpope/vim-haml'
   Bundle 'plasticboy/vim-markdown'
     let g:vim_markdown_folding_disabled=1
-  " Bundle 'slim-template/vim-slim.git'
+  Bundle 'slim-template/vim-slim.git'
   " Bundle 'vim-scripts/liquid.vim'
   " Bundle 'mustache/vim-mustache-handlebars'
   " Bundle 'wavded/vim-stylus'

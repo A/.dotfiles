@@ -40,3 +40,5 @@ export PATH=$GOPATH/bin:$PATH
 # Ruby
 export PATH=$HOME/.rbenv/bin:$PATH
 
+# Ali
+export PATH=~/.lzd/ak/pha-all/arcanist/bin:$PATH
