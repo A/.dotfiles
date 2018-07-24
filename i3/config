@@ -1,0 +1,146 @@
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+exec_always "killall polybar; polybar example"
+exec "compton --config=/home/anton/.config/compton/config"
+exec feh --bg-scale ~/Images/_wallpaper.png
+exec setxkbmap "us,ru" ",mac" "grp:caps_toggle,grp_led:caps"
+exec run_locker
+exec --no-startup-id nm-applet
+exec --no-startup-id xclip
+
+
+ipc-socket ~/.i3/i3-ipc.sock
+
+
+font pango:System San Francisco Display 8
+
+# Solarized
+set $color_base03  #1c1c1c
+set $color_base02  #262626
+set $color_base01  #585858
+set $color_base00  #626262
+set $color_base0   #808080
+set $color_base1   #8a8a8a
+set $color_base2   #e4e4e4
+set $color_base3   #ffffd7
+set $color_yellow  #af8700
+set $color_orange  #d75f00
+set $color_red     #d70000
+set $color_magenta #af005f
+set $color_violet  #5f5faf
+set $color_blue    #0087ff
+set $color_cyan    #00afaf
+set $color_green   #5f8700
+
+client.focused    $color_base02  $color_base02  $color_base3
+client.unfocused  $color_base00  $color_base00  $color_base2
+
+gaps outer           0
+gaps inner           8
+focus_follows_mouse  no
+new_window pixel     3
+
+
+
+
+set $mod Mod1
+
+bindsym $mod+Shift+c reload 
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+floating_modifier $mod
+bindsym $mod+Shift+q kill
+bindsym $mod+f fullscreen toggle
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+Tab sticky toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+h split h
+bindsym $mod+v split v
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# resize window (you can also use the mouse for that)
+bindsym $mod+r mode "resize"
+mode "resize" {
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Down resize grow height 10 px or 10 ppt
+  bindsym Up resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
+
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+
+# switch to workspace
+bindsym $mod+0 workspace 10
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+
+# move focused container to workspace
+bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+
+
+
+
+
+bindsym $mod+Return        exec xterm -ls -fs 13 -xrm 'XTerm*selectToClipboard: true'
+bindsym $mod+d             exec rofi -opacity "80" -font "System San Francisco Display 12" -show run
+bindsym $mod+z             exec gnome-screenshot
+bindsym $mod+Shift+z       exec gnome-screenshot -i
+bindsym $mod+Shift+Insert       exec i3lock -ue -i ~/Images/_wallpaper.png
+bindsym $mod+Shift+Delete  exec i3lock -ue -i ~/Images/_wallpaper.png && sudo pm-suspend
+bindsym $mod+k exec "keepass"
+  for_window [instance=keepass] sticky enable
+  for_window [instance=keepass] floating enable
+# bindsym $mod+Shift+a     exec keepass -auto-type
+
+
+
+
+
+# Multimedia Keys
+bindsym XF86AudioRaiseVolume         exec amixer -q set Master 2dB+ unmute
+bindsym XF86AudioLowerVolume         exec amixer -q set Master 2dB- unmute
+bindsym XF86AudioMute                exec amixer -q set Master toggle
+bindsym XF86MonBrightnessUp          exec xbacklight -inc 5
+bindsym XF86MonBrightnessDown        exec xbacklight -dec 5
+bindsym Shift+XF86MonBrightnessUp    exec xbacklight -inc 1
+bindsym Shift+XF86MonBrightnessDown  exec xbacklight -dec 1
+# bindsym XF86TouchpadToggle         exec /some/path/toggletouchpad.sh # toggle touchpad
+# bindsym XF86AudioPlay              exec playerctl play
+# bindsym XF86AudioPause             exec playerctl pause
+# bindsym XF86AudioNext              exec playerctl next
+# bindsym XF86AudioPrev              exec playerctl previous

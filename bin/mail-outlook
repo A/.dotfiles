@@ -1,0 +1,2 @@
+#!/bin/bash
+chromium --app=https://outlook.office365.com/owa/

@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# TODO: make it configurable if you open this stuff again
+ENV=$1
+INTERFACE=wlp2s0
+
+
+function disable_networks {
+  wpa_cli disable_network 0 > /dev/null
+  wpa_cli disable_network 1 > /dev/null
+  wpa_cli disable_network 2 > /dev/null
+}
+function enable_network {
+  wpa_cli enable_network $1
+}
+function disable_wifi {
+  ifconfig $INTERFACE down
+}
+function enable_wifi {
+  ifconfig $INTERFACE up
+}
+
+case $ENV in
+  HOME|H)
+    disable_networks
+    enable_network 0
+  ;;
+  PHONE|P)
+    disable_networks
+    enable_network 1
+  ;;
+  WORK|W)
+    disable_networks
+    enable_network 2
+  ;;
+  DISABLE|D|STOP|OFF|DOWN)
+    disable_wifi && echo "OK"
+  ;;
+  ENABLE|E|START|ON|UP)
+    enable_wifi && echo "OK"
+  ;;
+  *)
+    echo "Connect or restart wifi"
+    echo "Usage: wifi [opt]"
+    echo ""
+    echo "Options:"
+    echo "  ENABLE|E|START|ON|UP                Enable wifi card"
+    echo "  DISABLE|D|STOP|OFF|DOWN             Disable wifi card"
+    echo "  HOME|H                              Connect to home network"
+    echo "  PHONE|P                             Connect to phone hotspot"
+    echo "  WORK|W                              Connect to work network"
+    echo ""
+  ;;
+esac

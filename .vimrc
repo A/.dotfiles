@@ -10,12 +10,13 @@
   set nostartofline           " Don’t reset cursor to start of line when moving around.
   set colorcolumn=80          " bad and extrabad line sizes
   set showmode                " Show the current mode
-  set clipboard=unnamed       " use os x clipboard
+  set clipboard=unnamedplus   " use os x/linux clipboard
   set backspace=2             " use c-w and c+u
   set showcmd                 " Display incomplete commands.
   :au InsertEnter * set cul   " Show cursor line in insert mode
   :au InsertLeave * set nocul " Hide cursor line in insert mode
   set scrolloff=8             " Start scrolling when we're 8 lines away from margins
+  set mouse=a
 
   " Shortcuts for moving between tabs.
   noremap [ gT
@@ -93,6 +94,7 @@
   " Bundle 'porqz/KeyboardLayoutSwitcher'
   " Bundle 'mattesgroeger/vim-bookmarks'
   " Bundle 'tpope/vim-surround'
+  Bundle 'chrisbra/Colorizer'
   Bundle 'godlygeek/tabular'
     let mapleader=','
       if exists(":Tabularize")

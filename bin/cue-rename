@@ -1,0 +1,15 @@
+#!/bin/bash
+# USAGE: ls split* | xargs cue-rename $CUEPATH
+
+CUEPATH=$1; shift;
+I=1
+LIST=`cat "./$CUEPATH" | grep -i title | tail +2 | cut -d '"' -f2`
+for i in "$@"
+do
+  NAME=`echo "${LIST}" | sed "${I}q;d"`
+  EXT="${i##*.}"
+  NUM=`printf "%02d" $I`
+  echo "mv \"./$i\" ./\"${NUM} ${NAME}.${EXT}\""
+  echo `mv "./$i" ./"${NUM} ${NAME}.${EXT}"`
+  ((I+=1))
+done

@@ -1,4 +1,5 @@
 export EDITOR=vim
+export GITHUB_ACCESS_TOKEN=`cat ~/.config/.gh-token`
 
 # Setup locales
 #
@@ -14,12 +15,14 @@ export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_TYPE=en_US.UTF-8
+export BROWSER=chromium
 
 # Goodies
 CDPATH=~/Projects
 
 
 # Path
+export PATH=/usr/sbin:$PATH
 export PATH=/usr/local/bin:$PATH
 export PATH=/usr/local/sbin:$PATH
 export PATH=$DOTFILES/bin:$PATH
@@ -36,3 +39,4 @@ export PATH=$GOPATH/bin:$PATH
 
 # Ruby
 export PATH=$HOME/.rbenv/bin:$PATH
+

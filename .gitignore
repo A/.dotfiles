@@ -2,6 +2,7 @@
 .DS_Store
 ._*
 .gtd
+.gitconfig
 .byobu/.ssh-agent
 lib
 # .tmuxinator/.*.yml
