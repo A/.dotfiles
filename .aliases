@@ -52,3 +52,4 @@ alias tabc_red="tabcolor #8E2800"
 alias gtd="vim ~/.dotfiles/.gtd"
 alias vimrc="vim ~/.vimrc"
 alias :q='exit'
+alias :w='xcowsay `fortune`'
