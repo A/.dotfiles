@@ -105,8 +105,9 @@
       endif
   Bundle 'gmarik/vundle'
   Bundle 'shuvalov-anton/seoul256.vim'
+  Bundle 'arcticicestudio/nord-vim'
     set background=dark
-    colorscheme morning
+    colorscheme nord
   Bundle 'scrooloose/nerdtree'
     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
     map <C-n> :NERDTreeToggle<CR>
