@@ -20,10 +20,14 @@ export DOTFILES=$HOME/.dotfiles
 source $DOTFILES/.exports
 source $ZSH/oh-my-zsh.sh
 source $DOTFILES/.aliases
-# source $DOTFILES/lib/emo/prompt.zsh
+source $DOTFILES/lib/emo/prompt.zsh
 
 type rbenv > /dev/null && eval "$(rbenv init -)"
 type mux > /dev/null && test -z $TMUX && mux dotfiles
 
 # Plugins Settings
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=1"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
