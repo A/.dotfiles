@@ -1,8 +1,0 @@
-name: dotfiles
-root: ~/.dotfiles
-
-windows:
-  - dotfiles:
-    panes:
-      - dotfiles
-  - vim: vim
