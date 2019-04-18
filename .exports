@@ -1,8 +1,7 @@
 export EDITOR=vim
 # export GITHUB_ACCESS_TOKEN=`cat ~/.config/.gh-token`
 
-# Setup locales
-#
+# Setup locales #
 # If you'll got locale related error by `perl -e exit`, you should generate
 # it by code below:
 #
@@ -39,6 +38,13 @@ export PATH=$GOPATH/bin:$PATH
 
 # Ruby
 export PATH=$HOME/.rbenv/bin:$PATH
+
+# Rust
+export PATH=$HOME/.cargo/bin:$PATH
+export PATH=$HOME/Projects/rust-test/emsdk:$PATH
+export PATH=$HOME/Projects/rust-test/emsdk/clang/fastcomp/build_incoming_64/bin:$PATH
+export PATH=$HOME/Projects/rust-test/emsdk/emscripten/incoming:$PATH
+export PATH=/usr/local/Cellar/python@2/2.7.16/bin:$PATH
 
 # Ali
 export PATH=~/.lzd/ak/pha-all/arcanist/bin:$PATH
