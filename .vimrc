@@ -1,4 +1,4 @@
-" How to… What is… WTF? Just `:help keyword`
+" How to… Whatis… WTF? Just `:help keyword`
 
   set nocompatible
   set nobackup
@@ -61,6 +61,9 @@
 
   " Automatically clean trailing whitespaces on save
   autocmd BufWritePre *.* :call <SID>StripTrailingWhitespaces()
+
+  " Open webpack aliases. TODO: hardcore
+  " set inex=substitute(v:fname,'^core\/','core/src/','')
 
   " Encoding
   set encoding=utf-8 nobomb
@@ -145,7 +148,7 @@
   Bundle 'MarcWeber/vim-addon-mw-utils'
   Bundle 'tomtom/tlib_vim'
   Bundle 'garbas/vim-snipmate'
-  Bundle 'shuvalov-anton/vim-snippets'
+  Bundle 'a/vim-snippets'
 
 " # Linting
   Bundle 'editorconfig/editorconfig-vim'
@@ -156,13 +159,17 @@
   " Bundle 'fatih/vim-go'
   " Bundle 'groenewege/vim-less'
   " Bundle 'digitaltoad/vim-jade'
-  Bundle 'pangloss/vim-javascript'
-  Bundle 'mxw/vim-jsx'
+  " Bundle 'moll/vim-node'
+  Bundle 'davidosomething/vim-enhanced-resolver', { 'do': 'npm install --global enhanced-resolve-cli' }
+    autocmd FileType javascript nmap <buffer> gf <Plug>(enhanced-resolver-go-cursor)
+  Bundle 'yardnsm/vim-import-cost', { 'do': 'npm install' }
+  " Bundle 'pangloss/vim-javascript'
+  " Bundle 'mxw/vim-jsx'
   " Bundle 'mgechev/vim-jsx'
   " Bundle 'tpope/vim-haml'
   Bundle 'plasticboy/vim-markdown'
     let g:vim_markdown_folding_disabled=1
-  Bundle 'slim-template/vim-slim.git'
+  " Bundle 'slim-template/vim-slim.git'
   " Bundle 'vim-scripts/liquid.vim'
   " Bundle 'mustache/vim-mustache-handlebars'
   " Bundle 'wavded/vim-stylus'
@@ -174,6 +181,13 @@
   " Bundle 'junegunn/vim-github-dashboard'
   " Bundle 'heavenshell/vim-jsdoc'
     " let g:jsdoc_default_mapping=0
+  Bundle 'airblade/vim-gitgutter'
+
+  Bundle 'prabirshrestha/asyncomplete.vim'
+  Bundle 'prabirshrestha/async.vim'
+  Bundle 'prabirshrestha/vim-lsp'
+  Bundle 'prabirshrestha/asyncomplete-lsp.vim'
+  Bundle 'ryanolsonx/vim-lsp-javascript'
 
   syntax enable
   filetype plugin indent on

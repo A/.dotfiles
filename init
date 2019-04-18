@@ -12,4 +12,6 @@ ln -s $DOTFILES/.search      $HOME/.search
 ln -s $DOTFILES/.tmux.conf   $HOME/.tmux.conf
 ln -s $DOTFILES/.tmuxinator  $HOME/.tmuxinator
 ln -s $DOTFILES/.vimrc       $HOME/.vimrc
+mkdir -p $HOME/.config/nvim
+ln -s $DOTFILES/.nvimrc      $HOME/.config/nvim/init.vim
 ln -s $DOTFILES/.zshrc       $HOME/.zshrc
