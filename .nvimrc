@@ -25,6 +25,20 @@ set tabstop=2
 set shiftwidth=2
 set clipboard=unnamedplus
 
+set cursorline
+highlight CursorLineNR ctermbg=Blue ctermfg=None
+" Change Color when entering Insert Mode
+autocmd InsertEnter * highlight  CursorLine ctermbg=Red ctermfg=white
+" Revert Color to default when leaving Insert Mode
+autocmd InsertLeave * highlight  CursorLine ctermbg=Blue ctermfg=None
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au WinLeave * setlocal nocursorline
+  au InsertLeave * setlocal cursorline
+augroup END
+
+
 " # Ident
 set list              " show invisibles
 set lcs=tab:▸\ ,eol:· " Use the same symbols as TextMate for tabstops and EOLs
