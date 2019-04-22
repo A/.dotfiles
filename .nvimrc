@@ -17,23 +17,17 @@ set showcmd                 " Display incomplete commands.
 :au InsertLeave * set nocul " Hide cursor line in insert mode
 set scrolloff=8             " Start scrolling when we're 8 lines away from margins
 set mouse=a
+set expandtab
+set autoindent
 set smartindent
+set smarttab
 set tabstop=2
 set shiftwidth=2
-set expandtab
 set clipboard=unnamedplus
 
-
 " # Ident
-  set tabstop=2
-  set shiftwidth=2
-  set smarttab
-  set expandtab
-  set autoindent
-  set smartindent
-  set pastetoggle=<F2>  " to fix weird behawiour on paste, etc
-  set list              " show invisibles
-  set lcs=tab:▸\ ,eol:¬ " Use the same symbols as TextMate for tabstops and EOLs
+set list              " show invisibles
+set lcs=tab:▸\ ,eol:· " Use the same symbols as TextMate for tabstops and EOLs
 
 
 
@@ -88,8 +82,10 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " LSP
+Plugin 'prabirshrestha/asyncomplete.vim'
 Plugin 'prabirshrestha/async.vim'
 Plugin 'prabirshrestha/vim-lsp'
+Plugin 'prabirshrestha/asyncomplete-lsp.vim'
 Plugin 'ryanolsonx/vim-lsp-javascript'
 
 " UI
@@ -133,6 +129,8 @@ Plugin 'yardnsm/vim-import-cost', { 'do': 'npm install' }
     autocmd CursorHold *.js,*.jsx,*.ts,*.tsx ImportCost
   augroup END
 Plugin 'ruanyl/vim-gh-line'
+Plugin 'ap/vim-css-color'
+Plugin 'mxw/vim-jsx'
 
 
 call vundle#end()            " required
