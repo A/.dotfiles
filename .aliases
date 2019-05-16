@@ -5,6 +5,7 @@ alias ohmyzsh="s ~/.oh-my-zsh"
 # Editors
 alias s='sublime'
 alias a='atom'
+alias vi='nvim'
 
 # Gentoo
 alias eav="sudo emerge -av"

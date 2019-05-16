@@ -26,11 +26,11 @@ set shiftwidth=2
 set clipboard=unnamedplus
 
 set cursorline
-highlight CursorLineNR ctermbg=Blue ctermfg=None
+highlight CursorLineNR ctermbg=DarkGray ctermfg=None
 " Change Color when entering Insert Mode
 autocmd InsertEnter * highlight  CursorLine ctermbg=Red ctermfg=white
 " Revert Color to default when leaving Insert Mode
-autocmd InsertLeave * highlight  CursorLine ctermbg=Blue ctermfg=None
+autocmd InsertLeave * highlight  CursorLine ctermbg=DarkGray ctermfg=None
 augroup CursorLine
   au!
   au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
@@ -112,6 +112,7 @@ Plugin 'scrooloose/nerdtree'
   map <C-n> :NERDTreeToggle<CR>
   map <C-m> :NERDTreeFind<CR>
 
+Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'zivyangll/git-blame.vim'
   map <C-b> :call gitblame#echo()<CR>
