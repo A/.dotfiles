@@ -1,0 +1,5 @@
+--ignore-dir=public
+--ignore-dir=build
+--ignore-dir=coverage
+--ignore-dir=.jest
+--ignore-dir=node_modules
