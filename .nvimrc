@@ -91,27 +91,69 @@ autocmd bufwritepre *.* :call <sid>striptrailingwhitespaces()
 set encoding=utf-8 nobomb
 set fileencoding=utf-8 " Use UTF-8 without BOM
 
+let g:python_host_prog = '/usr/bin/python'
 
 
+if !filereadable('/tmp/plug.vim')
+  silent !curl --insecure -fLo /tmp/plug.vim
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#begin()
 
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
-" LSP
-Plugin 'prabirshrestha/asyncomplete.vim'
-Plugin 'prabirshrestha/async.vim'
-Plugin 'prabirshrestha/vim-lsp'
+"" LSP ""
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
   let g:lsp_signs_enabled = 0
   let g:lsp_virtual_text_enabled = 0
-Plugin 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'ryanolsonx/vim-lsp-javascript'
+
+
+"" SNIPPETS, ASYNC COMPLETE
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
   inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
   inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
   inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
-Plugin 'ryanolsonx/vim-lsp-javascript'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'scrooloose/nerdtree'
+  autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+Plug 'SirVer/ultisnips'
+Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+  let g:UltiSnipsExpandTrigger="<c-e>"
+  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+    \ 'name': 'ultisnips',
+    \ 'whitelist': ['*'],
+    \ 'completor': function('asyncomplete#sources#ultisnips#completor')
+    \ }))
+Plug 'epilande/vim-react-snippets'
+Plug 'epilande/vim-es2015-snippets'
+Plug 'honza/vim-snippets'
+Plug 'wellle/tmux-complete.vim'
+Plug 'prabirshrestha/asyncomplete-emoji.vim'
+  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#emoji#get_source_options({
+    \ 'name': 'emoji',
+    \ 'whitelist': ['*'],
+    \ 'completor': function('asyncomplete#sources#emoji#completor'),
+    \ }))
+Plug 'prabirshrestha/asyncomplete-file.vim'
+  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+    \ 'name': 'file',
+    \ 'whitelist': ['*'],
+    \ 'priority': 10,
+    \ 'completor': function('asyncomplete#sources#file#completor')
+    \ }))
+Plug 'prabirshrestha/asyncomplete-buffer.vim'
+  call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+    \ 'name': 'buffer',
+    \ 'whitelist': ['*'],
+    \ 'blacklist': ['go'],
+    \ 'completor': function('asyncomplete#sources#buffer#completor'),
+    \ }))
+
+"" NERD TREE
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree'
   autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
   " Close tab if only nerdtree left
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
@@ -124,32 +166,32 @@ Plugin 'scrooloose/nerdtree'
   let g:NERDTreeMapActivateNode="<F4>"
   let g:NERDTreeMapPreview="<F3>"
   map <C-n> :NERDTreeToggle<CR>
-  map <C-v> :NERDTreeMapActivateNode<CR>
+  " map <C-v> :NERDTreeMapActivateNode<CR>
     " augroup NerdCursor
     "   autocmd!
     "   autocmd BufEnter NERD_tree_* highlight  CursorLine ctermbg=Red ctermfg=white
     "   autocmd BufLeave NERD_tree_* highlight  CursorLine ctermbg=Red ctermfg=white
     " augroup END
-Plugin 'junegunn/goyo.vim'
-Plugin 'junegunn/limelight.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
   let g:limelight_conceal_ctermfg = 'gray'
   autocmd! User GoyoEnter Limelight
   autocmd! User GoyoLeave Limelight!
   autocmd! User GoyoEnter set number
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'tveskag/nvim-blame-line'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'tveskag/nvim-blame-line'
   map <C-b> :ToggleBlameLine<CR>
   " autocmd InsertEnter * DisableBlameLine
   " autocmd InsertLeave * EnableBlameLine
-" Plugin 'zivyangll/git-blame.vim'
-Plugin 'rhysd/git-messenger.vim'
+" Plug 'zivyangll/git-blame.vim'
+Plug 'rhysd/git-messenger.vim'
   map <C-m> :GitMessenger<CR>
-Plugin 'mileszs/ack.vim'
-Plugin 'chrisbra/Colorizer'
+Plug 'mileszs/ack.vim'
+Plug 'chrisbra/Colorizer'
 
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
   set laststatus=2                                  " vim-airline doesn't appear until I create a new split
   let g:airline_theme='lucius'                      " Colorscheme for airline
   let g:airline_left_sep = ''                       " Set custom left separator
@@ -158,10 +200,10 @@ Plugin 'vim-airline/vim-airline-themes'
   let g:airline#extensions#tabline#show_buffers = 0 " Don't display buffers in tab-bar with single tab
   let g:airline#extensions#tabline#fnamemod = ':t'  " Display only filename in tab
   let g:airline_section_y = ''                      " Don't display encoding
-Plugin 'tomtom/tcomment_vim'
+Plug 'tomtom/tcomment_vim'
 " # Linting
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'scrooloose/syntastic'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'scrooloose/syntastic'
   let g:syntastic_javascript_checkers = ['eslint']
   set statusline+=%#warningmsg#
   set statusline+=%{SyntasticStatuslineFlag()}
@@ -170,18 +212,17 @@ Plugin 'scrooloose/syntastic'
   let g:syntastic_auto_loc_list = 1
   let g:syntastic_check_on_open = 1
   let g:syntastic_check_on_wq = 0
-Plugin 'yardnsm/vim-import-cost', { 'do': 'npm install' }
+Plug 'yardnsm/vim-import-cost', { 'do': 'npm install' }
   augroup import_cost_auto_run
     autocmd!
     autocmd InsertLeave *.js,*.jsx,*.ts,*.tsx ImportCost
     autocmd BufEnter *.js,*.jsx,*.ts,*.tsx ImportCost
     autocmd CursorHold *.js,*.jsx,*.ts,*.tsx ImportCost
   augroup END
-Plugin 'ruanyl/vim-gh-line'
-Plugin 'ap/vim-css-color'
-Plugin 'mxw/vim-jsx'
-Plugin 'heavenshell/vim-jsdoc'
+Plug 'ruanyl/vim-gh-line'
+Plug 'ap/vim-css-color'
+Plug 'mxw/vim-jsx'
+Plug 'heavenshell/vim-jsdoc'
 
+call plug#end()
 
-call vundle#end()            " required
-filetype plugin indent on    " required
