@@ -7,8 +7,9 @@ set noeb vb t_vb=           " disable error beeping
 set tildeop                 " use ~ as operator for text objects like `~iw`
 set nowrap                  " hate wrapping for tiny windows. It makes code absolute unreadable
 set number                  " Show line numbers
+highlight LineNr ctermfg=grey
 set nostartofline           " Don’t reset cursor to start of line when moving around.
-set colorcolumn=80          " bad and extrabad line sizes
+set colorcolumn=120          " bad and extrabad line sizes
 set showmode                " Show the current mode
 set clipboard=unnamed       " use os x/linux clipboard
 set backspace=2             " use c-w and c+u
@@ -43,6 +44,9 @@ augroup END
 set list              " show invisibles
 set lcs=tab:▸\ ,eol:· " Use the same symbols as TextMate for tabstops and EOLs
 
+" automatically close
+ino ' ''<left>
+ino " ""<left>
 
 
 " Shortcuts for moving between tabs.
@@ -99,23 +103,46 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'prabirshrestha/asyncomplete.vim'
 Plugin 'prabirshrestha/async.vim'
 Plugin 'prabirshrestha/vim-lsp'
+  let g:lsp_signs_enabled = 0
+  let g:lsp_virtual_text_enabled = 0
 Plugin 'prabirshrestha/asyncomplete-lsp.vim'
+  inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+  inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
 Plugin 'ryanolsonx/vim-lsp-javascript'
-
-" UI
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'scrooloose/nerdtree'
   autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+  " Close tab if only nerdtree left
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+  let NERDTreeShowBookmarks=1
+  let g:NERDTreeMapOpenSplit="h"
+  let g:NERDTreeMapOpenVSplit="v"
+  let g:NERDTreeMapOpenInTab="t"
   let NERDTreeHighlightCursorline=0
   silent! map <F4> :NERDTreeFind<CR>
   let g:NERDTreeMapActivateNode="<F4>"
   let g:NERDTreeMapPreview="<F3>"
   map <C-n> :NERDTreeToggle<CR>
-  map <C-m> :NERDTreeFind<CR>
-
+  map <C-v> :NERDTreeMapActivateNode<CR>
+    " augroup NerdCursor
+    "   autocmd!
+    "   autocmd BufEnter NERD_tree_* highlight  CursorLine ctermbg=Red ctermfg=white
+    "   autocmd BufLeave NERD_tree_* highlight  CursorLine ctermbg=Red ctermfg=white
+    " augroup END
+Plugin 'junegunn/goyo.vim'
+Plugin 'junegunn/limelight.vim'
+  let g:limelight_conceal_ctermfg = 'gray'
+  autocmd! User GoyoEnter Limelight
+  autocmd! User GoyoLeave Limelight!
+  autocmd! User GoyoEnter set number
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'zivyangll/git-blame.vim'
-  map <C-b> :call gitblame#echo()<CR>
+Plugin 'tveskag/nvim-blame-line'
+  map <C-b> :ToggleBlameLine<CR>
+  " autocmd InsertEnter * DisableBlameLine
+  " autocmd InsertLeave * EnableBlameLine
+" Plugin 'zivyangll/git-blame.vim'
 Plugin 'rhysd/git-messenger.vim'
   map <C-m> :GitMessenger<CR>
 Plugin 'mileszs/ack.vim'
@@ -136,6 +163,13 @@ Plugin 'tomtom/tcomment_vim'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'scrooloose/syntastic'
   let g:syntastic_javascript_checkers = ['eslint']
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_auto_loc_list = 1
+  let g:syntastic_check_on_open = 1
+  let g:syntastic_check_on_wq = 0
 Plugin 'yardnsm/vim-import-cost', { 'do': 'npm install' }
   augroup import_cost_auto_run
     autocmd!
@@ -146,6 +180,7 @@ Plugin 'yardnsm/vim-import-cost', { 'do': 'npm install' }
 Plugin 'ruanyl/vim-gh-line'
 Plugin 'ap/vim-css-color'
 Plugin 'mxw/vim-jsx'
+Plugin 'heavenshell/vim-jsdoc'
 
 
 call vundle#end()            " required
