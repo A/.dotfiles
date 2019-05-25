@@ -10,7 +10,7 @@
   set nostartofline           " Don’t reset cursor to start of line when moving around.
   set colorcolumn=80          " bad and extrabad line sizes
   set showmode                " Show the current mode
-  set clipboard=unnamedplus   " use os x/linux clipboard
+  set clipboard=unnamed       " use os x/linux clipboard
   set backspace=2             " use c-w and c+u
   set showcmd                 " Display incomplete commands.
   :au InsertEnter * set cul   " Show cursor line in insert mode
