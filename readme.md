@@ -37,7 +37,9 @@ scutil --set HostName a8h333
 
 # BIN
 
-- 
+- [`fetch-wallpapers`](https://github.com/A/.dotfiles/blob/master/bin/fetch-wallpapers) downloads, unpacks and moves wallpapers from 50ftshadows into `~/Pictures`
+- [`cool-face [--all]`](https://github.com/A/.dotfiles/blob/master/bin/cool-face) - prints random asci face from `~/.emotions`
+- [`iso_burndown`](https://github.com/A/.dotfiles/blob/master/bin/iso_burndown) — burns iso to usb flash drive
 
 
 ## License
