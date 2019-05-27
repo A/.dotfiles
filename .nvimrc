@@ -94,11 +94,12 @@ set fileencoding=utf-8 " Use UTF-8 without BOM
 let g:python_host_prog = '/usr/bin/python'
 
 
-if !filereadable('/tmp/plug.vim')
-  silent !curl --insecure -fLo /tmp/plug.vim
+if !filereadable('~/.config/nvim/plug.vim')
+  silent !curl --insecure -fLo ~/.config/nvim/plug.vim
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
+so ~/.config/nvim/plug.vim
 
 call plug#begin('~/.vim/plugged')
 
@@ -225,4 +226,5 @@ Plug 'mxw/vim-jsx'
 Plug 'heavenshell/vim-jsdoc'
 
 call plug#end()
+
 
