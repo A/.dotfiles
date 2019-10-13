@@ -91,7 +91,9 @@ autocmd bufwritepre *.* :call <sid>striptrailingwhitespaces()
 set encoding=utf-8 nobomb
 set fileencoding=utf-8 " Use UTF-8 without BOM
 
-let g:python_host_prog = '/usr/bin/python'
+let g:python_host_prog = '/usr/local/bin/python2.7'
+let g:python2_host_prog = '/usr/local/bin/python2.7'
+let g:python3_host_prog = '/usr/local/bin/python3.7'
 
 
 if !filereadable('~/.config/nvim/plug.vim')
@@ -103,54 +105,74 @@ so ~/.config/nvim/plug.vim
 
 call plug#begin('~/.vim/plugged')
 
-"" LSP ""
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-  let g:lsp_signs_enabled = 0
-  let g:lsp_virtual_text_enabled = 0
-Plug 'ryanolsonx/vim-lsp-javascript'
+
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/denite.nvim'
+let g:deoplete#enable_at_startup = 1
 
 
-"" SNIPPETS, ASYNC COMPLETE
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-  inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-  inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
-  autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
-Plug 'SirVer/ultisnips'
-Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-  let g:UltiSnipsExpandTrigger="<c-e>"
-  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-    \ 'name': 'ultisnips',
-    \ 'whitelist': ['*'],
-    \ 'completor': function('asyncomplete#sources#ultisnips#completor')
-    \ }))
-Plug 'epilande/vim-react-snippets'
-Plug 'epilande/vim-es2015-snippets'
-Plug 'honza/vim-snippets'
-Plug 'wellle/tmux-complete.vim'
-Plug 'prabirshrestha/asyncomplete-emoji.vim'
-  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#emoji#get_source_options({
-    \ 'name': 'emoji',
-    \ 'whitelist': ['*'],
-    \ 'completor': function('asyncomplete#sources#emoji#completor'),
-    \ }))
-Plug 'prabirshrestha/asyncomplete-file.vim'
-  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-    \ 'name': 'file',
-    \ 'whitelist': ['*'],
-    \ 'priority': 10,
-    \ 'completor': function('asyncomplete#sources#file#completor')
-    \ }))
-Plug 'prabirshrestha/asyncomplete-buffer.vim'
-  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-    \ 'name': 'buffer',
-    \ 'whitelist': ['*'],
-    \ 'blacklist': ['go'],
-    \ 'completor': function('asyncomplete#sources#buffer#completor'),
-    \ }))
+
+
+
+
+
+
+
+
+
+
+
+" "" LSP ""
+" Plug 'prabirshrestha/async.vim'
+" Plug 'prabirshrestha/vim-lsp'
+"   let g:lsp_signs_enabled = 0
+"   let g:lsp_virtual_text_enabled = 0
+" Plug 'ryanolsonx/vim-lsp-javascript'
+"
+"
+" "" SNIPPETS, ASYNC COMPLETE
+" Plug 'prabirshrestha/asyncomplete.vim'
+" Plug 'prabirshrestha/asyncomplete-lsp.vim'
+"   inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+"   inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"   inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
+"   autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" Plug 'SirVer/ultisnips'
+" Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+"   let g:UltiSnipsExpandTrigger="<c-e>"
+"   au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+"     \ 'name': 'ultisnips',
+"     \ 'whitelist': ['*'],
+"     \ 'completor': function('asyncomplete#sources#ultisnips#completor')
+"     \ }))
+" Plug 'epilande/vim-react-snippets'
+" Plug 'epilande/vim-es2015-snippets'
+" Plug 'honza/vim-snippets'
+" Plug 'wellle/tmux-complete.vim'
+" Plug 'prabirshrestha/asyncomplete-emoji.vim'
+"   au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#emoji#get_source_options({
+"     \ 'name': 'emoji',
+"     \ 'whitelist': ['*'],
+"     \ 'completor': function('asyncomplete#sources#emoji#completor'),
+"     \ }))
+" Plug 'prabirshrestha/asyncomplete-file.vim'
+"   au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+"     \ 'name': 'file',
+"     \ 'whitelist': ['*'],
+"     \ 'priority': 10,
+"     \ 'completor': function('asyncomplete#sources#file#completor')
+"     \ }))
+" Plug 'prabirshrestha/asyncomplete-buffer.vim'
+"   au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+"     \ 'name': 'buffer',
+"     \ 'whitelist': ['*'],
+"     \ 'blacklist': ['go'],
+"     \ 'completor': function('asyncomplete#sources#buffer#completor'),
+"     \ }))
 
 "" NERD TREE
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -206,6 +228,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'scrooloose/syntastic'
   let g:syntastic_javascript_checkers = ['eslint']
+  let g:syntastic_typescript_checkers = ['tslint', 'tsc']
   set statusline+=%#warningmsg#
   set statusline+=%{SyntasticStatuslineFlag()}
   set statusline+=%*
