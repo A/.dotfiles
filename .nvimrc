@@ -27,18 +27,20 @@ set shiftwidth=2
 set clipboard=unnamedplus
 
 set cursorline
+au InsertEnter * set nocursorline
+au InsertLeave * set cursorline
 highlight CursorLineNR ctermbg=DarkGray ctermfg=None
-" Change Color when entering Insert Mode
-autocmd InsertEnter * highlight  CursorLine ctermbg=Red ctermfg=white
-" Revert Color to default when leaving Insert Mode
-autocmd InsertLeave * highlight  CursorLine ctermbg=DarkGray ctermfg=None
-augroup CursorLine
-  au!
-  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  au WinLeave * setlocal nocursorline
-  au InsertLeave * setlocal cursorline
-augroup END
-
+" " Change Color when entering Insert Mode
+" autocmd InsertEnter * highlight  CursorLine ctermbg=Red ctermfg=white
+" " Revert Color to default when leaving Insert Mode
+" autocmd InsertLeave * highlight  CursorLine ctermbg=DarkGray ctermfg=None
+" augroup CursorLine
+"   au!
+"   au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+"   au WinLeave * setlocal nocursorline
+"   au InsertLeave * setlocal cursorline
+" augroup END
+"
 
 " # Ident
 set list              " show invisibles
@@ -109,15 +111,16 @@ Plug 'prabirshrestha/vim-lsp'
   let g:lsp_signs_enabled = 0
   let g:lsp_virtual_text_enabled = 0
 Plug 'ryanolsonx/vim-lsp-javascript'
+Plug 'leafgarland/typescript-vim'
 
 
 "" SNIPPETS, ASYNC COMPLETE
 Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-  inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-  inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
-  autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+" Plug 'prabirshrestha/asyncomplete-lsp.vim'
+"   inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+"   inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"   inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
+"   autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
 Plug 'SirVer/ultisnips'
 Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
@@ -131,12 +134,12 @@ Plug 'epilande/vim-react-snippets'
 Plug 'epilande/vim-es2015-snippets'
 Plug 'honza/vim-snippets'
 Plug 'wellle/tmux-complete.vim'
-Plug 'prabirshrestha/asyncomplete-emoji.vim'
-  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#emoji#get_source_options({
-    \ 'name': 'emoji',
-    \ 'whitelist': ['*'],
-    \ 'completor': function('asyncomplete#sources#emoji#completor'),
-    \ }))
+" Plug 'prabirshrestha/asyncomplete-emoji.vim'
+  " au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#emoji#get_source_options({
+  "   \ 'name': 'emoji',
+  "   \ 'whitelist': ['*'],
+  "   \ 'completor': function('asyncomplete#sources#emoji#completor'),
+  "   \ }))
 Plug 'prabirshrestha/asyncomplete-file.vim'
   au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
     \ 'name': 'file',
@@ -190,6 +193,9 @@ Plug 'rhysd/git-messenger.vim'
   map <C-m> :GitMessenger<CR>
 Plug 'mileszs/ack.vim'
 Plug 'chrisbra/Colorizer'
+Plug 'ctrlpvim/ctrlp.vim'
+  let g:ctrlp_root_markers = ['package.json', '.gitignore']
+  let g:ctrlp_user_command = 'find %s -type f | grep -v -e "node_modules" -e "public" -e ".jest" -e ".git" -e "coverage"'
 
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -214,17 +220,23 @@ Plug 'scrooloose/syntastic'
   let g:syntastic_check_on_open = 1
   let g:syntastic_check_on_wq = 0
 Plug 'yardnsm/vim-import-cost', { 'do': 'npm install' }
-  augroup import_cost_auto_run
-    autocmd!
-    autocmd InsertLeave *.js,*.jsx,*.ts,*.tsx ImportCost
-    autocmd BufEnter *.js,*.jsx,*.ts,*.tsx ImportCost
-    autocmd CursorHold *.js,*.jsx,*.ts,*.tsx ImportCost
-  augroup END
+  " augroup import_cost_auto_run
+  "   autocmd!
+  "   autocmd InsertLeave *.js,*.jsx,*.ts,*.tsx ImportCost
+  "   autocmd BufEnter *.js,*.jsx,*.ts,*.tsx ImportCost
+  "   autocmd CursorHold *.js,*.jsx,*.ts,*.tsx ImportCost
+  " augroup END
 Plug 'ruanyl/vim-gh-line'
 Plug 'ap/vim-css-color'
 Plug 'mxw/vim-jsx'
 Plug 'heavenshell/vim-jsdoc'
 
-call plug#end()
+"" Gists
+Plug 'Shougo/denite.nvim'
+Plug 'tyru/open-browser.vim'
+Plug 'pocari/vim-denite-kind-open-browser'
+Plug 'pocari/vim-denite-gists'
+Plug 'rstacruz/vim-hyperstyle'
 
+call plug#end()
 
