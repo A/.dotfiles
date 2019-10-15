@@ -1,4 +1,4 @@
-export EDITOR=vim
+export EDITOR=vi
 # export GITHUB_ACCESS_TOKEN=`cat ~/.config/.gh-token`
 
 # Setup locales #
@@ -46,5 +46,11 @@ export PATH=$HOME/Projects/rust-test/emsdk/clang/fastcomp/build_incoming_64/bin:
 export PATH=$HOME/Projects/rust-test/emsdk/emscripten/incoming:$PATH
 export PATH=/usr/local/Cellar/python@2/2.7.16/bin:$PATH
 
+# PIP3
+export PATH=$PATH:/Users/anton.shuvalov/Library/Python/3.7/bin
+
 # Ali
 export PATH=~/.lzd/ak/pha-all/arcanist/bin:$PATH
+
+# AWS Quoine
+export AWS_SDK_LOAD_CONFIG=true
