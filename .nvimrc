@@ -46,6 +46,9 @@ highlight CursorLineNR ctermbg=DarkGray ctermfg=None
 set list              " show invisibles
 set lcs=tab:▸\ ,eol:· " Use the same symbols as TextMate for tabstops and EOLs
 
+
+
+
 " Shortcuts for moving between tabs.
 noremap [ gT
 noremap ] gt
@@ -65,6 +68,19 @@ noremap <Down> <C-W>j
 noremap <Up> <C-W>k
 noremap <Left> <C-W>h
 noremap <Right> <C-W>l
+
+" TS
+map <C-t> :TSType<CR>
+map <C-h> :TSGetDiagnostics<CR>
+
+" NERDTree
+silent! map <F4> :NERDTreeFind<CR>
+map <C-n> :NERDTreeToggle<CR>
+
+
+map <C-f> :Goyo<CR>
+map <C-b> :ToggleBlameLine<CR>
+map <C-m> :GitMessenger<CR>
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
@@ -107,8 +123,6 @@ Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/denite.nvim'
   let g:deoplete#enable_at_startup = 1
-  map <C-t> :TSType<CR>
-  map <C-h> :TSGetDiagnostics<CR>
 
 "" NERD TREE
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -121,13 +135,10 @@ Plug 'scrooloose/nerdtree'
   let g:NERDTreeMapOpenVSplit="v"
   let g:NERDTreeMapOpenInTab="t"
   let NERDTreeHighlightCursorline=0
-  silent! map <F4> :NERDTreeFind<CR>
   let g:NERDTreeMapActivateNode="<F4>"
   let g:NERDTreeMapPreview="<F3>"
-  map <C-n> :NERDTreeToggle<CR>
 
 Plug 'junegunn/goyo.vim'
-  map <C-f> :Goyo<CR>
 Plug 'junegunn/limelight.vim'
   let g:limelight_conceal_ctermfg = 'gray'
   autocmd! User GoyoEnter Limelight
@@ -136,12 +147,10 @@ Plug 'junegunn/limelight.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'tveskag/nvim-blame-line'
-  map <C-b> :ToggleBlameLine<CR>
   " autocmd InsertEnter * DisableBlameLine
   " autocmd InsertLeave * EnableBlameLine
 " Plug 'zivyangll/git-blame.vim'
 Plug 'rhysd/git-messenger.vim'
-  map <C-m> :GitMessenger<CR>
 Plug 'mileszs/ack.vim'
 Plug 'chrisbra/Colorizer'
 Plug 'ctrlpvim/ctrlp.vim'
