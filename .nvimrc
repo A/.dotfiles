@@ -120,6 +120,8 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+  g:nvim_typescript#diagnostics_enable=0
+  autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
 Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/denite.nvim'
   let g:deoplete#enable_at_startup = 1
@@ -139,6 +141,7 @@ Plug 'scrooloose/nerdtree'
   let g:NERDTreeMapPreview="<F3>"
 
 Plug 'junegunn/goyo.vim'
+Plug 'tpope/vim-surround'
 Plug 'junegunn/limelight.vim'
   let g:limelight_conceal_ctermfg = 'gray'
   autocmd! User GoyoEnter Limelight
