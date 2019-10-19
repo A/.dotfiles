@@ -69,13 +69,21 @@ noremap <Up> <C-W>k
 noremap <Left> <C-W>h
 noremap <Right> <C-W>l
 
+noremap <C-j> <C-W>j
+noremap <C-k> <C-W>k
+noremap <C-h> <C-W>h
+noremap <C-l> <C-W>l
+
+" vim
+map <C-e> :tabnew<CR>:e ~/.dotfiles/.nvimrc<CR>
+
 " TS
 map <C-t> :TSType<CR>
-map <C-h> :TSGetDiagnostics<CR>
+map <C-d> :TSGetDiagnostics<CR>
 
 " NERDTree
-silent! map <F4> :NERDTreeFind<CR>
 map <C-n> :NERDTreeToggle<CR>
+silent! nmap <S-n> :NERDTreeFind<CR>
 
 
 map <C-f> :Goyo<CR>
@@ -120,7 +128,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-  g:nvim_typescript#diagnostics_enable=0
+  let g:nvim_typescript#diagnostics_enable = 0
   autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
 Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/denite.nvim'
