@@ -1,51 +1,43 @@
-filetype off
-
-set nocompatible
+" Behavior
 set nobackup
 set noswapfile
-set noeb vb t_vb=           " disable error beeping
-set tildeop                 " use ~ as operator for text objects like `~iw`
-set nowrap                  " hate wrapping for tiny windows. It makes code absolute unreadable
-set number                  " Show line numbers
-highlight LineNr ctermfg=grey
-set nostartofline           " Don’t reset cursor to start of line when moving around.
-set colorcolumn=120          " bad and extrabad line sizes
-set showmode                " Show the current mode
-set clipboard=unnamed       " use os x/linux clipboard
-set backspace=2             " use c-w and c+u
-set showcmd                 " Display incomplete commands.
-:au InsertEnter * set cul   " Show cursor line in insert mode
-:au InsertLeave * set nocul " Hide cursor line in insert mode
-set scrolloff=8             " Start scrolling when we're 8 lines away from margins
+set nowrap
+set number
+set nostartofline
+set clipboard=unnamedplus
+set backspace=2
 set mouse=a
 set expandtab
 set autoindent
+set tabstop=2
 set smartindent
 set smarttab
-set tabstop=2
 set shiftwidth=2
-set clipboard=unnamedplus
+" set showmode                " Show the current mode UPD: Leave to airline
+" set showcmd                 " Display incomplete commands.
 
+" Visual
 set cursorline
 au InsertEnter * set nocursorline
 au InsertLeave * set cursorline
+
+highlight LineNr ctermfg=grey
 highlight CursorLineNR ctermbg=DarkGray ctermfg=None
-" " Change Color when entering Insert Mode
-" autocmd InsertEnter * highlight  CursorLine ctermbg=Red ctermfg=white
-" " Revert Color to default when leaving Insert Mode
-" autocmd InsertLeave * highlight  CursorLine ctermbg=DarkGray ctermfg=None
-" augroup CursorLine
-"   au!
-"   au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-"   au WinLeave * setlocal nocursorline
-"   au InsertLeave * setlocal cursorline
-" augroup END
-"
+highlight CursorLine ctermbg=DarkGray ctermfg=None
 
-" # Ident
+set colorcolumn=120          " bad and extrabad line sizes
+set scrolloff=8             " Start scrolling when we're 8 lines away from margins
+
 set list              " show invisibles
-set lcs=tab:▸\ ,eol:· " Use the same symbols as TextMate for tabstops and EOLs
+set lcs=eol:· " Use the same symbols as TextMate for tabstops and EOLs
 
+
+" Mappings
+let mapleader = <Space>;
+
+noremap <leader>t gT
+noremap <leader>T gt
+map <leader>ve :tabnew<CR>:e ~/.dotfiles/.nvimrc<CR>
 
 
 
@@ -74,8 +66,11 @@ noremap <C-k> <C-W>k
 noremap <C-h> <C-W>h
 noremap <C-l> <C-W>l
 
-" vim
+" edit config
 map <C-e> :tabnew<CR>:e ~/.dotfiles/.nvimrc<CR>
+
+" show mappings
+map <C-h> :vsp<CR>:r !grep -rn map ~/.dotfiles/.nvimrc<CR>
 
 " TS
 map <C-t> :TSType<CR>
@@ -83,12 +78,16 @@ map <C-d> :TSGetDiagnostics<CR>
 
 " NERDTree
 map <C-n> :NERDTreeToggle<CR>
-silent! nmap <S-n> :NERDTreeFind<CR>
+silent! nmap <C-l> :NERDTreeFind<CR>
 
 
 map <C-f> :Goyo<CR>
 map <C-b> :ToggleBlameLine<CR>
 map <C-m> :GitMessenger<CR>
+nmap gt <Plug>(openbrowser-smart-search)
+
+
+" Utils
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
@@ -96,8 +95,7 @@ autocmd BufReadPost *
   \   exe "normal! g`\"" |
   \ endif
 
-
-
+" Strip whitespaces
 fun! <sid>striptrailingwhitespaces()
   let l = line(".")
   let c = col(".")
@@ -192,18 +190,17 @@ Plug 'scrooloose/syntastic'
   let g:syntastic_check_on_open = 1
   let g:syntastic_check_on_wq = 0
 Plug 'yardnsm/vim-import-cost', { 'do': 'npm install' }
-  " augroup import_cost_auto_run
-  "   autocmd!
-  "   autocmd InsertLeave *.js,*.jsx,*.ts,*.tsx ImportCost
-  "   autocmd BufEnter *.js,*.jsx,*.ts,*.tsx ImportCost
-  "   autocmd CursorHold *.js,*.jsx,*.ts,*.tsx ImportCost
-  " augroup END
+  augroup import_cost_auto_run
+    autocmd!
+    autocmd InsertLeave *.js,*.jsx,*.ts,*.tsx ImportCost
+    autocmd BufEnter *.js,*.jsx,*.ts,*.tsx ImportCost
+    autocmd CursorHold *.js,*.jsx,*.ts,*.tsx ImportCost
+  augroup END
 Plug 'ruanyl/vim-gh-line'
 Plug 'ap/vim-css-color'
 Plug 'mxw/vim-jsx'
 Plug 'heavenshell/vim-jsdoc'
 
-"" Gists
 Plug 'Shougo/denite.nvim'
 Plug 'tyru/open-browser.vim'
 Plug 'pocari/vim-denite-kind-open-browser'
