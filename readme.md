@@ -1,11 +1,11 @@
 ![dotfiles](https://user-images.githubusercontent.com/1410106/36914460-7593d84e-1e5e-11e8-82bf-8026aed4ee77.png)
 
-# Install 
+# Install
 
 
 ```zsh
 # Make symlinks for dotfiles
-git clone --recursive https://github.com/shuvalov-anton/.dotfiles && ~/.dotfiles/init 
+git clone --recursive https://github.com/shuvalov-anton/.dotfiles && ~/.dotfiles/init
 
 # macbook's name
 scutil --set HostName a8h333

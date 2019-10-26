@@ -5,7 +5,7 @@ autocmd BufReadPost *
   \ endif
 
 " Strip whitespaces
-fun! <sid>striptrailingwhitespaces()
+fun! Striptrailingwhitespaces()
   let l = line(".")
   let c = col(".")
   %s/\s\+$//e

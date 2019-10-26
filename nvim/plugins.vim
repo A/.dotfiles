@@ -7,16 +7,39 @@ so ~/.config/nvim/plug.vim
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-  let g:nvim_typescript#diagnostics_enable = 0
-  autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
-Plug 'Shougo/deoplete.nvim'
-Plug 'Shougo/denite.nvim'
-  let g:deoplete#enable_at_startup = 1
 
-"" NERD TREE
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'HerringtonDarkholme/yats.vim' " Yet Another TS Syntax Plugin
+Plug 'Shougo/deoplete.nvim' " Dark powered asynchronous completion framework for neovim/Vim8
+Plug 'Shougo/denite.nvim' " Dark powered asynchronous unite all interfaces for Neovim/Vim8
+  let g:deoplete#enable_at_startup = 1
+  autocmd FileType denite call s:denite_my_settings()
+  function! s:denite_my_settings() abort
+    nnoremap <silent><buffer><expr> <CR>
+    \ denite#do_map('do_action')
+    nnoremap <silent><buffer><expr> d
+    \ denite#do_map('do_action', 'delete')
+    nnoremap <silent><buffer><expr> p
+    \ denite#do_map('do_action', 'preview')
+    nnoremap <silent><buffer><expr> q
+    \ denite#do_map('quit')
+    nnoremap <silent><buffer><expr> f
+    \ denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> <Space>
+    \ denite#do_map('toggle_select').'j'
+  endfunction
+
+  autocmd FileType denite-filter call s:denite_filter_my_settings()
+  function! s:denite_filter_my_settings() abort
+    imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
+  endfunction
+Plug 'ctrlpvim/ctrlp.vim'
+  let g:ctrlp_root_markers = ['package.json', '.gitignore']
+  let g:ctrlp_user_command = 'find %s -type f | grep -v -e "node_modules" -e "public" -e ".jest" -e ".git" -e "coverage"'
+Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}} " Freaky fast fuzzy Denite/CtrlP matcher for vim/neovim
+  let g:fruzzy#usenative = 1
+  call denite#custom#source('_', 'matchers', ['matcher/fruzzy'])
+  let g:ctrlp_match_func = {'match': 'fruzzy#ctrlp#matcher'}
+  let g:ctrlp_match_current_file = 1
 Plug 'scrooloose/nerdtree'
   autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
   " Close tab if only nerdtree left
@@ -28,40 +51,36 @@ Plug 'scrooloose/nerdtree'
   let NERDTreeHighlightCursorline=0
   let g:NERDTreeMapActivateNode="<F4>"
   let g:NERDTreeMapPreview="<F3>"
-
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'junegunn/goyo.vim'
-Plug 'tpope/vim-surround'
-Plug 'junegunn/limelight.vim'
-  let g:limelight_conceal_ctermfg = 'gray'
-  autocmd! User GoyoEnter Limelight
   autocmd! User GoyoEnter set number
-  autocmd! User GoyoLeave Limelight!
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+  set completeopt-=preview
 Plug 'airblade/vim-gitgutter'
 Plug 'tveskag/nvim-blame-line'
   " autocmd InsertEnter * DisableBlameLine
-  " autocmd InsertLeave * EnableBlameLine
-" Plug 'zivyangll/git-blame.vim'
 Plug 'rhysd/git-messenger.vim'
-Plug 'mileszs/ack.vim'
+Plug 'flazz/vim-colorschemes'
+Plug 'ryanoasis/vim-devicons'
+  let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
+  let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
+  let g:NERDTreeDirArrowExpandable = "\u00a0"
+  let g:NERDTreeDirArrowCollapsible = "\u00a0"
 Plug 'chrisbra/Colorizer'
-Plug 'ctrlpvim/ctrlp.vim'
-  let g:ctrlp_root_markers = ['package.json', '.gitignore']
-  let g:ctrlp_user_command = 'find %s -type f | grep -v -e "node_modules" -e "public" -e ".jest" -e ".git" -e "coverage"'
-
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-  set laststatus=2                                  " vim-airline doesn't appear until I create a new split
-  let g:airline_theme='lucius'                      " Colorscheme for airline
-  let g:airline_left_sep = ''                       " Set custom left separator
-  let g:airline_right_sep = ''                      " Set custom right separator
-  let g:airline#extensions#tabline#enabled = 1      " Enable airline for tab-bar
-  let g:airline#extensions#tabline#show_buffers = 0 " Don't display buffers in tab-bar with single tab
-  let g:airline#extensions#tabline#fnamemod = ':t'  " Display only filename in tab
-  let g:airline_section_y = ''                      " Don't display encoding
+  set laststatus=2
+  let g:airline_theme='biogoo'
+  let g:airline_left_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#show_buffers = 1
+  let g:airline#extensions#tabline#fnamemod = ':t'
+  let g:airline_section_y = ''
 Plug 'tomtom/tcomment_vim'
-" # Linting
 Plug 'editorconfig/editorconfig-vim'
+  let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
 Plug 'scrooloose/syntastic'
   let g:syntastic_javascript_checkers = ['eslint']
   let g:syntastic_typescript_checkers = ['tslint', 'tsc']
@@ -79,15 +98,15 @@ Plug 'yardnsm/vim-import-cost', { 'do': 'npm install' }
     autocmd BufEnter *.js,*.jsx,*.ts,*.tsx ImportCost
     autocmd CursorHold *.js,*.jsx,*.ts,*.tsx ImportCost
   augroup END
-Plug 'ruanyl/vim-gh-line'
-Plug 'ap/vim-css-color'
-Plug 'mxw/vim-jsx'
-Plug 'heavenshell/vim-jsdoc'
-
-Plug 'Shougo/denite.nvim'
 Plug 'tyru/open-browser.vim'
 Plug 'pocari/vim-denite-kind-open-browser'
 Plug 'pocari/vim-denite-gists'
 Plug 'rstacruz/vim-hyperstyle'
+Plug 'chemzqm/denite-git'
 
+" TODO: Not working :(
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+  let g:nvim_typescript#javascript_support=1
+  let g:nvim_typescript#diagnostics_enable = 0
+  autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
 call plug#end()
