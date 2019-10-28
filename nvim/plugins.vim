@@ -37,12 +37,17 @@ Plug 'ctrlpvim/ctrlp.vim'
   let g:ctrlp_user_command = 'find %s -type f | grep -v -e "node_modules" -e "public" -e ".jest" -e ".git" -e "coverage"'
 Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}} " Freaky fast fuzzy Denite/CtrlP matcher for vim/neovim
   let g:fruzzy#usenative = 1
-  call denite#custom#source('_', 'matchers', ['matcher/fruzzy'])
+  " call denite#custom#source('_', 'matchers', ['matcher/fruzzy'])
   let g:ctrlp_match_func = {'match': 'fruzzy#ctrlp#matcher'}
   let g:ctrlp_match_current_file = 1
 Plug 'scrooloose/nerdtree'
-  autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-  " Close tab if only nerdtree left
+  " " Close tab if only nerdtree left
+  autocmd VimEnter *
+    \   if !argc()
+    \ |   Startify
+    \ |   NERDTree
+    \ |   wincmd w
+    \ | endif
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
   let NERDTreeShowBookmarks=1
   let g:NERDTreeMapOpenSplit="h"
@@ -103,10 +108,10 @@ Plug 'pocari/vim-denite-kind-open-browser'
 Plug 'pocari/vim-denite-gists'
 Plug 'rstacruz/vim-hyperstyle'
 Plug 'chemzqm/denite-git'
-
-" TODO: Not working :(
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
   let g:nvim_typescript#javascript_support=1
   let g:nvim_typescript#diagnostics_enable = 0
   autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
+Plug 'mhinz/vim-startify'
+
 call plug#end()
