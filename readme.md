@@ -5,7 +5,7 @@
 
 ```zsh
 # Make symlinks for dotfiles
-git clone --recursive https://github.com/shuvalov-anton/.dotfiles && ~/.dotfiles/init
+git clone --recursive https://github.com/A/.dotfiles && ~/.dotfiles/init
 
 # macbook's name
 scutil --set HostName a8h333
