@@ -23,6 +23,7 @@ noremap <leader>vc :Denite colorscheme<CR>
 " Code
 noremap <leader>cc :TComment<CR>
 noremap <leader>cC :TCommentInline<CR>
+noremap <leader>co :Denite outline<CR>
 
 " JS/TS:L
 noremap <leader>jt :TSType<CR>
