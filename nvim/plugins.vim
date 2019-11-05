@@ -113,5 +113,7 @@ Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
   let g:nvim_typescript#diagnostics_enable = 0
   autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
 Plug 'mhinz/vim-startify'
+Plug 'christoomey/vim-tmux-navigator'
+
 
 call plug#end()
