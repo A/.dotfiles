@@ -96,7 +96,7 @@ Plug 'scrooloose/syntastic'
   let g:syntastic_auto_loc_list = 1
   let g:syntastic_check_on_open = 1
   let g:syntastic_check_on_wq = 0
-Plug 'yardnsm/vim-import-cost', { 'do': 'npm install' }
+Plug 'A/vim-import-cost', { 'do': 'npm install' }
   augroup import_cost_auto_run
     autocmd!
     autocmd InsertLeave *.js,*.jsx,*.ts,*.tsx ImportCost
@@ -114,6 +114,15 @@ Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
   autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
 Plug 'mhinz/vim-startify'
 Plug 'christoomey/vim-tmux-navigator'
-
+Plug 'janko/vim-test'
+  let test#strategy = "neovim"
+  let g:test#javascript#mocha#file_pattern = '\v.*\.spec\.(ts|tsx)$'
+  let g:test#runner_commands = ["jest", "reactscripts"]
+Plug 'alvan/vim-closetag'
+  let g:closetag_filenames = '*.html,*.jsx,*.tsx'
+  let g:closetag_regions =  {
+    \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+    \ 'javascript.jsx': 'jsxRegion',
+    \ }
 
 call plug#end()

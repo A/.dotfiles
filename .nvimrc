@@ -13,6 +13,7 @@ noremap <leader>vt gt
 noremap <leader>vT gT
 noremap <leader>vtn :tabew<CR>
 noremap <leader>ve :tabnew<CR>:e ~/.dotfiles/.nvimrc<CR>
+noremap <leader>vR :so ~/.config/nvim/init.vim<CR>
 noremap <leader>vh :vnew<CR>:r !grep -rh map ~/.dotfiles/.nvimrc<CR>:setf vim<CR>
 noremap <leader>vw :w<CR>
 noremap <leader>vq :q<CR>
@@ -24,11 +25,14 @@ noremap <leader>vc :Denite colorscheme<CR>
 noremap <leader>cc :TComment<CR>
 noremap <leader>cC :TCommentInline<CR>
 noremap <leader>co :Denite outline<CR>
+noremap <leader>ct :CloseIt<CR>
 
-" JS/TS:L
+" JS/TS:
 noremap <leader>jt :TSType<CR>
 noremap <leader>jd :TSGetDiagnostics<CR>
 noremap <leader>jc :ImportCost<CR>
+" noremap <leader>jt :TestNearest<CR>
+" noremap <leader>jT :TestVisit<CR>
 
 
 " Files
