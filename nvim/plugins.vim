@@ -86,16 +86,16 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tomtom/tcomment_vim'
 Plug 'editorconfig/editorconfig-vim'
   let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
-Plug 'scrooloose/syntastic'
-  let g:syntastic_javascript_checkers = ['eslint']
-  let g:syntastic_typescript_checkers = ['tslint', 'tsc']
-  set statusline+=%#warningmsg#
-  set statusline+=%{SyntasticStatuslineFlag()}
-  set statusline+=%*
-  let g:syntastic_always_populate_loc_list = 1
-  let g:syntastic_auto_loc_list = 1
-  let g:syntastic_check_on_open = 1
-  let g:syntastic_check_on_wq = 0
+" Plug 'scrooloose/syntastic'
+"   let g:syntastic_javascript_checkers = ['eslint']
+"   let g:syntastic_typescript_checkers = ['tslint', 'tsc']
+"   set statusline+=%#warningmsg#
+"   set statusline+=%{SyntasticStatuslineFlag()}
+"   set statusline+=%*
+"   let g:syntastic_always_populate_loc_list = 1
+"   let g:syntastic_auto_loc_list = 1
+"   let g:syntastic_check_on_open = 1
+"   let g:syntastic_check_on_wq = 0
 Plug 'A/vim-import-cost', { 'do': 'npm install' }
   augroup import_cost_auto_run
     autocmd!
@@ -124,5 +124,14 @@ Plug 'alvan/vim-closetag'
     \ 'typescript.tsx': 'jsxRegion,tsxRegion',
     \ 'javascript.jsx': 'jsxRegion',
     \ }
+Plug 'dense-analysis/ale'
+  let g:airline#extensions#ale#enabled = 1
+  let g:ale_open_list = 1
+  let g:ale_list_window_size = 5
+  let g:ale_fixers = {
+    \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \ 'javascript': ['eslint'],
+    \ 'typescript': ['tslint'],
+  \}
 
 call plug#end()

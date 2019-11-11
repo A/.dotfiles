@@ -26,6 +26,8 @@ noremap <leader>cc :TComment<CR>
 noremap <leader>cC :TCommentInline<CR>
 noremap <leader>co :Denite outline<CR>
 noremap <leader>ct :CloseIt<CR>
+noremap <leader>cE <Plug>(ale_previous_wrap)
+noremap <leader>ce <Plug>(ale_next_wrap)
 
 " JS/TS:
 noremap <leader>jt :TSType<CR>
