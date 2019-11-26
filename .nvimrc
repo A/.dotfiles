@@ -3,8 +3,13 @@ exec "so" dotfiles . '/nvim/settings.vim'
 exec "so" dotfiles . '/nvim/plugins.vim'
 exec "so" dotfiles . '/nvim/utils.vim'
 
+" Update colorscheme based on dark/light interface style
+let g:colorschemeDark  = 'nord'
+let g:colorschemeLight = 'nofrils-light'
 
-colorscheme 1989
+call SetBackgroundMode()
+call timer_start(3000, "SetBackgroundMode", {"repeat": -1})
+
 
 let mapleader = " "
 
@@ -31,8 +36,10 @@ noremap <leader>ce <Plug>(ale_next_wrap)
 
 " JS/TS:
 noremap <leader>jt :TSType<CR>
-noremap <leader>jd :TSGetDiagnostics<CR>
+noremap <leader>jd :ALEGoToDefinition<CR>
+noremap <leader>jr :ALEFindReferences<CR>
 noremap <leader>jc :ImportCost<CR>
+noremap <leader>jr :ALEFindReferences<CR>
 " noremap <leader>jt :TestNearest<CR>
 " noremap <leader>jT :TestVisit<CR>
 
@@ -70,7 +77,4 @@ noremap <C-j> <C-W>j
 noremap <C-k> <C-W>k
 noremap <C-h> <C-W>h
 noremap <C-l> <C-W>l
-
-" automatically clean trailing whitespaces on save
-autocmd bufwritepre *.* :call Striptrailingwhitespaces()
 

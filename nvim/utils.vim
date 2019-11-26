@@ -4,11 +4,15 @@ autocmd BufReadPost *
   \   exe "normal! g`\"" |
   \ endif
 
-" Strip whitespaces
-fun! Striptrailingwhitespaces()
-  let l = line(".")
-  let c = col(".")
-  %s/\s\+$//e
-  call cursor(l, c)
-endfun
+
+" let g:colorschemeDark  = '1989'
+" let g:colorschemeLight = 'nofrils-light'
+function! SetBackgroundMode(...)
+  " dark mode enabled?
+  if system("defaults read -g AppleInterfaceStyle") =~ '^Dark'
+    execute "colorscheme ". g:colorschemeDark
+  else
+    execute "colorscheme ". g:colorschemeLight
+  endif
+endfunction
 

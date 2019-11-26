@@ -1,6 +1,6 @@
 export VISUAL=vi
 export EDITOR="$VISUAL"
-# export GITHUB_ACCESS_TOKEN=`cat ~/.config/.gh-token`
+export GITHUB_ACCESS_TOKEN=`cat ~/.config/.gh-token`
 
 # Setup locales #
 # If you'll got locale related error by `perl -e exit`, you should generate

@@ -3,6 +3,7 @@
 ._*
 .gtd
 .gitconfig
+.npmrc
 .byobu/.ssh-agent
 lib
 # .tmuxinator/.*.yml

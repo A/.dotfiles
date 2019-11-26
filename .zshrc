@@ -21,23 +21,11 @@ source $DOTFILES/.exports
 source $ZSH/oh-my-zsh.sh
 source $DOTFILES/.aliases
 source $DOTFILES/lib/emo/prompt.zsh
-
-
-preexec_functions=()
-function expand_aliases {
-  input_command=$1
-  expanded_command=$2
-  if [ $input_command != $expanded_command ]; then
-    print -nP $PROMPT
-    echo $expanded_command
-  fi
-}
+source $DOTFILES/.zsh_background_tasks
 
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 fi
-
-preexec_functions+=expand_aliases
 
 
 type rbenv > /dev/null && eval "$(rbenv init -)"

@@ -96,13 +96,13 @@ Plug 'editorconfig/editorconfig-vim'
 "   let g:syntastic_auto_loc_list = 1
 "   let g:syntastic_check_on_open = 1
 "   let g:syntastic_check_on_wq = 0
-Plug 'A/vim-import-cost', { 'do': 'npm install' }
-  augroup import_cost_auto_run
-    autocmd!
-    autocmd InsertLeave *.js,*.jsx,*.ts,*.tsx ImportCost
-    autocmd BufEnter *.js,*.jsx,*.ts,*.tsx ImportCost
-    autocmd CursorHold *.js,*.jsx,*.ts,*.tsx ImportCost
-  augroup END
+" Plug 'A/vim-import-cost', { 'do': 'npm install' }
+"   augroup import_cost_auto_run
+"     autocmd!
+"     autocmd InsertLeave *.js,*.jsx,*.ts,*.tsx ImportCost
+"     autocmd BufEnter *.js,*.jsx,*.ts,*.tsx ImportCost
+"     autocmd CursorHold *.js,*.jsx,*.ts,*.tsx ImportCost
+"   augroup END
 Plug 'tyru/open-browser.vim'
 Plug 'pocari/vim-denite-kind-open-browser'
 Plug 'pocari/vim-denite-gists'
@@ -126,12 +126,13 @@ Plug 'alvan/vim-closetag'
     \ }
 Plug 'dense-analysis/ale'
   let g:airline#extensions#ale#enabled = 1
-  let g:ale_open_list = 1
+  let g:ale_open_list = 0
   let g:ale_list_window_size = 5
   let g:ale_fixers = {
     \ '*': ['remove_trailing_lines', 'trim_whitespace'],
     \ 'javascript': ['eslint'],
     \ 'typescript': ['tslint'],
   \}
+Plug 'csscomb/vim-csscomb', {'do': 'npm install -g csscomb'}
 
 call plug#end()
