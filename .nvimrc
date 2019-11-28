@@ -5,7 +5,8 @@ exec "so" dotfiles . '/nvim/utils.vim'
 
 " Update colorscheme based on dark/light interface style
 let g:colorschemeDark  = 'nord'
-let g:colorschemeLight = 'nofrils-light'
+let g:colorschemeLight = 'nord-light'
+let g:airline_theme = 'monochrome'
 
 call SetBackgroundMode()
 call timer_start(3000, "SetBackgroundMode", {"repeat": -1})

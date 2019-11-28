@@ -5,8 +5,9 @@ autocmd BufReadPost *
   \ endif
 
 
-" let g:colorschemeDark  = '1989'
-" let g:colorschemeLight = 'nofrils-light'
+" let g:colorschemeDark  = 'nord'
+" let g:colorschemeLight = 'nord-light'
+
 function! SetBackgroundMode(...)
   " dark mode enabled?
   if system("defaults read -g AppleInterfaceStyle") =~ '^Dark'

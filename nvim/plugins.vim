@@ -66,7 +66,13 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tveskag/nvim-blame-line'
   " autocmd InsertEnter * DisableBlameLine
 Plug 'rhysd/git-messenger.vim'
-Plug 'flazz/vim-colorschemes'
+" Plug 'flazz/vim-colorschemes'
+Plug '~/.dotfiles/nvim/my-colors'
+
+Plug 'mtyn/polar'
+Plug 'arcticicestudio/nord-vim'
+
+
 Plug 'ryanoasis/vim-devicons'
   let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
   let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
@@ -76,11 +82,9 @@ Plug 'chrisbra/Colorizer'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
   set laststatus=2
-  let g:airline_theme='biogoo'
   let g:airline_left_sep = ''
   let g:airline_right_sep = ''
-  let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#show_buffers = 1
+  let g:airline#extensions#tabline#enabled = 0
   let g:airline#extensions#tabline#fnamemod = ':t'
   let g:airline_section_y = ''
 Plug 'tomtom/tcomment_vim'
@@ -131,7 +135,7 @@ Plug 'dense-analysis/ale'
   let g:ale_fixers = {
     \ '*': ['remove_trailing_lines', 'trim_whitespace'],
     \ 'javascript': ['eslint'],
-    \ 'typescript': ['tslint'],
+    \ 'typescript': ['eslint'],
   \}
 Plug 'csscomb/vim-csscomb', {'do': 'npm install -g csscomb'}
 
