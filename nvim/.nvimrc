@@ -3,6 +3,8 @@ exec "so" dotfiles . '/nvim/settings.vim'
 exec "so" dotfiles . '/nvim/plugins.vim'
 exec "so" dotfiles . '/nvim/utils.vim'
 
+set updatetime=750
+
 " Update colorscheme based on dark/light interface style
 let g:colorschemeDark  = 'nord'
 let g:colorschemeLight = 'nord-light'
@@ -18,7 +20,7 @@ let mapleader = " "
 noremap <leader>vt gt
 noremap <leader>vT gT
 noremap <leader>vtn :tabew<CR>
-noremap <leader>ve :tabnew<CR>:e ~/.dotfiles/.nvimrc<CR>
+noremap <leader>ve :tabnew<CR>:e ~/.dotfiles/nvim/.nvimrc<CR>
 noremap <leader>vR :so ~/.config/nvim/init.vim<CR>
 noremap <leader>vh :vnew<CR>:r !grep -rh map ~/.dotfiles/.nvimrc<CR>:setf vim<CR>
 noremap <leader>vw :w<CR>

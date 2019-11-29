@@ -48,9 +48,6 @@ let s:nord13_term = "3"
 let s:nord14_term = "2"
 let s:nord15_term = "5"
 
-if !exists('g:nord_italic_comments')
-  let g:nord_italic_comments = 0
-endif
 
 function! s:hi(group, guifg, guibg, ctermfg, ctermbg, attr, guisp)
   let l:attr = a:attr
@@ -127,14 +124,14 @@ call s:hi("ErrorMsg", s:nord4_gui, s:nord11_gui, "NONE", s:nord11_term, "", "")
 call s:hi("ModeMsg", s:nord4_gui, "", "", "", "", "")
 call s:hi("MoreMsg", s:nord4_gui, "", "", "", "", "")
 call s:hi("Question", s:nord4_gui, "", "NONE", "", "", "")
-call s:hi("StatusLine", s:nord4_gui, s:nord0_gui, s:nord8_term, s:nord1_term, "NONE", "")
-call s:hi("StatusLineNC", s:nord4_gui, s:nord0_gui, s:nord8_term, "NONE", "NONE", "")
+call s:hi("StatusLine", s:nord4_gui, s:nord0_gui, s:nord1_term, s:nord15_term, "NONE", "")
+call s:hi("StatusLineNC", s:nord4_gui, s:nord0_gui, s:nord10_term, "NONE", "NONE", "")
 call s:hi("WarningMsg", s:nord0_gui, s:nord13_gui, s:nord1_term, s:nord13_term, "", "")
 call s:hi("WildMenu", s:nord8_gui, s:nord3_gui, s:nord8_term, s:nord3_term, "", "")
 
 "+--- Search ---+
 call s:hi("IncSearch", s:nord1_gui, s:nord8_gui, s:nord1_term, s:nord8_term, "underline", "")
-call s:hi("Search", s:nord1_gui, s:nord8_gui, s:nord1_term, s:nord8_term, "NONE", "")
+call s:hi("Search", s:nord1_gui, s:nord8_gui, s:nord1_term, s:nord15_term, "NONE", "")
 
 "+--- Tabs ---+
 call s:hi("TabLine", s:nord4_gui, s:nord1_gui, "NONE", s:nord1_term, "NONE", "")
@@ -377,15 +374,17 @@ hi! link yamlDocumentStart Keyword
 "+--- UI ---+
 " ALE
 " > w0rp/ale
-call s:hi("ALEWarningSign", s:nord13_gui, "", s:nord13_term, "", "", "")
-call s:hi("ALEErrorSign" , s:nord11_gui, "", s:nord11_term, "", "", "")
+call s:hi("ALEWarningSign", s:nord13_gui, "", s:nord1_term, s:nord13_term, "", "")
+call s:hi("ALEErrorSign" , s:nord11_gui, "", s:nord1_term, s:nord11_term, "", "")
+
+" asd
 
 " GitGutter
 " > airblade/vim-gitgutter
-call s:hi("GitGutterAdd", s:nord14_gui, "", s:nord14_term, "", "", "")
-call s:hi("GitGutterChange", s:nord13_gui, "", s:nord13_term, "", "", "")
-call s:hi("GitGutterChangeDelete", s:nord11_gui, "", s:nord11_term, "", "", "")
-call s:hi("GitGutterDelete", s:nord11_gui, "", s:nord11_term, "", "", "")
+call s:hi("GitGutterAdd", s:nord14_gui, "", s:nord14_term, s:nord14_term, "", "")
+call s:hi("GitGutterChange", s:nord13_gui, "", s:nord8_term, s:nord8_term, "", "")
+call s:hi("GitGutterChangeDelete", s:nord11_gui, "", s:nord15_term, s:nord15_term, "", "")
+call s:hi("GitGutterDelete", s:nord11_gui, "", s:nord15_term, s:nord15_term, "", "")
 
 " davidhalter/jedi-vim
 call s:hi("jediFunction", s:nord4_gui, s:nord3_gui, "", s:nord3_term, "", "")
@@ -394,6 +393,7 @@ call s:hi("jediFat", s:nord8_gui, s:nord3_gui, s:nord8_term, s:nord3_term, "bold
 " NERDTree
 " > scrooloose/nerdtree
 call s:hi("NERDTreeExecFile", s:nord7_gui, "", s:nord7_term, "", "", "")
+call s:hi("NERDTreeDir", "", "", s:nord7_term, "", "", "")
 hi! link NERDTreeDirSlash Keyword
 hi! link NERDTreeHelp Comment
 
@@ -412,3 +412,5 @@ hi! link jsFuncParens Delimiter
 hi! link jsNoise Delimiter
 hi! link jsPrototype Keyword
 hi! link jsRegexpString SpecialChar
+
+

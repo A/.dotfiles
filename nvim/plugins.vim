@@ -80,7 +80,7 @@ Plug 'ryanoasis/vim-devicons'
   let g:NERDTreeDirArrowCollapsible = "\u00a0"
 Plug 'chrisbra/Colorizer'
 Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline-themes'
   set laststatus=2
   let g:airline_left_sep = ''
   let g:airline_right_sep = ''
@@ -129,6 +129,8 @@ Plug 'alvan/vim-closetag'
     \ 'javascript.jsx': 'jsxRegion',
     \ }
 Plug 'dense-analysis/ale'
+  let g:ale_sign_error = ' '
+  let g:ale_sign_warning = ' '
   let g:airline#extensions#ale#enabled = 1
   let g:ale_open_list = 0
   let g:ale_list_window_size = 5

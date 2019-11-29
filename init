@@ -1,19 +1,18 @@
 #!/bin/bash
 
-export DOTFILES=$HOME/.dotfiles
+DOTFILES=$HOME/.dotfiles;
 
-ln -s $DOTFILES/.emotions    $HOME/.emotions
-ln -s $DOTFILES/.gitconfig   $HOME/.gitconfig
-ln -s $DOTFILES/.gitignore   $HOME/.gitignore
-ln -s $DOTFILES/.irssi       $HOME/.irssi
-ln -s $DOTFILES/.jshintrc    $HOME/.jshintrc
-ln -s $DOTFILES/.npmrc       $HOME/.npmrc
-ln -s $DOTFILES/.ackrc       $HOME/.ackrc
-ln -s $DOTFILES/.search      $HOME/.search
-ln -s $DOTFILES/.tmux.conf   $HOME/.tmux.conf
-ln -s $DOTFILES/.tmuxinator  $HOME/.tmuxinator
-ln -s $DOTFILES/.vimrc       $HOME/.vimrc
-ln -s $DOTFILES/.ctags       $HOME/.ctags
-mkdir -p $HOME/.config/nvim
-ln -s $DOTFILES/.nvimrc      $HOME/.config/nvim/init.vim
-ln -s $DOTFILES/.zshrc       $HOME/.zshrc
+# Install brew
+# if type brew &>/dev/null; then
+#   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# fi
+
+
+$DOTFILES/bin/create_symlink "$1" "$DOTFILES/zsh/.zshrc"             "$HOME/.zshrc"
+$DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.gitconfig"     "$HOME/.gitconfig"
+$DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.npmrc"         "$HOME/.npmrc"
+$DOTFILES/bin/create_symlink "$1" "$DOTFILES/tmux/tmux.conf"         "$HOME/.tmux.conf"
+$DOTFILES/bin/create_symlink "$1" "$DOTFILES/nvim/.nvimrc"           "$HOME/.config/nvim/init.vim"
+$DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.ackrc"         "$HOME/.ackrc"
+$DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.ctags"         "$HOME/.ctags"
+$DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.emotions"      "$HOME/.emotions"
