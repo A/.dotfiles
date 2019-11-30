@@ -13,31 +13,31 @@ if version > 580
   endif
 endif
 
-let g:colors_name = "nord"
+let g:colors_name = "trash-polka"
 let s:nord_vim_version="0.6.0"
-set background=light
+set background=dark
 
 let s:color_bg          = "NONE"
-let s:color_bg_alt      = "254"
-let s:color_bg_accent   = "12"
+let s:color_bg_alt      = "0"
+let s:color_bg_accent   = "5"
 
-let s:color_primary     = "241"
-let s:color_secondary   = "249"
-let s:color_accent      = "160"
+let s:color_primary     = "7"
+let s:color_secondary   = "8"
+let s:color_accent      = "9"
 
-let s:color_syntax_a    = "242"
-let s:color_syntax_b    = "12"
-let s:color_syntax_c    = "204"
-let s:color_syntax_d    = "249"
+let s:color_syntax_a    = "7"
+let s:color_syntax_b    = "4"
+let s:color_syntax_c    = "1"
+let s:color_syntax_d    = "8"
 
-let s:color_success     = "34"
+let s:color_success     = "2"
 let s:color_warn        = "3"
 let s:color_info        = "12"
 let s:color_error       = "204"
 
-let s:color_gadd        = "34"
-let s:color_gchange     = "3"
-let s:color_gdelete     = "204"
+let s:color_gadd        = "22"
+let s:color_gchange     = "144"
+let s:color_gdelete     = "235"
 
 
 function! s:hl(group, ctermfg, ctermbg, attr)
@@ -364,9 +364,11 @@ call s:hl("ALEErrorSign", s:color_error, s:color_error, "")
 
 " NERDTree
 " > scrooloose/nerdtree
+call s:hl("NERDTreeCWD", s:color_primary, "NONE", "bold")
 hi! link NERDTreeFile String
 hi! link NERDTreeDir String
-hi! link NERDTreeExecFile Comment
+hi! link NERDTreeFlags NERDTreeDir
+hi! link NERDTreeExecFile String
 hi! link NERDTreeDirSlash Comment
 hi! link NERDTreeHelp Comment
 

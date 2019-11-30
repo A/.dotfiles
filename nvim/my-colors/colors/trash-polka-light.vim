@@ -13,26 +13,31 @@ if version > 580
   endif
 endif
 
-let g:colors_name = "nord"
+let g:colors_name = "trash-polka-light"
 let s:nord_vim_version="0.6.0"
-set background=dark
+set background=light
 
 let s:color_bg          = "NONE"
-let s:color_bg_alt      = "0"
-let s:color_bg_accent   = "5"
+let s:color_bg_alt      = "15"
+let s:color_bg_accent   = "4"
 
-let s:color_primary     = "7"
-let s:color_secondary   = "8"
+let s:color_primary     = "8"
+let s:color_secondary   = "7"
 let s:color_accent      = "9"
 
-let s:color_syntax_a    = "7"
+let s:color_syntax_a    = "8"
 let s:color_syntax_b    = "4"
 let s:color_syntax_c    = "1"
-let s:color_syntax_d    = "102"
+let s:color_syntax_d    = "7"
 
-let s:color_gadd        = "22"
-let s:color_gchange     = "144"
-let s:color_gdelete     = "235"
+let s:color_error       = "9"
+let s:color_success     = "10"
+let s:color_warn        = "11"
+let s:color_info        = "12"
+
+let s:color_gdelete     = "1"
+let s:color_gadd        = "2"
+let s:color_gchange     = "3"
 
 
 function! s:hl(group, ctermfg, ctermbg, attr)
@@ -133,9 +138,9 @@ call s:hl("String", s:color_syntax_a, "", "")
 call s:hl("Label", s:color_syntax_a, "", "")
 call s:hl("PreProc", s:color_syntax_b, "", "")
 call s:hl("Type", s:color_syntax_c, "", "")
-call s:hl("Todo", s:color_bg_alt, s:color_warn, "")
+call s:hl("Todo", s:color_syntax_a, s:color_warn, "")
 
-call s:hl("Identifier", s:color_syntax_b, "", "bold")
+call s:hl("Identifier", s:color_syntax_b, "", "NONE")
 call s:hl("Conditional", s:color_syntax_b, "", "")
 call s:hl("Delimiter", s:color_syntax_a, "", "")
 call s:hl("Function", s:color_syntax_a, "", "")
@@ -359,9 +364,11 @@ call s:hl("ALEErrorSign", s:color_error, s:color_error, "")
 
 " NERDTree
 " > scrooloose/nerdtree
+call s:hl("NERDTreeCWD", s:color_primary, "NONE", "bold")
 hi! link NERDTreeFile String
 hi! link NERDTreeDir String
-hi! link NERDTreeExecFile Comment
+hi! link NERDTreeExecFile String
+hi! link NERDTreeFlags NERDTreeDir
 hi! link NERDTreeDirSlash Comment
 hi! link NERDTreeHelp Comment
 

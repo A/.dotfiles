@@ -85,6 +85,7 @@ Plug 'bling/vim-airline'
   let g:airline_left_sep = ''
   let g:airline_right_sep = ''
   let g:airline#extensions#tabline#enabled = 0
+  let g:airline#extensions#nerdtree_status = 0
   let g:airline#extensions#tabline#fnamemod = ':t'
   let g:airline_section_y = ''
 Plug 'tomtom/tcomment_vim'
