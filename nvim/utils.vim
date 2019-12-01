@@ -8,8 +8,8 @@ autocmd BufReadPost *
 " let g:colorschemeDark  = 'nord'
 " let g:colorschemeLight = 'nord-light'
 
+" TODO: Do not update if current theme is still valid
 function! SetBackgroundMode(...)
-  " dark mode enabled?
   if system("defaults read -g AppleInterfaceStyle") =~ '^Dark'
     execute "colorscheme ". g:colorschemeDark
   else

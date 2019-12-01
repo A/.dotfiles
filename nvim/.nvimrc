@@ -3,16 +3,9 @@ exec "so" dotfiles . '/nvim/settings.vim'
 exec "so" dotfiles . '/nvim/plugins.vim'
 exec "so" dotfiles . '/nvim/utils.vim'
 
-set updatetime=750
-
-" Update colorscheme based on dark/light interface style
-let g:colorschemeDark  = 'trash-polka'
-let g:colorschemeLight = 'trash-polka-light'
-let g:airline_theme = 'monochrome'
 
 call SetBackgroundMode()
 call timer_start(3000, "SetBackgroundMode", {"repeat": -1})
-
 
 let mapleader = " "
 
@@ -80,4 +73,10 @@ noremap <C-j> <C-W>j
 noremap <C-k> <C-W>k
 noremap <C-h> <C-W>h
 noremap <C-l> <C-W>l
+
+
+" nnoremap <silent> <Left> :TmuxNavigateLeft<CR>
+" nnoremap <silent> <Down> :TmuxNavigateDown<CR>
+" nnoremap <silent> <Up> :TmuxNavigateUp<CR>
+" nnoremap <silent> <Right> :TmuxNavigateRight<CR>
 

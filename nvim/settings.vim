@@ -12,6 +12,7 @@ set clipboard=unnamedplus
 set backspace=2
 set mouse=a
 set expandtab
+set ignorecase
 set autoindent
 set tabstop=2
 set smartindent
@@ -24,6 +25,7 @@ set scrolloff=8             " Start scrolling when we're 8 lines away from margi
 set list              " show invisibles
 set lcs=eol:· " Use the same symbols as TextMate for tabstops and EOLs
 set cursorline
+set showtabline=0
 
 au InsertEnter * set nocursorline
 au InsertLeave * set cursorline
@@ -31,3 +33,12 @@ au InsertLeave * set cursorline
 highlight LineNr ctermfg=grey
 highlight CursorLineNR ctermbg=DarkGray ctermfg=None
 highlight CursorLine ctermbg=DarkGray ctermfg=None
+
+
+set updatetime=750
+
+" Update colorscheme based on dark/light interface style
+let g:colorschemeDark  = 'trash-polka'
+let g:colorschemeLight = 'trash-polka-light'
+let g:airline_theme = 'monochrome'
+
