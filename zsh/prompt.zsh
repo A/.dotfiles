@@ -22,6 +22,7 @@ local pmt_status=" %{$fg[blue]%}%(?::${pmt_err})❯%{$reset_color%} "
 
 # show user@host if ssh
 [[ "$SSH_CONNECTION" != '' ]] && pmt_user="%n%{$fg_no_bold[blue]%}@%m%{$reset_color%} "
+current_dir="%{$fg[blue]%}%{$reset_color%} %2d% "
 
 # render prompt
-PROMPT='${pmt_user}%~%{$fg_bold[blue]%}${vcs_info_msg_0_}$(git_dirty)%{$reset_color%}${pmt_status}'
+PROMPT='${pmt_user}${current_dir}%{$fg_bold[blue]%}${vcs_info_msg_0_}$(git_dirty)%{$reset_color%}${pmt_status}'
