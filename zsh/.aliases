@@ -11,7 +11,7 @@ alias vi='nvim'
 alias eav="sudo emerge -av"
 
 # Shell
-alias la="ls -halk"
+alias la="exa -al"
 alias ..='cd ..;' # can then do .. .. .. to move up multiple directories.
 alias ...='.. ..'
 alias md='mkdir -p'
