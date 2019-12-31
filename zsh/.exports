@@ -53,5 +53,8 @@ export PATH=$PATH:/Users/anton.shuvalov/Library/Python/3.7/bin
 # Ali
 export PATH=~/.lzd/ak/pha-all/arcanist/bin:$PATH
 
+# Cheatsheets
+export CHEAT_CONFIG_PATH="~/.dotfiles/cheat/conf.yml"
+
 # AWS Quoine
 export AWS_SDK_LOAD_CONFIG=true
