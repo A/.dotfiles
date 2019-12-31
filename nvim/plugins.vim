@@ -9,11 +9,31 @@ so ~/.config/nvim/plug.vim
 
 call plug#begin('~/.vim/plugged')
 
+  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+  Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
+  Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
+  " Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'}
+  " Plug 'neoclide/coc-eslint', {'do': 'yarn install --frozen-lockfile'}
+  Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
+  Plug 'neoclide/coc-lists', {'do': 'yarn install --frozen-lockfile'} " mru and stuff
+  Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'} " color highlighting
+
   Plug 'HerringtonDarkholme/yats.vim' " Yet Another TS Syntax Plugin
-  Plug 'Shougo/deoplete.nvim' " Dark powered asynchronous completion framework for neovim/Vim8
-    let g:deoplete#enable_at_startup = 1
+  Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+    exec "so" dotfiles . '/nvim/plugin-settings/nvim-typescript.vim'
+    autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
+
+
+  " Core
+  " Plug 'Shougo/deoplete.nvim' " Dark powered asynchronous completion framework for neovim/Vim8
+  "   let g:deoplete#enable_at_startup = 1
   Plug 'Shougo/denite.nvim' " Dark powered asynchronous unite all interfaces for Neovim/Vim8
-    exec "so" dotfiles . '/nvim/plugin-settings/denite.vim'
+
+  " Syntax
+  Plug 'tpope/vim-markdown'
+    let g:markdown_fenced_languages = ['css', 'javascript', 'js=javascript', 'json=javascript', 'typescript', 'tsx=typescriptreact', 'xml']
+
+
   Plug 'ctrlpvim/ctrlp.vim'
     exec "so" dotfiles . '/nvim/plugin-settings/ctrlp.vim'
   Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}} " Freaky fast fuzzy Denite/CtrlP matcher for vim/neovim
@@ -44,9 +64,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'pocari/vim-denite-gists'
   Plug 'rstacruz/vim-hyperstyle'
   Plug 'chemzqm/denite-git'
-  Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-    exec "so" dotfiles . '/nvim/plugin-settings/nvim-typescript.vim'
-    autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
   Plug 'mhinz/vim-startify'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'janko/vim-test'
@@ -55,7 +72,11 @@ call plug#begin('~/.vim/plugged')
     exec "so" dotfiles . '/nvim/plugin-settings/ale.vim'
   Plug 'csscomb/vim-csscomb', {'do': 'npm install -g csscomb'}
   Plug 'drzel/vim-line-no-indicator'
+  Plug 'dominikduda/vim_es7_javascript_react_snippets'
 
-  Plug '~/.dotfiles/nvim/local-plugins/vim-trash-polka'
+  " Plug 'a/vim-trash-polka'
+  Plug './local-plugins/vim-trash-polka'
 
 call plug#end()
+
+exec "so" dotfiles . '/nvim/plugin-settings/denite.vim'

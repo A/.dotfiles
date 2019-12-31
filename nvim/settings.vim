@@ -26,19 +26,15 @@ set list              " show invisibles
 set lcs=eol:· " Use the same symbols as TextMate for tabstops and EOLs
 set cursorline
 set showtabline=0
+set splitbelow
+set splitright
 
 au InsertEnter * set nocursorline
 au InsertLeave * set cursorline
-
-highlight LineNr ctermfg=grey
-highlight CursorLineNR ctermbg=DarkGray ctermfg=None
-highlight CursorLine ctermbg=DarkGray ctermfg=None
-
 
 set updatetime=750
 
 " Update colorscheme based on dark/light interface style
 let g:colorschemeDark  = 'trash-polka'
 let g:colorschemeLight = 'trash-polka-light'
-let g:airline_theme = 'monochrome'
-
+let g:airline_theme = 'trashpolka'

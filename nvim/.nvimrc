@@ -15,30 +15,29 @@ noremap <leader>vT gT
 noremap <leader>vtn :tabew<CR>
 noremap <leader>ve :tabnew<CR>:e ~/.dotfiles/nvim/.nvimrc<CR>
 noremap <leader>vR :so ~/.config/nvim/init.vim<CR>
-noremap <leader>vh :vnew<CR>:r !grep -rh map ~/.dotfiles/.nvimrc<CR>:setf vim<CR>
 noremap <leader>vw :w<CR>
 noremap <leader>vq :q<CR>
 noremap <leader>vsv :vsp<CR>
 noremap <leader>vsh :sp<CR>
 noremap <leader>vc :Denite colorscheme<CR>
+noremap <leader>vv :vsp<CR>
+noremap <leader>vh :sp<CR>
 
 " Code
 noremap <leader>cc :TComment<CR>
 noremap <leader>cC :TCommentInline<CR>
-noremap <leader>co :Denite outline<CR>
-noremap <leader>ct :CloseIt<CR>
+nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
 noremap <leader>cE <Plug>(ale_previous_wrap)
 noremap <leader>ce <Plug>(ale_next_wrap)
+nmap    <leader>cr  <Plug>(coc-rename)
 
-" JS/TS:
-noremap <leader>jt :TSType<CR>
-noremap <leader>jd :ALEGoToDefinition<CR>
-noremap <leader>jr :ALEFindReferences<CR>
-noremap <leader>jc :ImportCost<CR>
-noremap <leader>jr :ALEFindReferences<CR>
-" noremap <leader>jt :TestNearest<CR>
-" noremap <leader>jT :TestVisit<CR>
-
+" Go To
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> K :call ShowDocumentation()<CR>
+nnoremap <silent> gh :call ShowDocumentation()<CR>
+nnoremap <silent> go :execute OpenBrowserSearch(expand("<cword>"))<CR> " TODO: Why <Plug>(openbrowser-smart-search) is not working?
 
 " Files
 noremap <leader>ft :NERDTreeToggle<CR>
@@ -60,23 +59,11 @@ noremap <leader>gl :Denite gitlog:all<CR>
 noremap <leader>gs :Denite gitstatus<CR>
 noremap <leader>gb :Denite gitbranch<CR>
 
-" Help / Utils
-noremap <leader>hs :execute OpenBrowserSearch(expand("<cword>"))<CR> " TODO: Why <Plug>(openbrowser-smart-search) is not working?
 
+" use S-Arrow keys to navigate both vim and tmux windows
+nnoremap <silent> <S-Left> :TmuxNavigateLeft<CR>
+nnoremap <silent> <S-Down> :TmuxNavigateDown<CR>
+nnoremap <silent> <S-Up> :TmuxNavigateUp<CR>
+nnoremap <silent> <S-Right> :TmuxNavigateRight<CR>
 
-" use arrow key to navigate windows
-noremap <Down> <C-W>j
-noremap <Up> <C-W>k
-noremap <Left> <C-W>h
-noremap <Right> <C-W>l
-noremap <C-j> <C-W>j
-noremap <C-k> <C-W>k
-noremap <C-h> <C-W>h
-noremap <C-l> <C-W>l
-
-
-" nnoremap <silent> <Left> :TmuxNavigateLeft<CR>
-" nnoremap <silent> <Down> :TmuxNavigateDown<CR>
-" nnoremap <silent> <Up> :TmuxNavigateUp<CR>
-" nnoremap <silent> <Right> :TmuxNavigateRight<CR>
-
+imap <C-e> <Plug>(coc-snippets-expand-jump)
