@@ -5,8 +5,8 @@ normal=$(tput sgr0)
 tmp=`echo "/tmp/response-time-log-$(date +'%T')" | sed 's/:/-/g'`
 echo '' > $tmp
 
-INTERVAL=5;
-ONLY_LAST=20;
+INTERVAL=15;
+ONLY_LAST=15;
 
 case "$1" in
   -h|--help)
@@ -28,7 +28,7 @@ case "$1" in
         clear;
         echo -e "${bold}# Response Time for $1 ${normal}";
         cat $tmp | tail -n ${ONLY_LAST} | termgraph --color blue;
-        sleep INTERVAL;
+        echo `sleep ${INTERVAL}`;
     done
     ;;
 esac
