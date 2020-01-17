@@ -1,0 +1,30 @@
+#!/bin/bash
+
+bold=$(tput bold)
+normal=$(tput sgr0)
+tmp=`echo "/tmp/response-time-log-$(date +'%T')" | sed 's/:/-/g'`
+echo '' > $tmp
+
+case "$1" in
+  -h|--help)
+    echo "${bold}Response Time:${normal}"
+    echo ""
+    echo "Pretty simple wrapper that pings given http endpoint and draws a chart of response times"
+    echo "{bold}Usage:${normal}"
+    echo ""
+    echo "response-time ${curl_args}"
+    exit 0
+    ;;
+  *)
+    while true;
+      do
+        line=`curl "$@" -s -o /dev/null -w  "%{time_starttransfer}" | \
+        xargs  echo "$(date +'%T')"`;
+        echo "$line" >> $tmp;
+        clear;
+        echo -e "${bold}# Response Time for $1 ${normal}";
+        cat $tmp | tail -n 20  | termgraph --color blue;
+        sleep 5;
+    done
+    ;;
+esac
