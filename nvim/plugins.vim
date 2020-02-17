@@ -73,6 +73,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'csscomb/vim-csscomb', {'do': 'npm install -g csscomb'}
   Plug 'drzel/vim-line-no-indicator'
   Plug 'dominikduda/vim_es7_javascript_react_snippets'
+  Plug 'rstacruz/vim-closer'
 
   " Plug 'a/vim-trash-polka'
   Plug './local-plugins/vim-trash-polka'

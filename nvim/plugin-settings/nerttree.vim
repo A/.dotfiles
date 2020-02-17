@@ -19,4 +19,4 @@ let g:NERDTreeMapPreview="<F3>"
 " Fix navigation with tmux-vim
 let g:NERDTreeMapJumpPrevSibling=""
 let g:NERDTreeMapJumpNextSibling=""
-let g:NERDTreeWinPos = "right"
+let g:NERDTreeWinPos = "left"
