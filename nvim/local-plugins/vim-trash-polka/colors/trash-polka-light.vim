@@ -156,7 +156,7 @@ call s:hl("Typedef", s:color_syntax_b, "", "")
 hi! link Macro Define
 hi! link PreCondit PreProc
 
-" CSS 
+" CSS
 
 call s:hl("cssDefinition", s:color_syntax_a, "", "bold")
 call s:hl("cssAttr", s:color_syntax_a, "", "bold")
@@ -180,7 +180,7 @@ hi! link diffRemoved Error
 hi! link DiffAdd Success
 hi! link DiffChange Warn
 hi! link DiffDelete Error
-hi! link DiffText String 
+hi! link DiffText String
 
 hi! link htmlLink String
 hi! link htmlArg Type
@@ -238,7 +238,7 @@ hi! link javaScriptBraces Delimiter
 hi! link javaScriptIdentifier Keyword
 hi! link javaScriptNumber Number
 
-hi! link jsonKeyword Keyword
+hi! link jsonKeyword Identifier
 
 hi! link lessClass Keyword
 hi! link lessAmpersand Keyword

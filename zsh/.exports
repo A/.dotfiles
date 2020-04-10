@@ -58,3 +58,7 @@ export CHEAT_CONFIG_PATH="~/.dotfiles/cheat/conf.yml"
 
 # AWS Quoine
 export AWS_SDK_LOAD_CONFIG=true
+
+# FZF
+export FZF_DEFAULT_COMMAND='ag -g ""'
+export NOTES_DIR=~/Notes/

@@ -15,7 +15,8 @@ export COMPLETION_WAITING_DOTS="true"
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=1"
 
 setopt inc_append_history
-plugins=(git osx npm github yarn zsh-autosuggestions)
+plugins=(git osx npm github yarn zsh-autosuggestions zsh-completions zsh-lerna)
+autoload -U compinit && compinit
 
 
 source $HOME/.oh-my-zsh/oh-my-zsh.sh

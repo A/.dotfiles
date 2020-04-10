@@ -27,6 +27,9 @@ alias cat_uncomment="_cat_uncommeneted"
 alias gcl="git clone"
 alias ghcl="github_clone"
 alias gtodo="git grep --color=always --no-index --exclude-standard --heading --break --ignore-case -e ' FIX: *' -e ' TODO: *' | sed -e 's/^[[:space:]]*//'"
+alias glg=" git log --pretty=format:'%Cblue%H%Creset: %s'"
+alias glgf="git log --pretty=format:'%<(20) %Cred%an%Creset %Cblue%H%Creset: %s'"
+alias clear=blank-page
 
 # Misc
 # alias serve="python -m SimpleHTTPServer"

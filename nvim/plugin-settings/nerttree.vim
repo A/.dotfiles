@@ -15,6 +15,7 @@ let g:NERDTreeMapOpenInTab="t"
 let NERDTreeHighlightCursorline=0
 let g:NERDTreeMapActivateNode="<F4>"
 let g:NERDTreeMapPreview="<F3>"
+let g:NERDTreeIgnore = ['^node_modules$']
 
 " Fix navigation with tmux-vim
 let g:NERDTreeMapJumpPrevSibling=""

@@ -34,10 +34,11 @@ call plug#begin('~/.vim/plugged')
     let g:markdown_fenced_languages = ['css', 'javascript', 'js=javascript', 'json=javascript', 'typescript', 'tsx=typescriptreact', 'xml']
 
 
-  Plug 'ctrlpvim/ctrlp.vim'
-    exec "so" dotfiles . '/nvim/plugin-settings/ctrlp.vim'
+  " Plug 'ctrlpvim/ctrlp.vim'
+  "   exec "so" dotfiles . '/nvim/plugin-settings/ctrlp.vim'
   Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}} " Freaky fast fuzzy Denite/CtrlP matcher for vim/neovim
     exec "so" dotfiles . '/nvim/plugin-settings/fruzzy.vim'
+  " Plug 'cocopon/vaffle.vim'
   Plug 'scrooloose/nerdtree'
   Plug 'Xuyuanp/nerdtree-git-plugin'
     exec "so" dotfiles . '/nvim/plugin-settings/nerttree.vim'
@@ -70,14 +71,13 @@ call plug#begin('~/.vim/plugged')
     exec "so" dotfiles . '/nvim/plugin-settings/vim-test.vim'
   Plug 'dense-analysis/ale'
     exec "so" dotfiles . '/nvim/plugin-settings/ale.vim'
-  Plug 'csscomb/vim-csscomb', {'do': 'npm install -g csscomb'}
   Plug 'drzel/vim-line-no-indicator'
   Plug 'dominikduda/vim_es7_javascript_react_snippets'
   Plug 'rstacruz/vim-closer'
 
-  " Plug 'a/vim-trash-polka'
-  Plug './local-plugins/vim-trash-polka'
-
+  Plug 'a/vim-trash-polka'
+  " Plug './local-plugins/vim-trash-polka'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 call plug#end()
 
 exec "so" dotfiles . '/nvim/plugin-settings/denite.vim'

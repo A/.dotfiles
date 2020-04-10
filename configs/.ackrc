@@ -3,6 +3,9 @@
 --ignore-dir=coverage
 --ignore-dir=.jest
 --ignore-dir=node_modules
+--ignore-dir=built
+--ignore-dir=.cache
+--ignore-dir=dist
 
 --ignore-file=match:/[.]log$/
 --ignore-file=match:/[.]lock$/

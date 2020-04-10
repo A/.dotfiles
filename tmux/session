@@ -1,0 +1,7 @@
+split-window -v -p 20
+split-window -h -p 50
+send-keys 'htop' C-m
+selectp -t 1
+split-window -h -p 20
+selectp -t 1
+send-keys 'blank-page' C-m

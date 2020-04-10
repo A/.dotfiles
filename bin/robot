@@ -1,0 +1,4 @@
+#/bin/bash
+
+clear
+echo -e "\033[1;35m${cat ~/.dotfiles/configs/.splitter}\033[0m"

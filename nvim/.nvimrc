@@ -4,8 +4,9 @@ exec "so" dotfiles . '/nvim/plugins.vim'
 exec "so" dotfiles . '/nvim/utils.vim'
 
 
-call SetBackgroundMode()
-call timer_start(3000, "SetBackgroundMode", {"repeat": -1})
+colorscheme trash-polka
+" call SetBackgroundMode()
+" call timer_start(3000, "SetBackgroundMode", {"repeat": -1})
 
 let mapleader = " "
 
@@ -35,6 +36,7 @@ nmap    <leader>cr  <Plug>(coc-rename)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gF :vsp<CR>gf
 nnoremap <silent> K :call ShowDocumentation()<CR>
 nnoremap <silent> gh :call ShowDocumentation()<CR>
 nnoremap <silent> go :execute OpenBrowserSearch(expand("<cword>"))<CR> " TODO: Why <Plug>(openbrowser-smart-search) is not working?
@@ -42,11 +44,12 @@ nnoremap <silent> go :execute OpenBrowserSearch(expand("<cword>"))<CR> " TODO: W
 " Files
 noremap <leader>ft :NERDTreeToggle<CR>
 noremap <leader>ff :NERDTreeFind<CR>
-noremap <leader>fg :Goyo<CR>
-noremap <leader>fp :CtrlP<CR>
-noremap <leader>fs :Denite grep<CR>
+noremap <leader>fG :Goyo<CR>
+noremap <leader>fp :FZF<CR>
+noremap <leader>fs :Vgrep
 noremap <leader>fS :DeniteCursorWord grep<CR>
 noremap <leader>fb :Denite buffer<CR>
+nnoremap <leader>fg :g//#<Left><Left>
 
 " Git
 noremap <leader>gb :ToggleBlameLine<CR>
@@ -65,5 +68,25 @@ nnoremap <silent> <S-Left> :TmuxNavigateLeft<CR>
 nnoremap <silent> <S-Down> :TmuxNavigateDown<CR>
 nnoremap <silent> <S-Up> :TmuxNavigateUp<CR>
 nnoremap <silent> <S-Right> :TmuxNavigateRight<CR>
+
+" Notes
+nnoremap <leader>ni :e $NOTES_DIR/index.md<CR>
+nnoremap <leader>nt :e $NOTES_DIR/ToDo/index.md<CR>
+
+" Make :grep use ripgrep
+if executable('rg')
+    set grepprg=rg\ --color=never\ --vimgrep
+endif
+command! -nargs=1 Ngrep grep "<args>" -g "*.md" $NOTES_DIR
+nnoremap <leader>ns :Ngrep<Space>
+
+" quickfix navigation
+nnoremap <leader><Right> :cn<CR>
+nnoremap <leader><Left> :cp<CR>
+nnoremap <leader><Down> :cw<CR>
+
+noautocmd vimgrep /{pattern}/gj `git ls-files`
+command! -nargs=1 Vgrep grep "<args>" ./**/*
+
 
 imap <C-e> <Plug>(coc-snippets-expand-jump)

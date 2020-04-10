@@ -29,12 +29,16 @@ set showtabline=0
 set splitbelow
 set splitright
 
+set path+=src/**,packages/**/src/**
+
 au InsertEnter * set nocursorline
 au InsertLeave * set cursorline
 
 set updatetime=750
 
 " Update colorscheme based on dark/light interface style
-let g:colorschemeDark  = 'trash-polka'
-let g:colorschemeLight = 'trash-polka-light'
 let g:airline_theme = 'trashpolka'
+" let g:colorschemeDark  = 'trash-polka'
+" let g:colorschemeLight = 'trash-polka-light'
+" call SetBackgroundMode()
+" call timer_start(3000, "SetBackgroundMode", {"repeat": -1})
