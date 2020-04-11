@@ -20,7 +20,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'HerringtonDarkholme/yats.vim' " Yet Another TS Syntax Plugin
   Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-    so plugin-settings/nvim-typescript.vim
+    so $DOTFILES/nvim/plugin-settings/nvim-typescript.vim
     autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
 
 
@@ -37,13 +37,13 @@ call plug#begin('~/.vim/plugged')
   " Plug 'ctrlpvim/ctrlp.vim'
   "   so ./plugin-settings/ctrlp.vim
   Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}} " Freaky fast fuzzy Denite/CtrlP matcher for vim/neovim
-    so ./plugin-settings/fruzzy.vim
+    so $DOTFILES/nvim/plugin-settings/fruzzy.vim
   " Plug 'cocopon/vaffle.vim'
   Plug 'scrooloose/nerdtree'
   Plug 'Xuyuanp/nerdtree-git-plugin'
-    so ./plugin-settings/nerttree.vim
+    so $DOTFILES/nvim/plugin-settings/nerttree.vim
   Plug 'junegunn/goyo.vim'
-    autocmd! User GoyoEnter set number
+    autocmd! User GoyoEnter
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
     set completeopt-=preview
@@ -52,10 +52,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'mtyn/polar'
   Plug 'arcticicestudio/nord-vim'
   Plug 'ryanoasis/vim-devicons'
-    so ./plugin-settings/devicons.vim
+    so $DOTFILES/nvim/plugin-settings/devicons.vim
   Plug 'chrisbra/Colorizer'
   Plug 'vim-airline/vim-airline'
-    so ./plugin-settings/airline.vim
+    so $DOTFILES/nvim/plugin-settings/airline.vim
   Plug 'tomtom/tcomment_vim'
   Plug 'editorconfig/editorconfig-vim'
     let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
@@ -67,9 +67,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'mhinz/vim-startify'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'janko/vim-test'
-    so ./plugin-settings/vim-test.vim
+    so $DOTFILES/nvim/plugin-settings/vim-test.vim
   Plug 'dense-analysis/ale'
-    so ./plugin-settings/ale.vim
+    so $DOTFILES/nvim/plugin-settings/ale.vim
   Plug 'drzel/vim-line-no-indicator'
   Plug 'dominikduda/vim_es7_javascript_react_snippets'
   Plug 'rstacruz/vim-closer'
@@ -79,4 +79,4 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 call plug#end()
 
-so ./plugin-settings/denite.vim
+so $DOTFILES/nvim/plugin-settings/denite.vim

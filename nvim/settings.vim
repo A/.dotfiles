@@ -28,22 +28,21 @@ set cursorline
 set showtabline=0
 set splitbelow
 set splitright
+set path+=src/**,packages/**/src/** " file search path
 
-set path+=src/**,packages/**/src/**
-
-so utils/ripgrep.vim
-so utils/return_to_last_position.vim
-so utils/show_documentation.vim
+so $DOTFILES/nvim/utils/ripgrep.vim
+so $DOTFILES/nvim/utils/return_to_last_position.vim
+so $DOTFILES/nvim/utils/show_documentation.vim
 
 au InsertEnter * set nocursorline
 au InsertLeave * set cursorline
-au BufRead,BufNewFile *.md setlocal textwidth=80
+au BufRead,BufNewFile *.md setlocal textwidth=80 | setlocal wrap
 
 " Make :grep use ripgrep
 command! -nargs=1 Ngrep grep "<args>" -g "*.md" $NOTES_DIR
 
 set updatetime=750
 
-so plugins.vim
+so $DOTFILES/nvim/plugins.vim
 
 let g:airline_theme = 'trashpolka'

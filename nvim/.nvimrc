@@ -3,8 +3,6 @@ exec "so" dotfiles . '/nvim/settings.vim'
 
 
 colorscheme trash-polka
-" call SetBackgroundMode()
-" call timer_start(3000, "SetBackgroundMode", {"repeat": -1})
 
 let mapleader = " "
 
