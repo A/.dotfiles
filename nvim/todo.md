@@ -1,11 +1,11 @@
-## Plugins
+## plugins
 
-- [ ] Coc — it has nice hover for TS and snippets
+- [ ] coc — it has nice hover for ts and snippets
 
 
-## Syntax
+## syntax
 
-CSS wrong syntax highlight:
+css wrong syntax highlight:
 
 ```css
 .button:not(:disabled):hover {
@@ -13,15 +13,15 @@ CSS wrong syntax highlight:
 }
 ```
 
-Shitty, that array keys aren't highlighted:
+shitty, that array keys aren't highlighted:
 
 ```js
-describe('Build Chart Data', () => {
+describe('build chart data', () => {
   it('should work', () => {
     const res = builder(data);
-    expect(res.length).toBe(365);
-    res['2019-11-06'].summary.toBe(650000);
-    res['2019-11-13'].summary.toBe(66000);
+    expect(res.length).tobe(365);
+    res['2019-11-06'].summary.tobe(650000);
+    res['2019-11-13'].summary.tobe(66000);
   });
 });
 ```

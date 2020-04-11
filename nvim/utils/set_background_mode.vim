@@ -1,13 +1,3 @@
-" Return to last edit position when opening files (You want this!)
-autocmd BufReadPost *
-  \ if line("'\"") > 0 && line("'\"") <= line("$") |
-  \   exe "normal! g`\"" |
-  \ endif
-
-
-" let g:colorschemeDark  = 'nord'
-" let g:colorschemeLight = 'nord-light'
-
 " TODO: Do not update if current theme is still valid
 let s:current_theme = ""
 
@@ -24,10 +14,11 @@ function! SetBackgroundMode(...)
 endfunction
 
 
-function! ShowDocumentation()
-  if &filetype == 'vim'
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
+""" Userland Code
+"
+" Update colorscheme based on dark/light interface style
+"
+" let g:colorschemeDark  = 'trash-polka'
+" let g:colorschemeLight = 'trash-polka-light'
+" call SetBackgroundMode()
+" call timer_start(3000, "SetBackgroundMode", {"repeat": -1})

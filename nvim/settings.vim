@@ -31,14 +31,19 @@ set splitright
 
 set path+=src/**,packages/**/src/**
 
+so utils/ripgrep.vim
+so utils/return_to_last_position.vim
+so utils/show_documentation.vim
+
 au InsertEnter * set nocursorline
 au InsertLeave * set cursorline
+au BufRead,BufNewFile *.md setlocal textwidth=80
+
+" Make :grep use ripgrep
+command! -nargs=1 Ngrep grep "<args>" -g "*.md" $NOTES_DIR
 
 set updatetime=750
 
-" Update colorscheme based on dark/light interface style
+so plugins.vim
+
 let g:airline_theme = 'trashpolka'
-" let g:colorschemeDark  = 'trash-polka'
-" let g:colorschemeLight = 'trash-polka-light'
-" call SetBackgroundMode()
-" call timer_start(3000, "SetBackgroundMode", {"repeat": -1})

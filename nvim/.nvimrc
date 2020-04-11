@@ -1,7 +1,5 @@
 let dotfiles=$DOTFILES
 exec "so" dotfiles . '/nvim/settings.vim'
-exec "so" dotfiles . '/nvim/plugins.vim'
-exec "so" dotfiles . '/nvim/utils.vim'
 
 
 colorscheme trash-polka
@@ -73,11 +71,6 @@ nnoremap <silent> <S-Right> :TmuxNavigateRight<CR>
 nnoremap <leader>ni :e $NOTES_DIR/index.md<CR>
 nnoremap <leader>nt :e $NOTES_DIR/ToDo/index.md<CR>
 
-" Make :grep use ripgrep
-if executable('rg')
-    set grepprg=rg\ --color=never\ --vimgrep
-endif
-command! -nargs=1 Ngrep grep "<args>" -g "*.md" $NOTES_DIR
 nnoremap <leader>ns :Ngrep<Space>
 
 " quickfix navigation
@@ -85,7 +78,7 @@ nnoremap <leader><Right> :cn<CR>
 nnoremap <leader><Left> :cp<CR>
 nnoremap <leader><Down> :cw<CR>
 
-noautocmd vimgrep /{pattern}/gj `git ls-files`
+" noautocmd vimgrep /{pattern}/gj `git ls-files`
 command! -nargs=1 Vgrep grep "<args>" ./**/*
 
 

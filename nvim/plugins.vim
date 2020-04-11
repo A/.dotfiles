@@ -1,7 +1,7 @@
 let dotfiles=$DOTFILES
 
-if !filereadable('~/.config/nvim/plug.vim')
-  silent !curl --insecure -fLo ~/.config/nvim/plug.vim
+if !filereadable('~/.config./plug.vim')
+  silent !curl --insecure -fLo ~/.config./plug.vim
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
@@ -20,7 +20,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'HerringtonDarkholme/yats.vim' " Yet Another TS Syntax Plugin
   Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-    exec "so" dotfiles . '/nvim/plugin-settings/nvim-typescript.vim'
+    so plugin-settings/nvim-typescript.vim
     autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
 
 
@@ -35,28 +35,27 @@ call plug#begin('~/.vim/plugged')
 
 
   " Plug 'ctrlpvim/ctrlp.vim'
-  "   exec "so" dotfiles . '/nvim/plugin-settings/ctrlp.vim'
+  "   so ./plugin-settings/ctrlp.vim
   Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}} " Freaky fast fuzzy Denite/CtrlP matcher for vim/neovim
-    exec "so" dotfiles . '/nvim/plugin-settings/fruzzy.vim'
+    so ./plugin-settings/fruzzy.vim
   " Plug 'cocopon/vaffle.vim'
   Plug 'scrooloose/nerdtree'
   Plug 'Xuyuanp/nerdtree-git-plugin'
-    exec "so" dotfiles . '/nvim/plugin-settings/nerttree.vim'
+    so ./plugin-settings/nerttree.vim
   Plug 'junegunn/goyo.vim'
     autocmd! User GoyoEnter set number
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
     set completeopt-=preview
   Plug 'airblade/vim-gitgutter'
-  Plug 'tveskag/nvim-blame-line'
   Plug 'rhysd/git-messenger.vim'
   Plug 'mtyn/polar'
   Plug 'arcticicestudio/nord-vim'
   Plug 'ryanoasis/vim-devicons'
-    exec "so" dotfiles . '/nvim/plugin-settings/devicons.vim'
+    so ./plugin-settings/devicons.vim
   Plug 'chrisbra/Colorizer'
   Plug 'vim-airline/vim-airline'
-    exec "so" dotfiles . '/nvim/plugin-settings/airline.vim'
+    so ./plugin-settings/airline.vim
   Plug 'tomtom/tcomment_vim'
   Plug 'editorconfig/editorconfig-vim'
     let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
@@ -68,16 +67,16 @@ call plug#begin('~/.vim/plugged')
   Plug 'mhinz/vim-startify'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'janko/vim-test'
-    exec "so" dotfiles . '/nvim/plugin-settings/vim-test.vim'
+    so ./plugin-settings/vim-test.vim
   Plug 'dense-analysis/ale'
-    exec "so" dotfiles . '/nvim/plugin-settings/ale.vim'
+    so ./plugin-settings/ale.vim
   Plug 'drzel/vim-line-no-indicator'
   Plug 'dominikduda/vim_es7_javascript_react_snippets'
   Plug 'rstacruz/vim-closer'
 
-  Plug 'a/vim-trash-polka'
-  " Plug './local-plugins/vim-trash-polka'
+  " Plug 'a/vim-trash-polka'
+  Plug '~/.dotfiles/nvim/local-plugins/vim-trash-polka'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 call plug#end()
 
-exec "so" dotfiles . '/nvim/plugin-settings/denite.vim'
+so ./plugin-settings/denite.vim

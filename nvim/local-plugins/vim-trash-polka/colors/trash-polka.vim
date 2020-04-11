@@ -63,7 +63,7 @@ call s:hl("Cursor", "", "NONE", "")
 call s:hl("CursorLine", "", s:color_bg_alt, "NONE")
 call s:hl("iCursor", "", "NONE", "")
 call s:hl("MatchParen", s:color_primary, s:color_bg_accent, "")
-call s:hl("NonText", s:color_secondary, "", "")
+call s:hl("NonText", s:color_bg_alt, "", "")
 call s:hl("SpecialKey", s:color_secondary, "", "")
 call s:hl("PMenu", "NONE", s:color_bg_alt, "")
 call s:hl("PmenuSbar", "NONE", s:color_bg_alt, "")
@@ -95,7 +95,7 @@ call s:hl("SignColumn", s:color_bg_alt, "NONE", "")
 call s:hl("Directory", s:color_primary, "NONE", "")
 
 "+--- Prompt/Status ---+
-call s:hl("EndOfBuffer", s:color_secondary, "NONE", "")
+call s:hl("EndOfBuffer", s:color_bg_alt, "NONE", "")
 call s:hl("ErrorMsg", "NONE", s:color_error, "")
 call s:hl("ModeMsg", "", "", "")
 call s:hl("MoreMsg", "", "", "")
@@ -156,7 +156,7 @@ call s:hl("Typedef", s:color_syntax_b, "", "")
 hi! link Macro Define
 hi! link PreCondit PreProc
 
-" CSS 
+" CSS
 
 call s:hl("cssDefinition", s:color_syntax_a, "", "bold")
 call s:hl("cssAttr", s:color_syntax_a, "", "bold")
@@ -180,7 +180,7 @@ hi! link diffRemoved Error
 hi! link DiffAdd Success
 hi! link DiffChange Warn
 hi! link DiffDelete Error
-hi! link DiffText String 
+hi! link DiffText String
 
 hi! link htmlLink String
 hi! link htmlArg Type
