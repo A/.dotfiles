@@ -1,3 +1,5 @@
+filetype plugin on
+
 let dotfiles=$DOTFILES
 exec "so" dotfiles . '/nvim/settings.vim'
 
@@ -66,18 +68,23 @@ nnoremap <silent> <S-Up> :TmuxNavigateUp<CR>
 nnoremap <silent> <S-Right> :TmuxNavigateRight<CR>
 
 " Notes
+nnoremap <leader>nc :Note<CR>
 nnoremap <leader>ni :e $NOTES_DIR/index.md<CR>
 nnoremap <leader>nt :e $NOTES_DIR/ToDo/index.md<CR>
+nnoremap <leader>mp :call mdip#MarkdownClipboardImage()<CR>
 
 nnoremap <leader>ns :Ngrep<Space>
 
 " quickfix navigation
 nnoremap <leader><Right> :cn<CR>
 nnoremap <leader><Left> :cp<CR>
-nnoremap <leader><Down> :cw<CR>
+
+command! -range Note call NotesCreate(<line1>, <line2>)
+command! Vlist botright vertical copen | vertical resize 50
+command! -nargs=1 Vgrep grep "<args>" ./**/*
+nnoremap <leader>l :Vlist<CR>
 
 " noautocmd vimgrep /{pattern}/gj `git ls-files`
-command! -nargs=1 Vgrep grep "<args>" ./**/*
 
 
 imap <C-e> <Plug>(coc-snippets-expand-jump)
