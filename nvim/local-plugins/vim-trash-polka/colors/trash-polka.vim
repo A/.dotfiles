@@ -254,27 +254,44 @@ hi! link lispFunc Function
 
 hi! link luaFunc Function
 
-call s:hl("markdownH1", s:color_primary, "", "bold")
+call s:hl("markdownHeader", s:color_primary, "", "bold")
 call s:hl("markdownUrl", s:color_info, "", "underline")
-hi! link markdownHeadingDelimiter String
-hi! link markdownHeadingDelimiter Comment
-hi! link markdownBlockquote Comment
+call s:hl("githubFlavoredMarkdownCode", s:color_error, s:color_bg_alt, "")
+
+hi! link markdownH2 markdownHeader
+hi! link markdownH3 markdownHeader
+hi! link markdownH4 markdownHeader
+hi! link markdownH5 markdownHeader
+hi! link markdownH6 markdownHeader
+
+hi! link markdownLinkUrl markdownUrl
+hi! link markdownLinkText String
+
+hi! link markdownItalic Bold
+
+hi! link markdownInlineDelimiter Comment
+hi! link markdownBoldDelimiter Comment
+
+hi! link markdownLinkTextContainer Comment
+hi! link markdownLinkUrlContainer Comment
+hi! link markdownItalicDelimiter Comment
+hi! link markdownBoldDelimiter Comment
+hi! link markdownItemDelimiter Comment
+
 hi! link markdownCodeDelimiter Comment
+hi! link markdownHeadingDelimiter Comment
+hi! link markdownIdDelimiter Comment
+hi! link markdownLinkTextDelimiter Comment
+hi! link markdownLinkDelimiter Comment
+hi! link markdownListMarker Comment
+
+hi! link markdownBlockquote Comment
 hi! link markdownFootnote Comment
 hi! link markdownId Comment
 hi! link markdownIdDeclaration Comment
-hi! link markdownLinkText String
 hi! link markdownFootnoteDefinition markdownFootnote
-hi! link markdownH2 markdownH1
-hi! link markdownH3 markdownH1
-hi! link markdownH4 markdownH1
-hi! link markdownH5 markdownH1
-hi! link markdownH6 markdownH1
-hi! link markdownIdDelimiter Comment
-hi! link markdownLinkDelimiter Comment
-hi! link markdownLinkTextDelimiter Comment
-hi! link markdownListMarker Comment
 hi! link markdownRule Comment
+
 
 hi! link perlPackageDecl Keyword
 hi! link phpDocTags Keyword
