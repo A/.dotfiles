@@ -2,9 +2,6 @@
 
 # Simple script's pulling given $UNSPLASH_COLLECTION to a directory defined by $UNSPLASH_DIR.
 # You need to add export your $UNSPLASH_TOKEN before use it
-
-
-
 mkdir -p $UNSPLASH_DIR
 
 URLS=`curl -s -H "Authorization: Client-ID $UNSPLASH_TOKEN" https://api.unsplash.com/collections/$UNSPLASH_COLLECTION/photos\?per_page\=30 | jq ".[] | .urls.full"`
@@ -20,5 +17,3 @@ for URL in $URLS; do
   fi
 done;
 echo 'done'
-
-# \/(photo[0-9a-f-]*)\?
