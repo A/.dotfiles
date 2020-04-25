@@ -3,7 +3,8 @@
 exec_always "killall polybar; polybar example"
 exec_always "touchpad-indicator"
 exec "compton --config=/home/a8ka/.config/compton/config"
-exec feh --bg-scale ~/Pictures/_wallpaper.png
+exec "rotate-wallpapers"
+# exec feh --bg-scale ~/Pictures/_wallpaper.png
 exec setxkbmap "us,ru" ",mac" "grp:caps_toggle,grp_led:caps"
 exec run_locker
 exec --no-startup-id nm-applet
@@ -13,7 +14,7 @@ exec --no-startup-id xclip
 ipc-socket ~/.i3/i3-ipc.sock
 
 
-font pango:System San Francisco Display 8
+font pango:Iosevka Term 8
 
 # Solarized
 set $color_base03  #1c1c1c
@@ -37,16 +38,16 @@ client.focused    $color_base02  $color_base02  $color_base3
 client.unfocused  $color_base00  $color_base00  $color_base2
 
 # gaps outer           0
-# gaps inner           8
+gaps inner           8
 focus_follows_mouse  no
 new_window pixel     3
 
 
 
 
-set $mod Mod1
+set $mod Mod4
 
-bindsym $mod+Shift+c reload 
+bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r Restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
@@ -119,7 +120,7 @@ bindsym $mod+Shift+9 move container to workspace 9
 
 bindsym $mod+Return exec i3-sensible-terminal
 # bindsym $mod+Return        exec xterm -ls -fs 20 -xrm 'XTerm*selectToClipboard: true'
-bindsym $mod+d             exec rofi -opacity "80" -font "System San Francisco Display 12" -show run
+bindsym $mod+d             exec rofi -opacity "80" -font "Iosevka 20" -show run
 bindsym $mod+z             exec gnome-screenshot
 bindsym $mod+Shift+z       exec gnome-screenshot -i
 bindsym $mod+Shift+Insert       exec i3lock -ue -i ~/Pictures/_wallpaper.png
@@ -141,13 +142,12 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #d
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 
+bindsym XF86MonBrightnessUp          exec light -A 5
+bindsym XF86MonBrightnessDown        exec light -U 5
+
 # bindsym XF86AudioRaiseVolume         exec amixer -q set Master 2dB+ unmute
 # bindsym XF86AudioLowerVolume         exec amixer -q set Master 2dB- unmute
 # bindsym XF86AudioMute                exec amixer -q set Master toggle
-bindsym XF86MonBrightnessUp          exec xbacklight -inc 5
-bindsym XF86MonBrightnessDown        exec xbacklight -dec 5
-bindsym Shift+XF86MonBrightnessUp    exec xbacklight -inc 1
-bindsym Shift+XF86MonBrightnessDown  exec xbacklight -dec 1
 # bindsym XF86TouchpadToggle         exec /some/path/toggletouchpad.sh # toggle touchpad
 # bindsym XF86AudioPlay              exec playerctl play
 # bindsym XF86AudioPause             exec playerctl pause

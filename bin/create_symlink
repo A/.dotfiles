@@ -8,8 +8,8 @@ OVERWRITE=0;
 if [ "$1" = "-f" ]; then 
   OVERWRITE=1;
 else 
-  SOURCE=$1
-  DEST=$2
+  SOURCE=$2
+  DEST=$3
 fi
 
 DIRNAME=$(dirname -- "$DEST")
