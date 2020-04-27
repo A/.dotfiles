@@ -29,6 +29,7 @@ set showtabline=0
 set splitbelow
 set splitright
 set path+=src/**,packages/**/src/** " file search path
+set spelllang=en_us,ru
 
 so $DOTFILES/nvim/utils/ripgrep.vim
 so $DOTFILES/nvim/utils/return_to_last_position.vim
