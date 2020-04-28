@@ -1,13 +1,44 @@
-#!/bin/sh
+#!/bin/bash
 
-# Simple script's pulling given $UNSPLASH_COLLECTION to a directory defined by $UNSPLASH_DIR.
-# You need to add export your $UNSPLASH_TOKEN before use it
+# Simple script's pulling given $UNSPLASH_COLLECTION to a given directory
+
+# Directory to save wallpapers to:
+if [ -z "$UNSPLASH_DIR" ]; then
+  echo '$UNSPLASH_DIR is not set';
+  exit 1;
+fi
+
+# Your token:
+if [ -z "$UNSPLASH_TOKEN" ]; then
+  echo '$UNSPLASH_TOKEN is not set';
+  exit 1;
+fi
+
+# Collection ID. Either an argument or env variable:
+if [ -z "$1" ]; then
+  COLLECTION=$UNSPLASH_COLLECTION
+else
+  COLLECTION=$1;
+fi
+
+if [ -z "$COLLECTION" ]; then
+  echo 'Collection is not defined. \nEither use `unsplash-wp <collectionID>` or define env `$UNSPLASH_COLLECTION`';
+  exit 1;
+fi
+
 mkdir -p $UNSPLASH_DIR
 
-URLS=`curl -s -H "Authorization: Client-ID $UNSPLASH_TOKEN" https://api.unsplash.com/collections/$UNSPLASH_COLLECTION/photos\?per_page\=30 | jq ".[] | .urls.full"`
+URLS=`curl -s -H "Authorization: Client-ID $UNSPLASH_TOKEN" https://api.unsplash.com/collections/$COLLECTION/photos\?per_page\=30 | jq ".[] | .urls.full"`
+
+if [ -z "$URLS" ]; then
+  echo "Empty collection: $COLLECTION";
+  exit 2;
+fi
+
 for URL in $URLS; do
   if [[ $URL =~ \/(photo.*)\? ]]; then
     NAME="${UNSPLASH_DIR}${BASH_REMATCH[1]}.jpg";
+    echo $NAME
     if test -f $NAME; then
       echo "File Exists: ${NAME}"
     else

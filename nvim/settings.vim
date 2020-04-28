@@ -1,6 +1,6 @@
 let g:python_host_prog = '/usr/local/bin/python2.7'
 let g:python2_host_prog = '/usr/local/bin/python2.7'
-let g:python3_host_prog = '/usr/local/bin/python3.7'
+let g:python3_host_prog = '/usr/local/bin/python3.8'
 
 " Behavior
 set nobackup
@@ -30,6 +30,7 @@ set splitbelow
 set splitright
 set wildignore+=package-lock.json,yarn.lock
 set path+=src/**,packages/**/src/** " file search path
+set spelllang=en_us,ru
 
 so $DOTFILES/nvim/utils/ripgrep.vim
 so $DOTFILES/nvim/utils/return_to_last_position.vim

@@ -7,6 +7,8 @@ DOTFILES=$HOME/.dotfiles;
 #   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 # fi
 
+echo $DOTFILES
+echo $HOME
 
 $DOTFILES/bin/create_symlink "$1" "$DOTFILES/zsh/.zshrc"             "$HOME/.zshrc"
 $DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.gitconfig"     "$HOME/.gitconfig"

@@ -1,6 +1,4 @@
 
-if [[ ! $(pgrep -f $DOTFILES/bin/iterm-theme) ]]; then
-  nohup $DOTFILES/bin/iterm-theme > /dev/null 2>&1 &
-fi
-
-
+# if [[ ! $(pgrep -f $DOTFILES/bin/iterm-theme) ]]; then
+#   nohup $DOTFILES/bin/iterm-theme > /dev/null 2>&1 &
+# fi

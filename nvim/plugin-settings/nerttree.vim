@@ -1,7 +1,6 @@
 " " Close tab if only nerdtree left
 autocmd VimEnter *
   \   if !argc()
-  \ |   Startify
   \ |   NERDTree
   \ |   wincmd w
   \ | endif

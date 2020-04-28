@@ -1,13 +1,15 @@
-let dotfiles=$DOTFILES
-
-if !filereadable('~/.config./plug.vim')
-  silent !curl --insecure -fLo ~/.config./plug.vim
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+let plug_install = 0
+let autoload_plug_path = stdpath('config') . '/autoload/plug.vim'
+if !filereadable(autoload_plug_path)
+    echo 123
+    silent exe '!curl -fL --create-dirs -o ' . autoload_plug_path .
+        \ ' https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+    execute 'source ' . fnameescape(autoload_plug_path)
+    let plug_install = 1
 endif
+unlet autoload_plug_path
 
-so ~/.config/nvim/plug.vim
-
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugins')
 
   Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
   Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
@@ -64,5 +66,10 @@ call plug#begin('~/.vim/plugged')
   Plug '~/.dotfiles/nvim/local-plugins/vim-trash-polka'
 
 call plug#end()
+
+if plug_install
+    PlugInstall --sync
+endif
+unlet plug_install
 
 so $DOTFILES/nvim/plugin-settings/denite.vim
