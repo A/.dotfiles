@@ -18,10 +18,10 @@ function! NotesCreate(...)
 
   exec "e " . l:fname
 
-  if len(selection) > 0
-    let selection = s:get_visual_selection()
-    exec "normal ggO" . l:selection . "\<cr>\<cr>\<esc>G"
-  endif
+  " let selection = s:get_visual_selection()
+  " if len(selection) > 0
+  "   exec "normal ggO" . l:selection . "\<cr>\<cr>\<esc>G"
+  " endif
 
   call inputrestore()
 endfunction

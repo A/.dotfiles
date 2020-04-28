@@ -2,10 +2,9 @@
 
 - [ ] coc — it has nice hover for ts and snippets
 
-
 ## syntax
 
-css wrong syntax highlight:
+css wrong `syntax` highlight:
 
 ```css
 .button:not(:disabled):hover {
@@ -15,7 +14,7 @@ css wrong syntax highlight:
 
 shitty, that array keys aren't highlighted:
 
-```js
+```javascript
 describe('build chart data', () => {
   it('should work', () => {
     const res = builder(data);

@@ -21,6 +21,7 @@ autoload -U compinit && compinit
 
 source $HOME/.oh-my-zsh/oh-my-zsh.sh
 
+source ~/.exports 
 source $ZSH_CONFIGS/.exports
 source $ZSH_CONFIGS/.aliases
 source $ZSH_CONFIGS/prompt.zsh

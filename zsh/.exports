@@ -62,3 +62,7 @@ export AWS_SDK_LOAD_CONFIG=true
 # FZF
 export FZF_DEFAULT_COMMAND='ag -g ""'
 export NOTES_DIR=~/Notes/
+
+# Unsplash
+export UNSPLASH_DIR=~/Wallpapers/
+export UNSPLASH_COLLECTION=8949349
