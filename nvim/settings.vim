@@ -1,6 +1,6 @@
 let g:python_host_prog = '/usr/local/bin/python2.7'
 let g:python2_host_prog = '/usr/local/bin/python2.7'
-let g:python3_host_prog = '/usr/local/bin/python3.8'
+let g:python3_host_prog = '/usr/bin/python3.8'
 
 " Behavior
 set nobackup
@@ -35,6 +35,10 @@ so $DOTFILES/nvim/utils/ripgrep.vim
 so $DOTFILES/nvim/utils/return_to_last_position.vim
 so $DOTFILES/nvim/utils/show_documentation.vim
 so $DOTFILES/nvim/utils/notes.vim
+
+" Remember folding through sessions
+au BufWinLeave * mkview
+au BufWinEnter * silent! loadview
 
 au InsertEnter * set nocursorline
 au InsertLeave * set cursorline

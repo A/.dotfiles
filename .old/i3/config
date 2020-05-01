@@ -1,8 +1,10 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-exec_always --no-startup-id "killall polybar; polybar example"
+exec_always --no-startup-id "killall polybar; polybar workspaces"
+exec_always --no-startup-id "polybar tray"
 exec_always --no-startup-id "killall compton; compton --config=/home/a8ka/.config/compton/compton.conf"
 exec_always --no-startup-id "killall touchegg; touchegg"
+exec_always --no-startup-id "killall dunst; dunst"
 exec_always --no-startup-id "killall rotate-wallpapers; /home/a8ka/.dotfiles/bin/rotate-wallpapers"
 exec_always --no-startup-id "killall thinkpad_x1_yoga_rotation; /home/a8ka/Dev/@github/thinkpad_x1_yoga_rotation/thinkpad_x1_yoga_rotation.py"
 
@@ -43,6 +45,9 @@ client.unfocused  $color_base00  $color_base00  $color_base2
 
 gaps outer           -10
 gaps inner           30
+gaps top             -30
+gaps bottom          -20
+
 focus_follows_mouse  no
 # new_window pixel     3
 
@@ -140,6 +145,8 @@ bindsym XF86MonBrightnessDown        exec light -U 1
 bindsym XF86AudioRaiseVolume         exec amixer -q set Master 2dB+ unmute
 bindsym XF86AudioLowerVolume         exec amixer -q set Master 2dB- unmute
 bindsym XF86AudioMute                exec amixer -q set Master toggle
+bindsym XF86AudioMicMute             exec "amixer sset 'Capture',0 toggle"
+
 # bindsym XF86TouchpadToggle         exec /some/path/toggletouchpad.sh # toggle touchpad
 # bindsym XF86AudioPlay              exec playerctl play
 # bindsym XF86AudioPause             exec playerctl pause

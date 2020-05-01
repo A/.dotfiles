@@ -53,7 +53,7 @@ call s:hl("Underline", "", "", "underline")
 call s:hl("Success", s:color_success, "", "")
 call s:hl("Warn", s:color_warn, "", "")
 call s:hl("Info", s:color_info, "", "")
-call s:hl("Error", s:color_error, "NONE", "")
+call s:hl("Error", s:color_error, "", "")
 
 "+--- Editor ---+
 call s:hl("Normal", "NONE", s:color_bg, "")
@@ -96,7 +96,7 @@ call s:hl("Directory", s:color_primary, "NONE", "")
 
 "+--- Prompt/Status ---+
 call s:hl("EndOfBuffer", s:color_bg_alt, "NONE", "")
-call s:hl("ErrorMsg", "NONE", s:color_error, "")
+call s:hl("ErrorMsg", "", s:color_error, "")
 call s:hl("ModeMsg", "", "", "")
 call s:hl("MoreMsg", "", "", "")
 call s:hl("Question", "NONE", "", "")
@@ -368,9 +368,9 @@ hi! link GitGutterChange Warn
 hi! link GitGutterChangeDelete Warn
 hi! link GitGutterDelete Error
 
-call s:hl("ALEWarningSign", s:color_warn, s:color_warn, "")
-call s:hl("ALEErrorSign", s:color_error, s:color_error, "")
-call s:hl("CocInfoSign", s:color_info, s:color_info, "")
+call s:hl("ALEWarningSign", s:color_warn, "", "")
+call s:hl("ALEErrorSign", s:color_error, "", "")
+call s:hl("CocInfoSign", s:color_info, "", "")
 hi link CocErrorSign ALEErrorSign
 hi link CocWarningSign ALEWarningSign
 
