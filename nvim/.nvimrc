@@ -84,7 +84,5 @@ command! Vlist botright vertical copen | vertical resize 50
 command! -nargs=1 Vgrep grep "<args>" ./**/*
 nnoremap <leader>l :Vlist<CR>
 
-" noautocmd vimgrep /{pattern}/gj `git ls-files`
-
 
 imap <C-e> <Plug>(coc-snippets-expand-jump)

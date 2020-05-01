@@ -28,6 +28,7 @@ set cursorline
 set showtabline=0
 set splitbelow
 set splitright
+set wildignore+=package-lock.json,yarn.lock
 set path+=src/**,packages/**/src/** " file search path
 set spelllang=en_us,ru
 
