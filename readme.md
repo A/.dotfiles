@@ -1,21 +1,14 @@
 ## Dotfiles
 
-This dotfiles are mainly focused on mac os, tmux, and vim, but contain bunch of other goodies.
-
 ### Installation
 
-1. Install xcode with `xcode-select --install`
-2. Install homebrew with: 
-   ```shell
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-   ```
+Move out your `~/.config/` dir, then do ``
 
-3. Run `./init`, that automatically create a symlinks in the root directory;
+```
+ln -s ~/.dotfiles/.config/ ~
+ln -s ~/.dotfiles/.config/zsh/.zshenv ~/.zshenv
+```
 
+### Customisation
 
-
-
-
-### TODO
-
-- [ ] global git ignore http://egorsmirnov.me/2015/05/04/global-gitignore-file.html
+- Use `~/.exports` to define private environment vars.

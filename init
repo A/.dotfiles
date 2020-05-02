@@ -7,14 +7,17 @@ DOTFILES=$HOME/.dotfiles;
 #   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 # fi
 
-echo $DOTFILES
-echo $HOME
+echo "There is no automatic way to setup my dotfiles"
+echo "You have to do manual symlink of `.dotfiles/.config/` into `~/.config`"
 
-$DOTFILES/bin/create_symlink "$1" "$DOTFILES/zsh/.zshrc"             "$HOME/.zshrc"
-$DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.gitconfig"     "$HOME/.gitconfig"
-$DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.npmrc"         "$HOME/.npmrc"
-$DOTFILES/bin/create_symlink "$1" "$DOTFILES/tmux/tmux.conf"         "$HOME/.tmux.conf"
-$DOTFILES/bin/create_symlink "$1" "$DOTFILES/nvim/.nvimrc"           "$HOME/.config/nvim/init.vim"
-$DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.ackrc"         "$HOME/.ackrc"
-$DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.ctags"         "$HOME/.ctags"
-$DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.emotions"      "$HOME/.emotions"
+# ln -s /media/a8ka/.dotfiles/.config/ /media/a8ka/
+
+
+# $DOTFILES/bin/create_symlink "$1" "$DOTFILES/zsh/.zshrc"             "$HOME/.zshrc"
+# $DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.gitconfig"     "$HOME/.gitconfig"
+# $DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.npmrc"         "$HOME/.npmrc"
+# $DOTFILES/bin/create_symlink "$1" "$DOTFILES/tmux/tmux.conf"         "$HOME/.tmux.conf"
+# $DOTFILES/bin/create_symlink "$1" "$DOTFILES/nvim/.nvimrc"           "$HOME/.config/nvim/init.vim"
+# $DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.ackrc"         "$HOME/.ackrc"
+# $DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.ctags"         "$HOME/.ctags"
+# $DOTFILES/bin/create_symlink "$1" "$DOTFILES/configs/.emotions"      "$HOME/.emotions"

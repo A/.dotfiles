@@ -4,6 +4,17 @@
 .gtd
 .gitconfig
 .npmrc
-.byobu/.ssh-agent
 lib
-# .tmuxinator/.*.yml
+
+# What to pick up from config:
+.config/*
+!.config/dunst
+!.config/nvim
+!.config/compton
+!.config/i3
+!.config/polybar
+
+# Do not track nvim plug:
+.config/nvim/autotoload/plug.vim
+.config/nvim/.netrwhist
+.config/nvim/plugins

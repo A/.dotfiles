@@ -9,7 +9,7 @@ if !filereadable(autoload_plug_path)
 endif
 unlet autoload_plug_path
 
-call plug#begin('~/.config/nvim/plugins')
+call plug#begin(g:config_dir . 'plugins')
 
   Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
   Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
@@ -20,22 +20,22 @@ call plug#begin('~/.config/nvim/plugins')
 
   Plug 'HerringtonDarkholme/yats.vim'
   Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-    so $DOTFILES/nvim/plugin-settings/nvim-typescript.vim
+    exec "so " . g:config_dir . 'plugin-settings/nvim-typescript.vim'
     autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
 
 
   " Core
   Plug 'Shougo/denite.nvim'
   Plug 'dense-analysis/ale'
-    so $DOTFILES/nvim/plugin-settings/ale.vim
+    exec "so " . g:config_dir . 'plugin-settings/ale.vim'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'scrooloose/nerdtree'
-    so $DOTFILES/nvim/plugin-settings/nerttree.vim
+    exec "so " . g:config_dir . 'plugin-settings/nerttree.vim'
   Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'ryanoasis/vim-devicons'
-    so $DOTFILES/nvim/plugin-settings/devicons.vim
+    exec "so " . g:config_dir . 'plugin-settings/devicons.vim'
   Plug 'vim-airline/vim-airline'
-    so $DOTFILES/nvim/plugin-settings/airline.vim
+    exec "so " . g:config_dir . 'plugin-settings/airline.vim'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'drzel/vim-line-no-indicator'
   " Plug 'mhinz/vim-startify'
@@ -63,7 +63,7 @@ call plug#begin('~/.config/nvim/plugins')
   Plug 'ferrine/md-img-paste.vim'
 
   " Plug 'a/vim-trash-polka'
-  Plug '~/.dotfiles/nvim/local-plugins/vim-trash-polka'
+  exec "Plug " . "'" . g:config_dir . "local-plugins/vim-trash-polka'"
 
 call plug#end()
 
@@ -72,4 +72,4 @@ if plug_install
 endif
 unlet plug_install
 
-so $DOTFILES/nvim/plugin-settings/denite.vim
+exec "so " . g:config_dir . 'plugin-settings/denite.vim'

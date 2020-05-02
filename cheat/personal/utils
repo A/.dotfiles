@@ -1,2 +1,0 @@
-# Human readable size of given directory
-du -hs ./directory

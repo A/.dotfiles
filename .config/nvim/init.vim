@@ -1,10 +1,11 @@
 filetype plugin on
 
-let dotfiles=$DOTFILES
-exec "so" dotfiles . '/nvim/settings.vim'
+let g:config_dir = stdpath('config') . '/'
+exec "so " . g:config_dir . 'settings.vim'
 
 
 colorscheme trash-polka
+let g:airline_theme = 'trashpolka'
 
 let mapleader = " "
 
@@ -12,7 +13,7 @@ let mapleader = " "
 noremap <leader>vt gt
 noremap <leader>vT gT
 noremap <leader>vtn :tabew<CR>
-noremap <leader>ve :tabnew<CR>:e ~/.dotfiles/nvim/.nvimrc<CR>
+noremap <leader>ve :tabnew<CR>:e ~/.config/nvim/init.vim<CR>
 noremap <leader>vR :so ~/.config/nvim/init.vim<CR>
 noremap <leader>vw :w<CR>
 noremap <leader>vq :q<CR>

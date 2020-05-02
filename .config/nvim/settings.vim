@@ -32,10 +32,10 @@ set wildignore+=package-lock.json,yarn.lock
 set path+=src/**,packages/**/src/** " file search path
 set spelllang=en_us,ru
 
-so $DOTFILES/nvim/utils/ripgrep.vim
-so $DOTFILES/nvim/utils/return_to_last_position.vim
-so $DOTFILES/nvim/utils/show_documentation.vim
-so $DOTFILES/nvim/utils/notes.vim
+exec "so " . g:config_dir . 'utils/ripgrep.vim'
+exec "so " . g:config_dir . 'utils/return_to_last_position.vim'
+exec "so " . g:config_dir . 'utils/show_documentation.vim'
+exec "so " . g:config_dir . 'utils/notes.vim'
 
 " Remember folding through sessions
 au BufWinLeave * mkview
@@ -49,6 +49,4 @@ command! -nargs=1 Ngrep grep "<args>" -g "*.md" $NOTES_DIR
 
 set updatetime=750
 
-so $DOTFILES/nvim/plugins.vim
-
-let g:airline_theme = 'trashpolka'
+exec "so " . g:config_dir . 'plugins.vim'
