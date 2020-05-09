@@ -2,6 +2,6 @@
 
 while true;
 do
-    feh --bg-fill "$(find $HOME/Wallpapers -type f -name '*.jpg' | shuf -n 1)"
+    feh --bg-fill "$(find $UNSPLASH_DIR -type f -name '*.jpg' | shuf -n 1)"
     sleep 60s
 done &
