@@ -19,12 +19,20 @@ padding = 3
 module-margin-right = 2
 modules-left = i3
 modules-center = xwindow
-modules-right =  temperature alsa cpu memory filesystem network github battery date xkeyboard
+modules-right = timer github temperature alsa cpu memory filesystem network battery date xkeyboard
 
 tray-position = right
 tray-padding-left = 4
 tray-maxsize = 28
 tray-background = ${colors.background}
+
+[module/timer]
+type=custom/script
+exec=~/.dotfiles/bin/active_task
+interval = 1
+label=%output%
+label-foreground = ${colors.invert}
+label-background = ${colors.background-alt}
 
 [module/i3]
 type = internal/i3
