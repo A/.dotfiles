@@ -38,7 +38,7 @@ exec "so " . g:config_dir . 'utils/show_documentation.vim'
 exec "so " . g:config_dir . 'utils/notes.vim'
 
 " Remember folding through sessions
-au BufWinLeave * mkview
+au BufWinLeave * silent! mkview
 au BufWinEnter * silent! loadview
 
 au InsertEnter * set nocursorline

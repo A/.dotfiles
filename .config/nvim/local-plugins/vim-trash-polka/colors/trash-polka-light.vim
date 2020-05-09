@@ -351,9 +351,9 @@ hi! link GitGutterChange Warn
 hi! link GitGutterChangeDelete Warn
 hi! link GitGutterDelete Error
 
-call s:hl("ALEWarningSign", s:color_warn, s:color_warn, "")
-call s:hl("ALEErrorSign", s:color_error, s:color_error, "")
-call s:hl("CocInfoSign", s:color_info, s:color_info, "")
+call s:hl("ALEWarningSign", s:color_warn, "", "")
+call s:hl("ALEErrorSign", s:color_error, "", "")
+call s:hl("CocInfoSign", s:color_info, "", "")
 hi link CocErrorSign ALEErrorSign
 hi link CocWarningSign ALEWarningSign
 
