@@ -1,0 +1,3 @@
+#!/bin/bash
+
+gnome-screenshot -f /tmp/screenshot.png && convert -density 300 /tmp/screenshot.png ~/Pictures/AnnotatedPDFs/screenshot.pdf && xournal ~/Pictures/AnnotatedPDFs/screenshot.pdf
