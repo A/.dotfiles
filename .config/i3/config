@@ -1,77 +1,55 @@
-# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+exec --no-startup-id /usr/lib/gsd-xsettings
+exec_always --no-startup-id gnome-power-manager
+exec --no-startup-id gnome-flashback
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id /usr/bin/gnome-screensaver
 
-exec_always --no-startup-id "killall polybar; polybar workspaces"
+exec_always --no-startup-id "killall polybar; sleep 1; polybar workspaces"
 exec_always --no-startup-id "killall compton; compton --config=/media/a8ka/.config/compton/compton.conf"
 exec_always --no-startup-id "killall touchegg; touchegg"
-exec_always --no-startup-id "killall dunst; dunst"
 exec_always --no-startup-id "killall rotate-wallpapers; /media/a8ka/.dotfiles/bin/rotate-wallpapers"
-exec_always --no-startup-id "killall thinkpad_x1_yoga_rotation; /media/a8ka/Dev/@github/thinkpad_x1_yoga_rotation/thinkpad_x1_yoga_rotation.py"
-
-exec setxkbmap "us,ru" ",mac" "grp:caps_toggle,grp_led:caps"
-
-# exec_always "touchpad-indicator"
-# exec run_locker
-# exec feh --bg-scale ~/Pictures/_wallpaper.png
-exec --no-startup-id nm-applet
-exec --no-startup-id xclip
-exec --no-startup-id blueman-tray
-
+exec_always --no-startup-id "killall flashfocus; flashfocus"
 
 ipc-socket ~/.i3/i3-ipc.sock
 
-
-font pango:Iosevka Term 8
-
-# Solarized
-set $color_base03  #1c1c1c
-set $color_base02  #262626
-set $color_base01  #585858
-set $color_base00  #626262
-set $color_base0   #808080
-set $color_base1   #8a8a8a
-set $color_base2   #e4e4e4
-set $color_base3   #ffffd7
-set $color_yellow  #af8700
-set $color_orange  #d75f00
-set $color_red     #d70000
-set $color_magenta #af005f
-set $color_violet  #5f5faf
-set $color_blue    #0087ff
-set $color_cyan    #00afaf
-set $color_green   #5f8700
-
-client.focused    $color_base02  $color_base02  $color_base3
-client.unfocused  $color_base00  $color_base00  $color_base2
-
-gaps inner           10
+gaps inner           50
+gaps outer           50
+gaps top             -5
+gaps bottom          -10
 
 focus_follows_mouse  no
-# new_window pixel     3
 
 default_border            pixel 0
 default_floating_border   pixel 0
-border_radius 6
+border_radius 8
 
-for_window [class="^.*"] border pixel 2
-# for_window [class="^.*" con_id="__focused__"] border pixel 2
+for_window [class="^.*"] border pixel 0
 for_window [urgent="latest" class="Firefox"] focus
-
 for_window [window_role="PictureInPicture"] sticky enable
+for_window [class="Firefox" window_role="GtkFileChooserDialog"] floating enable
 for_window [class="Blueman-manager"] floating enable
-
+for_window [class="Gnome-screenshot"] floating enable
+for_window [class="TelegramDesktop"] floating enable
+for_window [class="Evolution-alarm-notify"] floating enable
+for_window [class="Evolution-alarm-notify"] sticky enable
+for_window [class="zoom"] floating enable
+for_window [class="zoom"] sticky enable
+for_window [class="Gnome-calculator"] floating enable
+for_window [class="Gnome-calculator"] sticky enable
+for_window [class="Io\.elementary\.appcenter"] floating enable
+for_window [class="Io\.elementary\.appcenter"] sticky enable
 
 set $mod Mod4
 
-bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r Restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 floating_modifier $mod
 bindsym $mod+Shift+q kill
 bindsym $mod+f fullscreen toggle
-bindsym $mod+Shift+space floating toggle
-bindsym $mod+Shift+Tab sticky toggle
-bindsym $mod+space focus mode_toggle
+bindsym $mod+p floating toggle
+bindsym $mod+Shift+p sticky toggle
+# bindsym $mod+space exec flash_window
 bindsym $mod+a focus parent
 
 # change container layout (stacked, tabbed, toggle split)
@@ -134,22 +112,8 @@ bindsym $mod+Control+Right workspace next
 bindsym $mod+Control+Left workspace prev
 
 bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+d             exec rofi -opacity "80" -font "Iosevka 20" -show run
-bindsym $mod+z             exec gnome-screenshot
-bindsym $mod+Shift+z       exec gnome-screenshot -i
-# bindsym $mod+Shift+Insert       exec i3lock -ue -i ~/Pictures/_wallpaper.png
-# bindsym $mod+Shift+Delete  exec i3lock -ue -i ~/Pictures/_wallpaper.png && sudo pm-suspend
+bindsym $mod+d             exec ulauncher
+bindsym Print              exec gnome-screenshot -i
+bindsym $mod+Print         exec gnome-screenshot -a
+bindsym Shift+$mod+Print   exec /media/a8ka/.dotfiles/bin/screen-write
 
-# Multimedia Keys
-bindsym XF86MonBrightnessUp          exec light -A 1
-bindsym XF86MonBrightnessDown        exec light -U 1
-bindsym XF86AudioRaiseVolume         exec amixer -q set Master 2dB+ unmute
-bindsym XF86AudioLowerVolume         exec amixer -q set Master 2dB- unmute
-bindsym XF86AudioMute                exec amixer -q set Master toggle
-bindsym XF86AudioMicMute             exec "amixer sset 'Capture',0 toggle"
-
-# bindsym XF86TouchpadToggle         exec /some/path/toggletouchpad.sh # toggle touchpad
-# bindsym XF86AudioPlay              exec playerctl play
-# bindsym XF86AudioPause             exec playerctl pause
-# bindsym XF86AudioNext              exec playerctl next
-# bindsym XF86AudioPrev              exec playerctl previous
