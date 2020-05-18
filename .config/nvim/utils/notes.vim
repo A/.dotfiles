@@ -13,7 +13,7 @@ function! NotesCreate(...)
 
   let l:sep = '-'
   let name = input('Note name: ')
-  let l:fname = expand('~/Notes/') . strftime("%F-%H%M") . '-' . join(split(name), '-') . '.md'
+  let l:fname = expand($NOTES_DIR) . strftime("%F-%H%M") . '-' . join(split(name), '-') . '.md'
 
 
   exec "e " . l:fname

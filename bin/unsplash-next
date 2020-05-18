@@ -1,0 +1,3 @@
+#!/bin/bash
+
+killall unsplash-render; unsplash-render;

@@ -4,7 +4,8 @@ let g:config_dir = stdpath('config') . '/'
 exec "so " . g:config_dir . 'settings.vim'
 
 
-colorscheme trash-polka
+" colorscheme trash-polka
+colorscheme nord
 let g:airline_theme = 'trashpolka'
 
 let mapleader = " "

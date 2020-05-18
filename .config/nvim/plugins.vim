@@ -1,7 +1,6 @@
 let plug_install = 0
 let autoload_plug_path = stdpath('config') . '/autoload/plug.vim'
 if !filereadable(autoload_plug_path)
-    echo 123
     silent exe '!curl -fL --create-dirs -o ' . autoload_plug_path .
         \ ' https://raw.github.com/junegunn/vim-plug/master/plug.vim'
     execute 'source ' . fnameescape(autoload_plug_path)
@@ -63,6 +62,7 @@ call plug#begin(g:config_dir . 'plugins')
   Plug 'ferrine/md-img-paste.vim'
 
   " Plug 'a/vim-trash-polka'
+  Plug 'arcticicestudio/nord-vim'
   exec "Plug " . "'" . g:config_dir . "local-plugins/vim-trash-polka'"
 
 call plug#end()

@@ -1,0 +1,7 @@
+#!/bin/bash
+P=`pgrep -x onboard`
+if [ -z "$P" ]; then
+  onboard &
+else
+  kill $P
+fi

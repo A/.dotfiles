@@ -1,23 +1,36 @@
-exec --no-startup-id /usr/lib/gsd-xsettings
-exec_always --no-startup-id gnome-power-manager
-exec --no-startup-id gnome-flashback
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id /usr/bin/gnome-screensaver
+# exec --no-startup-id /usr/lib/gsd-xsettings
+# exec_always --no-startup-id gnome-power-manager
+# exec --no-startup-id gnome-flashback
+# exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+# exec --no-startup-id /usr/bin/gnome-screensaver
+
+exec --no-startup-id mate-settings-daemon
+exec --no-startup-id nm-applet
+exec --no-startup-id mate-power-manager 
+exec --no-startup-id blueman-applet
+exec --no-startup-id compton 
 
 exec_always --no-startup-id "killall polybar; sleep 1; polybar workspaces"
 exec_always --no-startup-id "killall compton; compton --config=/media/a8ka/.config/compton/compton.conf"
 exec_always --no-startup-id "killall touchegg; touchegg"
-exec_always --no-startup-id "killall rotate-wallpapers; /media/a8ka/.dotfiles/bin/rotate-wallpapers"
+exec_always --no-startup-id "killall unsplash-render; /media/a8ka/.dotfiles/bin/unsplash-render"
 exec_always --no-startup-id "killall flashfocus; flashfocus"
+
+exec /media/a8ka/Dev/@github/polybar-spotify-controls/scripts/spotify/launchlistener.sh
+exec setxkbmap "us,ru" ",mac" "grp:alt_space_toggle"
 
 ipc-socket ~/.i3/i3-ipc.sock
 
-gaps inner           50
-gaps outer           50
-gaps top             -5
+gaps inner           40
+gaps outer           20
+gaps top             -20
 gaps bottom          -10
 
 focus_follows_mouse  no
+focus_on_window_activation focus
+
+font pango:Iosevka Term 10
+
 
 default_border            pixel 0
 default_floating_border   pixel 0
@@ -26,10 +39,11 @@ border_radius 8
 for_window [class="^.*"] border pixel 0
 for_window [urgent="latest" class="Firefox"] focus
 for_window [window_role="PictureInPicture"] sticky enable
+for_window [class="Google-chrome" window_role="pop-up"] floating enable
 for_window [class="Firefox" window_role="GtkFileChooserDialog"] floating enable
 for_window [class="Blueman-manager"] floating enable
 for_window [class="Gnome-screenshot"] floating enable
-for_window [class="TelegramDesktop"] floating enable
+# for_window [class="TelegramDesktop"] floating enable
 for_window [class="Evolution-alarm-notify"] floating enable
 for_window [class="Evolution-alarm-notify"] sticky enable
 for_window [class="zoom"] floating enable
@@ -38,6 +52,11 @@ for_window [class="Gnome-calculator"] floating enable
 for_window [class="Gnome-calculator"] sticky enable
 for_window [class="Io\.elementary\.appcenter"] floating enable
 for_window [class="Io\.elementary\.appcenter"] sticky enable
+for_window [class="Onboard"] floating enable
+for_window [class="Onboard"] sticky enable
+for_window [class="Org.gnome.Software"] floating enable
+for_window [class="TelegramDesktop"] floating enable
+for_window [class="TelegramDesktop"] sticky enable
 
 set $mod Mod4
 
@@ -112,8 +131,8 @@ bindsym $mod+Control+Right workspace next
 bindsym $mod+Control+Left workspace prev
 
 bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+d             exec ulauncher
-bindsym Print              exec gnome-screenshot -i
-bindsym $mod+Print         exec gnome-screenshot -a
+# bindsym $mod+d             exec ulauncher
+bindsym Print              exec gnome-screenshot -i -c
+bindsym $mod+Print         exec gnome-screenshot -a -c
 bindsym Shift+$mod+Print   exec /media/a8ka/.dotfiles/bin/screen-write
 

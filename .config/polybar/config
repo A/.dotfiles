@@ -7,7 +7,8 @@ background-urgent = #5F00
 foreground-alt = #EEEE
 
 [bar/configure]
-font-0 = Iosevka:pixelsize=0:antialias=true:autohint=true
+enable-ipc = true
+font-0 = Lekton Nerd Font:pixelsize=0:antialias=true:autohint=true
 dpi = 192
 background = ${colors.background}
 
@@ -19,12 +20,17 @@ padding = 3
 module-margin-right = 2
 modules-left = i3
 modules-center = xwindow
-modules-right = timer github temperature alsa cpu memory filesystem network battery date xkeyboard
+modules-right = timer spotify previous playpause next info-docker onscreen github temperature alsa cpu memory filesystem xkeyboard network battery date
 
 tray-position = right
 tray-padding-left = 4
 tray-maxsize = 28
 tray-background = ${colors.background}
+
+[module/onscreen]
+type=custom/text
+click-left= dbus-send --type=method_call --print-reply --dest=org.onboard.Onboard /org/onboard/Onboard/Keyboard org.onboard.Onboard.Keyboard.ToggleVisible
+content =  
 
 [module/timer]
 type=custom/script
@@ -63,7 +69,7 @@ type = internal/github
 token = ${env:GITHUB_ACCESS_TOKEN}
 empty-notifications = true
 interval = 10
-label =  %notifications%
+label =   %notifications%
 
 [module/date]
 type = internal/date
@@ -82,27 +88,27 @@ label-unmounted = %mountpoint% not mounted
 [module/memory]
 type = internal/memory
 interval = 2
-label =  %percentage_used%%
+label =   %percentage_used%%
 
 [module/cpu]
 type = internal/cpu
 interval = 2
-label = %percentage:2%%
+label =  %percentage:2%%
 
 [module/battery]
 type = internal/battery
 battery = BAT0
 adapter = ADP1
 full-at = 98
-format-full-prefix = ""
-format-charging = <animation-charging> <label-charging>
-format-discharging = <ramp-capacity> <label-discharging>
-ramp-capacity-0 =
-ramp-capacity-1 =
-ramp-capacity-2 =
-animation-charging-0 =
-animation-charging-1 =
-animation-charging-2 =
+format-full-prefix = " "
+format-charging = <animation-charging>  <label-charging>
+format-discharging = <ramp-capacity>  <label-discharging>
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
 animation-charging-framerate = 750
 
 [module/alsa]
@@ -140,10 +146,64 @@ label-disconnected-foreground = ${colors.foreground}
 [module/temperature]
 type = internal/temperature
 thermal-zone = 0
-hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon7/temp1_input
+hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input
 format = <label>
 label = %temperature-c%
 label-warn = %temperature-c%
 
 [settings]
 screenchange-reload = true
+
+[module/previous]
+type = custom/script
+interval = 86400
+format = "%{T3}<label>"
+format-padding = 0
+exec = echo ""
+exec-if = "pgrep spotify"
+line-size = 1
+click-left = "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+
+[module/next]
+type = custom/script
+interval = 86400
+format = "%{T3}<label>"
+format-padding = 0
+exec = echo ""
+exec-if = "pgrep spotify"
+line-size = 1
+click-left = "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+
+[module/playpause]
+type = custom/ipc
+hook-0 = echo ""
+hook-1 = echo ""
+hook-2 = echo ""
+initial = 1
+line-size = 1
+click-left = "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+
+[module/spotify]
+type = custom/ipc
+hook-0 = echo ""
+hook-1 = python3 ~/Dev/@github/polybar-spotify-controls/scripts/spotify/spotify_status.py
+initial = 1
+format-padding = 0
+format-underline = #1db954
+line-size = 1
+
+; [i3wm only] - Uncomment the below line to focus on Spotify when clicking on the song name (credits to https://github.com/Esya)
+click-left = i3-msg '[class="Spotify"] focus'
+
+[module/info-docker]
+type = custom/script
+exec = ~/Dev/@github/polybar-scripts/polybar-scripts/info-docker/docker-container.sh
+interval = 60
+label-foreground = ${colors.invert}
+label-background = ${colors.background-alt}
+
+; [module/next-wallpaper]
+; type = custom/script
+; exec = echo " "
+; ; exec-if = pgrep -x unsplash-render
+; click-right = ~/.dotfiles/bin/unsplash-next
