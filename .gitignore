@@ -13,6 +13,13 @@ lib
 !.config/compton
 !.config/i3
 !.config/polybar
+!.config/zsh/.aliases
+!.config/zsh/.exports
+!.config/zsh/.zshenv
+!.config/zsh/.zshrc
+!.config/zsh/.prompt.zsh
+!.config/zsh/.background_jobs
+
 
 # Do not track nvim plug:
 .config/nvim/autotoload/plug.vim
