@@ -1,0 +1,8 @@
+#!/bin/bash
+
+SCRIPT=$(readlink -f $0)
+WORKING_DIR=$(dirname $SCRIPT)
+
+ln -nsf "$WORKING_DIR" ~/.config/nvim
+
+exit 0

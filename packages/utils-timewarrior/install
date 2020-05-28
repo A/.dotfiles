@@ -1,0 +1,9 @@
+#!/bin/bash
+
+SCRIPT=$(readlink -f $0)
+WORKING_DIR=$(dirname $SCRIPT)
+BIN_DIR=~/.local/bin
+
+ln -nsf "$WORKING_DIR/taskwarrior-active-task" "$BIN_DIR"
+
+exit 0

@@ -1,0 +1,19 @@
+export DOTFILES=$HOME/.dotfiles
+
+export VISUAL=vi
+export EDITOR="$VISUAL"
+export BROWSER=Firefox
+
+CDPATH=~/Dev
+
+export PATH=./node_modules/.bin:$PATH
+export PATH=~/.npm-global/bin:$PATH
+export PATH=$DOTFILES/bin:$PATH
+
+export NODE_ENV=development
+export AWS_SDK_LOAD_CONFIG=true
+export FZF_DEFAULT_COMMAND='rg --files -u 2>&1'
+
+export NOTES_DIR=~/Documents/Notes/
+export UNSPLASH_DIR=~/Wallpapers/
+export UNSPLASH_COLLECTION=8949349

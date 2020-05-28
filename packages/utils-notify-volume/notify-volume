@@ -1,0 +1,13 @@
+#!/bin/bash
+msgId="991049"
+
+MUTED=`pacmd list-sinks | grep 'muted:' | awk '{print $2}'`
+VOLUME=`pactl list sinks | grep '^[[:space:]]Volume:' | \
+    head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,'`
+
+if [[ $MUTED == "yes" ]]; then
+  dunstify -a ChangeVolume -u low -i audio-volume-muted -r "$msgId" "Volume muted" 
+else
+  dunstify -a ChangeVolume -u low -i audio-volume-high -r "$msgId" \
+    "Volume: ${VOLUME}%" "$(getProgressString 10 "<b> </b>" " " $volume)"
+fi

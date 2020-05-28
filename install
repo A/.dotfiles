@@ -1,0 +1,26 @@
+#!/bin/bash
+
+SCRIPT=$(readlink -f $0)
+WORKING_DIR=$(dirname $SCRIPT)
+PACKAGES_DIR="$WORKING_DIR/packages"
+
+PACKAGES=$(find "$PACKAGES_DIR" -maxdepth 1 -mindepth 1 -type d)
+
+for DIR in $PACKAGES; do
+  INSTALL_SCRIPT="${DIR}/install"
+
+  if [ ! -f "$INSTALL_SCRIPT" ]; then
+    continue;
+  fi
+
+  echo -e "Installing package $(basename $DIR)"
+
+  $INSTALL_SCRIPT
+
+  if [ $? -eq 0 ]; then
+    echo "·· Done";
+  else
+    echo "·· Already installed"
+  fi
+  sleep 0.1;
+done;

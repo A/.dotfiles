@@ -1,4 +1,0 @@
-#/bin/zsh
-
-clear
-echo "\033[0;35m$(cat ~/.dotfiles/configs/.splitter)"

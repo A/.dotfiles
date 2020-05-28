@@ -1,0 +1,16 @@
+#!/bin/bash
+
+SCRIPT=$(readlink -f $0)
+WORKING_DIR=$(dirname $SCRIPT)
+BIN_DIR=~/.local/bin
+
+FILES=$(find $WORKING_DIR -maxdepth 1 -mindepth 1 -type f  \
+  | grep -v install \
+  | grep -iv README \
+)
+
+for FILE in $FILES; do
+  ln -nsf "$FILE" "$BIN_DIR"
+done;
+
+exit 0

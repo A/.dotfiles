@@ -1,0 +1,3 @@
+#!/bin/bash
+
+while [[ TRUE ]]; do clear;  docker ps --format "{{.ID}} {{.Names}} {{.Status}} {{.Ports}}"; sleep 60; done

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+find $1 -type f -name '*.jpg' | shuf -n 1;
