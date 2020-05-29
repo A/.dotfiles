@@ -1,0 +1,10 @@
+#/bin/bash
+
+echo -e "\
+lock\n\
+logout\n\
+switch_user\n\
+suspend\n\
+reboot\n\
+shutdown\n\
+" | dmenu -l 6 | xargs i3exit
