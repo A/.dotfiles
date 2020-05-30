@@ -27,13 +27,13 @@ font xft:URWGothic-Book 11
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec terminal
+bindsym $mod+Return exec terminal -e tmux
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id dmenu_recency
+bindsym $mod+d exec --no-startup-id dmenu_recency -l 15
 
 # launch categorized menu
 bindsym $mod+z exec --no-startup-id morc_menu
@@ -42,8 +42,8 @@ bindsym $mod+z exec --no-startup-id morc_menu
 # bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 bindsym $mod+Ctrl+m exec terminal -e 'pavucontrol'
 
-# bindsym XF86MonBrightnessUp exec "xbacklight -inc 1; notify-send 'brightness up'"
-# bindsym XF86MonBrightnessDown exec "xbacklight -dec 1; notify-send 'brightness down'"
+bindsym XF86MonBrightnessUp exec "backlight --inc; notify-backlight"
+bindsym XF86MonBrightnessDown exec "backlight --dec; notify-backlight"
 
 bindsym XF86AudioRaiseVolume exec --no-startup-id "pactl set-sink-volume 0 +3%; notify-volume"
 bindsym XF86AudioLowerVolume exec --no-startup-id "pactl set-sink-volume 0 -3%; notify-volume"
@@ -83,23 +83,11 @@ bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
 # focus_follows_mouse no
 
-# change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
-
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
-
-# move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -257,21 +245,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Set shut down, restart and locking features
-bindsym $mod+0 mode "$mode_system"
-set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
-mode "$mode_system" {
-    bindsym l exec --no-startup-id i3exit lock, mode "default"
-    bindsym s exec --no-startup-id i3exit suspend, mode "default"
-    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
-    bindsym e exec --no-startup-id i3exit logout, mode "default"
-    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-    bindsym r exec --no-startup-id i3exit reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
-
-    # exit system mode: "Enter" or "Escape"
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
+bindsym $mod+0 exec dmenu-power
 
 # Resize window (you can also use the mouse for that)
 bindsym $mod+r mode "resize"
@@ -301,7 +275,7 @@ mode "resize" {
 bindsym $mod+9 exec --no-startup-id blurlock
 
 # Autostart applications
-exec --no-startup-id pulseaudio
+# exec --no-startup-id pulseaudio
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id manjaro-hello
