@@ -1,0 +1,28 @@
+#!/bin/bash
+
+cur=`xbacklight -get | grep -o "^[0-9]*"`;
+
+case $1 in
+  --inc)
+  if [ "$cur" -gt "20" ]; then
+    xbacklight -inc 10
+  else
+    if [ "$cur" -gt "2" ]; then
+      xbacklight -inc 1
+    else
+      xbacklight -inc 0.1
+    fi
+  fi
+  ;;
+  --dec)
+  if [ "$cur" -gt "20" ]; then
+    xbacklight -dec 10
+  else
+    if [ "$cur" -gt "2" ]; then
+      xbacklight -dec 1
+    else
+      xbacklight -dec 0.1
+    fi
+  fi
+  ;;
+esac

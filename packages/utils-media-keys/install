@@ -13,4 +13,6 @@ for FILE in $FILES; do
   ln -nsf "$FILE" "$BIN_DIR"
 done;
 
+sudo cp "$WORKING_DIR/udev/rules/backlight.rules" "/etc/udev/rules.d/"
+
 exit 0
