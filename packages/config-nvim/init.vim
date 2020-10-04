@@ -7,7 +7,7 @@ exec "so " . g:config_dir . 'settings.vim'
 " colorscheme trash-polka
 colorscheme nord
 hi Visual term=reverse cterm=reverse " TODO: fork nord?
-let g:airline_theme = 'trashpolka'
+let g:airline_theme = 'nord'
 
 let mapleader = " "
 
