@@ -1,6 +1,0 @@
-#! /bin/bash
-
-select DICTIONARY in $DOTFILES/stopwords/*; do
-  cat $DICTIONARY | xargs -I{} grep -i {} $1
-  break;
-done;

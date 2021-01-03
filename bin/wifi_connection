@@ -1,0 +1,7 @@
+#!/bin/bash
+while :; do
+  CONNECTION=$(iwctl station wlan0 show | grep Connected | awk '{for (i=3; i<NF; i++) printf $i " "; print $NF}')
+  TIME=$(date +'%l:%M %p ')
+  echo "$CONNECTION | $TIME"
+  sleep 5;
+done;

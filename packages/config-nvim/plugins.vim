@@ -16,13 +16,13 @@ call plug#begin(g:config_dir . 'plugins')
   Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
   Plug 'neoclide/coc-lists', {'do': 'yarn install --frozen-lockfile'}
   Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'}
-
+  
   Plug 'HerringtonDarkholme/yats.vim'
   Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
     exec "so " . g:config_dir . 'plugin-settings/nvim-typescript.vim'
     autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
-
-
+  
+ 
   " Core
   Plug 'Shougo/denite.nvim'
   Plug 'dense-analysis/ale'
@@ -38,7 +38,7 @@ call plug#begin(g:config_dir . 'plugins')
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'drzel/vim-line-no-indicator'
   " Plug 'mhinz/vim-startify'
-
+  
   " Codding
   Plug 'editorconfig/editorconfig-vim'
     let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
@@ -46,7 +46,7 @@ call plug#begin(g:config_dir . 'plugins')
   Plug 'tomtom/tcomment_vim'
   Plug 'rstacruz/vim-closer'
   Plug 'rstacruz/vim-hyperstyle'
-
+  
   " Git
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
@@ -54,13 +54,13 @@ call plug#begin(g:config_dir . 'plugins')
   Plug 'airblade/vim-gitgutter'
   Plug 'rhysd/git-messenger.vim'
   Plug 'chemzqm/denite-git'
-
+ 
   " Markdown
   Plug 'gabrielelana/vim-markdown'
   Plug 'rhysd/vim-gfm-syntax'
     let g:markdown_enable_mappings = 0
   Plug 'ferrine/md-img-paste.vim'
-
+ 
   " Plug 'a/vim-trash-polka'
   Plug 'arcticicestudio/nord-vim'
   exec "Plug " . "'" . g:config_dir . "local-plugins/vim-trash-polka'"

@@ -17,3 +17,5 @@ export FZF_DEFAULT_COMMAND='rg --files -u 2>&1'
 export NOTES_DIR=~/Documents/Notes/
 export UNSPLASH_DIR=~/Wallpapers/
 export UNSPLASH_COLLECTION=8949349
+
+export PATH=~/.cargo/bin/:$PATH

@@ -1,0 +1,8 @@
+#!/bin/bash
+while :; do
+  CONNECTION=$(iwctl station wlan0 show | grep Connected | awk '{for (i=3; i<NF; i++) printf $i " "; print $NF}')
+  TIME=$(date +'%l:%M %p ')
+  BAT=$(~/.dotfiles/bin/powercat | cut -d' ' -f8,9)
+  echo "$CONNECTION | $TIME | $BAT "
+  sleep 5;
+done;

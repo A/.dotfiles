@@ -13,7 +13,7 @@ source $ZDOTDIR/.exports
 source ~/.exports
 
 setopt inc_append_history
-plugins=(git osx npm github yarn zsh-autosuggestions zsh-completions zsh-lerna taskwarrior)
+plugins=(git osx npm github yarn zsh-autosuggestions zsh-completions docker docker-compose)
 
 export COMPLETION_WAITING_DOTS="true"
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=1"
@@ -24,3 +24,5 @@ source $HOME/.oh-my-zsh/oh-my-zsh.sh
 source $ZDOTDIR/.aliases
 source $ZDOTDIR/prompt.zsh
 # source $ZDOTDIR/background_jobs
+
+command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
