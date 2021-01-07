@@ -19,3 +19,4 @@
     - { role: python, tags: [python] }
     - { role: nodejs, tags: [nodejs] }
     - { role: nvim, tags: [nvim] }
+    - { role: docker, tags: [docker] }

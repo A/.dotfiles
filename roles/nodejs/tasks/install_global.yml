@@ -4,4 +4,3 @@
     global: yes
     state: "{{ yarn_state }}"
     name: "{{ item }}"
-  with_items: "{{ packages }}"

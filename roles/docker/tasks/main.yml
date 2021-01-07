@@ -1,0 +1,33 @@
+---
+- name: ensure docker package is managed
+  include_role:
+    name: meta_pacman
+    tasks_from: install_package.yml
+  with_items:
+    - docker
+    - docker-compose
+
+- name: set username
+  command: whoami
+  register: docker_username
+  check_mode: False
+  changed_when: False
+
+- name: ensure user is added to docker group
+  user:
+    name: "{{ docker_username.stdout }}"
+    groups: docker
+    append: True
+  become: True
+
+- name: enable sustemd docker service
+  include_role:
+    name: systemd
+  vars:
+    systemd_item_name: "{{ item }}"
+    systemd_item_state: started
+    systemd_item_enabled: true
+    systemd_item_masked: False
+    systemd_item_fail_on_error: True
+  with_items:
+    - docker.service
