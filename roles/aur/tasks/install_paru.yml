@@ -6,20 +6,8 @@
     pacman_packages: "{{ aur_shared_packages }}"
 
 - name: install paru
-  block:
-    - name: Create temporary build directory
-      tempfile:
-        state: directory
-        suffix: build
-      register: build_dir
-
-    - name: clone paru git repo
-      git:
-        repo: https://aur.archlinux.org/paru.git
-        dest: "{{ aur_helper_git_repo_dir }}"
-        force: yes
-
-    - name: build & install paru
-      shell: 
-        cmd: makepkg -si --clean --noconfirm
-        chdir: "{{ aur_helper_git_repo_dir }}"
+  include_role:
+    name: rust
+  tasks_from: install_package.yml
+  with_items:
+    - paru

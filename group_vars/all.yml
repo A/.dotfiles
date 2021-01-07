@@ -1,22 +1,22 @@
 git_username: Anton Shuvalov
 git_email: anton@shuvalov.info
 
-pacman_global_packages:
+pacman_packages:
   - fzf
 
-aur_global_packages:
+aur_packages:
   - obsidian-appimage
 
-pip2_global_packages: []
-pip3_global_packages:
+pip2_packages: []
+pip3_packages:
   - jmespath
   - awscli
-cargo_global_packages:
+
+cargo_packages:
   - exa
   - bat
-  - starship
 
-yarn_global_packages:
+yarn_packages:
   - typescript
   - eslint
   - n

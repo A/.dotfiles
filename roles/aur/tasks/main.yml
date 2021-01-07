@@ -1,4 +1,4 @@
 ---
 - include_tasks: install_paru.yml
 - include_tasks: install_package.yml
-  with_items: "{{ aur_global_packages }}"
+  with_items: "{{ aur_packages }}"

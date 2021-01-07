@@ -7,7 +7,8 @@
 
 - name: build cargo packages
   include_tasks: install_package.yml
-  with_items: "{{ cargo_global_packages }}"
+  with_items: "{{ cargo_packages }}"
+  when: cargo_packages | length
 
 - name: add cargo bin path to zshrc
   include_role:

@@ -1,4 +1,4 @@
 ---
-- name: install aur package {{ item }}
+- name: ensure aur package is managed {{ item }}
   shell: paru -S --noconfirm {{ item }}
   when: item is defined

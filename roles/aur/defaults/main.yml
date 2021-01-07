@@ -1,4 +1,4 @@
 aur_helper_git_repo_dir: ~/Dev/aur/paru/
-aur_global_packages: []
+aur_packages: []
 aur_shared_packages:
   - base-devel

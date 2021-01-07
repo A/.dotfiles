@@ -1,5 +1,5 @@
 ---
-- name: install yarn global packages
+- name: ensure yarn package is managed {{ item }}
   yarn:
     global: yes
     state: "{{ yarn_state }}"

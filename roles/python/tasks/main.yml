@@ -9,9 +9,9 @@
       - python2-pip
 
 - include_tasks: install_pip3_package.yml
-  with_items: "{{ pip3_global_packages }}"
-  when: pip3_global_packages | length
+  with_items: "{{ pip3_packages }}"
+  when: pip3_packages | length
 
 - include_tasks: install_pip2_package.yml
-  with_items: "{{ pip2_global_packages }}"
-  when: pip2_global_packages | length
+  with_items: "{{ pip2_packages }}"
+  when: pip2_packages | length

@@ -1,10 +1,10 @@
 ---
-- name: ensure starship is installed
+- name: ensure starship is managed
   include_role:
     name: rust
     tasks_from: install_package.yml
-  vars:
-    item: starship
+  with_items:
+    - starship
 
 - name: update zshrc
   include_role:

@@ -7,8 +7,7 @@
 
 - name: install global packages
   include_tasks: install_global.yml
-  vars:
-    packages: "{{ yarn_global_packages }}"
+  with_items: "{{ yarn_packages }}"
 
 - name: add yarn bin to $PATH
   include_role:
