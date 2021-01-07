@@ -1,0 +1,169 @@
+git_username: Anton Shuvalov
+git_email: anton@shuvalov.info
+
+pacman_global_packages:
+  - fzf
+
+aur_global_packages:
+  - obsidian-appimage
+
+pip2_global_packages: []
+pip3_global_packages:
+  - jmespath
+  - awscli
+cargo_global_packages:
+  - exa
+  - bat
+  - starship
+
+yarn_global_packages:
+  - typescript
+  - eslint
+  - n
+
+nvim_plugins: 
+  - name: 'neoclide/coc.nvim'
+    do: '{ -> coc#util#install() }'
+    keybindings: |
+      nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
+      nmap    <leader>cr  <Plug>(coc-rename)
+      nmap <silent> gd <Plug>(coc-definition)
+      nmap <silent> gy <Plug>(coc-type-definition)
+      nmap <silent> gr <Plug>(coc-references)
+      imap <C-e> <Plug>(coc-snippets-expand-jump)
+      function! ShowDocumentation()
+        if &filetype == 'vim'
+          execute 'h '.expand('<cword>')
+        else
+          call CocAction('doHover')
+        endif
+      endfunction
+      nnoremap <silent> K :call ShowDocumentation()<CR>
+  - name: 'neoclide/coc-snippets'
+    do': 'yarn install --frozen-lockfile'
+  - name: 'neoclide/coc-tsserver'
+    do: 'yarn install --frozen-lockfile'
+  - name: 'neoclide/coc-css'
+    do': 'yarn install --frozen-lockfile'
+  - name: "neoclide/coc-lists"
+    do': 'yarn install --frozen-lockfile'
+  - name: 'neoclide/coc-highlight'
+    do: 'yarn install --frozen-lockfile'
+  - name: 'HerringtonDarkholme/yats.vim'
+  - name: 'mhartington/nvim-typescript'
+    do: './install.sh'
+    settings: |
+      let g:nvim_typescript#javascript_support=1
+      let g:nvim_typescript#diagnostics_enable = 0
+      autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
+  - name: 'Shougo/denite.nvim'
+    keybindings: |
+      noremap <leader>fS :DeniteCursorWord grep<CR>
+      noremap <leader>fb :Denite buffer<CR>
+      noremap <leader>vc :Denite colorscheme<CR>
+      noremap <leader>gi :Denite gists<CR>
+      noremap <leader>gf :Denite gitlog<CR>
+      noremap <leader>gl :Denite gitlog:all<CR>
+      noremap <leader>gs :Denite gitstatus<CR>
+      noremap <leader>gb :Denite gitbranch<CR>
+  - name: 'dense-analysis/ale'
+    keybindings: |
+      noremap <leader>cE <Plug>(ale_previous_wrap)
+      noremap <leader>ce <Plug>(ale_next_wrap)
+    settings: |
+      let g:ale_sign_error = ' '
+      let g:ale_sign_warning = ' '
+      let g:airline#extensions#ale#enabled = 1
+      let g:ale_open_list = 0
+      let g:ale_list_window_size = 5
+      let g:ale_fixers = {
+        \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+        \ 'javascriptreact': ['prettier'],
+        \ 'javascript': ['prettier'],
+        \ 'typescriptreact': ['prettier'],
+        \ 'typescript': ['prettier'],
+        \ 'css': ['prettier'],
+      \}
+      let g:ale_linters = {
+      \   'typescript': ['eslint', 'tsc'],
+      \   'typescriptreact': ['eslint', 'tsc'],
+      \   'javascript': ['eslint'],
+      \   'javascriptreact': ['eslint'],
+      \}
+      let g:ale_fix_on_save = 0
+      let g:ale_linters_explicit = 1
+  - name: 'junegunn/fzf'
+    do: '{ -> fzf#install() } }'
+    keybindings: |
+      noremap <leader>fp :FZF<CR>
+  - name: 'ryanoasis/vim-devicons'
+    settings: |
+      let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
+      let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
+      let g:NERDTreeDirArrowExpandable = "\u00a0"
+      let g:NERDTreeDirArrowCollapsible = "\u00a0"
+  - name: 'vim-airline/vim-airline'
+    settings: |
+      set laststatus=2
+
+      if !exists('g:airline_symbols')
+        let g:airline_symbols = {}
+      endif
+
+      let g:airline_powerline_fonts = 0
+      let g:airline#extensions#tabline#enabled = 0
+      let g:airline#extensions#nerdtree_status = 0
+      let g:airline#extensions#tabline#fnamemod = ':t'
+
+      let g:airline_symbols.branch = ''
+      let g:airline#extensions#branch#format = 1
+      "" let g:airline_section_b = g:airline#section#create(['branch', 'hunks'])
+      let g:airline_section_x = ''
+      let g:airline_section_y = '%{LineNoIndicator()}'
+      let g:airline_section_z = '%2c'
+  - name: 'drzel/vim-line-no-indicator'
+  - name: 'scrooloose/nerdtree'
+    keybindings: |
+      noremap <leader>ft :NERDTreeToggle<CR>
+      noremap <leader>ff :NERDTreeFind<CR>
+    settings: |
+      autocmd VimEnter *
+        \   if !argc()
+        \ |   NERDTree
+        \ |   wincmd w
+        \ | endif
+      autocmd bufenter * 
+        \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+      let NERDTreeMinimalUI=1
+      let g:NERDTreeMapOpenSplit="h"
+      let g:NERDTreeMapOpenVSplit="v"
+      let g:NERDTreeMapOpenInTab="t"
+      let NERDTreeHighlightCursorline=0
+      let g:NERDTreeMapActivateNode="<F4>"
+      let g:NERDTreeMapPreview="<F3>"
+      let g:NERDTreeIgnore = ['^node_modules$']
+      let g:NERDTreeWinPos = "left"
+  - name: 'Xuyuanp/nerdtree-git-plugin'
+  - name: 'editorconfig/editorconfig-vim'
+    settings: |
+      let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
+  - name: 'chrisbra/Colorizer'
+  - name: 'tomtom/tcomment_vim'
+    keybindings: |
+      noremap <leader>cc :TComment<CR>
+      noremap <leader>cC :TCommentInline<CR>
+  - name: 'rstacruz/vim-closer'
+  - name: 'rstacruz/vim-hyperstyle'
+  - name: 'tpope/vim-fugitive'
+    keybindings: |
+      noremap <leader>ga :GBlame<CR>
+      noremap <leader>gh :GBrowse<CR>
+  - name: 'tpope/vim-rhubarb'
+    settings: |
+      set completeopt-=preview
+  - name: 'airblade/vim-gitgutter'
+  - name: 'rhysd/git-messenger.vim'
+    keybindings: |
+      noremap <leader>gm :GitMessenger<CR>
+  - name: 'chemzqm/denite-git'
+  - name: 'gabrielelana/vim-markdown'

@@ -1,0 +1,5 @@
+---
+- name: install pip3 package {{ package }}
+  shell: pip3 install --user --upgrade {{ package }}
+  vars:
+    package: "{{ item }}"

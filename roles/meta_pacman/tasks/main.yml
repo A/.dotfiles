@@ -1,0 +1,10 @@
+---
+- name: ensure pacman packages are managed {{ pacman_packages }}
+  pacman:
+    name: "{{ packages }}"
+    state: "{{ pacman_state }}"
+    update_cache: yes
+  vars:
+    packages: "{{ pacman_packages }}"
+  become: true
+  when: packages | length

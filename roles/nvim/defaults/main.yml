@@ -1,0 +1,9 @@
+nvim_config_dir: ~/.config/nvim/
+nvim_config_file: init.vim
+nvim_plugins: []
+nvim_shared_packages:
+  - python3
+  - python2
+  - python2-pip
+  - nodejs
+  - yarn

@@ -1,0 +1,40 @@
+---
+- name: ensure config_dir exist
+  file:
+    path: "{{ nvim_config_dir }}"
+    state: directory
+
+- name: generate config
+  template:
+    src: init.vim
+    dest: "{{ nvim_config_dir }}/{{ nvim_config_file }}"
+
+- name: append plugin settings
+  block:
+    - name: append settings
+      include_tasks: append_to_config.yml
+      with_items: 
+        - "{{ nvim_plugins | json_query('[].settings') }}"
+
+    - name: append plugin keybindings
+      include_tasks: append_to_config.yml
+      with_items: 
+        - "{{ nvim_plugins | json_query('[].keybindings') }}"
+
+- name: install plugins
+  shell: nvim +'PlugInstall --sync' +qall &> /dev/null
+
+- name: set nvim as a git core.editor
+  git_config:
+    name: core.editor
+    value: nvim
+    scope: global
+
+- name: export editor and visual
+  include_role:
+    name: zsh
+    tasks_from: add_to_zshrc.yml
+  with_items:
+    - EDITOR=nvim
+    - VISUAL=nvim
+

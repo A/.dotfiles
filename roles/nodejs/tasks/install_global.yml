@@ -1,0 +1,7 @@
+---
+- name: install yarn global packages
+  yarn:
+    global: yes
+    state: "{{ yarn_state }}"
+    name: "{{ item }}"
+  with_items: "{{ packages }}"

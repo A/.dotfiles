@@ -1,0 +1,17 @@
+---
+- name: ensure python2,python3 are managed
+  include_role:
+    name: meta_pacman
+  vars:
+    pacman_packages:
+      - python3
+      - python2
+      - python2-pip
+
+- include_tasks: install_pip3_package.yml
+  with_items: "{{ pip3_global_packages }}"
+  when: pip3_global_packages | length
+
+- include_tasks: install_pip2_package.yml
+  with_items: "{{ pip2_global_packages }}"
+  when: pip2_global_packages | length

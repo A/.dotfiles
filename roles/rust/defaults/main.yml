@@ -1,0 +1,3 @@
+cargo_bin_dir: ~/.cargo/bin
+cargo_global_packages: []
+

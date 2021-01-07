@@ -1,0 +1,18 @@
+---
+- name: ensure git is managed
+  include_role:
+    name: meta_pacman
+  vars:
+    packages: git
+
+- name: configure user.email
+  git_config:
+    name: user.email
+    value: "{{ git_email }}"
+    scope: global
+
+- name: configure user.name
+  git_config:
+    name: user.name
+    value: "{{ git_username }}"
+    scope: global

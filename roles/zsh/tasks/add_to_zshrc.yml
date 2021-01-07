@@ -1,0 +1,11 @@
+---
+- file: 
+    path: "{{ zsh_config_dir }}/.zshrc"
+    state: file
+- name: append to zshrc
+  lineinfile: 
+    dest: "{{ zsh_config_dir }}/.zshrc"
+    line: "{{ item }}"
+    insertafter: "^{{ placeholder[p] }}"
+  vars:
+    p: "{{ priority | default('p1') }}"

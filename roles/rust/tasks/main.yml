@@ -1,0 +1,18 @@
+---
+- name: ensure rust package is managed
+  include_role:
+    name: meta_pacman
+  vars:
+    pacman_packages: rust
+
+- name: build cargo packages
+  include_tasks: install_package.yml
+  with_items: "{{ cargo_global_packages }}"
+
+- name: add cargo bin path to zshrc
+  include_role:
+    name: zsh
+    tasks_from: add_to_zshrc.yml
+  with_items:
+    - PATH=${PATH}:{{ cargo_bin_dir }}
+

@@ -1,0 +1,14 @@
+---
+- name: install_zsh
+  include_role:
+    name: meta_pacman
+  vars:
+    pacman_packages:
+      - zsh
+- name: get zsh path
+  shell: which zsh
+  register: which_zsh
+- name: change shell for the current user
+  user:
+    name: "{{ lookup('env', 'USER') }}"
+    shell: "{{ which_zsh.stdout }}"

@@ -1,7 +1,7 @@
-filetype plugin on
 
-let g:config_dir = stdpath('config') . '/'
-exec "so " . g:config_dir . 'settings.vim'
+
+ stdpath('config') . '/'
+fig_dir . 'settings.vim'
 
 
 " colorscheme trash-polka

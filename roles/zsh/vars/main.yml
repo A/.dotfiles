@@ -1,0 +1,26 @@
+---
+oh_my_zsh_dir: ~/.oh-my-zsh
+zsh_config_dir: ~/.config/zsh
+oh_my_zsh_theme: norm
+oh_my_zsh_plugins:
+  - name: git
+  - name: npm
+  - name: github
+  - name: yarn
+  - name: zsh-autosuggestions
+    repo: https://github.com/zsh-users/zsh-autosuggestions
+    settings: |
+      export COMPLETION_WAITING_DOTS="true"
+      export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=1"
+  - name: zsh-completions
+    settings: |
+      autoload -U compinit && compinit
+    repo: https://github.com/zsh-users/zsh-completions
+  - name: docker
+  - name: docker-compose
+aliases:
+  - alias: ..
+    command: cd ..;
+  - alias: serve
+    command: python -m SimpleHTTPServer
+

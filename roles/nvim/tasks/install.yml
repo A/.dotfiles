@@ -1,0 +1,34 @@
+---
+- name: ensure neovim is managed
+  include_role:
+    name: meta_pacman
+  vars:
+    pacman_packages: neovim
+
+- name: ensure shared_packages are managed
+  include_role:
+    name: meta_pacman
+  vars:
+    pacman_packages: "{{ nvim_shared_packages }}"
+
+- name: install pip3 neovim
+  include_role:
+    name: python
+    tasks_from: install_pip3_package.yml
+  with_items:
+    - neovim
+
+- name: install pip2 pynvim
+  include_role:
+    name: python
+    tasks_from: install_pip3_package.yml
+  with_items:
+    - pynvim
+
+- name: install nodejs provider
+  include_role:
+    name: nodejs
+    tasks_from: install_global.yml
+  vars:
+    packages:
+      - neovim

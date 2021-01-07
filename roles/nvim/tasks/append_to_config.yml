@@ -1,0 +1,9 @@
+---
+- file: 
+    path: "{{ nvim_config_dir }}/{{ nvim_config_file }}"
+    state: file
+- name: append to nvim
+  lineinfile: 
+    dest: "{{ nvim_config_dir }}/{{ nvim_config_file }}"
+    line: "{{ item }}"
+  when: item is defined

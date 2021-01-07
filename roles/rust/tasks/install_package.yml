@@ -1,0 +1,4 @@
+---
+- name: build cargo package {{ item }}
+  shell: cargo install {{ item }}
+

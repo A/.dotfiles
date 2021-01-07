@@ -1,0 +1,4 @@
+---
+- include_tasks: install_zsh.yml
+- include_tasks: install_oh_my_zsh.yml
+

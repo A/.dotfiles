@@ -1,14 +1,13 @@
 ## Dotfiles
 
-### Installation
+Arch Linux  dotfiles provisioned by ansible. Includes:
 
-Move out your `~/.config/` dir, then do ``
+### Usage
 
 ```
-ln -s ~/.dotfiles/.config/ ~
-ln -s ~/.dotfiles/.config/zsh/.zshenv ~/.zshenv
+ansible-play dotfiles.yml [--tag] -vvvv
 ```
 
-### Customisation
+### Configure:
 
-- Use `~/.exports` to define private environment vars.
+Tweak `group_vars/all` to tweak the configuration.

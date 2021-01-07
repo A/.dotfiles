@@ -1,0 +1,25 @@
+---
+- name: clone oh-my-zsh repo
+  git: repo=https://github.com/robbyrussell/oh-my-zsh.git dest={{ oh_my_zsh_dir }}
+
+- name: create conf folder in home directory
+  file: path={{ zsh_config_dir }} state=directory
+
+- name: clone plugin
+  git: repo={{ item.repo }} dest={{ oh_my_zsh_dir }}/custom/plugins/{{ item.name }}
+  with_items: "{{ oh_my_zsh_plugins }}"
+  when: item.repo is defined
+
+- name: render .zshrc
+  template:
+    src: .zshrc
+    dest: "{{ zsh_config_dir }}/.zshrc"
+
+- name: remove standard zshrc
+  file: path=~/.zshrc state=absent
+
+- name: symlink zshrc
+  file: path=~/.zshrc src=~/.config/zsh/.zshrc state=link force=true
+
+- name: create ~/.exports for local variables
+  file: path=~/.exports state=touch

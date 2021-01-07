@@ -1,0 +1,4 @@
+---
+- name: install aur package {{ item }}
+  shell: paru -S --noconfirm {{ item }}
+  when: item is defined
