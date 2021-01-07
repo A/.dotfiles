@@ -6,6 +6,7 @@ tmp=`echo "/tmp/response-time-log-$(date +'%T')" | sed 's/:/-/g'`
 echo '' > $tmp
 
 INTERVAL=15;
+# TODO: use tput lines to get terminal height
 ONLY_LAST=15;
 
 case "$1" in
@@ -20,15 +21,14 @@ case "$1" in
     exit 0
     ;;
   *)
-    while true;
-      do
-        line=`curl "$@" -s -o /dev/null -w  "%{time_starttransfer}" | \
-        xargs  echo "$(date +'%T')"`;
-        echo "$line" >> $tmp;
-        clear;
-        echo -e "${bold}# Response Time for $1 ${normal}";
-        cat $tmp | tail -n ${ONLY_LAST} | termgraph --color blue;
-        echo `sleep ${INTERVAL}`;
+    while :; do
+      line=`curl "$@" -s -o /dev/null -w  "%{time_starttransfer}" | \
+      xargs  echo "$(date +'%T')"`;
+      echo "$line" >> $tmp;
+      clear;
+      echo -e "${bold}# Response Time for $1 ${normal}";
+      cat $tmp | tail -n ${ONLY_LAST} | termgraph --color blue;
+      echo `sleep ${INTERVAL}`;
     done
     ;;
 esac

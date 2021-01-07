@@ -1,6 +1,7 @@
 #!/bin/sh
 
-while true;
+# TODO: make the viewer configurable
+while :;
 do
     feh --bg-fill "$(get-random-file $UNSPLASH_DIR)"
     sleep 60s

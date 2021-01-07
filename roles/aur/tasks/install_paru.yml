@@ -8,6 +8,6 @@
 - name: install paru
   include_role:
     name: rust
-  tasks_from: install_package.yml
+    tasks_from: install_package.yml
   with_items:
     - paru

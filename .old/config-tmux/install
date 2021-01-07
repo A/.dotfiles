@@ -1,8 +1,0 @@
-#!/bin/bash
-
-SCRIPT=$(readlink -f $0)
-WORKING_DIR=$(dirname $SCRIPT)
-
-ln -nsf "$WORKING_DIR" ~/.config/tmux
-
-exit 0

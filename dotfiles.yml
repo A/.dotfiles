@@ -15,7 +15,7 @@
     - { role: zsh, tags: [zsh] }
     - { role: tmux, tags: [tmux] }
     - { role: ripgrep, tags: [ripgrep] }
-    - { role: starship, tags: [starship] }
+    # - { role: starship, tags: [starship] }
     - { role: python, tags: [python] }
     - { role: nodejs, tags: [nodejs] }
     - { role: nvim, tags: [nvim] }

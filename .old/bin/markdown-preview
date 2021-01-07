@@ -1,6 +1,0 @@
-#!/bin/bash
-
-pandoc $1 > /tmp/markdown.html;
-open -a Google\ Chrome /tmp/markdown.html;
-
-

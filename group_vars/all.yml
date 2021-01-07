@@ -11,6 +11,7 @@ pip2_packages: []
 pip3_packages:
   - jmespath
   - awscli
+  - termgraph
 
 cargo_packages:
   - exa
