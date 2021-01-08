@@ -4,29 +4,39 @@
     path: "{{ nvim_config_dir }}"
     state: directory
 
-- name: generate config
-  template:
-    src: init.vim
-    dest: "{{ nvim_config_dir }}/{{ nvim_config_file }}"
+- name: ensure ~/.config/nvim/init.vim is linked to nvim/files/init.vim
+  file:
+    src: "{{ role_path }}/files/init.vim"
+    dest: "{{ nvim_config_dir }}/init.vim"
+    state: link
+    force: true
+
+- name: add plugins to config
+  include_tasks: add_plugin_to_config.yml
+  with_items:
+    - name: nvim-pligins
+      block: "{{ lookup('template', './plugins.vim') }}"
 
 - name: append plugin settings
   block:
     - name: append settings
       include_tasks: append_to_config.yml
       with_items: 
-        - "{{ nvim_plugins | json_query('[].settings') }}"
+        - "{{ nvim_plugins | json_query('[].{ name: name, block: settings  }') }}"
+      vars:
+        suffix: '-settings'
 
     - name: append plugin keybindings
       include_tasks: append_to_config.yml
       with_items: 
-        - "{{ nvim_plugins | json_query('[].keybindings') }}"
+        - "{{ nvim_plugins | json_query('[].{ name: name, block: keybindings }') }}"
+      vars:
+        suffix: '-keybindings'
 
 - name: install plugins
-  shell: nvim +'PlugInstall --sync' +qall &> /dev/null
+  shell: nvim +'PlugInstall --sync' +qall
   register: nvim_log
-
-- debug:
-   var: nvim_log
+  changed_when: false
 
 - name: set nvim as a git core.editor
   git_config:
