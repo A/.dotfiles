@@ -1,12 +1,7 @@
 ---
 - name: append to init.vim config {{ item.name }}
-  block:
-    - name: debug item
-      debug:
-        var: item
-    - name: add block to config
-      blockinfile:
-        path: "{{ nvim_config_dir }}/init.vim"
-        block: "{{ item.block }}"
-        marker: "\" {mark} ANSIBLE MANAGED BLOCK {{ item.name }}{{ suffix }}"
-      when: item.block is defined
+  blockinfile:
+    path: "{{ nvim_config_dir }}/init.vim"
+    block: "{{ item.block }}"
+    marker: "\" {mark} ANSIBLE MANAGED BLOCK {{ item.name }}{{ suffix }}"
+  when: item.block is defined
