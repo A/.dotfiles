@@ -1,4 +1,6 @@
 ---
 - name: ensure aur package is managed {{ item }}
-  shell: paru -S --noconfirm {{ item }}
+  shell: paru -S --noconfirm --needed {{ item }}
   when: item is defined
+  register: paru_log
+  changed_when: "'there is nothing to do' not in paru_log.stdout"
