@@ -23,6 +23,10 @@
 
 - name: install plugins
   shell: nvim +'PlugInstall --sync' +qall &> /dev/null
+  register: nvim_log
+
+- debug:
+   var: nvim_log
 
 - name: set nvim as a git core.editor
   git_config:
@@ -34,7 +38,7 @@
   include_role:
     name: zsh
     tasks_from: append_to_config.yml
-  with_items:
+  vars:
     item_block: |
       export EDITOR=nvim
       export VISUAL=nvim

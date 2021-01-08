@@ -16,6 +16,7 @@ pip3_packages:
 cargo_packages:
   - exa
   - bat
+  - cargo-update
 
 yarn_packages:
   - typescript

@@ -1,5 +1,5 @@
 ---
-- name: install pip3 package {{ package }}
-  shell: pip3 install --user --upgrade {{ package }}
-  vars:
-    package: "{{ item }}"
+- name: install pip3 package {{ item }}
+  shell: pip3 install --user --upgrade {{ item }}
+  register: pip3_log
+  changed_when: "'Requirement already satisfied' not in pip3_log.stdout"

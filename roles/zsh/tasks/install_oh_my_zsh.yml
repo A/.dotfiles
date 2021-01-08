@@ -10,9 +10,9 @@
     force: true
 
 - name: ensure ansible managed config created
-  file:
-    path: "{{ zsh.ansible_managed_config }}"
-    state: touch
+  shell: 
+    cmd: touch {{ zsh.ansible_managed_config }}
+    creates: "{{ zsh.ansible_managed_config }}"
 
 - name: ensure plugin repos are installed
   git: repo={{ item.repo }} dest={{ zsh.ohmyzsh_dir }}/custom/plugins/{{ item.name }}
@@ -20,7 +20,9 @@
   when: item.repo is defined
 
 - name: ensure ~/.exports is created
-  file: path=~/.exports state=touch
+  shell: 
+    cmd: touch ~/.exports
+    creates: ~/.exports
 
 - name: symlink zshrc
   file:

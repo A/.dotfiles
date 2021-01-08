@@ -1,6 +1,17 @@
 ---
+- name: register current version of {{ item }}
+  shell: yarn global list | grep -o '"{{ item }}@.*"'
+  register: yarn_installed
+  changed_when: false
+  failed_when: false
+
 - name: ensure yarn package is managed {{ item }}
   yarn:
     global: yes
     state: "{{ yarn_state }}"
     name: "{{ item }}"
+  register: yarn_updated
+  changed_when: >
+    (yarn_installed.stdout | length == 0) or
+    (yarn_installed.stdout not in yarn_updated.out)
+

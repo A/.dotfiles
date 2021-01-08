@@ -23,3 +23,7 @@ PATH=${PATH}:~/.cargo/bin
 # BEGIN ANSIBLE MANAGED BLOCK nodejs
 PATH=${PATH}:~/.yarn/bin
 # END ANSIBLE MANAGED BLOCK nodejs
+# BEGIN ANSIBLE MANAGED BLOCK nvim
+export EDITOR=nvim
+export VISUAL=nvim
+# END ANSIBLE MANAGED BLOCK nvim

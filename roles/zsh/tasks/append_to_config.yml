@@ -1,7 +1,8 @@
 ---
-- file: 
-    path: "{{ zsh.ansible_managed_config }}"
-    state: touch
+- name: ensure ansible managed config created
+  shell: 
+    cmd: touch {{ zsh.ansible_managed_config }}
+    creates: "{{ zsh.ansible_managed_config }}"
 - name: append to ansible managed zsh config {{ item_name }}
   blockinfile:
     path: "{{ zsh.ansible_managed_config }}"

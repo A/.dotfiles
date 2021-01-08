@@ -8,6 +8,7 @@
 - name: get zsh path
   shell: which zsh
   register: which_zsh
+  changed_when: false
 - name: change shell for the current user
   user:
     name: "{{ lookup('env', 'USER') }}"

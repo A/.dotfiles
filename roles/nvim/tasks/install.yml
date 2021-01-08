@@ -29,6 +29,5 @@
   include_role:
     name: nodejs
     tasks_from: install_global.yml
-  vars:
-    packages:
-      - neovim
+  with_items:
+    - neovim
