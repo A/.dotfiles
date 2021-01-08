@@ -12,6 +12,7 @@
 - name: add yarn bin to $PATH
   include_role:
     name: zsh
-    tasks_from: add_to_zshrc.yml
-  with_items:
-    - PATH=${PATH}:{{ yarn_bin_dir }}
+    tasks_from: append_to_config.yml
+  vars:
+    item_block: PATH=${PATH}:{{ yarn_bin_dir }}
+    item_name: nodejs

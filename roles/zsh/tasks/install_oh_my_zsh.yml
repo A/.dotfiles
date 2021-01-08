@@ -1,25 +1,36 @@
 ---
 - name: clone oh-my-zsh repo
-  git: repo=https://github.com/robbyrussell/oh-my-zsh.git dest={{ oh_my_zsh_dir }}
+  git: repo=https://github.com/robbyrussell/oh-my-zsh.git dest={{ zsh.ohmyzsh_dir }}
 
-- name: create conf folder in home directory
-  file: path={{ zsh_config_dir }} state=directory
+- name: ensure ~/.config/zsh is linked to zsh/files
+  file:
+    src: "{{ role_path }}/files/zsh"
+    dest: "{{ zsh.config_dir }}"
+    state: link
+    force: true
 
-- name: clone plugin
-  git: repo={{ item.repo }} dest={{ oh_my_zsh_dir }}/custom/plugins/{{ item.name }}
-  with_items: "{{ oh_my_zsh_plugins }}"
+- name: ensure ansible managed config created
+  file:
+    path: "{{ zsh.ansible_managed_config }}"
+    state: touch
+
+- name: ensure plugin repos are installed
+  git: repo={{ item.repo }} dest={{ zsh.ohmyzsh_dir }}/custom/plugins/{{ item.name }}
+  with_items: "{{ zsh.ohmyzsh_plugins }}"
   when: item.repo is defined
 
-- name: render .zshrc
-  template:
-    src: .zshrc
-    dest: "{{ zsh_config_dir }}/.zshrc"
-
-- name: remove standard zshrc
-  file: path=~/.zshrc state=absent
+- name: ensure ~/.exports is created
+  file: path=~/.exports state=touch
 
 - name: symlink zshrc
-  file: path=~/.zshrc src=~/.config/zsh/.zshrc state=link force=true
+  file:
+    src: "{{ zsh.config_dir }}/.zshrc"
+    path: ~/.zshrc 
+    state: link
+    force: true
 
-- name: create ~/.exports for local variables
-  file: path=~/.exports state=touch
+- name: render plugins to ansible managed config
+  include_tasks: append_to_config.yml
+  vars:
+    item_block: "{{ lookup('template', './settings.zsh') }}"
+    item_name: role/zsh

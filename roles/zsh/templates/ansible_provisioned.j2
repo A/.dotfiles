@@ -1,0 +1,7 @@
+{{ ansible_managed }}
+
+plugins=({% for plugin in ohmyzsh_plugins %} {{ plugin.name }} {% endfor %})
+
+{%  for plugin in ohmyzsh_plugins -%}
+  {% if plugin.settings is defined %}{{ plugin.settings }}{% endif %}
+{% endfor %}

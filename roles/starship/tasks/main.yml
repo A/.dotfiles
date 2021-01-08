@@ -6,14 +6,14 @@
   with_items:
     - starship
 
-- name: update zshrc
-  include_role:
-    name: zsh
-    tasks_from: add_to_zshrc.yml
-  with_items:
-    - eval "$(starship init zsh)"
-  vars:
-    priority: p2
+# - name: update zshrc
+#   include_role:
+#     name: zsh
+#     tasks_from: add_to_zshrc.yml
+#   with_items:
+#     - eval "$(starship init zsh)"
+#   vars:
+#     priority: p2
 
 - name: render starship config
   template:

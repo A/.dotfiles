@@ -33,8 +33,10 @@
 - name: export editor and visual
   include_role:
     name: zsh
-    tasks_from: add_to_zshrc.yml
+    tasks_from: append_to_config.yml
   with_items:
-    - EDITOR=nvim
-    - VISUAL=nvim
+    item_block: |
+      export EDITOR=nvim
+      export VISUAL=nvim
+    item_name: nvim
 

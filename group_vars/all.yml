@@ -22,6 +22,34 @@ yarn_packages:
   - eslint
   - n
 
+zsh:
+  config_dir: ~/.config/zsh
+  ansible_managed_config: ~/.config/zsh/config.ansible_provisioned.zsh
+  ohmyzsh_dir: ~/.oh-my-zsh
+  ohmyzsh_theme: norm
+  ohmyzsh_plugins:
+    - name: git
+    - name: npm
+    - name: github
+    - name: yarn
+    - name: zsh-autosuggestions
+      repo: https://github.com/zsh-users/zsh-autosuggestions
+      settings: |
+        export COMPLETION_WAITING_DOTS="true"
+        export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=1"
+    - name: zsh-completions
+      settings: |
+        autoload -U compinit && compinit
+      repo: https://github.com/zsh-users/zsh-completions
+    - name: docker
+    - name: docker-compose
+  aliases:
+    - alias: ..
+      command: cd ..;
+    - alias: serve
+      command: python -m SimpleHTTPServer
+
+
 nvim_plugins: 
   - name: 'neoclide/coc.nvim'
     do: '{ -> coc#util#install() }'
