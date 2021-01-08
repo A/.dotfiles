@@ -1,8 +1,17 @@
 # BEGIN ANSIBLE MANAGED BLOCK role/zsh
 ZSH_THEME="norm"
-ZSH="~/.oh-my-zsh"
+ZSH="$HOME/.oh-my-zsh"
 
-plugins=( git  npm  github  yarn  zsh-autosuggestions  zsh-completions  docker  docker-compose )
+plugins=( \
+git \
+npm \
+github \
+yarn \
+zsh-autosuggestions \
+zsh-completions \
+docker \
+docker-compose \
+)
 
 export COMPLETION_WAITING_DOTS="true"
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=1"

@@ -23,9 +23,9 @@ yarn_packages:
   - n
 
 zsh:
-  config_dir: ~/.config/zsh
-  ansible_managed_config: ~/.config/zsh/config.ansible_provisioned.zsh
-  ohmyzsh_dir: ~/.oh-my-zsh
+  config_dir: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/zsh"
+  ansible_managed_config: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/zsh/config.ansible_provisioned.zsh"
+  ohmyzsh_dir: $HOME/.oh-my-zsh
   ohmyzsh_theme: norm
   ohmyzsh_plugins:
     - name: git

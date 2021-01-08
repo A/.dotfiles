@@ -2,7 +2,7 @@
 - file: 
     path: "{{ zsh.ansible_managed_config }}"
     state: touch
-- name: append to ansible managed zsh config
+- name: append to ansible managed zsh config {{ item_name }}
   blockinfile:
     path: "{{ zsh.ansible_managed_config }}"
     block: "{{ item_block }}"
