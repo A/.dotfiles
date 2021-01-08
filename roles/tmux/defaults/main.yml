@@ -2,3 +2,6 @@
 tmux_config_path: ~/.config/tmux
 tmux_git_clone_dir: ~/Dev/packages/tmux
 tmux_version: 3.2-rc
+tmux_shared_packanges:
+  - ncursed
+  - libevent

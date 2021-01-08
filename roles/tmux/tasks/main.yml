@@ -1,57 +1,22 @@
 ---
-# - name: ensure tmux package is manager
-#   include_role:
-#     name: meta_pacman
-#   vars:
-#     pacman_packages: tmux
-
-- name: build tmux package from git sources
-  block:
-    - name: ensure {{ tmux_git_clone_dir }} exists
-      file:
-        path: "{{ tmux_git_clone_dir }}"
-        state: directory
-        mode: 0777
-        recurse: true
-    - name: install tmux deps
-      include_role:
-        name: meta_pacman
-      vars:
-        pacman_packages:
-          - ncurses
-          - libevent
-    - name: clone tmux repo
-      git:
-        repo: https://github.com/tmux/tmux
-        dest: "{{ tmux_git_clone_dir }}"
-        depth: 1
-        force: yes
-        version: "{{ tmux_version }}"
-    - name: register pwd
-      shell: 
-        cmd: pwd
-        chdir: "{{ tmux_git_clone_dir }}"
-      register: build_dir
-    - name: build & install
-      shell:
-        cmd: |
-          sh autogen.sh
-          ./configure && make install
-          # TODO:
-          chown -R a8ka .
-        chdir: "{{ build_dir.stdout }}"
-      become: true
+- name: ensure tmux package is managed
+  include_role:
+    name: aur
+    tasks_from: install_package.yml
+  with_items:
+    - tmux-git
 
 - name: ensure tmux config directory exists
   file:
     path: "{{ tmux_config_path }}"
     state: directory
-    
 
-- name: render tmux.conf
-  template:
-    src: tmux.conf
+- name: ensure {{ tmux_config_path }}/tmux,conf is linked to tmux/files
+  file:
+    src: "{{ role_path }}/files/tmux.conf"
     dest: "{{ tmux_config_path }}/tmux.conf"
+    state: link
+    force: true
 
 - name: install tpm
   git:
