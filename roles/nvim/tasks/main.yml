@@ -1,3 +1,75 @@
 ---
-- include_tasks: install.yml
-- include_tasks: configure.yml
+- name: ensure nvim package and dependencies are managed
+  block:
+
+    - name: role nvim | manage pacman packages
+      include_role: name=meta_pacman
+      vars:
+        pacman_packages: "{{ nvim_pacman_packages }}"
+
+    - name: role nvim | manage python packages
+      include_role: name=python
+      vars:
+        pip3_packages: "{{ nvim_pip3_packages }}"
+        pip2_packages: "{{ nvim_pip2_packages }}"
+
+    - name: role nvim | manage yarn packages
+      include_role: name=yarn
+      vars:
+        yarn_packages: "{{ nvim_yarn_packages }}"
+
+- name: ensure nvim config is up-to-date
+  block:
+
+    - name: ensure config_dir exist
+      file: path={{ nvim_config_dest | dirname }} state=directory
+
+    - name: ensure init.vim is linked to {{ role_path }}/files/init.vim
+      file: src={{ nvim_config_src }} dest={{ nvim_config_dest }} state=link force=true
+
+    - name: ensure plugin list is up-to-date
+      blockinfile:
+        path: "{{ nvim_config_src }}"
+        block: "{{ lookup('template', './plugins.vim') }}"
+        marker: "\" {mark} ANSIBLE MANAGED BLOCK nvim-plugins"
+        insertafter: '^" PLUGINS PLACEHOLDER'
+
+    - name: ensure plugin settings are up-to-date
+      blockinfile:
+        path: "{{ nvim_config_src }}"
+        block: "{{ item.block }}"
+        marker: "\" {mark} ANSIBLE MANAGED BLOCK {{ item.name }}-settings"
+      with_items: "{{ nvim_plugins | json_query('[].{ name: name, block: settings  }') }}"
+      when: item.block is defined
+
+    - name: ensure nvim settings are up-to-date
+      blockinfile:
+        path: "{{ nvim_config_src }}"
+        block: "{{ item.block }}"
+        marker: "\" {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
+      with_items: "{{ nvim_config }}"
+
+    - name: ensure plugins are installed
+      shell: nvim +'PlugInstall --sync' +qall
+      changed_when: false
+
+- name: ensure is environment is configured properly
+  block:
+  
+    - name: ensure nvim is a git core.editor
+      include_role: name=git
+      vars:
+        git_config:
+          - name: core.editor
+            value: nvim
+      tags: [git]
+
+    - name: ensure EDITOR and VISUAL are configured
+      include_role: name=zsh
+      vars:
+        zsh_config:
+          - name: nvim-configure
+            block: |
+              export EDITOR=nvim
+              export VISUAL=nvim
+      tags: [zsh]

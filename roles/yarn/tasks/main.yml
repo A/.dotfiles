@@ -9,7 +9,7 @@
   include_role:
     name: zsh
   vars:
-    zsh_settings:
+    zsh_config:
       - name: nodejs
         block: PATH=${PATH}:$(yarn global bin)
   tags: [zsh]

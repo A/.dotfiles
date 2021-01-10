@@ -1,0 +1,9 @@
+cargo_packages:
+  - name: exa
+    state: latest
+  - name: bat
+    state: latest
+  - name: cargo-update
+    state: latest
+  # - name: todor
+  #   state: latest

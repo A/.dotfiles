@@ -13,7 +13,7 @@
   include_role:
     name: zsh
   vars:
-    zsh_settings:
+    zsh_config:
       - name: rust
         block: PATH=${PATH}:{{ cargo_bin_dir }}
 

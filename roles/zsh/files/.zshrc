@@ -20,6 +20,9 @@ PROMPT_COMMAND=__prompt_command
 precmd() { eval "$PROMPT_COMMAND" }
 
 # ZSH ANSIBLE GENERATED CONFIG
+# BEGIN ANSIBLE MANAGED BLOCK rust
+PATH=${PATH}:/home/a8ka/.cargo/bin
+# END ANSIBLE MANAGED BLOCK rust
 # BEGIN ANSIBLE MANAGED BLOCK nvim-configure
 export EDITOR=nvim
 export VISUAL=nvim

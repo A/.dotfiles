@@ -1,0 +1,5 @@
+aur_packages:
+  - name: obsidian-appimage
+    state: latest
+  - name: nerd-fonts-iosevka
+    state: latest

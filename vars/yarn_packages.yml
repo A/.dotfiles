@@ -1,0 +1,7 @@
+yarn_packages:
+  - name: typescript
+    state: latest
+  - name: eslint
+    state: latest
+  - name: n
+    state: latest

@@ -1,0 +1,9 @@
+pacman_packages:
+  - name: git
+    state: latest
+  - name: fzf
+    state: latest
+  - name: nodejs
+    state: latest
+  - name: alacritty
+    state: latest

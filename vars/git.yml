@@ -1,0 +1,5 @@
+git_config:
+  - name: user.email
+    value: anton@shuvalov.info
+  - name: user.name
+    value: Anton Shuvalov

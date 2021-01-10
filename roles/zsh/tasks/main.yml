@@ -32,13 +32,13 @@
     marker: "# {mark} ANSIBLE MANAGED BLOCK zsh-settings"
     insertafter: "# ZSH ANSIBLE GENERATED CONFIG"
 
-- name: ensure zsh_settings are up-to-date
+- name: ensure zsh config is up-to-date
   blockinfile:
     path: "{{ zsh_config_src }}"
     block: "{{ item.block }}"
     marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
     insertafter: "# ZSH ANSIBLE GENERATED CONFIG"
-  with_items: "{{ zsh_settings }}"
+  with_items: "{{ zsh_config }}"
   when: item.block is defined
 
 

@@ -53,7 +53,7 @@ unlet autoload_plug_path
 call plug#begin(stdpath('config') . '/plugins')
 
 " PLUGINS PLACEHOLDER
-" BEGIN ANSIBLE MANAGED BLOCK nvim-pligins
+" BEGIN ANSIBLE MANAGED BLOCK nvim-plugins
 Plug 'neoclide/coc.nvim', {'do': '{ -> coc#util#install() }' }
 Plug 'neoclide/coc-snippets'
 Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile' }
@@ -81,8 +81,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/git-messenger.vim'
 Plug 'chemzqm/denite-git'
 Plug 'gabrielelana/vim-markdown'
-" END ANSIBLE MANAGED BLOCK nvim-pligins
-
+" END ANSIBLE MANAGED BLOCK nvim-plugins
+"
 call plug#end()
 
 if plug_install
@@ -99,12 +99,41 @@ autocmd BufReadPost *
 
 nmap <silent> gF :vsp<CR>gf
 noremap <leader>fs :Vgrep
+" BEGIN ANSIBLE MANAGED BLOCK neoclide/coc.nvim-settings
+nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
+nmap    <leader>cr  <Plug>(coc-rename)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gr <Plug>(coc-references)
+imap <C-e> <Plug>(coc-snippets-expand-jump)
+function! ShowDocumentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+nnoremap <silent> K :call ShowDocumentation()<CR>
+" END ANSIBLE MANAGED BLOCK neoclide/coc.nvim-settings
 " BEGIN ANSIBLE MANAGED BLOCK mhartington/nvim-typescript-settings
 let g:nvim_typescript#javascript_support=1
 let g:nvim_typescript#diagnostics_enable = 0
 autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
 " END ANSIBLE MANAGED BLOCK mhartington/nvim-typescript-settings
+" BEGIN ANSIBLE MANAGED BLOCK Shougo/denite.nvim-settings
+noremap <leader>fS :DeniteCursorWord grep<CR>
+noremap <leader>fb :Denite buffer<CR>
+noremap <leader>vc :Denite colorscheme<CR>
+noremap <leader>gi :Denite gists<CR>
+noremap <leader>gf :Denite gitlog<CR>
+noremap <leader>gl :Denite gitlog:all<CR>
+noremap <leader>gs :Denite gitstatus<CR>
+noremap <leader>gb :Denite gitbranch<CR>
+" END ANSIBLE MANAGED BLOCK Shougo/denite.nvim-settings
 " BEGIN ANSIBLE MANAGED BLOCK dense-analysis/ale-settings
+noremap <leader>cE <Plug>(ale_previous_wrap)
+noremap <leader>ce <Plug>(ale_next_wrap)
+
 let g:ale_sign_error = ' '
 let g:ale_sign_warning = ' '
 let g:airline#extensions#ale#enabled = 1
@@ -127,6 +156,9 @@ let g:ale_linters = {
 let g:ale_fix_on_save = 0
 let g:ale_linters_explicit = 1
 " END ANSIBLE MANAGED BLOCK dense-analysis/ale-settings
+" BEGIN ANSIBLE MANAGED BLOCK junegunn/fzf-settings
+noremap <leader>fp :FZF<CR>
+" END ANSIBLE MANAGED BLOCK junegunn/fzf-settings
 " BEGIN ANSIBLE MANAGED BLOCK ryanoasis/vim-devicons-settings
 let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
 let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
@@ -153,6 +185,8 @@ let g:airline_section_y = '%{LineNoIndicator()}'
 let g:airline_section_z = '%2c'
 " END ANSIBLE MANAGED BLOCK vim-airline/vim-airline-settings
 " BEGIN ANSIBLE MANAGED BLOCK scrooloose/nerdtree-settings
+noremap <leader>ft :NERDTreeToggle<CR>
+noremap <leader>ff :NERDTreeFind<CR>
 autocmd VimEnter *
   \   if !argc()
   \ |   NERDTree
@@ -173,54 +207,22 @@ let g:NERDTreeWinPos = "left"
 " BEGIN ANSIBLE MANAGED BLOCK editorconfig/editorconfig-vim-settings
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
 " END ANSIBLE MANAGED BLOCK editorconfig/editorconfig-vim-settings
+" BEGIN ANSIBLE MANAGED BLOCK tomtom/tcomment_vim-settings
+noremap <leader>cc :TComment<CR>
+noremap <leader>cC :TCommentInline<CR>
+" END ANSIBLE MANAGED BLOCK tomtom/tcomment_vim-settings
+" BEGIN ANSIBLE MANAGED BLOCK tpope/vim-fugitive-settings
+noremap <leader>ga :GBlame<CR>
+noremap <leader>gh :GBrowse<CR>
+" END ANSIBLE MANAGED BLOCK tpope/vim-fugitive-settings
 " BEGIN ANSIBLE MANAGED BLOCK tpope/vim-rhubarb-settings
 set completeopt-=preview
 " END ANSIBLE MANAGED BLOCK tpope/vim-rhubarb-settings
-" BEGIN ANSIBLE MANAGED BLOCK neoclide/coc.nvim-keybindings
-nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
-nmap    <leader>cr  <Plug>(coc-rename)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gr <Plug>(coc-references)
-imap <C-e> <Plug>(coc-snippets-expand-jump)
-function! ShowDocumentation()
-  if &filetype == 'vim'
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-nnoremap <silent> K :call ShowDocumentation()<CR>
-" END ANSIBLE MANAGED BLOCK neoclide/coc.nvim-keybindings
-" BEGIN ANSIBLE MANAGED BLOCK Shougo/denite.nvim-keybindings
-noremap <leader>fS :DeniteCursorWord grep<CR>
-noremap <leader>fb :Denite buffer<CR>
-noremap <leader>vc :Denite colorscheme<CR>
-noremap <leader>gi :Denite gists<CR>
-noremap <leader>gf :Denite gitlog<CR>
-noremap <leader>gl :Denite gitlog:all<CR>
-noremap <leader>gs :Denite gitstatus<CR>
-noremap <leader>gb :Denite gitbranch<CR>
-" END ANSIBLE MANAGED BLOCK Shougo/denite.nvim-keybindings
-" BEGIN ANSIBLE MANAGED BLOCK dense-analysis/ale-keybindings
-noremap <leader>cE <Plug>(ale_previous_wrap)
-noremap <leader>ce <Plug>(ale_next_wrap)
-" END ANSIBLE MANAGED BLOCK dense-analysis/ale-keybindings
-" BEGIN ANSIBLE MANAGED BLOCK junegunn/fzf-keybindings
-noremap <leader>fp :FZF<CR>
-" END ANSIBLE MANAGED BLOCK junegunn/fzf-keybindings
-" BEGIN ANSIBLE MANAGED BLOCK scrooloose/nerdtree-keybindings
-noremap <leader>ft :NERDTreeToggle<CR>
-noremap <leader>ff :NERDTreeFind<CR>
-" END ANSIBLE MANAGED BLOCK scrooloose/nerdtree-keybindings
-" BEGIN ANSIBLE MANAGED BLOCK tomtom/tcomment_vim-keybindings
-noremap <leader>cc :TComment<CR>
-noremap <leader>cC :TCommentInline<CR>
-" END ANSIBLE MANAGED BLOCK tomtom/tcomment_vim-keybindings
-" BEGIN ANSIBLE MANAGED BLOCK tpope/vim-fugitive-keybindings
-noremap <leader>ga :GBlame<CR>
-noremap <leader>gh :GBrowse<CR>
-" END ANSIBLE MANAGED BLOCK tpope/vim-fugitive-keybindings
-" BEGIN ANSIBLE MANAGED BLOCK rhysd/git-messenger.vim-keybindings
+" BEGIN ANSIBLE MANAGED BLOCK rhysd/git-messenger.vim-settings
 noremap <leader>gm :GitMessenger<CR>
-" END ANSIBLE MANAGED BLOCK rhysd/git-messenger.vim-keybindings
+" END ANSIBLE MANAGED BLOCK rhysd/git-messenger.vim-settings
+" BEGIN ANSIBLE MANAGED BLOCK ripgrep
+if executable('rg')
+  set grepprg=rg\ --color=never\ --vimgrep
+endif
+" END ANSIBLE MANAGED BLOCK ripgrep

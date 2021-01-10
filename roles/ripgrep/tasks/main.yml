@@ -8,10 +8,10 @@
 - name: set ripgrep as a vimgrep
   include_role:
     name: nvim
-    tasks_from: append_to_config.yml
-  with_items:
-    - name: ripgrep
-      settings: |
-        if executable('rg')
-          set grepprg=rg\ --color=never\ --vimgrep
-        endif
+  vars:
+    nvim_config:
+      - name: ripgrep
+        block: |
+          if executable('rg')
+            set grepprg=rg\ --color=never\ --vimgrep
+          endif

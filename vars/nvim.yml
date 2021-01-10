@@ -1,72 +1,7 @@
-git_config:
-  - name: user.email
-    value: anton@shuvalov.info
-  - name: user.name
-    value: Anton Shuvalov
-
-pacman_packages:
-  - name: git
-    state: latest
-  - name: fzf
-    state: latest
-  - name: nodejs
-    state: latest
-  - name: alacritty
-    state: latest
-
-
-aur_packages:
-  - name: obsidian-appimage
-    state: latest
-  - name: nerd-fonts-iosevka
-    state: latest
-
-pip2_packages: []
-pip3_packages:
-  - jmespath
-  - awscli
-  - termgraph
-
-cargo_packages:
-  - name: exa
-    state: latest
-  - name: bat
-    state: latest
-  - name: cargo-update
-    state: latest
-  # - name: todor
-  #   state: latest
-
-yarn_packages:
-  - name: typescript
-    state: latest
-  - name: eslint
-    state: latest
-  - name: n
-    state: latest
-
-zsh_ohmyzsh_theme: norm
-zsh_ohmyzsh_plugins:
-  - name: git
-  - name: npm
-  - name: github
-  - name: yarn
-  - name: zsh-autosuggestions
-    repo: https://github.com/zsh-users/zsh-autosuggestions
-    settings: |
-      export COMPLETION_WAITING_DOTS="true"
-      export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=1"
-  - name: zsh-completions
-    settings: |
-      autoload -U compinit && compinit
-    repo: https://github.com/zsh-users/zsh-completions
-  - name: docker
-  - name: docker-compose
-
 nvim_plugins: 
   - name: 'neoclide/coc.nvim'
     do: '{ -> coc#util#install() }'
-    keybindings: |
+    settings: |
       nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
       nmap    <leader>cr  <Plug>(coc-rename)
       nmap <silent> gd <Plug>(coc-definition)
@@ -99,7 +34,7 @@ nvim_plugins:
       let g:nvim_typescript#diagnostics_enable = 0
       autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
   - name: 'Shougo/denite.nvim'
-    keybindings: |
+    settings: |
       noremap <leader>fS :DeniteCursorWord grep<CR>
       noremap <leader>fb :Denite buffer<CR>
       noremap <leader>vc :Denite colorscheme<CR>
@@ -109,10 +44,10 @@ nvim_plugins:
       noremap <leader>gs :Denite gitstatus<CR>
       noremap <leader>gb :Denite gitbranch<CR>
   - name: 'dense-analysis/ale'
-    keybindings: |
+    settings: |
       noremap <leader>cE <Plug>(ale_previous_wrap)
       noremap <leader>ce <Plug>(ale_next_wrap)
-    settings: |
+
       let g:ale_sign_error = ' '
       let g:ale_sign_warning = ' '
       let g:airline#extensions#ale#enabled = 1
@@ -136,7 +71,7 @@ nvim_plugins:
       let g:ale_linters_explicit = 1
   - name: 'junegunn/fzf'
     do: '{ -> fzf#install() } }'
-    keybindings: |
+    settings: |
       noremap <leader>fp :FZF<CR>
   - name: 'ryanoasis/vim-devicons'
     settings: |
@@ -165,10 +100,9 @@ nvim_plugins:
       let g:airline_section_z = '%2c'
   - name: 'drzel/vim-line-no-indicator'
   - name: 'scrooloose/nerdtree'
-    keybindings: |
+    settings: |
       noremap <leader>ft :NERDTreeToggle<CR>
       noremap <leader>ff :NERDTreeFind<CR>
-    settings: |
       autocmd VimEnter *
         \   if !argc()
         \ |   NERDTree
@@ -191,13 +125,13 @@ nvim_plugins:
       let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
   - name: 'chrisbra/Colorizer'
   - name: 'tomtom/tcomment_vim'
-    keybindings: |
+    settings: |
       noremap <leader>cc :TComment<CR>
       noremap <leader>cC :TCommentInline<CR>
   - name: 'rstacruz/vim-closer'
   - name: 'rstacruz/vim-hyperstyle'
   - name: 'tpope/vim-fugitive'
-    keybindings: |
+    settings: |
       noremap <leader>ga :GBlame<CR>
       noremap <leader>gh :GBrowse<CR>
   - name: 'tpope/vim-rhubarb'
@@ -205,7 +139,7 @@ nvim_plugins:
       set completeopt-=preview
   - name: 'airblade/vim-gitgutter'
   - name: 'rhysd/git-messenger.vim'
-    keybindings: |
+    settings: |
       noremap <leader>gm :GitMessenger<CR>
   - name: 'chemzqm/denite-git'
   - name: 'gabrielelana/vim-markdown'

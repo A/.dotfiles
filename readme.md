@@ -8,6 +8,6 @@ Arch Linux  dotfiles provisioned by ansible. Includes:
 ansible-play dotfiles.yml [--tag] -vvvv
 ```
 
-### Configure:
+### Configuration
 
-Tweak `group_vars/all` to tweak the configuration.
+configuration is defined in the `vars` directory, tweak this files to achieve desired state.
