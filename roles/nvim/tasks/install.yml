@@ -1,33 +1,19 @@
 ---
-- name: ensure neovim is managed
+- name: role nvim | manage pacman packages
   include_role:
     name: meta_pacman
   vars:
-    pacman_packages: neovim
+    pacman_packages: "{{ nvim_pacman_packages }}"
 
-- name: ensure shared_packages are managed
+- name: role nvim | manage python packages
   include_role:
-    name: meta_pacman
+    name: python
   vars:
-    pacman_packages: "{{ nvim_shared_packages }}"
+    pip3_packages: "{{ nvim_pip3_packages }}"
+    pip2_packages: "{{ nvim_pip2_packages }}"
 
-- name: install pip3 neovim
+- name: role nvim | manage yarn packages
   include_role:
-    name: python
-    tasks_from: install_pip3_package.yml
-  with_items:
-    - neovim
-
-- name: install pip2 pynvim
-  include_role:
-    name: python
-    tasks_from: install_pip3_package.yml
-  with_items:
-    - pynvim
-
-- name: install nodejs provider
-  include_role:
-    name: nodejs
-    tasks_from: install_global.yml
-  with_items:
-    - neovim
+    name: yarn
+  vars:
+    yarn_packages: "{{ nvim_yarn_packages }}"

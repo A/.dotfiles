@@ -48,9 +48,9 @@
   include_role:
     name: zsh
     tasks_from: append_to_config.yml
-  vars:
-    item_block: |
-      export EDITOR=nvim
-      export VISUAL=nvim
-    item_name: nvim
+  with_items:
+    - name: nvim-configure
+      block: |
+        export EDITOR=nvim
+        export VISUAL=nvim
 

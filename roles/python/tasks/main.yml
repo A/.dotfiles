@@ -1,17 +1,20 @@
 ---
-- name: ensure python2,python3 are managed
+- name: role python | manage pacman packages
   include_role:
     name: meta_pacman
   vars:
-    pacman_packages:
-      - python3
-      - python2
-      - python2-pip
+    pacman_packages: "{{ python_pacman_packages }}"
 
-- include_tasks: install_pip3_package.yml
-  with_items: "{{ pip3_packages }}"
-  when: pip3_packages | length
-
-- include_tasks: install_pip2_package.yml
+- name: install pip2 package {{ item }}
+  shell: python2 -m pip install --user --upgrade {{ item }}
+  register: pip2_installation_log
   with_items: "{{ pip2_packages }}"
-  when: pip2_packages | length
+  changed_when: "'Requirement already satisfied' not in pip2_installation_log.stdout"
+
+- name: install pip3 package {{ item }}
+  shell: pip3 install --user --upgrade {{ item }}
+  register: pip3_installation_log
+  with_items: "{{ pip3_packages }}"
+  changed_when: 
+    - "'Requirement already satisfied' not in pip3_installation_log.stdout"
+    - "'Requirement already up-to-date' not in pip3_installation_log.stdout"

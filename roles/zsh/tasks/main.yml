@@ -1,4 +1,55 @@
 ---
-- include_tasks: install_zsh.yml
-- include_tasks: install_oh_my_zsh.yml
+- name: role zsh | manage pacman packages
+  include_role:
+    name: meta_pacman
+  vars:
+    pacman_packages: "{{ zsh_pacman_packages }}"
+
+
+- name: register zsh path
+  shell: which zsh
+  register: which_zsh
+  changed_when: false
+
+- name: ensure zsh is a current user shell
+  user:
+    name: "{{ ansible_env.USER }}"
+    shell: "{{ which_zsh.stdout }}"
+
+- name: ensure oh-my-zsh repo is checked out
+  git:
+    repo: https://github.com/robbyrussell/oh-my-zsh.git
+    dest: "{{ ohmyzsh_dir }}"
+
+- name: ensure oh_my_zsh plugins are checked out
+  git: 
+    repo: "{{ item.repo }}"
+    dest: "{{ ohmyzsh_plugins_dir }}/{{ item.name }}"
+  with_items: "{{ ohmyzsh_plugins }}"
+  when: item.repo is defined
+
+- name: ensure zsh-configs are linked
+  file:
+    src: "{{ role_path }}/files/zsh"
+    dest: "{{ zsh_config_dir }}"
+    state: link
+    force: true
+
+- name: ensure ~/.exports is created
+  shell: 
+    cmd: touch ~/.exports
+    creates: ~/.exports
+
+- name: symlink zshrc
+  file:
+    src: "{{ zsh_config_dir }}/.zshrc"
+    path: ~/.zshrc 
+    state: link
+    force: true
+
+- name: render plugins to ansible managed config
+  include_tasks: append_to_config.yml
+  with_items:
+    - name: role/zsh
+      block: "{{ lookup('template', './settings.zsh') }}"
 

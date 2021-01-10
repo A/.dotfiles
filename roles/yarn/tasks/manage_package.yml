@@ -1,0 +1,27 @@
+---
+- name: register current version of the package
+  shell: yarn global list | grep -o '"{{ item.name }}@.*"'
+  register: yarn_installed_version
+  changed_when: false
+  failed_when: false
+  when: item.state == "latest"
+
+- debug: 
+    var: yarn_installed_version.stdout
+    verbosity: 1
+
+- name: ensure {{ item.name }} global yarn package is managed
+  yarn:
+    global: yes
+    state: "{{ item.state | default('latest') }}"
+    name: "{{ item.name }}"
+  register: yarn_installation_log
+  changed_when: >
+    (yarn_installed_version.stdout == "") or
+    (yarn_installed_version.stdout not in yarn_installation_log.out)
+  when: item.state == "latest"
+
+- debug:
+    var: yarn_installation_log.out
+    verbosity: 1
+

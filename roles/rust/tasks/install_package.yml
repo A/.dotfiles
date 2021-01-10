@@ -1,5 +1,0 @@
----
-- name: Ensure cargo package is managed {{ item }}
-  shell: cargo install-update {{ item }}
-  register: cargo_log
-  changed_when: "'No packages need updating' not in cargo_log.stdout"

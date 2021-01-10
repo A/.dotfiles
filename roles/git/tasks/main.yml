@@ -1,18 +1,20 @@
 ---
-- name: ensure git is managed
+- name: role git | manage pacman packages
   include_role:
     name: meta_pacman
   vars:
-    packages: git
+    pacman_packages: "{{ git_pacman_packages }}"
 
-- name: configure user.email
-  git_config:
-    name: user.email
-    value: "{{ git_email }}"
-    scope: global
+- name: role git | manage aur packages
+  include_role:
+    name: aur
+  vars:
+    aur_packages: "{{ git_aur_packages }}"
 
-- name: configure user.name
+- name: ensure {{ item.name }} is configured
   git_config:
-    name: user.name
-    value: "{{ git_username }}"
-    scope: global
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    scope: "{{ item.scope | default('global') }}"
+  with_items: "{{ git_config }}"
+

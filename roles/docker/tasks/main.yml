@@ -1,33 +1,20 @@
 ---
-- name: ensure docker package is managed
+- name: role docker | manage pacman packages
   include_role:
     name: meta_pacman
-    tasks_from: install_package.yml
-  with_items:
-    - docker
-    - docker-compose
+  vars:
+    pacman_packages: "{{ docker_pacman_packages }}"
 
-- name: set username
-  command: whoami
-  register: docker_username
-  check_mode: False
-  changed_when: False
-
-- name: ensure user is added to docker group
+- name: ensure user is in the docker group
   user:
-    name: "{{ docker_username.stdout }}"
+    name: "{{ ansible_env.USER }}"
     groups: docker
     append: True
   become: True
 
-- name: enable sustemd docker service
+- name: ensure docker.service is enabled
   include_role:
     name: systemd
   vars:
-    systemd_item_name: "{{ item }}"
-    systemd_item_state: started
-    systemd_item_enabled: true
-    systemd_item_masked: False
-    systemd_item_fail_on_error: True
-  with_items:
-    - docker.service
+    systemd_services: "{{ docker_systemd_services }}"
+

@@ -1,0 +1,8 @@
+---
+aur_pacman_packages:
+  - name: base-devel
+    state: latest
+
+aur_cargo_packages:
+  - name: paru
+    state: latest

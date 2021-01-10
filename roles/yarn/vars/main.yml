@@ -1,0 +1,5 @@
+yarn_pacman_packages:
+  - name: nodejs
+    state: present
+  - name: yarn
+    state: latest

@@ -1,7 +1,0 @@
----
-- name: install pip3 package {{ item }}
-  shell: pip3 install --user --upgrade {{ item }}
-  register: pip3_log
-  changed_when: 
-    - "'Requirement already satisfied' not in pip3_log.stdout"
-    - "'Requirement already up-to-date' not in pip3_log.stdout"

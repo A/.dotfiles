@@ -1,20 +1,25 @@
 ---
-- name: ensure rust package is managed
+- debug:
+    var: cargo_packages
+    verbosity: 1
+
+- name: role rust | manage pacman packages
   include_role:
     name: meta_pacman
   vars:
-    pacman_packages: rust
+    pacman_packages: "{{ rust_pacman_packages }}"
 
-- name: build cargo packages
-  include_tasks: install_package.yml
-  with_items: "{{ cargo_packages }}"
-  when: cargo_packages | length
-
-- name: add cargo bin path to zshrc
+- name: ensure cargo bin is in the PATH
   include_role:
     name: zsh
     tasks_from: append_to_config.yml
-  vars:
-    item_block: PATH=${PATH}:{{ cargo_bin_dir }}
-    item_name: rust
+  with_items:
+    - name: rust
+      block: PATH=${PATH}:{{ cargo_bin_dir }}
 
+- name: Ensure {{ cargo_packages | map(attribute='name') }} cargo packages are managed
+  shell: cargo install-update {{ item.name }}
+  with_items: "{{ cargo_packages }}"
+  changed_when: "'No packages need updating' not in cargo_install_log.stdout"
+  register: cargo_install_log
+  when: item.state == "latest"

@@ -1,11 +1,25 @@
-git_username: Anton Shuvalov
-git_email: anton@shuvalov.info
+git_config:
+  - name: user.email
+    value: anton@shuvalov.info
+  - name: user.name
+    value: Anton Shuvalov
 
 pacman_packages:
-  - fzf
+  - name: git
+    state: latest
+  - name: fzf
+    state: latest
+  - name: nodejs
+    state: latest
+  - name: alacritty
+    state: latest
+
 
 aur_packages:
-  - obsidian-appimage
+  - name: obsidian-appimage
+    state: latest
+  - name: nerd-fonts-iosevka
+    state: latest
 
 pip2_packages: []
 pip3_packages:
@@ -14,42 +28,41 @@ pip3_packages:
   - termgraph
 
 cargo_packages:
-  - exa
-  - bat
-  - cargo-update
+  - name: exa
+    state: latest
+  - name: bat
+    state: latest
+  - name: cargo-update
+    state: latest
+  # - name: todor
+  #   state: latest
 
 yarn_packages:
-  - typescript
-  - eslint
-  - n
+  - name: typescript
+    state: latest
+  - name: eslint
+    state: latest
+  - name: n
+    state: latest
 
-zsh:
-  config_dir: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/zsh"
-  ansible_managed_config: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/zsh/config.ansible_provisioned.zsh"
-  ohmyzsh_dir: $HOME/.oh-my-zsh
-  ohmyzsh_theme: norm
-  ohmyzsh_plugins:
-    - name: git
-    - name: npm
-    - name: github
-    - name: yarn
-    - name: zsh-autosuggestions
-      repo: https://github.com/zsh-users/zsh-autosuggestions
-      settings: |
-        export COMPLETION_WAITING_DOTS="true"
-        export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=1"
-    - name: zsh-completions
-      settings: |
-        autoload -U compinit && compinit
-      repo: https://github.com/zsh-users/zsh-completions
-    - name: docker
-    - name: docker-compose
-  aliases:
-    - alias: ..
-      command: cd ..;
-    - alias: serve
-      command: python -m SimpleHTTPServer
+ohmyzsh_theme: norm
 
+ohmyzsh_plugins:
+  - name: git
+  - name: npm
+  - name: github
+  - name: yarn
+  - name: zsh-autosuggestions
+    repo: https://github.com/zsh-users/zsh-autosuggestions
+    settings: |
+      export COMPLETION_WAITING_DOTS="true"
+      export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=1"
+  - name: zsh-completions
+    settings: |
+      autoload -U compinit && compinit
+    repo: https://github.com/zsh-users/zsh-completions
+  - name: docker
+  - name: docker-compose
 
 nvim_plugins: 
   - name: 'neoclide/coc.nvim'

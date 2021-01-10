@@ -1,7 +1,3 @@
 ---
-tmux_config_path: ~/.config/tmux
-tmux_git_clone_dir: ~/Dev/packages/tmux
-tmux_version: 3.2-rc
-tmux_shared_packanges:
-  - ncursed
-  - libevent
+tmux_config_dest: "{{ ansible_env.XDG_CONFIG_HOME }}/tmux/tmux.conf"
+tmux_config_src: "{{ role_path }}/files/tmux.conf"

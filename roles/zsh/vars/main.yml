@@ -1,0 +1,3 @@
+zsh_pacman_packages:
+  - name: zsh
+    state: latest

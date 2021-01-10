@@ -1,0 +1,16 @@
+---
+- name: "check if systemd service exists: {{ item.name }}"
+  shell: "systemctl list-unit-files --type=service | grep '^{{ item.name }}'"
+  check_mode: False
+  changed_when: False
+  failed_when: False
+  register: systemd_service_available
+
+- name: "ensure systemd service is managed: {{ item.name }}"
+  systemd:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    enabled: "{{ item.enabled }}"
+    masked: "{{ item.masked }}"
+  become: True
+  when: item.fail_on_error == True or systemd_service_available.rc == 0

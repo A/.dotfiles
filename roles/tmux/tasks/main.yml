@@ -1,24 +1,23 @@
 ---
-- name: ensure tmux package is managed
+- name: role tmux | manage pacman packages
+  include_role:
+    name: meta_pacman
+  vars:
+    pacman_packages: "{{ tmux_pacman_packages }}"
+
+- name: role tmux | manage aur packages
   include_role:
     name: aur
-    tasks_from: install_package.yml
-  with_items:
-    - tmux-git
+  vars:
+    aur_packages: "{{ tmux_aur_packages }}"
 
 - name: ensure tmux config directory exists
-  file:
-    path: "{{ tmux_config_path }}"
-    state: directory
+  file: path={{ tmux_config_dest | dirname }} state=directory recurse=true
 
 - name: ensure {{ tmux_config_path }}/tmux,conf is linked to tmux/files
-  file:
-    src: "{{ role_path }}/files/tmux.conf"
-    dest: "{{ tmux_config_path }}/tmux.conf"
-    state: link
-    force: true
+  file: src={{  tmux_config_src }} dest={{ tmux_config_dest }} state=link force=true
 
-- name: install tpm
+- name: ensure tpm is installed
   git:
     repo: git@github.com:tmux-plugins/tpm.git
-    dest: "{{ tmux_config_path }}/plugins/tpm"
+    dest: "{{ tmux_config_dest | dirname }}/plugins/tpm"

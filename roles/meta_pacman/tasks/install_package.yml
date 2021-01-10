@@ -1,7 +1,0 @@
----
-- name: ensure pacman package is managed {{ item }}
-  pacman:
-    name: "{{ item }}"
-    state: "{{ pacman_state }}"
-    update_cache: yes
-  become: true

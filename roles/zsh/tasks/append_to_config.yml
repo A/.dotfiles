@@ -3,9 +3,12 @@
   shell: 
     cmd: touch {{ zsh.ansible_managed_config }}
     creates: "{{ zsh.ansible_managed_config }}"
-- name: append to ansible managed zsh config {{ item_name }}
+
+- name: append to ansible managed zsh config {{ item.name }}
   blockinfile:
     path: "{{ zsh.ansible_managed_config }}"
-    block: "{{ item_block }}"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item_name }}"
-  when: item_block | length
+    block: "{{ item.block }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
+  when:
+    - item.block | length
+    - item.name | length

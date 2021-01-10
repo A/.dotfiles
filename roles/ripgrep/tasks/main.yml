@@ -1,16 +1,17 @@
 ---
-- name: ensure ripgrep is managed
+- name: role ripgrep | manage pacman packages
   include_role:
     name: meta_pacman
   vars:
-    packages: ripgrep
+    pacman_packages: "{{ ripgrep_pacman_packages }}"
 
 - name: set ripgrep as a vimgrep
   include_role:
     name: nvim
     tasks_from: append_to_config.yml
-  vars:
-    settings: |
-      if executable('rg')
-        set grepprg=rg\ --color=never\ --vimgrep
-      endif
+  with_items:
+    - name: ripgrep
+      settings: |
+        if executable('rg')
+          set grepprg=rg\ --color=never\ --vimgrep
+        endif

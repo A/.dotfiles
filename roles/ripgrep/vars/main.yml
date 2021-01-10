@@ -1,0 +1,4 @@
+---
+ripgrep_pacman_packages:
+  - name: ripgrep
+    state: latest

@@ -1,4 +1,24 @@
 ---
-- include_tasks: install_paru.yml
-- include_tasks: install_package.yml
+- name: role aur | manage pacman packages
+  include_role: name=meta_pacman
+  vars:
+    pacman_packages: "{{ aur_pacman_packages }}"
+
+- name: role aur | manage rust packages
+  include_role: name=rust
+  vars: 
+    cargo_packages: "{{ aur_cargo_packages }}"
+
+- name: ensure {{ aur_packages | map(attribute='name') }} aur packages are installed
+  shell: paru -S --noconfirm --needed {{ item.name }}
   with_items: "{{ aur_packages }}"
+  when: item.state == 'latest' or item.state == 'present'
+  register: "aur_installation_log"
+  changed_when: "'there is nothing to do' not in aur_installation_log.stdout"
+
+# - name: ensure aur packages are removed
+#   shell: echo "TODO: implement"
+#   register: "aur_uninstallation_log"
+#   # changed_when: "'there is nothing to do' not in aur_installation_log.stdout"
+#   when: state == 'ansent'
+#   with_items: "{{ aur_packages }}"

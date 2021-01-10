@@ -1,3 +1,12 @@
 ---
-- include_tasks: install_package.yml
+- debug:
+    var: pacman_packages
+    verbosity: 1
+
+- name: ensure pacman packages {{ pacman_packages | map(attribute='name') }} are managed
+  pacman:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    update_cache: yes
+  become: true
   with_items: "{{ pacman_packages }}"
