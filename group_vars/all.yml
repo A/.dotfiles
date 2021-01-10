@@ -45,9 +45,8 @@ yarn_packages:
   - name: n
     state: latest
 
-ohmyzsh_theme: norm
-
-ohmyzsh_plugins:
+zsh_ohmyzsh_theme: norm
+zsh_ohmyzsh_plugins:
   - name: git
   - name: npm
   - name: github

@@ -47,10 +47,12 @@
 - name: export editor and visual
   include_role:
     name: zsh
-    tasks_from: append_to_config.yml
-  with_items:
-    - name: nvim-configure
-      block: |
-        export EDITOR=nvim
-        export VISUAL=nvim
+  vars:
+    zsh_settings:
+      - name: nvim-configure
+        block: |
+          export EDITOR=nvim
+          export VISUAL=nvim
+  tags: [zsh]
+
 

@@ -1,8 +1,9 @@
 ---
-zsh_config_dir: "{{ ansible_env.XDG_CONFIG_HOME }}/zsh"
-ohmyzsh_dir: "{{ ansible_env.HOME }}/.oh-my-zsh"
-ohmyzsh_plugins_dir: "{{ ohmyzsh_dir }}/custom/plugins"
+zsh_config_src: "{{ role_path }}/files/.zshrc"
+zsh_config_dest: "{{ ansible_env.HOME }}/.zshrc"
+zsh_settings: []
 
-# TODO:
-zsh:
-  ansible_managed_config: "{{ zsh_config_dir }}/config.ansible_provisioned.zsh"
+zsh_ohmyzsh_dir: "{{ ansible_env.HOME }}/.oh-my-zsh"
+zsh_ohmyzsh_plugins_dir: "{{ zsh_ohmyzsh_dir }}/custom/plugins"
+zsh_ohmyzsh_repo: "https://github.com/robbyrussell/oh-my-zsh.git"
+zsh_ohmyzsh_plugins: []

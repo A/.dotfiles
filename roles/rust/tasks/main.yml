@@ -12,10 +12,10 @@
 - name: ensure cargo bin is in the PATH
   include_role:
     name: zsh
-    tasks_from: append_to_config.yml
-  with_items:
-    - name: rust
-      block: PATH=${PATH}:{{ cargo_bin_dir }}
+  vars:
+    zsh_settings:
+      - name: rust
+        block: PATH=${PATH}:{{ cargo_bin_dir }}
 
 - name: Ensure {{ cargo_packages | map(attribute='name') }} cargo packages are managed
   shell: cargo install-update {{ item.name }}
