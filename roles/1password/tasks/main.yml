@@ -1,0 +1,11 @@
+- name: ensure 1password gpg key is added
+  shell: gpg --keyserver keyserver.ubuntu.com --recv-keys 3FEF9748469ADBE15DA7CA80AC2D62742012EA22
+  register: gpg_log
+  changed_when: "' imported' in gpg_log.stdout"
+
+- name: role 1password | ensure pacman packages are managed
+  include_role: name=aur
+  vars:
+    aur_packages: 
+      - name: 1password
+        state: latest

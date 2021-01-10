@@ -45,3 +45,6 @@
 
     - import_role: name=font_iosevka
       tags: [fonts]
+
+    - import_role: name=1password
+      tags: [1password]
