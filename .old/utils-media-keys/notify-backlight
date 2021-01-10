@@ -1,6 +1,0 @@
-#!/bin/bash
-msgId="991049"
-
-VALUE=`xbacklight -getf`
-
-dunstify -u low -r "$msgId" "Backlight: `printf "%.4f\n" $VALUE`%"
