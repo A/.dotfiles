@@ -5,6 +5,7 @@
 - hosts: localhost
   tasks:
     - include_vars: dir=vars
+      tags: always
 
     - import_role: name=meta_pacman
       tags: [pacman]
