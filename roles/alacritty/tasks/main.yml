@@ -1,0 +1,20 @@
+---
+- name: alacritty | ensure cargo packages are managed
+  include_role: name=rust
+  vars:
+    cargo_packages: "{{ alacritty_cargo_packages }}"
+
+- name: ensure config dir exists
+  file: path={{ alacritty_config_dest | dirname }} state=directory
+
+- name: ensure config file is linked
+  file: src={{ alacritty_config_src }} dest={{ alacritty_config_dest }} state=link
+
+- name: ensure config file is up-to-date
+  blockinfile:
+    path: "{{ alacritty_config_src }}"
+    block: "{{ item.block }}"
+    marker: "# {mark} ANSIBLE MANAGED {{ item.name }}"
+  with_items: "{{ alacritty_config }}"
+
+

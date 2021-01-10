@@ -1,0 +1,3 @@
+alacritty_cargo_packages:
+  - name: alacritty
+    state: latest

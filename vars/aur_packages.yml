@@ -3,3 +3,5 @@ aur_packages:
     state: latest
   - name: nerd-fonts-iosevka
     state: latest
+  - name: microsoft-edge-dev-bin
+    state: latest

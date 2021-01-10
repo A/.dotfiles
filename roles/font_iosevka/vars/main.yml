@@ -1,0 +1,3 @@
+font_iosevka_aur_packages:
+  - name: nerd-fonts-iosevka
+    state: latest

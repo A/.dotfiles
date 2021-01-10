@@ -1,0 +1,3 @@
+alacritty_config: []
+alacritty_config_src: "{{ role_path }}/files/alacritty.yml"
+alacritty_config_dest: "{{ ansible_env.XDG_CONFIG_HOME }}/alacritty/alacritty.yml"

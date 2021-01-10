@@ -5,5 +5,7 @@ pacman_packages:
     state: latest
   - name: nodejs
     state: latest
-  - name: alacritty
-    state: latest
+  - name: yakuake
+    state: absent
+  - name: konsole
+    state: absent

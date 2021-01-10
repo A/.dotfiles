@@ -39,3 +39,9 @@
 
     - import_role: name=docker
       tags: [docker]
+
+    - import_role: name=alacritty
+      tags: [alacritty]
+
+    - import_role: name=font_iosevka
+      tags: [fonts]
