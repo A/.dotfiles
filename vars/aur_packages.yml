@@ -1,7 +1,7 @@
 aur_packages:
   - name: obsidian-appimage
     state: latest
-  - name: nerd-fonts-iosevka
-    state: latest
   - name: microsoft-edge-dev-bin
+    state: latest
+  - name: slack-desktop
     state: latest
