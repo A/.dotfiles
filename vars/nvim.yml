@@ -27,12 +27,12 @@ nvim_plugins:
   - name: 'neoclide/coc-highlight'
     do: 'yarn install --frozen-lockfile'
   - name: 'HerringtonDarkholme/yats.vim'
-  - name: 'mhartington/nvim-typescript'
-    do: './install.sh'
-    settings: |
-      let g:nvim_typescript#javascript_support=1
-      let g:nvim_typescript#diagnostics_enable = 0
-      autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
+  # - name: 'mhartington/nvim-typescript'
+  #   do: './install.sh'
+  #   settings: |
+  #     let g:nvim_typescript#javascript_support=1
+  #     let g:nvim_typescript#diagnostics_enable = 0
+  #     autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
   - name: 'Shougo/denite.nvim'
     settings: |
       noremap <leader>fS :DeniteCursorWord grep<CR>

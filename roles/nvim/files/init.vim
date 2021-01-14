@@ -61,7 +61,6 @@ Plug 'neoclide/coc-css'
 Plug 'neoclide/coc-lists'
 Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile' }
 Plug 'HerringtonDarkholme/yats.vim'
-Plug 'mhartington/nvim-typescript', {'do': './install.sh' }
 Plug 'Shougo/denite.nvim'
 Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf', {'do': '{ -> fzf#install() } }' }
@@ -226,3 +225,4 @@ if executable('rg')
   set grepprg=rg\ --color=never\ --vimgrep
 endif
 " END ANSIBLE MANAGED BLOCK ripgrep
+

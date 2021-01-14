@@ -1,4 +1,5 @@
 zsh_ohmyzsh_theme: norm
+
 zsh_ohmyzsh_plugins:
   - name: git
   - name: npm
@@ -15,3 +16,7 @@ zsh_ohmyzsh_plugins:
     repo: https://github.com/zsh-users/zsh-completions
   - name: docker
   - name: docker-compose
+
+zsh_config:
+  - name: dotfiles-bin
+    block: PATH={{ ansible_env.PWD }}/bin:${PATH}

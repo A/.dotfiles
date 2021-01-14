@@ -1,0 +1,29 @@
+---
+- name: role wallpapers | ensure pacman packages are managed
+  include_role: name=meta_pacman
+  vars:
+    pacman_packages: "{{ wallpapers_pacman_packages }}"
+
+- name: ensure wallpapers directory exists
+  file:
+    path: "{{ wallpapers_dir }}"
+    state: directory
+
+- name: ensure wallpapers renderer script is installed
+  file:
+    src: "{{ ansible_env.PWD }}/bin/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    state: link
+  with_items:
+    - unsplash-download
+    - unsplash-render
+  become: true
+
+- name: ensure wallpapers are downloaded
+  shell:
+    cmd: "unsplash-download -c '{{ unsplash_collection }}' -t '{{ unsplash_token }}' -d {{ wallpapers_dir }}"
+  register: wallpapers_output
+  changed_when: "'Downloading' in wallpapers_output.stdout"
+
+- debug:
+    var: wallpapers_output

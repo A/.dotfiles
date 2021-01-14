@@ -1,0 +1,7 @@
+sway_pacman_packages:
+  - name: sway
+    state: latest
+  - name: brightnessctl
+    state: latest
+  - name: waybar
+    state: latest

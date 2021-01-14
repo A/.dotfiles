@@ -48,3 +48,9 @@
 
     - import_role: name=1password
       tags: [1password]
+
+    - import_role: name=sway
+      tags: [sway]
+
+    - import_role: name=wallpapers
+      tags: wallpapers

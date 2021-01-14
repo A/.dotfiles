@@ -89,7 +89,7 @@ CURRENT_INDEX=0
 for URL in $URLS; do 
   printf "[$CURRENT_INDEX/$LENGTH] ";
   if [[ $URL =~ \/(photo.*)\? ]]; then
-    NAME="${DIR}${BASH_REMATCH[1]}.jpg";
+    NAME="${DIR}/${BASH_REMATCH[1]}.jpg";
     if test -f $NAME; then
       printf "File Exists: ${NAME##*/}"
     else

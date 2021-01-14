@@ -20,6 +20,9 @@ PROMPT_COMMAND=__prompt_command
 precmd() { eval "$PROMPT_COMMAND" }
 
 # ZSH ANSIBLE GENERATED CONFIG
+# BEGIN ANSIBLE MANAGED BLOCK dotfiles-bin
+PATH=/home/a8ka/Dev/@A/.dotfiles/bin:${PATH}
+# END ANSIBLE MANAGED BLOCK dotfiles-bin
 # BEGIN ANSIBLE MANAGED BLOCK rust
 PATH=${PATH}:/home/a8ka/.cargo/bin
 # END ANSIBLE MANAGED BLOCK rust

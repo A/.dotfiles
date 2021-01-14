@@ -1,0 +1,3 @@
+wallpapers_pacman_packages:
+  - name: jq
+    state: latest
