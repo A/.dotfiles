@@ -69,7 +69,8 @@
       vars:
         zsh_config:
           - name: nvim-configure
-            block: |
+            config: |
               export EDITOR=nvim
               export VISUAL=nvim
+            state: present
       tags: [zsh]

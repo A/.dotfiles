@@ -11,7 +11,8 @@
   vars:
     zsh_config:
       - name: nodejs
-        block: PATH=${PATH}:$(yarn global bin)
+        config: PATH=${PATH}:$(yarn global bin)
+        state: present
   tags: [zsh]
 
 - name: manage {{ item.name }} yarn package

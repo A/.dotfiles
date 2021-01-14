@@ -15,7 +15,8 @@
   vars:
     zsh_config:
       - name: rust
-        block: PATH=${PATH}:{{ cargo_bin_dir }}
+        config: PATH=${PATH}:{{ cargo_bin_dir }}
+        state: present
 
 - name: Ensure {{ cargo_packages | map(attribute='name') }} cargo packages are managed
   shell: cargo install-update {{ item.name }}

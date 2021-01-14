@@ -22,3 +22,4 @@ zsh_config:
     block: |
       PATH={{ ansible_env.PWD }}/bin:${PATH}
       alias ..="cd ..;"
+    state: present
