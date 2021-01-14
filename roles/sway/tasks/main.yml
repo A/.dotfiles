@@ -23,4 +23,3 @@
       dest: "{{ waybar_config_dest }}"
     - src: "{{ sway_config_src }}"
       dest: "{{ sway_config_dest }}"
-

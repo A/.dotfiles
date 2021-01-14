@@ -1,3 +1,4 @@
+wallpapers_download_command: unsplash-download -c '{{ unsplash_collection }}' -t '{{ unsplash_token }}' -d '{{ wallpapers_dir }}'
 wallpapers_pacman_packages:
   - name: jq
     state: latest

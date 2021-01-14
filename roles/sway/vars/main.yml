@@ -5,3 +5,7 @@ sway_pacman_packages:
     state: latest
   - name: waybar
     state: latest
+  - name: blueman
+    state: latest
+  - name: mako
+    state: latest

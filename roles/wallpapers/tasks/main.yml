@@ -21,9 +21,16 @@
 
 - name: ensure wallpapers are downloaded
   shell:
-    cmd: "unsplash-download -c '{{ unsplash_collection }}' -t '{{ unsplash_token }}' -d {{ wallpapers_dir }}"
+    cmd: "{{ wallpapers_download_command }}"
   register: wallpapers_output
   changed_when: "'Downloading' in wallpapers_output.stdout"
 
 - debug:
     var: wallpapers_output
+
+- name: ensure cron job to fetch new wallpapers is created
+  cron:
+    name: fetch wallpapers
+    job: "{{ wallpapers_download_command }}"
+    minute: 0
+    state: present

@@ -73,7 +73,7 @@ URLS=""
 DO_REQUEST=true
 
 while [ $PAGE -ne 0 ]; do
-  RESPONSE=`curl -s -H "Authorization: Client-ID $TOKEN" https://api.unsplash.com/collections/$COLLECTION/photos\?per_page\=$PER_PAGE\&page\=$PAGE` 
+  RESPONSE=`curl --retry 3 -s -H "Authorization: Client-ID $TOKEN" https://api.unsplash.com/collections/$COLLECTION/photos\?per_page\=$PER_PAGE\&page\=$PAGE` 
   _URLS=`echo "$RESPONSE" |  jq ".[] | .urls.full"`
   URLS+=$_URLS
   [[ `echo "$_URLS" | wc -l` -eq "$PER_PAGE" ]] && let "PAGE++" || PAGE=0
@@ -94,7 +94,7 @@ for URL in $URLS; do
       printf "File Exists: ${NAME##*/}"
     else
       printf "Downloading: ${NAME##*/}"
-      curl -s `sed -e 's/^"//' -e 's/"$//' <<< "$URL"` -o $NAME
+      curl -s --retry 3 `sed -e 's/^"//' -e 's/"$//' <<< "$URL"` -o $NAME
     fi
     sleep 0.1
     printf "\33[2K\r"

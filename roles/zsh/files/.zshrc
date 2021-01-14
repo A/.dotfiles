@@ -6,6 +6,7 @@ export TERM=screen-256color
 export XDG_CONFIG_HOME=$HOME/.config
 
 ZSH_CONFIG_HOME=$XDG_CONFIG_HOME/zsh
+CDPATH=~/Dev/
 
 setopt inc_append_history
 
@@ -22,6 +23,7 @@ precmd() { eval "$PROMPT_COMMAND" }
 # ZSH ANSIBLE GENERATED CONFIG
 # BEGIN ANSIBLE MANAGED BLOCK dotfiles-bin
 PATH=/home/a8ka/Dev/@A/.dotfiles/bin:${PATH}
+alias ..="cd ..;"
 # END ANSIBLE MANAGED BLOCK dotfiles-bin
 # BEGIN ANSIBLE MANAGED BLOCK rust
 PATH=${PATH}:/home/a8ka/.cargo/bin

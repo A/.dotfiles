@@ -19,4 +19,6 @@ zsh_ohmyzsh_plugins:
 
 zsh_config:
   - name: dotfiles-bin
-    block: PATH={{ ansible_env.PWD }}/bin:${PATH}
+    block: |
+      PATH={{ ansible_env.PWD }}/bin:${PATH}
+      alias ..="cd ..;"
