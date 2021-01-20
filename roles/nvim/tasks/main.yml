@@ -34,23 +34,23 @@
         marker: "\" {mark} ANSIBLE MANAGED BLOCK nvim-plugins"
         insertafter: '^" PLUGINS PLACEHOLDER'
 
-    - name: ensure plugin settings are up-to-date
+    - name: ensure config is up-to-date
       blockinfile:
         path: "{{ nvim_config_src }}"
-        block: "{{ item.block }}"
-        marker: "\" {mark} ANSIBLE MANAGED BLOCK {{ item.name }}-settings"
-      with_items: "{{ nvim_plugins | json_query('[].{ name: name, block: settings  }') }}"
-      when: item.block is defined
-
-    - name: ensure nvim settings are up-to-date
-      blockinfile:
-        path: "{{ nvim_config_src }}"
-        block: "{{ item.block }}"
+        block: "{{ item.config }}"
+        state: "{{ item.state }}"
         marker: "\" {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
-      with_items: "{{ nvim_config }}"
+      with_items: 
+        - "{{ nvim_plugins }}"
+        - "{{ nvim_config }}"
+      when: item.config is defined
 
     - name: ensure plugins are installed
       shell: nvim +'PlugInstall --sync' +qall
+      changed_when: false
+
+    - name: ensure redundant plugins are uninstalled
+      shell: nvim +'PlugClean --sync' +qall
       changed_when: false
 
 - name: ensure is environment is configured properly

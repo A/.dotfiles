@@ -19,8 +19,14 @@
         state: present
 
 - name: Ensure {{ cargo_packages | map(attribute='name') }} cargo packages are managed
-  shell: cargo install-update {{ item.name }}
+  shell: cargo install  {{ item.name }}
   with_items: "{{ cargo_packages }}"
-  changed_when: "'No packages need updating' not in cargo_install_log.stdout"
+  changed_when: "'is already installed' not in cargo_install_log.stdout"
   register: cargo_install_log
-  when: item.state == "latest"
+  when: item.state == "present"
+
+- name: Ensure {{ cargo_packages | map(attribute='name') }} cargo packages are managed
+  shell: cargo uninstall {{ item.name }}
+  with_items: "{{ cargo_packages }}"
+  register: cargo_uninstall_log
+  when: item.state == "absent"

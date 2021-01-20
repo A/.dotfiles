@@ -7,7 +7,8 @@ pacman_packages:
     state: latest
   - name: telegram-desktop
     state: latest
-
+  - name: deno
+    state: latest
 
   - name: yakuake
     state: absent

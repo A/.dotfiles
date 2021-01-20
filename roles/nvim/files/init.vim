@@ -1,4 +1,3 @@
-" {{ ansible_managed }}
 filetype plugin on
 
 let mapleader = " "
@@ -39,6 +38,13 @@ au InsertLeave * set cursorline
 
 set updatetime=750
 
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
+
+nmap <silent> gF :vsp<CR>gf
 
 let plug_install = 0
 let autoload_plug_path = stdpath('config') . '/autoload/plug.vim'
@@ -81,7 +87,7 @@ Plug 'rhysd/git-messenger.vim'
 Plug 'chemzqm/denite-git'
 Plug 'gabrielelana/vim-markdown'
 " END ANSIBLE MANAGED BLOCK nvim-plugins
-"
+
 call plug#end()
 
 if plug_install
@@ -89,16 +95,7 @@ if plug_install
 endif
 unlet plug_install
 
-" Return to last edit position when opening files (You want this!)
-autocmd BufReadPost *
-  \ if line("'\"") > 0 && line("'\"") <= line("$") |
-  \   exe "normal! g`\"" |
-  \ endif
-
-
-nmap <silent> gF :vsp<CR>gf
-noremap <leader>fs :Vgrep
-" BEGIN ANSIBLE MANAGED BLOCK neoclide/coc.nvim-settings
+" BEGIN ANSIBLE MANAGED BLOCK neoclide/coc.nvim
 nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
 nmap    <leader>cr  <Plug>(coc-rename)
 nmap <silent> gd <Plug>(coc-definition)
@@ -113,13 +110,8 @@ function! ShowDocumentation()
   endif
 endfunction
 nnoremap <silent> K :call ShowDocumentation()<CR>
-" END ANSIBLE MANAGED BLOCK neoclide/coc.nvim-settings
-" BEGIN ANSIBLE MANAGED BLOCK mhartington/nvim-typescript-settings
-let g:nvim_typescript#javascript_support=1
-let g:nvim_typescript#diagnostics_enable = 0
-autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
-" END ANSIBLE MANAGED BLOCK mhartington/nvim-typescript-settings
-" BEGIN ANSIBLE MANAGED BLOCK Shougo/denite.nvim-settings
+" END ANSIBLE MANAGED BLOCK neoclide/coc.nvim
+" BEGIN ANSIBLE MANAGED BLOCK Shougo/denite.nvim
 noremap <leader>fS :DeniteCursorWord grep<CR>
 noremap <leader>fb :Denite buffer<CR>
 noremap <leader>vc :Denite colorscheme<CR>
@@ -128,8 +120,8 @@ noremap <leader>gf :Denite gitlog<CR>
 noremap <leader>gl :Denite gitlog:all<CR>
 noremap <leader>gs :Denite gitstatus<CR>
 noremap <leader>gb :Denite gitbranch<CR>
-" END ANSIBLE MANAGED BLOCK Shougo/denite.nvim-settings
-" BEGIN ANSIBLE MANAGED BLOCK dense-analysis/ale-settings
+" END ANSIBLE MANAGED BLOCK Shougo/denite.nvim
+" BEGIN ANSIBLE MANAGED BLOCK dense-analysis/ale
 noremap <leader>cE <Plug>(ale_previous_wrap)
 noremap <leader>ce <Plug>(ale_next_wrap)
 
@@ -154,17 +146,17 @@ let g:ale_linters = {
 \}
 let g:ale_fix_on_save = 0
 let g:ale_linters_explicit = 1
-" END ANSIBLE MANAGED BLOCK dense-analysis/ale-settings
-" BEGIN ANSIBLE MANAGED BLOCK junegunn/fzf-settings
+" END ANSIBLE MANAGED BLOCK dense-analysis/ale
+" BEGIN ANSIBLE MANAGED BLOCK junegunn/fzf
 noremap <leader>fp :FZF<CR>
-" END ANSIBLE MANAGED BLOCK junegunn/fzf-settings
-" BEGIN ANSIBLE MANAGED BLOCK ryanoasis/vim-devicons-settings
+" END ANSIBLE MANAGED BLOCK junegunn/fzf
+" BEGIN ANSIBLE MANAGED BLOCK ryanoasis/vim-devicons
 let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
 let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
 let g:NERDTreeDirArrowExpandable = "\u00a0"
 let g:NERDTreeDirArrowCollapsible = "\u00a0"
-" END ANSIBLE MANAGED BLOCK ryanoasis/vim-devicons-settings
-" BEGIN ANSIBLE MANAGED BLOCK vim-airline/vim-airline-settings
+" END ANSIBLE MANAGED BLOCK ryanoasis/vim-devicons
+" BEGIN ANSIBLE MANAGED BLOCK vim-airline/vim-airline
 set laststatus=2
 
 if !exists('g:airline_symbols')
@@ -182,8 +174,8 @@ let g:airline#extensions#branch#format = 1
 let g:airline_section_x = ''
 let g:airline_section_y = '%{LineNoIndicator()}'
 let g:airline_section_z = '%2c'
-" END ANSIBLE MANAGED BLOCK vim-airline/vim-airline-settings
-" BEGIN ANSIBLE MANAGED BLOCK scrooloose/nerdtree-settings
+" END ANSIBLE MANAGED BLOCK vim-airline/vim-airline
+" BEGIN ANSIBLE MANAGED BLOCK scrooloose/nerdtree
 noremap <leader>ft :NERDTreeToggle<CR>
 noremap <leader>ff :NERDTreeFind<CR>
 autocmd VimEnter *
@@ -202,27 +194,21 @@ let g:NERDTreeMapActivateNode="<F4>"
 let g:NERDTreeMapPreview="<F3>"
 let g:NERDTreeIgnore = ['^node_modules$']
 let g:NERDTreeWinPos = "left"
-" END ANSIBLE MANAGED BLOCK scrooloose/nerdtree-settings
-" BEGIN ANSIBLE MANAGED BLOCK editorconfig/editorconfig-vim-settings
+" END ANSIBLE MANAGED BLOCK scrooloose/nerdtree
+" BEGIN ANSIBLE MANAGED BLOCK editorconfig/editorconfig-vim
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
-" END ANSIBLE MANAGED BLOCK editorconfig/editorconfig-vim-settings
-" BEGIN ANSIBLE MANAGED BLOCK tomtom/tcomment_vim-settings
+" END ANSIBLE MANAGED BLOCK editorconfig/editorconfig-vim
+" BEGIN ANSIBLE MANAGED BLOCK tomtom/tcomment_vim
 noremap <leader>cc :TComment<CR>
 noremap <leader>cC :TCommentInline<CR>
-" END ANSIBLE MANAGED BLOCK tomtom/tcomment_vim-settings
-" BEGIN ANSIBLE MANAGED BLOCK tpope/vim-fugitive-settings
+" END ANSIBLE MANAGED BLOCK tomtom/tcomment_vim
+" BEGIN ANSIBLE MANAGED BLOCK tpope/vim-fugitive
 noremap <leader>ga :GBlame<CR>
 noremap <leader>gh :GBrowse<CR>
-" END ANSIBLE MANAGED BLOCK tpope/vim-fugitive-settings
-" BEGIN ANSIBLE MANAGED BLOCK tpope/vim-rhubarb-settings
+" END ANSIBLE MANAGED BLOCK tpope/vim-fugitive
+" BEGIN ANSIBLE MANAGED BLOCK tpope/vim-rhubarb
 set completeopt-=preview
-" END ANSIBLE MANAGED BLOCK tpope/vim-rhubarb-settings
-" BEGIN ANSIBLE MANAGED BLOCK rhysd/git-messenger.vim-settings
+" END ANSIBLE MANAGED BLOCK tpope/vim-rhubarb
+" BEGIN ANSIBLE MANAGED BLOCK rhysd/git-messenger.vim
 noremap <leader>gm :GitMessenger<CR>
-" END ANSIBLE MANAGED BLOCK rhysd/git-messenger.vim-settings
-" BEGIN ANSIBLE MANAGED BLOCK ripgrep
-if executable('rg')
-  set grepprg=rg\ --color=never\ --vimgrep
-endif
-" END ANSIBLE MANAGED BLOCK ripgrep
-
+" END ANSIBLE MANAGED BLOCK rhysd/git-messenger.vim

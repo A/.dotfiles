@@ -1,7 +1,8 @@
 nvim_plugins: 
   - name: 'neoclide/coc.nvim'
+    state: present
     do: '{ -> coc#util#install() }'
-    settings: |
+    config: |
       nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
       nmap    <leader>cr  <Plug>(coc-rename)
       nmap <silent> gd <Plug>(coc-definition)
@@ -17,24 +18,32 @@ nvim_plugins:
       endfunction
       nnoremap <silent> K :call ShowDocumentation()<CR>
   - name: 'neoclide/coc-snippets'
+    state: present
     do': 'yarn install --frozen-lockfile'
   - name: 'neoclide/coc-tsserver'
+    state: present
     do: 'yarn install --frozen-lockfile'
   - name: 'neoclide/coc-css'
+    state: present
     do': 'yarn install --frozen-lockfile'
   - name: "neoclide/coc-lists"
+    state: present
     do': 'yarn install --frozen-lockfile'
   - name: 'neoclide/coc-highlight'
+    state: present
     do: 'yarn install --frozen-lockfile'
   - name: 'HerringtonDarkholme/yats.vim'
-  # - name: 'mhartington/nvim-typescript'
-  #   do: './install.sh'
-  #   settings: |
-  #     let g:nvim_typescript#javascript_support=1
-  #     let g:nvim_typescript#diagnostics_enable = 0
-  #     autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
+    state: present
+  - name: 'mhartington/nvim-typescript'
+    do: './install.sh'
+    state: absent
+    config: |
+      let g:nvim_typescript#javascript_support=1
+      let g:nvim_typescript#diagnostics_enable = 0
+      autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
   - name: 'Shougo/denite.nvim'
-    settings: |
+    state: present
+    config: |
       noremap <leader>fS :DeniteCursorWord grep<CR>
       noremap <leader>fb :Denite buffer<CR>
       noremap <leader>vc :Denite colorscheme<CR>
@@ -44,7 +53,8 @@ nvim_plugins:
       noremap <leader>gs :Denite gitstatus<CR>
       noremap <leader>gb :Denite gitbranch<CR>
   - name: 'dense-analysis/ale'
-    settings: |
+    state: present
+    config: |
       noremap <leader>cE <Plug>(ale_previous_wrap)
       noremap <leader>ce <Plug>(ale_next_wrap)
 
@@ -70,17 +80,20 @@ nvim_plugins:
       let g:ale_fix_on_save = 0
       let g:ale_linters_explicit = 1
   - name: 'junegunn/fzf'
+    state: present
     do: '{ -> fzf#install() } }'
-    settings: |
+    config: |
       noremap <leader>fp :FZF<CR>
   - name: 'ryanoasis/vim-devicons'
-    settings: |
+    state: present
+    config: |
       let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
       let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
       let g:NERDTreeDirArrowExpandable = "\u00a0"
       let g:NERDTreeDirArrowCollapsible = "\u00a0"
   - name: 'vim-airline/vim-airline'
-    settings: |
+    state: present
+    config: |
       set laststatus=2
 
       if !exists('g:airline_symbols')
@@ -99,8 +112,10 @@ nvim_plugins:
       let g:airline_section_y = '%{LineNoIndicator()}'
       let g:airline_section_z = '%2c'
   - name: 'drzel/vim-line-no-indicator'
+    state: present
   - name: 'scrooloose/nerdtree'
-    settings: |
+    state: present
+    config: |
       noremap <leader>ft :NERDTreeToggle<CR>
       noremap <leader>ff :NERDTreeFind<CR>
       autocmd VimEnter *
@@ -120,26 +135,38 @@ nvim_plugins:
       let g:NERDTreeIgnore = ['^node_modules$']
       let g:NERDTreeWinPos = "left"
   - name: 'Xuyuanp/nerdtree-git-plugin'
+    state: present
   - name: 'editorconfig/editorconfig-vim'
-    settings: |
+    state: present
+    config: |
       let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
   - name: 'chrisbra/Colorizer'
+    state: present
   - name: 'tomtom/tcomment_vim'
-    settings: |
+    state: present
+    config: |
       noremap <leader>cc :TComment<CR>
       noremap <leader>cC :TCommentInline<CR>
   - name: 'rstacruz/vim-closer'
+    state: present
   - name: 'rstacruz/vim-hyperstyle'
+    state: present
   - name: 'tpope/vim-fugitive'
-    settings: |
+    state: present
+    config: |
       noremap <leader>ga :GBlame<CR>
       noremap <leader>gh :GBrowse<CR>
   - name: 'tpope/vim-rhubarb'
-    settings: |
+    state: present
+    config: |
       set completeopt-=preview
   - name: 'airblade/vim-gitgutter'
+    state: present
   - name: 'rhysd/git-messenger.vim'
-    settings: |
+    state: present
+    config: |
       noremap <leader>gm :GitMessenger<CR>
   - name: 'chemzqm/denite-git'
+    state: present
   - name: 'gabrielelana/vim-markdown'
+    state: present
