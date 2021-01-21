@@ -1,7 +1,6 @@
 ## Dotfiles
 
 Arch Linux dotfiles provisioned by ansible designed to be easy to manage and config.
-I did it at first to get used to ansible
 
 ### Usage
 
