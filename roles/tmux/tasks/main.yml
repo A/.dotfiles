@@ -21,3 +21,4 @@
   git:
     repo: git@github.com:tmux-plugins/tpm.git
     dest: "{{ tmux_config_dest | dirname }}/plugins/tpm"
+    accept_hostkey: yes 
