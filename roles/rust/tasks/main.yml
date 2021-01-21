@@ -1,17 +1,11 @@
 ---
-- debug:
-    var: cargo_packages
-    verbosity: 1
-
 - name: role rust | manage pacman packages
-  include_role:
-    name: meta_pacman
+  include_role: name=meta_pacman
   vars:
     pacman_packages: "{{ rust_pacman_packages }}"
 
 - name: ensure cargo bin is in the PATH
-  include_role:
-    name: zsh
+  include_role: name=zsh
   vars:
     zsh_config:
       - name: rust
