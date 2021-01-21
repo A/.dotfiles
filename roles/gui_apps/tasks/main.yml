@@ -1,0 +1,11 @@
+---
+- name: ensure pacman gui packages are managed
+  include_role: name=meta_pacman
+  vars:
+    pacman_packages: "{{ pacman_gui_packages }}"
+
+- name: ensure pacman gui packages are managed
+  include_role: name=aur
+  vars:
+    aur_packages: "{{ aur_gui_packages }}"
+
