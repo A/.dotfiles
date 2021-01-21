@@ -8,49 +8,49 @@
       tags: always
 
     - import_role: name=meta_pacman
-      tags: [pacman]
+      tags: [pacman, cli]
 
     - import_role: name=rust
-      tags: [rust]
+      tags: [rust, cli]
 
     - import_role: name=aur
-      tags: [aur]
+      tags: [aur, ui] # todo
 
     - import_role: name=git
-      tags: [git]
+      tags: [git, cli]
 
     - import_role: name=zsh
-      tags: [zsh]
+      tags: [zsh, cli]
 
     - import_role: name=tmux
-      tags: [tmux]
+      tags: [tmux, cli]
 
     - import_role: name=ripgrep
-      tags: [ripgrep]
+      tags: [ripgrep, cli]
 
     - import_role: name=python
-      tags: [python]
+      tags: [python, cli]
 
     - import_role: name=yarn
-      tags: [yarn]
+      tags: [yarn, cli]
 
     - import_role: name=nvim
-      tags: [nvim]
+      tags: [nvim, cli]
 
     - import_role: name=docker
-      tags: [docker]
+      tags: [docker, cli]
 
     - import_role: name=alacritty
-      tags: [alacritty]
+      tags: [alacritty, ui]
 
     - import_role: name=font_iosevka
-      tags: [fonts]
+      tags: [fonts, ui]
 
     - import_role: name=1password
-      tags: [1password]
+      tags: [1password, ui]
 
     - import_role: name=sway
-      tags: [sway]
+      tags: [sway, ui]
 
     - import_role: name=wallpapers
       tags: wallpapers
