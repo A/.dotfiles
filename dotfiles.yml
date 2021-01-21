@@ -14,7 +14,7 @@
       tags: [rust, cli]
 
     - import_role: name=aur
-      tags: [aur, ui] # todo
+      tags: [aur]
 
     - import_role: name=git
       tags: [git, cli]
@@ -40,17 +40,20 @@
     - import_role: name=docker
       tags: [docker, cli]
 
+    - import_role: name=gui_apps
+      tags: [gui]
+
     - import_role: name=alacritty
-      tags: [alacritty, ui]
+      tags: [alacritty, gui]
 
     - import_role: name=font_iosevka
-      tags: [fonts, ui]
+      tags: [fonts, gui]
 
     - import_role: name=1password
-      tags: [1password, ui]
+      tags: [1password, gui]
 
     - import_role: name=sway
-      tags: [sway, ui]
+      tags: [sway, gui]
 
     - import_role: name=wallpapers
-      tags: wallpapers
+      tags: [wallpapers, gui]
