@@ -40,7 +40,7 @@
     insertafter: "# ZSH ANSIBLE GENERATED CONFIG"
     state: "{{ item.state }}"
   with_items: "{{ zsh_config }}"
-  when: item.block is defined
+  when: item.config is defined
 
 
 

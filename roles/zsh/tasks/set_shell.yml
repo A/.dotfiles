@@ -8,4 +8,4 @@
   user:
     name: "{{ ansible_env.USER }}"
     shell: "{{ which_zsh.stdout }}"
-
+  become: true
