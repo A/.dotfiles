@@ -17,4 +17,6 @@
     name: systemd
   vars:
     systemd_services: "{{ docker_systemd_services }}"
+  when:
+    - "'microsoft' not in ansible_kernel"
 
