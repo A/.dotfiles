@@ -38,7 +38,7 @@
       blockinfile:
         path: "{{ nvim_config_src }}"
         block: "{{ item.config }}"
-        state: "{{ item.state }}"
+        state: "{{ item.state | default('present') }}"
         marker: "\" {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
       with_items: 
         - "{{ nvim_plugins }}"

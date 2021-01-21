@@ -212,3 +212,8 @@ set completeopt-=preview
 " BEGIN ANSIBLE MANAGED BLOCK rhysd/git-messenger.vim
 noremap <leader>gm :GitMessenger<CR>
 " END ANSIBLE MANAGED BLOCK rhysd/git-messenger.vim
+" BEGIN ANSIBLE MANAGED BLOCK ripgrep
+if executable('rg')
+  set grepprg=rg\ --color=never\ --vimgrep
+endif
+" END ANSIBLE MANAGED BLOCK ripgrep
