@@ -1,4 +1,6 @@
-aur_packages:
+aur_packages: []
+
+aur_gui_packages:
   - name: obsidian-appimage
     state: latest
   - name: microsoft-edge-dev-bin

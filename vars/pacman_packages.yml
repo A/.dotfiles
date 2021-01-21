@@ -1,16 +1,25 @@
+# TODO: postinstall hooks?
+# TODO: core/icu: add pacman -Syyu
 pacman_packages:
+  - name: openssh
+    state: latest
   - name: git
     state: latest
   - name: fzf
     state: latest
   - name: nodejs
     state: latest
-  - name: telegram-desktop
-    state: latest
   - name: deno
     state: latest
-
+  - name: python-pip
+    state: latest
+  - name: core/icu
+    state: latest
   - name: yakuake
     state: absent
   - name: konsole
     state: absent
+
+pacman_gui_packages:
+  - name: telegram-desktop
+    state: latest
