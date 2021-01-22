@@ -1,7 +1,6 @@
 ## Dotfiles
 
 Arch Linux dotfiles provisioned by ansible designed to be easy to manage and config.
-I did it at first to get used to ansible
 
 ### Usage
 
@@ -78,7 +77,7 @@ nvim_config:
         set grepprg=rg\ --color=never\ --vimgrep
       endif
 
-# nvim plugins managed by Plug
+# nvim plugins managed by Vundle
 nvim_plugins: 
   - name: 'rhysd/git-messenger.vim'
     state: present
