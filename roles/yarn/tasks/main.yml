@@ -1,19 +1,7 @@
 ---
-- name: role yarn | manage pacman packages
-  include_role:
-    name: meta_pacman
-  vars:
-    pacman_packages: "{{ yarn_pacman_packages }}"
-
-- name: ensure yarn bin directory is added to the PATH
-  include_role:
-    name: zsh
-  vars:
-    zsh_config:
-      - name: nodejs
-        config: PATH=${PATH}:$(yarn global bin)
-        state: present
-  tags: [zsh]
+- name: ensure yarn and node are managed
+  include_tasks: setup.yml
+  when: yarn_is_managed is not defined
 
 - name: manage {{ item.name }} yarn package
   include_tasks: manage_package.yml

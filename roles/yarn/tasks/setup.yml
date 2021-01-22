@@ -1,0 +1,21 @@
+---
+- name: role yarn | manage pacman packages
+  include_role:
+    name: meta_pacman
+  vars:
+    pacman_packages: "{{ yarn_pacman_packages }}"
+
+- name: ensure yarn bin directory is added to the PATH
+  include_role:
+    name: zsh
+  vars:
+    zsh_config:
+      - name: nodejs
+        config: PATH=${PATH}:$(yarn global bin)
+        state: present
+  tags: [zsh]
+
+- name: set fact about yarn and node are managed
+  set_fact:
+    yarn_is_managed: true
+

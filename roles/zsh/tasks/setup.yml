@@ -1,0 +1,36 @@
+---
+- name: role zsh | manage pacman packages
+  include_role: name=meta_pacman
+  vars:
+    pacman_packages: "{{ zsh_pacman_packages }}"
+
+- include_tasks: set_shell.yml
+
+- name: ensure oh-my-zsh repo is checked out
+  git:
+    repo: "{{ zsh_ohmyzsh_repo }}"
+    dest: "{{ zsh_ohmyzsh_dir }}"
+
+- name: ensure oh_my_zsh plugins are checked out
+  git: 
+    repo: "{{ item.repo }}"
+    dest: "{{ zsh_ohmyzsh_plugins_dir }}/{{ item.name }}"
+  with_items: "{{ zsh_ohmyzsh_plugins }}"
+  when: item.repo is defined
+
+- name: ensure zsh config is linked
+  file: src={{ zsh_config_src }} dest={{ zsh_config_dest }} state=link force=true
+
+- name: ensure ~/.exports is created
+  shell: cmd="touch ~/.exports" creates="~/.exports"
+
+- name: ensure zsh plugins are up-to-date
+  blockinfile:
+    path: "{{ zsh_config_src }}"
+    block: "{{ lookup('template', './settings.zsh') }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK zsh-settings"
+    insertafter: "# ZSH ANSIBLE GENERATED CONFIG"
+
+- name: set fact about zsh is managed
+  set_fact:
+    zsh_is_managed: true
