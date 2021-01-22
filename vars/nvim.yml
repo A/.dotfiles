@@ -1,4 +1,9 @@
 nvim_plugins: 
+  - name: a/vim-trash-polka
+    state: present
+    config: |
+      colorscheme trash-polka
+      let g:airline_theme='trashpolka'
   - name: 'neoclide/coc.nvim'
     state: present
     do: '{ -> coc#util#install() }'

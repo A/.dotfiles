@@ -60,6 +60,7 @@ call plug#begin(stdpath('config') . '/plugins')
 
 " PLUGINS PLACEHOLDER
 " BEGIN ANSIBLE MANAGED BLOCK nvim-plugins
+Plug 'a/vim-trash-polka'
 Plug 'neoclide/coc.nvim', {'do': '{ -> coc#util#install() }' }
 Plug 'neoclide/coc-snippets'
 Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile' }
@@ -217,3 +218,7 @@ if executable('rg')
   set grepprg=rg\ --color=never\ --vimgrep
 endif
 " END ANSIBLE MANAGED BLOCK ripgrep
+" BEGIN ANSIBLE MANAGED BLOCK a/vim-trash-polka
+colorscheme trash-polka
+let g:airline_theme='trashpolka'
+" END ANSIBLE MANAGED BLOCK a/vim-trash-polka
