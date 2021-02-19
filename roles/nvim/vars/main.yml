@@ -1,7 +1,7 @@
 ---
 nvim_pacman_packages:
   - name: neovim
-    state: latest
+    state: absent
   - name: python3
     state: present
   - name: python2
@@ -12,6 +12,14 @@ nvim_pacman_packages:
     state: present
   - name: yarn
     state: present
+  - name: npm
+    state: absent
+  - name: cmake
+    state: absent
+
+nvim_aur_packages:
+  - name: neovim-nightly-bin
+    state: latest
 
 nvim_pip3_packages:
   - neovim
@@ -21,4 +29,12 @@ nvim_pip2_packages:
 
 nvim_yarn_packages:
   - name: neovim
+    state: latest
+  - name: bash-language-server
+    state: latest
+  - name: typescript-language-server
+    state: latest
+  - name: vim-language-server
+    state: latest
+  - name: yaml-language-server
     state: latest

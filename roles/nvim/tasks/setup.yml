@@ -1,4 +1,9 @@
 ---
+- name: role nvim | manage aur packages
+  include_role: name=aur
+  vars:
+    aur_packages: "{{ nvim_aur_packages }}"
+
 - name: role nvim | manage pacman packages
   include_role: name=meta_pacman
   vars:
