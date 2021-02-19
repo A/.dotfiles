@@ -15,6 +15,9 @@ pacman_packages:
     state: latest
   - name: core/icu
     state: latest
+  - name: htop
+    state: latest
+
   - name: yakuake
     state: absent
   - name: konsole
