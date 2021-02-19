@@ -5,6 +5,9 @@ zsh_ohmyzsh_plugins:
   - name: npm
   - name: github
   - name: yarn
+  - name: rust
+  - name: cargo
+  - name: rustup
   - name: zsh-autosuggestions
     repo: https://github.com/zsh-users/zsh-autosuggestions
     settings: |
@@ -19,7 +22,9 @@ zsh_ohmyzsh_plugins:
 
 zsh_config:
   - name: dotfiles-bin
-    block: |
+    config: |
+      PATH=${HOME}/.local/bin:${PATH}
       PATH={{ ansible_env.PWD }}/bin:${PATH}
       alias ..="cd ..;"
+      alias :q=exit
     state: present

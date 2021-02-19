@@ -22,11 +22,13 @@ precmd() { eval "$PROMPT_COMMAND" }
 
 # ZSH ANSIBLE GENERATED CONFIG
 # BEGIN ANSIBLE MANAGED BLOCK dotfiles-bin
+PATH=${HOME}/.local/bin:${PATH}
 PATH=/home/a8ka/Dev/@A/.dotfiles/bin:${PATH}
 alias ..="cd ..;"
+alias :q=exit
 # END ANSIBLE MANAGED BLOCK dotfiles-bin
 # BEGIN ANSIBLE MANAGED BLOCK rust
-PATH=${PATH}:/home/a8ka/.cargo/bin
+source "$HOME/.cargo/env"
 # END ANSIBLE MANAGED BLOCK rust
 # BEGIN ANSIBLE MANAGED BLOCK nvim-configure
 export EDITOR=nvim
@@ -44,6 +46,9 @@ git \
 npm \
 github \
 yarn \
+rust \
+cargo \
+rustup \
 zsh-autosuggestions \
 zsh-completions \
 docker \

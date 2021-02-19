@@ -1,4 +1,4 @@
 ---
 rust_pacman_packages:
   - name: rust
-    state: latest
+    state: absent
