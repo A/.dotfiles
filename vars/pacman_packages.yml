@@ -1,6 +1,8 @@
 # TODO: postinstall hooks?
 # TODO: core/icu: add pacman -Syyu
 pacman_packages:
+  - name: build-devel
+    state: latest
   - name: openssh
     state: latest
   - name: git
