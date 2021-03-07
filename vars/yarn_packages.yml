@@ -5,3 +5,5 @@ yarn_packages:
     state: latest
   - name: n
     state: latest
+  - name: github-repo-manager
+    state: latest
