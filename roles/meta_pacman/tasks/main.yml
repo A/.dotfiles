@@ -1,4 +1,6 @@
 ---
+# TODO: do upgrade before install a package 
+
 - debug:
     var: pacman_packages
     verbosity: 1
