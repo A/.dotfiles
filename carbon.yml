@@ -48,3 +48,6 @@
 
     - import_role: name=1password
       tags: [1password, gui]
+    
+    - import_role: name=pritunl
+      tags: [pritunl, gui]

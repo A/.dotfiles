@@ -1,0 +1,26 @@
+---
+- name: Ensure pritunl repo is added to pacman.conf
+  blockinfile:
+    state: present
+    path: "{{ pacman_conf }}"
+    block: |
+      [pritunl]
+      Server = https://repo.pritunl.com/stable/pacman
+    marker: "# {mark} ANSIBLE MANAGED BLOCK pritunl"
+  become: true
+
+- name: Ensure pritunl key is added
+  shell: |
+    pacman-key --keyserver hkp://keyserver.ubuntu.com -r 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+    pacman-key --lsign-key 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+  register: pacman_key_log
+  changed_when: "'not changed' not in pacman_key_log.stderr"
+  become: true
+  ignore_errors: true
+
+- debug: msg="{{ pacman_key_log }}"
+
+- name: role pritunl | manage pacman packages
+  include_role: name=meta_pacman
+  vars:
+    pacman_packages: "{{ pritunl_pacman_packages }}"

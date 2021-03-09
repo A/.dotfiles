@@ -57,3 +57,6 @@
 
     - import_role: name=wallpapers
       tags: [wallpapers, gui]
+
+    - import_role: name=pritunl
+      tags: [pritunl, gui]

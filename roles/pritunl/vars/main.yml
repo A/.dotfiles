@@ -1,0 +1,6 @@
+---
+pritunl_pacman_packages:
+  - name: pritunl-client-electron
+    state: latest
+  - name: pritunl-client-electron
+    state: latest
