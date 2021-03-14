@@ -1,0 +1,12 @@
+---
+- name: role i3 | manage pacman packages
+  include_role:
+    name: meta_pacman
+  vars:
+    pacman_packages: "{{ i3_pacman_packages }}"
+
+- name: role i3 | manage pacman packages
+  include_role:
+    name: aur
+  vars:
+    pacman_packages: "{{ i3_aur_packages }}"

@@ -1,0 +1,10 @@
+---
+i3_pacman_packages:
+  - name: i3-gaps
+    state: latest
+  - name: picom
+    state: absent
+
+i3_aur_packages:
+  - name: picom-tryone-git
+    state: latest

@@ -39,6 +39,9 @@
 
     - import_role: name=gui_apps
       tags: [gui]
+    
+    - import_role: name=i3
+      tags: [i3, gui]
 
     - import_role: name=alacritty
       tags: [alacritty, gui]
