@@ -23,7 +23,7 @@ precmd() { eval "$PROMPT_COMMAND" }
 # ZSH ANSIBLE GENERATED CONFIG
 # BEGIN ANSIBLE MANAGED BLOCK dotfiles-bin
 PATH=${HOME}/.local/bin:${PATH}
-PATH=/home/a8ka/Dev/@A/.dotfiles/bin:${PATH}
+PATH=/home/docker/.dotfiles/bin:${PATH}
 alias ..="cd ..;"
 alias :q=exit
 # END ANSIBLE MANAGED BLOCK dotfiles-bin
@@ -39,7 +39,7 @@ PATH=${PATH}:$(yarn global bin)
 # END ANSIBLE MANAGED BLOCK nodejs
 # BEGIN ANSIBLE MANAGED BLOCK zsh-settings
 ZSH_THEME="norm"
-ZSH="/home/a8ka/.oh-my-zsh"
+ZSH="/root/.oh-my-zsh"
 
 plugins=( \
 git \
