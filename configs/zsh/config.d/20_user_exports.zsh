@@ -1,0 +1,1 @@
+[ -f ~/.exports ] && source ~/.exports

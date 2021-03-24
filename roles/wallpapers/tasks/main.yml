@@ -1,4 +1,5 @@
 ---
+# TODO: instead of link t /usr/local/bin symlink bin to PATH
 - name: role wallpapers | ensure pacman packages are managed
   include_role: name=meta_pacman
   vars:

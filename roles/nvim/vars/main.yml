@@ -1,7 +1,7 @@
 ---
 nvim_pacman_packages:
   - name: neovim
-    state: absent
+    state: present
   - name: python3
     state: present
   - name: python2
@@ -17,9 +17,7 @@ nvim_pacman_packages:
   - name: cmake
     state: absent
 
-nvim_aur_packages:
-  - name: neovim-nightly-bin
-    state: latest
+nvim_aur_packages: []
 
 nvim_pip3_packages:
   - neovim

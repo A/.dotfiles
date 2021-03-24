@@ -1,0 +1,4 @@
+---
+configs_default_home: "{{ lookup('env', 'HOME') }}/.configs"
+configs_home: "{{ lookup('env', 'XDG_CONFIG_HOME') | default(configs_default_home, True) }}"
+dotfiles: []

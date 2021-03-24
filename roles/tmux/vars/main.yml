@@ -1,8 +1,4 @@
 ---
-tmux_aur_packages:
-  - name: tmux-git
-    state: latest
-
 tmux_pacman_packages:
   - name: tmux
-    state: absent
+    state: latest

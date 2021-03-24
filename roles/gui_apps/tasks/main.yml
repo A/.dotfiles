@@ -9,3 +9,7 @@
   vars:
     aur_packages: "{{ aur_gui_packages }}"
 
+- name: ensure cargo gui packages are managed
+  include_role: name=rust
+  vars:
+    cargo_packages: "{{ cargo_gui_packages }}"

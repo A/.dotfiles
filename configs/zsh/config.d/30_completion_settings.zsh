@@ -1,0 +1,1 @@
+export COMPLETION_WAITING_DOTS="true"

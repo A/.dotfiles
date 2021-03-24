@@ -5,3 +5,7 @@ cargo_packages:
     state: present
   - name: cargo-update
     state: present
+
+cargo_gui_packages:
+  - name: alacritty
+    state: present

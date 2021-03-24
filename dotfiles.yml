@@ -1,20 +1,18 @@
 ---
-# TODO: aur remove sudo password request on install
 # TODO: sync github
-
 - hosts: localhost
   tasks:
     - include_vars: dir=vars
       tags: always
 
+    - import_role: name=dotfiles
+      tags: [dotfiles, cli]
+
     - import_role: name=meta_pacman
       tags: [pacman, cli]
 
-    - import_role: name=rust
-      tags: [rust, cli]
-
     - import_role: name=aur
-      tags: [aur]
+      tags: [aur, cli]
 
     - import_role: name=git
       tags: [git, cli]
@@ -25,8 +23,8 @@
     - import_role: name=tmux
       tags: [tmux, cli]
 
-    - import_role: name=ripgrep
-      tags: [ripgrep, cli]
+    - import_role: name=rust
+      tags: [rust, cli]
 
     - import_role: name=python
       tags: [python, cli]
@@ -43,20 +41,11 @@
     - import_role: name=gui_apps
       tags: [gui]
 
-    - import_role: name=alacritty
-      tags: [alacritty, gui]
-
-    - import_role: name=font_iosevka
-      tags: [fonts, gui]
-
     - import_role: name=1password
       tags: [1password, gui]
-
-    - import_role: name=sway
-      tags: [sway, gui]
-
-    - import_role: name=wallpapers
-      tags: [wallpapers, gui]
-
-    - import_role: name=pritunl
-      tags: [pritunl, gui]
+    #
+    # - import_role: name=pritunl
+    #   tags: [pritunl, gui]
+    #
+    # - import_role: name=wallpapers
+    #   tags: [wallpapers, gui]

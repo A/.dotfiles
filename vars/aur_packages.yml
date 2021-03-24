@@ -7,3 +7,7 @@ aur_gui_packages:
     state: latest
   - name: slack-desktop
     state: latest
+  - name: nerd-fonts-iosevka
+    state: latest
+  - name: zoom
+    state: latest

@@ -1,0 +1,12 @@
+---
+- name: Ensure {{ dest | dirname }} directory exists
+  file:
+    path: "{{ dest | dirname }}"
+    state: directory
+
+- name: Ensure {{ dest }} is linked
+  file:
+    src: "{{ src }}"
+    dest: "{{ dest }}"
+    state: link
+    force: True

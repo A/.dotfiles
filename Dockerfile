@@ -8,7 +8,8 @@ RUN usermod docker -aG sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER docker
+ENV USER=docker
 WORKDIR /home/docker/.dotfiles
 
 ENV ANSIBLE_EXECUTABLE=/usr/bin/sh
-CMD ["ansible-playbook", "dotfiles.yml", "--become", "--tag", "zsh"]
+CMD ansible-playbook dotfiles.yml --tag rust

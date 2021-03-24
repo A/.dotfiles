@@ -1,5 +1,4 @@
 ---
-# rustup component add rust-src
 - name: install rust by rustup
   shell: curl https://sh.rustup.rs -sSf | sh -s -- -y
 

@@ -5,20 +5,8 @@
   vars:
     pacman_packages: "{{ tmux_pacman_packages }}"
 
-- name: role tmux | manage aur packages
-  include_role:
-    name: aur
-  vars:
-    aur_packages: "{{ tmux_aur_packages }}"
-
-- name: ensure tmux config directory exists
-  file: path={{ tmux_config_dest | dirname }} state=directory recurse=true
-
-- name: ensure {{ tmux_config_path }}/tmux,conf is linked to tmux/files
-  file: src={{  tmux_config_src }} dest={{ tmux_config_dest }} state=link force=true
-
 - name: ensure tpm is installed
   git:
-    repo: git@github.com:tmux-plugins/tpm.git
-    dest: "{{ tmux_config_dest | dirname }}/plugins/tpm"
+    repo: "{{ tmux_tpm_repo }}"
+    dest: "{{ tmux_config_dir }}/plugins/tpm"
     accept_hostkey: yes 

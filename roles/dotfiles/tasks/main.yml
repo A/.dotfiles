@@ -1,0 +1,12 @@
+---
+- debug:
+    msg: "{{ configs_home }}"
+
+- name: Ensure {{ configs_home }} exists
+  file:
+    path: "{{ configs_home }}"
+    state: directory
+
+- name: Ensure dotfiles are managed
+  include: link_file.yml src={{ item.src }} dest={{ item.dest }}
+  with_items: "{{ dotfiles }}"
