@@ -8,4 +8,4 @@ jobs:
       image: shuva1ov/archlinux-ansible
       options: -v ${PWD}:/home/docker/.dotfiles
     steps:
-      shell: echo "Great success!"
+      shell: ansible-playbook dotfiles.yml
