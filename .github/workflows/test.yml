@@ -6,7 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: shuva1ov/archlinux-ansible
-      options: -v ${PWD}:/home/docker/.dotfiles
     steps:
+      - uses: actions/checkout@v1
       - name: Run playbook
         run: ansible-playbook dotfiles.yml
+
