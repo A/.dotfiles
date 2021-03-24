@@ -1,25 +1,8 @@
-setopt inc_append_history
-
-export LANGUAGE=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-export LC_TYPE=en_US.UTF-8
-export TERM=screen-256color
-export XDG_CONFIG_HOME=$HOME/.config
-
 ZSH_CONFIG_HOME=$XDG_CONFIG_HOME/zsh
 ZSH_THEME="norm"
 ZSH="/home/a8ka/.oh-my-zsh"
 
 for f (~/.config/zsh/config.d/*(N.))  . $f
-
-plugins=(\
-  git npm github yarn\
-  docker docker-compose\
-  rust cargo rustup\
-  zsh-autosuggestions zsh-completions\
-)
-
 
 autoload -U compinit && compinit
 

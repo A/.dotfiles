@@ -12,4 +12,4 @@ ENV USER=docker
 WORKDIR /home/docker/.dotfiles
 
 ENV ANSIBLE_EXECUTABLE=/usr/bin/sh
-CMD ansible-playbook dotfiles.yml --tag rust
+CMD ansible-playbook dotfiles.yml

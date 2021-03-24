@@ -1,6 +1,9 @@
 ---
 # TODO: sync github
 - hosts: localhost
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.cargo/bin"
+
   tasks:
     - include_vars: dir=vars
       tags: always
@@ -10,6 +13,9 @@
 
     - import_role: name=meta_pacman
       tags: [pacman, cli]
+
+    - import_role: name=rust
+      tags: [rust, cli]
 
     - import_role: name=aur
       tags: [aur, cli]
@@ -22,9 +28,6 @@
 
     - import_role: name=tmux
       tags: [tmux, cli]
-
-    - import_role: name=rust
-      tags: [rust, cli]
 
     - import_role: name=python
       tags: [python, cli]
@@ -43,9 +46,9 @@
 
     - import_role: name=1password
       tags: [1password, gui]
-    #
-    # - import_role: name=pritunl
-    #   tags: [pritunl, gui]
-    #
+
+    - import_role: name=pritunl
+      tags: [pritunl, gui]
+
     # - import_role: name=wallpapers
     #   tags: [wallpapers, gui]
