@@ -1,0 +1,9 @@
+name: Test
+
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: shuva1ov/archlinux-ansible
+      options: -v ${PWD}:/home/docker/.dotfiles
