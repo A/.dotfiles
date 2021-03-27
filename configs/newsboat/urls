@@ -1,0 +1,133 @@
+# Queries
+"query:All Unread:unread = \"yes\""
+"query:Reddit:rssurl =~ \"reddit\""
+"query:Habr:rssurl =~ \"habr\""
+"query:Mozilla:rssurl =~ \"blog.mozilla.org\""
+"query:Blogs:tags # \"blog\""
+"query:Telegram:rssurl # \"tg.i-c-a.su\""
+"query:Frontend:tags # \"frontend\""
+"query:Algorithms:tags # \"algorithms\""
+"query:Architecture:tags # \"architecture\""
+"query:Tech Companies:tags # \"techcompanies\""
+"query:Newspappers:tags # \"newspappers\""
+"query:Arxiv:rssurl =~ \"arxiv\""
+
+# Comment
+http://blog.mozilla.com/nnethercote/feed/ "~Nicholas Nethercote, Mozilla" blog
+https://nnethercote.github.io/feed.xml "~Nicholas Nethercote, Personal" blog
+http://philcalcado.com/feed.xml "~Phil Calçado" blog
+https://100r.co/links/rss.xml "~100 Rabbints" blog
+https://addyosmani.com/feed.xml "~Addy Osmani" blog
+https://humanwhocodes.com/feeds/blog.xml "~Nicholas Zakas" blog
+https://vitkarpov.me/index.xml "~Vitaly Karpov" blog algorithms
+
+https://cprss.s3.amazonaws.com/javascriptweekly.com.xml "~JavaScript Weekly" newspappers
+https://feeds.feedburner.com/jster newspappers
+https://feeds.feedburner.com/ponyfooweekly newspappers
+https://martinfowler.com/feed.atom architecture
+https://web.dev/feed.xml newspappers
+https://web-standards.ru/articles/feed/ "~web-standards.ru" newspappers
+https://www.smashingmagazine.com/feed/ "~Smashing Magazine" newspappers
+
+https://engineering.atspotify.com/feed/ techcompanies
+https://www.techatbloomberg.com/feed/ techcompanies
+
+http://feeds.feedburner.com/blogspot/gJZg
+
+https://www.reddit.com/r/archlinux/.rss "~/r/archlinux"
+https://www.reddit.com/r/i3wm/.rss "~/r/i3wn"
+https://www.reddit.com/r/linuxaudio/.rss "~/r/linuxaudio"
+https://www.reddit.com/r/unixporn/.rss "~/r/unixporn"
+https://www.reddit.com/r/thinkpad/.rss "~/r/thinkpad"
+https://www.reddit.com/r/neovim/.rss "~/r/neovim"
+https://www.reddit.com/r/rust/.rss "~/r/rust"
+https://www.reddit.com/r/zsh/.rss "~/r/zsh"
+https://www.reddit.com/r/ExperiencedDevs/.rss "~/r/ExperiencedDevs"
+https://www.reddit.com/r/softwarearchitecture/.rss "~/r/softwarearchitecture"
+https://www.reddit.com/r/leetcode/.rss "~/r/leetcode"
+https://www.reddit.com/r/SoftwareEngineering/.rss "~/r/SoftwareEngineering"
+https://www.reddit.com/r/engineering/.rss "~/r/engineering"
+https://www.reddit.com/r/softwaredevelopment/.rss "~/r/softwaredevelopment"
+https://www.reddit.com/r/SystemDesignConcepts/.rss "~/r/SystemDesignConcepts"
+https://www.reddit.com/r/typescript/.rss "~/r/typescript"
+https://www.reddit.com/r/javascript/.rss "~/r/javascript"
+https://www.reddit.com/r/reactjs/.rss "~/r/reactjs"
+https://www.reddit.com/r/react/.rss "~/r/react"
+https://www.reddit.com/r/commandline/.rss "~/r/commandline"
+
+https://www.reddit.com/r/CryptoCurrency/.rss "~/r/cryptocurrency"
+https://www.reddit.com/r/Bitcoin/.rss "~/r/bitcoin"
+
+https://habr.com/en/rss/hub/open_source/
+https://habr.com/en/rss/hub/webdev/
+https://habr.com/en/rss/hub/javascript/
+https://habr.com/en/rss/hub/algorithms/
+https://habr.com/en/rss/hub/api/
+https://habr.com/en/rss/hub/analysis_design/
+https://habr.com/en/rss/hub/microservices/
+https://habr.com/en/rss/hub/rust/
+https://habr.com/en/rss/hub/go/
+
+https://blog.mozilla.org/blog/tag/leadership/feed/
+https://blog.mozilla.org/feed/
+https://blog.mozilla.org/firefox/feed/
+https://blog.mozilla.org/futurereleases/feed/
+https://blog.mozilla.org/opendesign/feed/
+https://blog.mozilla.org/firefox/ru/feed/
+https://blog.mozilla.org/blog/author/jaschamozilla-com/feed/
+https://blog.mozilla.org/blog/author/lshepardmozilla-com/feed/
+https://blog.mozilla.org/blog/author/markmozillafoundation-org/feed/
+https://blog.mozilla.org/blog/author/mitchellmozillacom/feed/
+https://blog.mozilla.org/blog/author/nlouxmozillacom/feed/
+https://blog.mozilla.org/blog/author/nnguyenmozillacom/feed/
+https://blog.mozilla.org/blog/author/sdeckelmannmozilla-com/feed/
+
+https://blog.mozilla.org/blog/author/vzaremozilla-com/feed/
+https://blog.mozilla.org/blog/category/firefox-for-mobile/feed/
+https://blog.mozilla.org/blog/category/mozilla-community/feed/
+https://blog.mozilla.org/blog/category/press-releases/feed/
+https://blog.mozilla.org/blog/category/statement/feed/
+https://blog.mozilla.org/blog/tag/art/feed/
+https://blog.mozilla.org/blog/tag/asm-js/feed/
+https://blog.mozilla.org/blog/tag/data/feed/
+https://blog.mozilla.org/blog/tag/encryption/feed/
+https://blog.mozilla.org/blog/tag/firefox-os/feed/
+https://blog.mozilla.org/blog/tag/firefox/feed/
+https://blog.mozilla.org/blog/tag/mozfest/feed/
+https://blog.mozilla.org/blog/tag/mozilla-festival/feed/
+https://blog.mozilla.org/blog/tag/mozilla-webmaker/feed/
+https://blog.mozilla.org/blog/tag/mwc/feed/
+https://blog.mozilla.org/blog/tag/open-badges/feed/
+https://blog.mozilla.org/blog/tag/open-innovation/feed/
+https://blog.mozilla.org/blog/tag/popcorn/feed/
+https://blog.mozilla.org/blog/tag/test-pilot/feed/
+https://blog.mozilla.org/blog/tag/web-literacy/feed/
+https://blog.mozilla.org/firefox/category/firefox/feed/
+https://blog.mozilla.org/firefox/tag/vpns/feed/
+https://blog.mozilla.org/blog/tag/knight-foundation/feed/
+https://blog.mozilla.org/blog/tag/environment/feed/
+https://blog.mozilla.org/blog/author/lchamberswillowpump-com/feed/
+https://blog.mozilla.org/firefox/tag/fast-browser/feed/
+https://blog.mozilla.org/firefox/tag/themes/feed/
+https://blog.mozilla.org/blog/tag/journalism/feed/
+https://blog.mozilla.org/blog/tag/summer-code-party/feed/
+https://blog.mozilla.org/blog/author/cbergermozilla-com/feed/
+https://blog.mozilla.org/blog/author/ekrmozilla-com/feed/
+https://blog.mozilla.org/blog/tag/games/feed/
+https://blog.mozilla.org/firefox/tag/internet/feed/
+https://blog.mozilla.org/blog/tag/governance/feed/
+https://blog.mozilla.org/firefox/category/firefox/extension-spotlight/feed/
+https://blog.mozilla.org/ux/feed/
+https://blog.mozilla.org/comments/feed/
+https://blog.mozilla.org/opendesign/comments/feed/ 
+
+http://export.arxiv.org/rss/cs.DS
+http://export.arxiv.org/rss/cs.HC
+http://export.arxiv.org/rss/cs.IT
+http://export.arxiv.org/rss/cs.PL
+http://export.arxiv.org/rss/cs.SE
+
+https://tg.i-c-a.su/rss/iamakulov_channel "Ivan Akulov"
+https://tg.i-c-a.su/rss/frontend_info
+https://tg.i-c-a.su/rss/defront
+https://tg.i-c-a.su/rss/valya_reads_issue

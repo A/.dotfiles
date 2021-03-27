@@ -36,3 +36,9 @@ dotfiles:
 
   - src: "{{ playbook_dir }}/bin"
     dest: "{{ ansible_env.HOME }}/.bin"
+
+  - src: "{{ dotfiles_source_dir }}/newsboat/urls"
+    dest: "{{ configs_home }}/newsboat/urls"
+
+  - src: "{{ dotfiles_source_dir }}/newsboat/config"
+    dest: "{{ configs_home }}/newsboat/config"

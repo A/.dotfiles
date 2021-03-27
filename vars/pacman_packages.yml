@@ -27,6 +27,8 @@ pacman_packages:
     state: latest
   - name: ripgrep
     state: latest
+  - name: newsboat
+    state: latest
 
 pacman_gui_packages:
   - name: telegram-desktop
