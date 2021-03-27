@@ -11,17 +11,22 @@ unlet autoload_plug_path
 call plug#begin(stdpath('config') . '/plugins')
 
 Plug 'a/vim-trash-polka'
+
 Plug 'neoclide/coc.nvim', {'do': '{ -> coc#util#install() }' }
-Plug 'neoclide/coc-snippets'
+Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile' }
 Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile' }
-Plug 'neoclide/coc-css'
-Plug 'neoclide/coc-lists'
+Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile' }
+Plug 'neoclide/coc-lists', {'do': 'yarn install --frozen-lockfile' }
 Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile' }
+Plug 'neoclide/coc-eslint', { 'do': 'yarn install --frozen-lockfile' }
+Plug 'neoclide/coc-prettier', { 'do': 'yarn install --frozen-lockfile' }
+Plug 'neoclide/coc-yaml', { 'do': 'yarn install --frozen-lockfile' }
+
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'Shougo/denite.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'dense-analysis/ale'
+
 Plug 'junegunn/fzf', {'do': '{ -> fzf#install() } }' }
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'

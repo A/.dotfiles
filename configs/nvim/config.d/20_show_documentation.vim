@@ -1,4 +1,3 @@
-" TODO: ???
 function! ShowDocumentation()
   if &filetype == 'vim'
     execute 'h '.expand('<cword>')

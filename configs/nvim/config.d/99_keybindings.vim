@@ -8,7 +8,8 @@ nmap    <leader>cr  <Plug>(coc-rename)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gr <Plug>(coc-references)
-nmap <silent> ge :lw<CR>
+nmap <silent> gt <Plug>(coc-type-definition)
+nmap <silent> gE :CocCommand eslint.executeAutofix<CR>
 imap <C-e> <Plug>(coc-snippets-expand-jump)
 nnoremap <silent> K :call ShowDocumentation()<CR>
 
@@ -21,10 +22,6 @@ noremap <leader>gf :Denite gitlog<CR>
 noremap <leader>gl :Denite gitlog:all<CR>
 noremap <leader>gs :Denite gitstatus<CR>
 noremap <leader>gb :Denite gitbranch<CR>
-noremap <leader>cE <Plug>(ale_previous_wrap)
-noremap <leader>ce <Plug>(ale_next_wrap)
-noremap <leader>cE <Plug>(ale_previous_wrap)
-noremap <leader>ce <Plug>(ale_next_wrap)
 
 " Denite grep
 nnoremap <leader>fs :<C-u>Denite grep:<CR><CR>
