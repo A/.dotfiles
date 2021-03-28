@@ -37,3 +37,5 @@ pacman_gui_packages:
     state: latest
   - name: code
     state: latest
+  - name: zathura
+    state: latest
