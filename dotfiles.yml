@@ -50,5 +50,8 @@
     - import_role: name=pritunl
       tags: [pritunl, gui]
 
+    - import_role: name=cron
+      tags: [cron]
+
     # - import_role: name=wallpapers
     #   tags: [wallpapers, gui]

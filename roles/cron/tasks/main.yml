@@ -1,0 +1,5 @@
+---
+- name: Ensure a job is managed
+  cron: "{{ item }}"
+  with_items:
+    - "{{ cron_jobs }}"

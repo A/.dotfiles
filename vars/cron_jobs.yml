@@ -1,0 +1,5 @@
+cron_jobs:
+  - name: "Pull newsboat feeds"
+    minute: "0"
+    job: "newsboat -x reload"
+
