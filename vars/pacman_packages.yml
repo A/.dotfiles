@@ -29,6 +29,8 @@ pacman_packages:
     state: latest
   - name: newsboat
     state: latest
+  - name: tree
+    state: latest
 
 pacman_gui_packages:
   - name: telegram-desktop
@@ -38,4 +40,6 @@ pacman_gui_packages:
   - name: code
     state: latest
   - name: zathura
+    state: latest
+  - name: font-manager
     state: latest
