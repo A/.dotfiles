@@ -42,3 +42,15 @@ dotfiles:
 
   - src: "{{ dotfiles_source_dir }}/newsboat/config"
     dest: "{{ configs_home }}/newsboat/config"
+
+  - src: "{{ dotfiles_source_dir }}/xmonad/xmonad.hs"
+    dest: "{{ ansible_env.HOME }}/.xmonad/xmonad.hs"
+
+  - src: "{{ dotfiles_source_dir }}/xmonad/xmobarrc.hs"
+    dest: "{{ ansible_env.HOME }}/.xmonad/xmobarrc.hs"
+
+  - src: "{{ dotfiles_source_dir }}/xmonad/run.sh"
+    dest: "{{ ansible_env.HOME }}/.xmonad/run.sh"
+
+  - src: "{{ dotfiles_source_dir }}/xmonad/config.d"
+    dest: "{{ ansible_env.HOME }}/.xmonad/config.d"
