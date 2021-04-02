@@ -22,6 +22,10 @@ Plug 'neoclide/coc-eslint', { 'do': 'yarn install --frozen-lockfile' }
 Plug 'neoclide/coc-prettier', { 'do': 'yarn install --frozen-lockfile' }
 Plug 'neoclide/coc-yaml', { 'do': 'yarn install --frozen-lockfile' }
 
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'Shougo/denite.nvim'
 Plug 'roxma/nvim-yarp'

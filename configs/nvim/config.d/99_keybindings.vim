@@ -1,34 +1,27 @@
 let mapleader = " "
 
-nmap <silent> gF :vsp<CR>gf
-
 " Coc
-nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
-nmap    <leader>cr  <Plug>(coc-rename)
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gt <Plug>(coc-type-definition)
+nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gE :CocCommand eslint.executeAutofix<CR>
-imap <C-e> <Plug>(coc-snippets-expand-jump)
 nnoremap <silent> K :call ShowDocumentation()<CR>
 
 " Denite
-noremap <leader>fS :DeniteCursorWord grep<CR>
-noremap <leader>fb :Denite buffer<CR>
-noremap <leader>vc :Denite colorscheme<CR>
-noremap <leader>gi :Denite gists<CR>
-noremap <leader>gf :Denite gitlog<CR>
-noremap <leader>gl :Denite gitlog:all<CR>
-noremap <leader>gs :Denite gitstatus<CR>
-noremap <leader>gb :Denite gitbranch<CR>
+noremap <leader>gl :Denite gitlog<CR>
+noremap <leader>gL :Denite gitlog:all<CR>
 
-" Denite grep
-nnoremap <leader>fs :<C-u>Denite grep:<CR><CR>
-nnoremap <leader>fS :<C-u>DeniteCursorWord grep:.<CR>
+" telescope
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fp <cmd>Telescope find_files<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fe <cmd>Telescope file_browser<cr>
+nnoremap <leader>fS <cmd>Telescope lsp_workspace_symbols<cr>
+
+nnoremap <leader>vk <cmd>Telescope keymaps<cr>
 
 " fzf
-noremap <leader>fp :FZF<CR>
+noremap <leader>fP :FZF<CR>
 
 " NERDTree
 noremap <leader>ft :NERDTreeToggle<CR>
@@ -36,10 +29,9 @@ noremap <leader>ff :NERDTreeFind<CR>
 
 " tcomment
 noremap <leader>cc :TComment<CR>
-noremap <leader>cC :TCommentInline<CR>
 
 " vim-fugitive
-noremap <leader>ga :GBlame<CR>
+noremap <leader>gb :GBlame<CR>
 noremap <leader>gh :GBrowse<CR>
 
 " git-messenger
