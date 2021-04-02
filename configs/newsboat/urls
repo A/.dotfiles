@@ -9,6 +9,7 @@
 "query:* Architecture:( tags # \"architecture\" and unread == \"yes\" )"
 "query:* Tech Companies:( tags # \"techcompanies\" and unread == \"yes\" )"
 "query:* Newspappers:( tags # \"newspappers\" and unread == \"yes\" )"
+"query:* Linux:( tags # \"linux\" and unread == \"yes\" )"
 
 # Blogs
 http://blog.mozilla.com/nnethercote/feed/ "~Nicholas Nethercote, Mozilla" blogs
@@ -19,6 +20,9 @@ https://addyosmani.com/feed.xml "~Addy Osmani" blogs frontend
 https://humanwhocodes.com/feeds/blog.xml "~Nicholas Zakas" blogs frontend
 https://vitkarpov.me/index.xml "~Vitaly Karpov" algorithms
 https://jakearchibald.com/posts.rss "~Jake Archibald" blogs frontend
+https://www.mnot.net/blog/index.atom blogs architecture
+
+https://www.distrotube.com/videos/index.xml linux
 
 https://cprss.s3.amazonaws.com/javascriptweekly.com.xml "~JavaScript Weekly" newspappers
 https://feeds.feedburner.com/jster newspappers
@@ -35,20 +39,13 @@ https://www.techatbloomberg.com/feed/ techcompanies
 https://engineering.fb.com/feed/ techcompanies
 
 https://www.reddit.com/r/archlinux/.rss "~/r/archlinux"
-https://www.reddit.com/r/i3wm/.rss "~/r/i3wn"
+https://www.reddit.com/r/xmonad/.rss "~/r/xmonad"
 https://www.reddit.com/r/unixporn/.rss "~/r/unixporn"
 https://www.reddit.com/r/thinkpad/.rss "~/r/thinkpad"
 https://www.reddit.com/r/neovim/.rss "~/r/neovim"
 https://www.reddit.com/r/zsh/.rss "~/r/zsh"
-https://www.reddit.com/r/ExperiencedDevs/.rss "~/r/ExperiencedDevs"
-https://www.reddit.com/r/softwarearchitecture/.rss "~/r/softwarearchitecture"
-https://www.reddit.com/r/SoftwareEngineering/.rss "~/r/SoftwareEngineering"
-https://www.reddit.com/r/softwaredevelopment/.rss "~/r/softwaredevelopment"
-https://www.reddit.com/r/SystemDesignConcepts/.rss "~/r/SystemDesignConcepts"
 https://www.reddit.com/r/typescript/.rss "~/r/typescript"
 https://www.reddit.com/r/javascript/.rss "~/r/javascript"
-https://www.reddit.com/r/reactjs/.rss "~/r/reactjs"
-https://www.reddit.com/r/react/.rss "~/r/react"
 https://www.reddit.com/r/commandline/.rss "~/r/commandline"
 
 https://blog.mozilla.org/ux/feed/
