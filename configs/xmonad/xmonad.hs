@@ -77,51 +77,43 @@ myLauncher = "ulauncher"
 -- Workspaces
 -- The default number of workspaces (virtual screens) and their names.
 --
-myWorkspaces = ["1: term","2: web","3: code","4: media"] ++ map show [5..9]
+myWorkspaces = ["1:term","2:web","3:code","4:notes", "5:media"] ++ map show [6..9]
+
 
 
 ------------------------------------------------------------------------
 -- Window rules
--- Execute arbitrary actions and WindowSet manipulations when managing
--- a new window. You can use this to, for example, always float a
--- particular program, or have a client always appear on a particular
--- workspace.
---
--- To find the property name associated with a program, use
--- > xprop | grep WM_CLASS
--- and click on the client you're interested in.
---
--- To match on the WM_NAME, you can use 'title' in the same way that
--- 'className' and 'resource' are used below.
---
-myManageHook = composeAll
+-- Center Float Apps
+myCenterFloatClassNames = [
+  , "1Password"
+  , "Nitrogen"
+  , "pamac-manager"
+  , "Pavucontrol"
+  , "pritunl"
+  , "Slack"
+  , "Spotify"
+  , "Steam"
+  , "TelegramDesktop"
+  , "Todoist"
+  , "Ulauncher"
+  , "Xfce4-appfinder"
+  , "Xfce4-power-manager-settings"
+  , "zoom"
+  ]
+
+-- Apps bound to a specific workspace
+myWorkspaceAttachedApps = [
+  ("2:web", "firefox"),
+  ("4:notes", "obsidian"),
+  ("4:notes", "Todoist")
+  ]
+
+myManageHook = composeAll . concat $
     [
-      className =? "Google-chrome"                --> doShift "2:web"
-    , resource  =? "desktop_window"               --> doIgnore
-    , className =? "Ulauncher"                    --> doCenterFloat
-    , className =? "pamac-manager"                --> doCenterFloat
-    , className =? "Spotify"                      --> doCenterFloat
-    , className =? "pritunl"                      --> doCenterFloat
-    , className =? "Nitrogen"                     --> doCenterFloat
-    , className =? "zoom"                         --> doCenterFloat
-    , className =? "obsidian"                     --> doCenterFloat
-    , className =? "Todoist"                      --> doCenterFloat
-    , className =? "Galculator"                   --> doCenterFloat
-    , className =? "Steam"                        --> doCenterFloat
-    , className =? "Gimp"                         --> doCenterFloat
-    , className =? "1Password"                    --> doCenterFloat
-    , resource  =? "gpicview"                     --> doCenterFloat
-    , className =? "MPlayer"                      --> doCenterFloat
-    , className =? "Pavucontrol"                  --> doCenterFloat
-    , className =? "Mate-power-preferences"       --> doCenterFloat
-    , className =? "Xfce4-power-manager-settings" --> doCenterFloat
-    , className =? "VirtualBox"                   --> doShift "4:vm"
-    , className =? "Xchat"                        --> doShift "5:media"
-    , className =? "Xfce4-appfinder"              --> doCenterFloat
-    , className =? "stalonetray"                  --> doIgnore
-    , className =? "Slack"                        --> doCenterFloat
-    , isFullscreen                                --> (doF W.focusDown <+> doFullFloat)
-    -- , isFullscreen                             --> doFullFloat
+      [ resource  =? "desktop_window"               --> doIgnore ]
+    , [ className =? c --> doCenterFloat | c <- myCenterFloatClassNames ]
+    , [ className =? (snd t) --> doShift (fst t) | t <- myWorkspaceAttachedApps ]
+    , [ isFullscreen                                --> (doF W.focusDown <+> doFullFloat) ]
     ]
 
 -- Prompt Config
@@ -299,11 +291,12 @@ myTabTheme = def
 myModMask = mod4Mask
 altMask = mod1Mask
 
-archwiki, mdn, unsplash :: S.SearchEngine
+archwiki, mdn, unsplash, github :: S.SearchEngine
 
 archwiki = S.searchEngine "archwiki" "https://wiki.archlinux.org/index.php?search="
 mdn = S.searchEngine "mdn" "https://developer.mozilla.org/en-US/search?q="
 unsplash = S.searchEngine "unsplash" "https://unsplash.com/s/photos/"
+github = S.searchEngine "github" "https://github.com/search?q="
 
 searchEngineMap method = M.fromList $
   [ ((0, xK_d), method S.duckduckgo)
@@ -311,6 +304,7 @@ searchEngineMap method = M.fromList $
   , ((0, xK_a), method archwiki)
   , ((0, xK_m), method mdn)
   , ((0, xK_u), method unsplash)
+  , ((0, xK_g), method github)
   ]
 
 
