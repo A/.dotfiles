@@ -51,41 +51,27 @@ import Graphics.X11.ExtraTypes.XF86
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
-
-----------------------------mupdf--------------------------------------------
--- Terminimport XMonad.Hooks.EwmhDesktopsal
--- The preferred terminal program, which is used in a binding below and by
--- certain contrib modules.
---
+-- Defaults
 myTerminal = "alacritty"
-
--- The command to lock the screen or show the screensaver.
 myScreensaver = "dm-tool switch-to-greeter"
-
--- The command to take a selective screenshot, where you select
--- what you'd like to capture on the screen.
 mySelectScreenshot = "xfce4-screenshooter"
-
--- The command to take a fullscreen screenshot.
 myScreenshot = "xfce4-screenshooter"
-
--- The command to use as a launcher, to launch commands that don't have
--- preset keybindings.
 myLauncher = "ulauncher"
 
 ------------------------------------------------------------------------
 -- Workspaces
--- The default number of workspaces (virtual screens) and their names.
---
-myWorkspaces = ["1:term","2:web","3:code","4:notes", "5:media"] ++ map show [6..9]
+myWorkspaces = [
+    "1:term"
+  , "2:web"
+  , "3:code"
+  , "4:notes"
+  , "5:media"
+  ] ++ map show [6..9]
 
-
-
-------------------------------------------------------------------------
--- Window rules
--- Center Float Apps
+-- Window rules:
+-- Center Float Apps:
 myCenterFloatClassNames = [
-  , "1Password"
+    "1Password"
   , "Nitrogen"
   , "pamac-manager"
   , "Pavucontrol"
@@ -101,20 +87,23 @@ myCenterFloatClassNames = [
   , "zoom"
   ]
 
--- Apps bound to a specific workspace
+-- Apps bound to a specific workspace:
 myWorkspaceAttachedApps = [
-  ("2:web", "firefox"),
-  ("4:notes", "obsidian"),
-  ("4:notes", "Todoist")
+    ("2:web", "firefox")
+  , ("4:notes", "obsidian")
+  , ("4:notes", "Todoist")
   ]
 
 myManageHook = composeAll . concat $
-    [
-      [ resource  =? "desktop_window"               --> doIgnore ]
-    , [ className =? c --> doCenterFloat | c <- myCenterFloatClassNames ]
-    , [ className =? (snd t) --> doShift (fst t) | t <- myWorkspaceAttachedApps ]
-    , [ isFullscreen                                --> (doF W.focusDown <+> doFullFloat) ]
-    ]
+  [
+    [ resource  =? "desktop_window"               --> doIgnore ]
+  , [ className =? c --> doCenterFloat | c <- myCenterFloatClassNames ]
+  , [ className =? (snd t) --> doShift (fst t) | t <- myWorkspaceAttachedApps ]
+  , [ isFullscreen                                --> (doF W.focusDown <+> doFullFloat) ]
+  ]
+
+
+---------------------------------------------------------
 
 -- Prompt Config
 myXPConfig = def
@@ -144,9 +133,7 @@ myXPConfig = def
   }
 
 
-myXPConfig' = myXPConfig
-      { autoComplete        = Nothing
-      }
+myXPConfig' = myXPConfig{ autoComplete = Nothing }
 
 
 ------------------------------------------------------------------------
@@ -189,14 +176,8 @@ myNav2DConf = def
     { defaultTiledNavigation    = centerNavigation
     , floatNavigation           = centerNavigation
     , screenNavigation          = lineNavigation
-    , layoutNavigation          = [("Full",          centerNavigation)
-    -- line/center same results   ,("Tabs", lineNavigation)
-    --                            ,("Tabs", centerNavigation)
-                                  ]
-    , unmappedWindowRect        = [("Full", singleWindowRect)
-    -- works but breaks tab deco  ,("Tabs", singleWindowRect)
-    -- doesn't work but deco ok   ,("Tabs", fullScreenRect)
-                                  ]
+    , layoutNavigation          = [("Full",          centerNavigation)]
+    , unmappedWindowRect        = [("Full", singleWindowRect)]
     }
 
 
@@ -245,8 +226,6 @@ inactive    = base02
 focusColor  = blue
 unfocusColor = base02
 
--- myFont      = "-*-Zekton-medium-*-*-*-*-160-*-*-*-*-*-*"
--- myBigFont   = "-*-Zekton-medium-*-*-*-*-240-*-*-*-*-*-*"
 myFont      = "xft:Iosevka:size=14:bold:antialias=true"
 myBigFont   = "xft:Iosevka:size=16:bold:antialias=true"
 myWideFont  = "xft:Iosevka Term:"
@@ -288,7 +267,7 @@ myTabTheme = def
 -- ("right alt"), which does not conflict with emacs keybindings. The
 -- "windows key" is usually mod4Mask.
 --
-myModMask = mod4Mask
+winMask = mod4Mask
 altMask = mod1Mask
 
 archwiki, mdn, unsplash, github :: S.SearchEngine
@@ -598,7 +577,7 @@ defaults = xfceConfig{
     terminal           = myTerminal,
     focusFollowsMouse  = myFocusFollowsMouse,
     borderWidth        = myBorderWidth,
-    modMask            = myModMask,
+    modMask            = winMask,
     workspaces         = myWorkspaces,
     normalBorderColor  = myNormalBorderColor,
     focusedBorderColor = myFocusedBorderColor,
