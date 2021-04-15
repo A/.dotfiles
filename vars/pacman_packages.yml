@@ -31,6 +31,10 @@ pacman_packages:
     state: latest
   - name: tree
     state: latest
+  - name: powertop
+    state: latest
+  - name: go
+    state: latest
 
 pacman_gui_packages:
   - name: telegram-desktop
@@ -42,4 +46,18 @@ pacman_gui_packages:
   - name: zathura
     state: latest
   - name: font-manager
+    state: latest
+  - name: rofi
+    state: latest
+  - name: rofi-calc
+    state: latest
+  - name: flatpak
+    state: latest
+  - name: xmonad
+    state: latest
+  - name: xmonad-utils
+    state: latest
+  - name: xmonad-contrib
+    state: latest
+  - name: xmobar
     state: latest

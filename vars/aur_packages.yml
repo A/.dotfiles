@@ -1,6 +1,8 @@
 aur_packages: []
 
 aur_gui_packages:
+  - name: todoist-appimage
+    state: latest
   - name: obsidian-appimage
     state: latest
   - name: microsoft-edge-dev-bin
@@ -10,4 +12,8 @@ aur_gui_packages:
   - name: nerd-fonts-iosevka
     state: latest
   - name: zoom
+    state: latest
+  - name: haskell-ide-engine
+    state: latest
+  - name: xbanish
     state: latest

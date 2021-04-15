@@ -54,3 +54,9 @@ dotfiles:
 
   - src: "{{ dotfiles_source_dir }}/xmonad/config.d"
     dest: "{{ ansible_env.HOME }}/.xmonad/config.d"
+
+  - src: "{{ dotfiles_source_dir }}/xmonad/scripts"
+    dest: "{{ ansible_env.HOME }}/.xmonad/scripts"
+
+  - src: "{{ dotfiles_source_dir }}/kitty/kitty.conf"
+    dest: "{{ configs_home }}/kitty/kitty.conf"

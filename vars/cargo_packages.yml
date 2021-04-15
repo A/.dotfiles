@@ -7,6 +7,8 @@ cargo_packages:
     state: present
   - name: fd-find
     state: present
+  - name: du-dust
+    state: latest
 
 cargo_gui_packages:
   - name: alacritty

@@ -48,6 +48,9 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
+bindsym $mod+Shift+greater move workspace to output right
+bindsym $mod+Shift+less move workspace to output left
+
 # split in horizontal orientation
 bindsym $mod+h split h
 
@@ -69,8 +72,8 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # focus the parent/child container
-bindsym $mod+PageUp focus parent
-bindsym $mod+PageDown focus child
+# bindsym $mod+PageUp focus parent
+# bindsym $mod+PageDown focus child
 
 # WORKSPACES
 set $ws1 "1"

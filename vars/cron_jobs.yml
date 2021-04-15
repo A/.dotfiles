@@ -1,5 +1,12 @@
 cron_jobs:
+
   - name: "Pull newsboat feeds"
+    state: present
     minute: "0"
     job: "newsboat -x reload"
+
+  - name: "Update local rss-feeds"
+    state: present
+    minute: "0"
+    job: "/home/a8ka/Dev/@A/feeds-crawler"
 

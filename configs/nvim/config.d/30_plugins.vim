@@ -31,6 +31,8 @@ Plug 'Shougo/denite.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 
+Plug 'sheerun/vim-polyglot'
+
 Plug 'junegunn/fzf', {'do': '{ -> fzf#install() } }' }
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
@@ -47,7 +49,8 @@ Plug 'tpope/vim-rhubarb'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/git-messenger.vim'
 Plug 'chemzqm/denite-git'
-Plug 'gabrielelana/vim-markdown'
+
+" Plug 'vimwiki/vimwiki'
 
 call plug#end()
 

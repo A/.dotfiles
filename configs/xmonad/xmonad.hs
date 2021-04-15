@@ -1,9 +1,5 @@
--- xmonad config used by Malcolm MD
--- https://github.com/randomthought/xmonad-config
-
 import System.IO
 import System.Exit
--- import System.Taffybar.Hooks.PagerHints (pagerHints)
 
 import qualified Data.List as L
 import Data.Char (isSpace, toUpper)
@@ -13,6 +9,7 @@ import XMonad.Config.Xfce
 import XMonad.Actions.Navigation2D
 import XMonad.Actions.UpdatePointer
 import XMonad.Actions.Submap
+import XMonad.Actions.SpawnOn
 import qualified XMonad.Actions.Search as S
 
 import XMonad.Hooks.DynamicLog
@@ -37,10 +34,6 @@ import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
 import XMonad.Layout.ZoomRow
 
-import XMonad.Prompt as P
-import XMonad.Prompt.Shell
-import XMonad.Prompt.Input
-import XMonad.Prompt.FuzzyMatch
 import Control.Arrow (first)
 
 import XMonad.Util.Run (runProcessWithInput, spawnPipe)
@@ -52,11 +45,12 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
 -- Defaults
-myTerminal = "alacritty"
-myScreensaver = "dm-tool switch-to-greeter"
-mySelectScreenshot = "xfce4-screenshooter"
-myScreenshot = "xfce4-screenshooter"
-myLauncher = "ulauncher"
+myTerminal = "kitty"
+myScreensaver = "xscreensaver-command -activate"
+mySelectScreenshot = "xfce4-screenshooter -cr"
+myLauncher = "rofi -show combi -theme minimal"
+mySearch = "rofi -show search -theme minimal"
+myCalc = "rofi -show calc -theme minimal"
 
 ------------------------------------------------------------------------
 -- Workspaces
@@ -84,7 +78,15 @@ myCenterFloatClassNames = [
   , "Ulauncher"
   , "Xfce4-appfinder"
   , "Xfce4-power-manager-settings"
+  , "Xscreensaver-demo"
   , "zoom"
+  , "Blueman-manager"
+  , "Newsboat"
+  ]
+
+myCenterFloatTitles = [
+    "CMUS"
+  , "Picture-in-Picture"
   ]
 
 -- Apps bound to a specific workspace:
@@ -96,45 +98,15 @@ myWorkspaceAttachedApps = [
 
 myManageHook = composeAll . concat $
   [
-    [ resource  =? "desktop_window"               --> doIgnore ]
+    [ resource =? "desktop_window" --> doIgnore ]
   , [ className =? c --> doCenterFloat | c <- myCenterFloatClassNames ]
+  , [ title =? c --> doCenterFloat | c <- myCenterFloatTitles ]
   , [ className =? (snd t) --> doShift (fst t) | t <- myWorkspaceAttachedApps ]
-  , [ isFullscreen                                --> (doF W.focusDown <+> doFullFloat) ]
+  , [ isFullscreen --> (doF W.focusDown <+> doFullFloat) ]
   ]
 
 
 ---------------------------------------------------------
-
--- Prompt Config
-myXPConfig = def
-  { font                = myFont
-  , bgColor             = base03
-  , fgColor             = "#FFFFFF"
-  , bgHLight            = violet
-  , fgHLight            = cyan
-  , borderColor         = magenta
-  , promptBorderWidth   = 0
-  , promptKeymap        = defaultXPKeymap
-  , position            = Top
-  -- , position            = CenteredAt { xpCenterY = 0.3, xpWidth = 0.3 }
-  , height              = 48
-  , historySize         = 256
-  , historyFilter       = id
-  , defaultText         = []
-  , autoComplete        = Just 100000  -- set Just 100000 for .1 sec
-  , showCompletionOnTab = False
-  -- , searchPredicate     = isPrefixOf
-  , searchPredicate     = fuzzyMatch
-  , defaultPrompter     = id $ map toUpper  -- change prompt to UPPER
-  -- , defaultPrompter     = unwords . map reverse . words  -- reverse the prompt
-  -- , defaultPrompter     = drop 5 .id (++ "XXXX: ")  -- drop first 5 chars of prompt and add XXXX:
-  , alwaysHighlight     = True
-  , maxComplRows        = Nothing      -- set to 'Just 5' for 5 rows
-  }
-
-
-myXPConfig' = myXPConfig{ autoComplete = Nothing }
-
 
 ------------------------------------------------------------------------
 -- Layouts
@@ -270,23 +242,6 @@ myTabTheme = def
 winMask = mod4Mask
 altMask = mod1Mask
 
-archwiki, mdn, unsplash, github :: S.SearchEngine
-
-archwiki = S.searchEngine "archwiki" "https://wiki.archlinux.org/index.php?search="
-mdn = S.searchEngine "mdn" "https://developer.mozilla.org/en-US/search?q="
-unsplash = S.searchEngine "unsplash" "https://unsplash.com/s/photos/"
-github = S.searchEngine "github" "https://github.com/search?q="
-
-searchEngineMap method = M.fromList $
-  [ ((0, xK_d), method S.duckduckgo)
-  , ((0, xK_w), method S.wikipedia)
-  , ((0, xK_a), method archwiki)
-  , ((0, xK_m), method mdn)
-  , ((0, xK_u), method unsplash)
-  , ((0, xK_g), method github)
-  ]
-
-
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   ----------------------------------------------------------------------
   -- Custom key bindings
@@ -304,11 +259,12 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
       , ((0, xK_n),     spawn "obsidian")
       , ((0, xK_f),     spawn "firefox")
       , ((0, xK_p),     spawn "1password")
+      , ((0, xK_c),     spawnHere (myTerminal ++ " -t CMUS -e cmus") )
       ])
 
-  , ((modMask, xK_s), submap $ searchEngineMap $ S.promptSearch myXPConfig')
-  , ((modMask .|. shiftMask, xK_s), submap $ searchEngineMap $ S.selectSearch)
-
+  -- Rofi variants
+  , ((modMask, xK_equal),
+      spawn myCalc)
 
   -- Lock the screen using command specified by myScreensaver.
   , ((modMask, xK_0),
@@ -319,13 +275,12 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_d),
      spawn myLauncher)
 
-  -- Take a selective screenshot using the command specified by mySelectScreenshot.
-  , ((modMask .|. shiftMask, xK_p),
-     spawn mySelectScreenshot)
+  , ((modMask, xK_s),
+     spawn mySearch)
 
-  -- Take a full screenshot using the command specified by myScreenshot.
-  , ((modMask .|. controlMask .|. shiftMask, xK_p),
-     spawn myScreenshot)
+  -- Take a selective screenshot using the command specified by mySelectScreenshot.
+  , ((modMask .|. shiftMask, xK_s),
+     spawn mySelectScreenshot)
 
   -- Toggle current focus window to fullscreen
   , ((modMask, xK_f), sendMessage $ Toggle FULL)
@@ -590,6 +545,6 @@ defaults = xfceConfig{
     layoutHook         = myLayout,
     -- handleEventHook    = E.fullscreenEventHook,
     handleEventHook    = fullscreenEventHook,
-    manageHook         = manageDocks <+> myManageHook,
+    manageHook         = manageDocks <+> manageSpawn <+> myManageHook,
     startupHook        = myStartupHook
 }
