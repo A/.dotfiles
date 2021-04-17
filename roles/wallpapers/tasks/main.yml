@@ -10,24 +10,11 @@
     path: "{{ wallpapers_dir }}"
     state: directory
 
-- name: ensure wallpapers renderer script is installed
-  file:
-    src: "{{ ansible_env.PWD }}/bin/{{ item }}"
-    dest: "/usr/local/bin/{{ item }}"
-    state: link
-  with_items:
-    - unsplash-download
-    - unsplash-render
-  become: true
-
 - name: ensure wallpapers are downloaded
   shell:
     cmd: "{{ wallpapers_download_command }}"
   register: wallpapers_output
   changed_when: "'Downloading' in wallpapers_output.stdout"
-
-- debug:
-    var: wallpapers_output
 
 - name: ensure cron job to fetch new wallpapers is created
   cron:

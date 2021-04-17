@@ -1,0 +1,5 @@
+[user]
+	email = anton@shuvalov.info
+	name = 'Anton Shuvalov'
+[core]
+	editor = nvim

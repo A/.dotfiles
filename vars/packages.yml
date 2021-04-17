@@ -1,6 +1,0 @@
-- name: 1password
-  use: aur
-  state: latest
-  gpg:
-    keyserver: keyserver.ubuntu.com
-    key: 3FEF9748469ADBE15DA7CA80AC2D62742012EA22

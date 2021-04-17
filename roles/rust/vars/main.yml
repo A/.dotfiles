@@ -1,4 +1,0 @@
----
-rust_pacman_packages:
-  - name: rust
-    state: absent

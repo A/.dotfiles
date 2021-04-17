@@ -1,6 +1,10 @@
-aur_packages: []
+aur_packages:
+  - name: git-extras
+    state: latest
 
 aur_gui_packages:
+  - name: picom-tryone-git
+    state: latest
   - name: todoist-appimage
     state: latest
   - name: obsidian-appimage

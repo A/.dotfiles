@@ -2,11 +2,6 @@
 - name: install rust by rustup
   shell: curl https://sh.rustup.rs -sSf | sh -s -- -y
 
-- name: role rust | manage pacman packages
-  include_role: name=meta_pacman
-  vars:
-    pacman_packages: "{{ rust_pacman_packages }}"
-
 - name: Ensure {{ cargo_packages | map(attribute='name') }} cargo packages are managed
   shell: cargo install  {{ item.name }};
   with_items: "{{ cargo_packages }}"

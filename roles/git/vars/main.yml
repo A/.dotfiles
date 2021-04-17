@@ -1,8 +1,0 @@
----
-git_pacman_packages:
-  - name: git
-    state: latest
-
-git_aur_packages:
-  - name: git-extras
-    state: latest
