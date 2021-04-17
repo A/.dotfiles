@@ -22,18 +22,13 @@ Plug 'neoclide/coc-eslint', { 'do': 'yarn install --frozen-lockfile' }
 Plug 'neoclide/coc-prettier', { 'do': 'yarn install --frozen-lockfile' }
 Plug 'neoclide/coc-yaml', { 'do': 'yarn install --frozen-lockfile' }
 
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'Shougo/denite.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'pechorin/any-jump.vim'
 
 Plug 'sheerun/vim-polyglot'
 
 Plug 'junegunn/fzf', {'do': '{ -> fzf#install() } }' }
+Plug 'junegunn/fzf.vim'
+
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
 Plug 'drzel/vim-line-no-indicator'
@@ -48,7 +43,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/git-messenger.vim'
-Plug 'chemzqm/denite-git'
 
 " Plug 'vimwiki/vimwiki'
 
