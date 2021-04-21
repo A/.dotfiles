@@ -1,7 +1,6 @@
 ---
 - name: role docker | manage pacman packages
-  include_role:
-    name: meta_pacman
+  include_role: name=meta_pacman
   vars:
     pacman_packages: "{{ docker_pacman_packages }}"
 
@@ -13,8 +12,7 @@
   become: True
 
 - name: ensure docker.service is enabled
-  include_role:
-    name: systemd
+  include_role: name=systemd
   vars:
     systemd_services: "{{ docker_systemd_services }}"
   when:

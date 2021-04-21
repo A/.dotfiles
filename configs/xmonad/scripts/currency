@@ -1,0 +1,15 @@
+#!/bin/bash
+
+case $1 in
+  "BTCUSD")
+    curl -s https://api.coindesk.com/v1/bpi/currentprice.json | jq '.bpi.USD.rate' | sed "s/\"//" | sed "s/\..*//"
+  ;;
+  "USDRUB")
+    USDRUB=$(curl -s https://www.cbr-xml-daily.ru/daily_json.js | jq '.Valute.USD.Value')
+    echo "${USDRUB:0:${#USDRUB}-2}"
+  ;;
+  "EURRUB")
+    EURRUB=$(curl -s https://www.cbr-xml-daily.ru/daily_json.js | jq '.Valute.EUR.Value')
+    echo "${EURRUB:0:${#EURRUB}-2}"
+  ;;
+esac

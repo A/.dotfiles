@@ -1,5 +1,3 @@
-# TODO: postinstall hooks?
-# TODO: core/icu: add pacman -Syyu
 pacman_packages:
   - name: base-devel
     state: latest
@@ -25,13 +23,43 @@ pacman_packages:
     state: latest
   - name: neofetch
     state: latest
+  - name: xclip
+    state: latest
+  - name: ripgrep
+    state: latest
+  - name: newsboat
+    state: latest
+  - name: tree
+    state: latest
+  - name: powertop
+    state: latest
+  - name: go
+    state: latest
+  - name: nmap
+    state: latest
 
 pacman_gui_packages:
   - name: telegram-desktop
     state: latest
   - name: nitrogen
     state: latest
-  - name: zoom
-    state: latest
   - name: code
+    state: latest
+  - name: zathura
+    state: latest
+  - name: font-manager
+    state: latest
+  - name: rofi
+    state: latest
+  - name: rofi-calc
+    state: latest
+  - name: flatpak
+    state: latest
+  - name: xmonad
+    state: latest
+  - name: xmonad-utils
+    state: latest
+  - name: xmonad-contrib
+    state: latest
+  - name: xmobar
     state: latest

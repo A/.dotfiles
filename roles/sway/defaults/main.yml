@@ -1,4 +1,0 @@
-sway_config_dest: "{{ ansible_env.XDG_CONFIG_HOME }}/sway/config"
-sway_config_src: "{{ role_path }}/files/sway.config"
-waybar_config_dest: "{{ ansible_env.XDG_CONFIG_HOME }}/waybar/config"
-waybar_config_src: "{{ role_path }}/files/waybar.config"

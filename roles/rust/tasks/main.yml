@@ -1,23 +1,9 @@
 ---
-# rustup component add rust-src
 - name: install rust by rustup
   shell: curl https://sh.rustup.rs -sSf | sh -s -- -y
 
-- name: role rust | manage pacman packages
-  include_role: name=meta_pacman
-  vars:
-    pacman_packages: "{{ rust_pacman_packages }}"
-
-- name: ensure cargo bin is in the PATH
-  include_role: name=zsh
-  vars:
-    zsh_config:
-      - name: rust
-        config: source "$HOME/.cargo/env"
-        state: present
-
 - name: Ensure {{ cargo_packages | map(attribute='name') }} cargo packages are managed
-  shell: cargo install  {{ item.name }}
+  shell: cargo install  {{ item.name }};
   with_items: "{{ cargo_packages }}"
   changed_when:
     - "'is already installed' not in cargo_install_log.stdout"

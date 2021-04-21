@@ -1,0 +1,7 @@
+au BufRead,BufNewFile *.md setlocal textwidth=80
+function SetMarkdownOption()
+  setlocal wrap
+  setlocal linebreak
+  setlocal nolist
+  setlocal ts=120
+endfunction

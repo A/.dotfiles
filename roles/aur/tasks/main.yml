@@ -15,10 +15,3 @@
   when: item.state == 'latest' or item.state == 'present'
   register: "aur_installation_log"
   changed_when: "'there is nothing to do' not in aur_installation_log.stdout"
-
-# - name: ensure aur packages are removed
-#   shell: echo "TODO: implement"
-#   register: "aur_uninstallation_log"
-#   # changed_when: "'there is nothing to do' not in aur_installation_log.stdout"
-#   when: state == 'ansent'
-#   with_items: "{{ aur_packages }}"

@@ -1,9 +1,29 @@
-aur_packages: []
+aur_packages:
+  - name: git-extras
+    state: latest
+  - name: bpm-tools
+    state: latest
+  - name: keyfinder-cli-git
+    state: latest
 
 aur_gui_packages:
+  - name: picom-tryone-git
+    state: latest
+  - name: todoist-appimage
+    state: latest
   - name: obsidian-appimage
     state: latest
   - name: microsoft-edge-dev-bin
     state: latest
   - name: slack-desktop
+    state: latest
+  - name: nerd-fonts-iosevka
+    state: latest
+  - name: zoom
+    state: latest
+  - name: haskell-ide-engine
+    state: latest
+  - name: xbanish
+    state: latest
+  - name: tableplus
     state: latest

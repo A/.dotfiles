@@ -1,0 +1,80 @@
+decorations: false
+background_opacity: 1
+
+window:
+  padding:
+    x: 2
+    y: 12
+
+# Night Theme
+colors:
+  # Default colors
+  primary:
+    background: '0x2e3340'
+    foreground: '0xd8dee8'
+
+  # Cursor colors
+  cursor:
+    text:   '0x3b4251'
+    cursor: '0xd8dee8'
+
+  # Normal colors
+  normal:
+    black:   '0x3b4251'
+    red:     '0xBF4C73'
+    green:   '0xa3be8b'
+    yellow:  '0xeacb8a'
+    blue:    '0x81a1c1'
+    magenta: '0xb48dac'
+    cyan:    '0x88c0d0'
+    white:   '0xe5e9f0'
+
+  # Bright colors
+  bright:
+    black:   '0x616e86'
+    red:     '0xbf6069'
+    green:   '0xa3be8b'
+    yellow:  '0xeacb8a'
+    blue:    '0x81a1c1'
+    magenta: '0xb48dac'
+    cyan:    '0x8fbcbb'
+    white:   '0xeceef4'
+
+# # Day Theme
+# colors:
+#   # Default colors
+#   primary:
+#     background: '0xf6f9ff'
+#     foreground: '0x3b4252'
+#
+#   # Cursor colors
+#   cursor:
+#     text:   '0x3b4251'
+#     cursor: '0x3b4252'
+#
+#   # Normal colors
+#   normal:
+#     black:   '0x3b4251'
+#     red:     '0xcb5c66'
+#     green:   '0xa3be8b'
+#     yellow:  '0xeacb8a'
+#     blue:    '0x5697d7'
+#     magenta: '0xb48dac'
+#     cyan:    '0x88c0d0'
+#     white:   '0xb9bcc2'
+#
+#   # Bright colors
+#   bright:
+#     black:   '0x4c556a'
+#     red:     '0xbf6069'
+#     green:   '0xa3be8b'
+#     yellow:  '0xeacb8a'
+#     blue:    '0x81a1c1'
+#     magenta: '0xb48dac'
+#     cyan:    '0x8fbcbb'
+#     white:   '0xeceef4'
+
+font:
+  normal:
+    family: Iosevka Nerd Font
+  size: 11.0

@@ -1,14 +1,35 @@
 ---
-- name: ensure nvim is managed
-  include_tasks: setup.yml
-  when: nvim_is_managed is not defined
+- name: role nvim | manage aur packages
+  include_role: name=aur
+  vars:
+    aur_packages: "{{ nvim_aur_packages }}"
 
-- name: ensure config is up-to-date
-  blockinfile:
-    path: "{{ nvim_config_src }}"
-    block: "{{ item.config }}"
-    state: "{{ item.state | default('present') }}"
-    marker: "\" {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
-  with_items: 
-    - "{{ nvim_config }}"
-  when: item.config is defined
+- name: role nvim | manage pacman packages
+  include_role: name=meta_pacman
+  vars:
+    pacman_packages: "{{ nvim_pacman_packages }}"
+
+- name: role nvim | manage python packages
+  include_role: name=python
+  vars:
+    pip3_packages: "{{ nvim_pip3_packages }}"
+    pip2_packages: "{{ nvim_pip2_packages }}"
+
+- name: role nvim | manage yarn packages
+  include_role: name=yarn
+  vars:
+    yarn_packages: "{{ nvim_yarn_packages }}"
+
+- name: ensure plugins are installed
+  shell: nvim +'PlugInstall --sync' +qall
+  changed_when: false
+
+- name: ensure nvim is a git core.editor
+  git_config:
+    name: core.editor
+    value: nvim
+    scope: global
+
+- name: set fact about nvim is managed
+  set_fact:
+    nvim_is_managed: true

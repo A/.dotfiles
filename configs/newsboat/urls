@@ -1,0 +1,62 @@
+# Queries
+https://archlinux.org/feeds/news/ "~Arch News"
+"query:* All Unread:unread = \"yes\""
+"query:* Reddit:( rssurl =~ \"reddit\" and unread == \"yes\" )"
+"query:* Mozilla:( rssurl =~ \"blog.mozilla.org\" and unread == \"yes\" )"
+"query:* Blogs:( tags # \"blogs\" and unread == \"yes\" )"
+"query:* Telegram:( rssurl =~ \"tg.i-c-a.su\" and unread == \"yes\" )"
+"query:* Frontend:( tags # \"frontend\" and unread == \"yes\" )"
+"query:* Algorithms:( tags # \"algorithms\" and unread == \"yes\" )"
+"query:* Architecture:( tags # \"architecture\" and unread == \"yes\" )"
+"query:* Tech Companies:( tags # \"techcompanies\" and unread == \"yes\" )"
+"query:* Newspappers:( tags # \"newspappers\" and unread == \"yes\" )"
+"query:* Linux:( tags # \"linux\" and unread == \"yes\" )"
+
+# Local
+file:///var/feeds/betweentwocommits.com.xml "~Between Two Commits" blogs linux
+file:///var/feeds/lambdablob.com.xml "~Lambda Blob" blogs
+
+# Blogs
+http://blog.mozilla.com/nnethercote/feed/ "~Nicholas Nethercote, Mozilla" blogs
+https://nnethercote.github.io/feed.xml "~Nicholas Nethercote, Personal" blogs
+http://philcalcado.com/feed.xml "~Phil Calçado" blogs
+https://100r.co/links/rss.xml "~100 Rabbints" blogs
+https://addyosmani.com/feed.xml "~Addy Osmani" blogs frontend
+https://humanwhocodes.com/feeds/blog.xml "~Nicholas Zakas" blogs frontend
+https://vitkarpov.me/index.xml "~Vitaly Karpov" algorithms
+https://jakearchibald.com/posts.rss "~Jake Archibald" blogs frontend
+https://www.mnot.net/blog/index.atom blogs architecture
+https://daniel.haxx.se/blog/feed "~Daniel Stenberg" blogs
+https://infrequently.org/feed/ "~Alex Russel" blogs frontend
+
+https://www.distrotube.com/videos/index.xml linux
+
+https://cprss.s3.amazonaws.com/javascriptweekly.com.xml "~JavaScript Weekly" newspappers
+https://feeds.feedburner.com/jster newspappers
+https://feeds.feedburner.com/ponyfooweekly newspappers
+https://martinfowler.com/feed.atom architecture
+http://blog.cleancoder.com/atom.xml architecture
+https://web.dev/feed.xml newspappers
+https://web-standards.ru/articles/feed/ "~web-standards.ru" newspappers
+https://www.smashingmagazine.com/feed/ "~Smashing Magazine" newspappers
+https://alistapart.com/main/feed/ "~A List Apart" newspappers
+
+https://engineering.atspotify.com/feed/ techcompanies
+https://www.techatbloomberg.com/feed/ techcompanies
+https://engineering.fb.com/feed/ techcompanies
+
+# https://www.reddit.com/r/archlinux/.rss "~/r/archlinux"
+https://www.reddit.com/r/xmonad/.rss "~/r/xmonad"
+# https://www.reddit.com/r/unixporn/.rss "~/r/unixporn"
+# https://www.reddit.com/r/thinkpad/.rss "~/r/thinkpad"
+https://www.reddit.com/r/neovim/.rss "~/r/neovim"
+# https://www.reddit.com/r/zsh/.rss "~/r/zsh"
+# https://www.reddit.com/r/typescript/.rss "~/r/typescript"
+# https://www.reddit.com/r/javascript/.rss "~/r/javascript"
+https://www.reddit.com/r/commandline/.rss "~/r/commandline"
+
+https://blog.mozilla.org/ux/feed/
+
+https://tg.i-c-a.su/rss/iamakulov_channel "Ivan Akulov"
+https://tg.i-c-a.su/rss/defront
+https://tg.i-c-a.su/rss/valya_reads_issue

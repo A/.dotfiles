@@ -1,0 +1,7 @@
+#/bin/bash
+
+if pgrep -x "newsboat" > /dev/null; then
+  echo ""
+else
+  echo "$(newsboat -x print-unread | grep -o '[0-9]*')"
+fi

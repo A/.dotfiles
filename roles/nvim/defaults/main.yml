@@ -1,3 +1,0 @@
-nvim_config_src: "{{ role_path }}/files/init.vim"
-nvim_config_dest: "{{ ansible_env.XDG_CONFIG_HOME }}/nvim/init.vim"
-nvim_config: []

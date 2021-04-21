@@ -1,0 +1,21 @@
+#!/bin/bash
+
+OLDIFS=$IFS
+IFS=$'\n'
+
+NOTATION=camelot
+INBOX_DIR=~/Volumes/SSD\ 500Gb/Inbox
+UNSORTED_DIR=~/Volumes/SSD\ 500Gb/Music/_unsorted
+
+for TRACK_NAME in $(ls "${INBOX_DIR}"); do
+  SOURCE="${INBOX_DIR}/${TRACK_NAME}"
+  KEY=$(keyfinder-cli -n ${NOTATION} "${SOURCE}")
+  BPM=$(sox "${SOURCE}" -t raw -r 44100 -e float -c 1 - | bpm -m 80 -x 160 | awk '{print int($1+0.5)}')
+  mv "${SOURCE}" "${UNSORTED_DIR}/${KEY} ${BPM} - ${TRACK_NAME}"
+done;
+
+IFS=$OLDIFS
+
+
+# TRACK=$(songrec audio-file-to-recognized-song ./Gavin\ Boyce\ -\ Haboo\ \(Original\ Mix\).wav | jq .track | jq .title,.subtitle,.genres.primary
+# "Haboo"
