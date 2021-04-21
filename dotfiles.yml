@@ -20,9 +20,6 @@
     - import_role: name=aur
       tags: [aur, cli]
 
-    - import_role: name=git
-      tags: [git, cli]
-
     - import_role: name=zsh
       tags: [zsh, cli]
 
