@@ -25,6 +25,8 @@ Config {
       , "--high","#fb4934"
       ] 50
 
+    , Run CpuFreq ["-t","<cpu0>GHz","-L","0","-H","2","-l","lightblue","-n","white","-h","red"] 50
+
     , Run Memory [
         "-t", "<fc=#51afef>RAM</fc> <usedratio>%"
       , "-H", "80"
@@ -77,5 +79,5 @@ Config {
     ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = "%StdinReader% }{ COFFEE = %coffee% | BTC = $%BTCUSD% | USD = %USDRUB%Р | EUR = %EURRUB%Р | %VVTS% | %cpu% %coretemp% | %memory% | %battery% | %dynnetwork% | <action=`kitty --class Newsboat newsboat`>RSS %newsboat%</action> | %date% | %kbd% "   -- #69DFFA
+  , template = "%StdinReader% }{ COFFEE = %coffee% | BTC = $%BTCUSD% | USD = %USDRUB%Р | EUR = %EURRUB%Р | %VVTS% | %cpu% %cpufreq% %coretemp% | %memory% | %battery% | %dynnetwork% | <action=`kitty --class Newsboat newsboat`>RSS %newsboat%</action> | %date% | %kbd% "   -- #69DFFA
 }
