@@ -63,3 +63,6 @@ dotfiles:
 
   - src: "{{ dotfiles_source_dir }}/kitty/kitty.conf"
     dest: "{{ configs_home }}/kitty/kitty.conf"
+
+  - src: "{{ dotfiles_source_dir }}/kitty/themes"
+    dest: "{{ configs_home }}/kitty/themes"

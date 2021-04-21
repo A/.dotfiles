@@ -21,3 +21,5 @@ aur_gui_packages:
     state: latest
   - name: xbanish
     state: latest
+  - name: tableplus
+    state: latest
