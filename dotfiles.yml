@@ -1,5 +1,4 @@
 ---
-# TODO: sync github
 - hosts: localhost
   environment:
     PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.cargo/bin"
