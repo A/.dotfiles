@@ -1,6 +1,10 @@
 aur_packages:
   - name: git-extras
     state: latest
+  - name: bpm-tools
+    state: latest
+  - name: keyfinder-cli-git
+    state: latest
 
 aur_gui_packages:
   - name: picom-tryone-git

@@ -1,13 +1,13 @@
-name: Test
-
-on: push
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    container:
-      image: shuva1ov/archlinux-ansible
-    steps:
-      - uses: actions/checkout@v1
-      - name: Run playbook
-        run: ansible-playbook dotfiles.yml -vvvv
-
+# name: Test
+#
+# on: push
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     container:
+#       image: shuva1ov/archlinux-ansible
+#     steps:
+#       - uses: actions/checkout@v1
+#       - name: Run playbook
+#         run: ansible-playbook dotfiles.yml -vvvv
+#

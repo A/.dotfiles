@@ -34,5 +34,5 @@ set completeopt-=preview
 
 runtime! config.d/*.vim
 
-colorscheme trash-polka
+colorscheme nord
 let g:airline_theme='trashpolka'

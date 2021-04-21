@@ -10,7 +10,9 @@ unlet autoload_plug_path
 
 call plug#begin(stdpath('config') . '/plugins')
 
-Plug 'a/vim-trash-polka'
+" Plug 'a/vim-trash-polka'
+" Plug 'jeffkreeftmeijer/vim-dim'
+Plug 'arcticicestudio/nord-vim'
 
 Plug 'neoclide/coc.nvim', {'do': '{ -> coc#util#install() }' }
 Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile' }
