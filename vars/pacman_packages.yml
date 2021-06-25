@@ -47,6 +47,8 @@ pacman_gui_packages:
     state: latest
   - name: zathura
     state: latest
+  - name: zathura-pdf-mupdf
+    state: latest
   - name: font-manager
     state: latest
   - name: rofi

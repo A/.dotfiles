@@ -39,9 +39,15 @@ ignore-article "https://www.reddit.com/r/archlinux/.rss" "title =~ \"amd\""
 ignore-article "https://www.reddit.com/r/archlinux/.rss" "title =~ \"need help\""
 ignore-article "https://www.reddit.com/r/archlinux/.rss" "title =~ \"nvidia\""
 ignore-article "https://www.reddit.com/r/archlinux/.rss" "title =~ \"grub\""
-
 ignore-article "https://www.reddit.com/r/archlinux/.rss" "( title =~ \"install\" or title =~ \"newbie\"  )"
+
 ignore-article "https://www.reddit.com/r/reactjs/.rss" "title =~ \"button\""
 ignore-article "https://www.reddit.com/r/reactjs/.rss" "title =~ \"scroll\""
+
+ignore-article "https://www.reddit.com/r/neovim/.rss" "title =~ \"lua\""
+ignore-article "https://www.reddit.com/r/neovim/.rss" "title =~ \"colorscheme\""
+ignore-article "https://www.reddit.com/r/neovim/.rss" "title =~ \"colorscheme\""
+ignore-article "https://www.reddit.com/r/neovim/.rss" "title =~ \"question\""
+ignore-article "https://www.reddit.com/r/neovim/.rss" "title =~ \"Telescope\""
 
 ignore-mode "display"

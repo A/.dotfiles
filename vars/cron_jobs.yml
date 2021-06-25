@@ -7,7 +7,7 @@ cron_jobs:
 
   - name: "Update local rss-feeds"
     state: present
-    minute: "0"
+    minute: "37"
     job: "/home/a8ka/Dev/@A/feeds-crawler/crawl"
 
   - name: "Process new tracks"

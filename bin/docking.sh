@@ -3,7 +3,7 @@ set -e
 
 INT=eDP-1
 EXT_1=DP-1-1
-EXT_2=DP-1-2
+EXT_2=DP-1-3
 
 MODELINE=$(cvt 3840 2160 30 | grep -i modeline | sed "s/Modeline\ //")
 MODENAME=$(echo $MODELINE | awk -F" " '{print $1}')
@@ -20,6 +20,6 @@ INTERNAL_MODELINE=$(cvt 2560 1440 60 | grep -i modeline | sed "s/Modeline\ //")
 INTERNAL_MODENAME=$(echo $INTERNAL_MODELINE | awk -F" " '{print $1}')
 
 xrandr --newmode ${INTERNAL_MODELINE} || true
-
+#
 xrandr --verbose --addmode ${INT} ${INTERNAL_MODENAME}
 xrandr --verbose --output ${INT} --mode ${INTERNAL_MODENAME} --scale 1 --pos 1690x3240

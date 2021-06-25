@@ -1,0 +1,13 @@
+#!/bin/bash
+
+git -c color.status=always status --short | \
+  fzf \
+    --height 80% \
+    --min-height 20 \
+    --border \
+    --bind ctrl-/:toggle-preview "$@" \
+    -m \
+    --ansi \
+    --nth 2..,.. \
+    --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1})' | \
+  cut -c4- | sed 's/.* -> //'

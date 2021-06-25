@@ -46,6 +46,8 @@ Plug 'tpope/vim-rhubarb'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/git-messenger.vim'
 
+Plug 'kdav5758/TrueZen.nvim'
+
 " Plug 'vimwiki/vimwiki'
 
 call plug#end()

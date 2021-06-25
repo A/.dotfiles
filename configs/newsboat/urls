@@ -28,7 +28,7 @@ https://jakearchibald.com/posts.rss "~Jake Archibald" blogs frontend
 https://www.mnot.net/blog/index.atom blogs architecture
 https://daniel.haxx.se/blog/feed "~Daniel Stenberg" blogs
 https://infrequently.org/feed/ "~Alex Russel" blogs frontend
-
+https://junegunn.kr/atom.xml blogs linux
 https://www.distrotube.com/videos/index.xml linux
 
 https://cprss.s3.amazonaws.com/javascriptweekly.com.xml "~JavaScript Weekly" newspappers
@@ -60,3 +60,4 @@ https://blog.mozilla.org/ux/feed/
 https://tg.i-c-a.su/rss/iamakulov_channel "Ivan Akulov"
 https://tg.i-c-a.su/rss/defront
 https://tg.i-c-a.su/rss/valya_reads_issue
+https://xn--gckvb8fzb.comindex.xml blogs linux
