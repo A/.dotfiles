@@ -1,4 +1,4 @@
-browser "firefox --new-tab %u"
+browser "$HOME/.bin/open-link %u"
 prepopulate-query-feeds yes
 
 ignore-article "*" "title =~ \"bspwm\""

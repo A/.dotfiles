@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# https://www.reddit.com/r/xmonad/comments/ocit3p/xmonad_standalone_or_within_another_desktop/
+
+URL=$1
+
+# LIST OF KEYWORDS TO OPEN AD A FULL WEB PAGE
+IGNORE_READER_MODE=(
+  "reddit"
+)
+
+# ALL OTHER PAGES WILL BE OPEN IN THE READER VIEW
+MODE="reader"
+
+for KEYWORD in "${IGNORE_READER_MODE[@]}"; do
+  MATCH=$(echo "${URL}" | grep "${KEYWORD}")
+  if [ ! -z ${MATCH} ]; then
+    MODE="WEB"
+  fi;
+done
+
+if [[ ${MODE} == "reader" ]]; then
+  firefox "about:reader?url=${URL}"
+else
+  firefox "${URL}"
+fi;

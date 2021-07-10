@@ -26,7 +26,7 @@ https://humanwhocodes.com/feeds/blog.xml "~Nicholas Zakas" blogs frontend
 https://vitkarpov.me/index.xml "~Vitaly Karpov" algorithms
 https://jakearchibald.com/posts.rss "~Jake Archibald" blogs frontend
 https://www.mnot.net/blog/index.atom blogs architecture
-https://daniel.haxx.se/blog/feed "~Daniel Stenberg" blogs
+# https://daniel.haxx.se/blog/feed "~Daniel Stenberg" blogs
 https://infrequently.org/feed/ "~Alex Russel" blogs frontend
 https://junegunn.kr/atom.xml blogs linux
 https://www.distrotube.com/videos/index.xml linux
