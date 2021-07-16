@@ -6,7 +6,8 @@ Config {
   , fgColor = "#bbc2cf"
   , position = TopW L 100
   , commands = [ 
-      Run Com ".xmonad/scripts/currency"        [ "BTCUSD" ] "BTCUSD"   300
+      Run Com ".xmonad/scripts/covid-vietnam"   []           "covid"    3000
+    , Run Com ".xmonad/scripts/currency"        [ "BTCUSD" ] "BTCUSD"   300
     , Run Com ".xmonad/scripts/currency"        [ "USDRUB" ] "USDRUB"   300
     , Run Com ".xmonad/scripts/currency"        [ "EURRUB" ] "EURRUB"   300
     , Run Com ".xmonad/scripts/coffee"          []           "coffee"   3000
@@ -79,5 +80,5 @@ Config {
     ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = "%StdinReader% }{ COFFEE = %coffee% | BTC = $%BTCUSD% | USD = %USDRUB%Р | EUR = %EURRUB%Р | %VVTS% | %cpu% %cpufreq% %coretemp% | %memory% | %battery% | %dynnetwork% | <action=`kitty --class Newsboat newsboat`>RSS %newsboat%</action> | %date% | %kbd% "   -- #69DFFA
+  , template = "%StdinReader% }{COVID = %covid% | COFFEE = %coffee% | BTC = $%BTCUSD% | USD = %USDRUB%Р | EUR = %EURRUB%Р | %VVTS% | %cpu% %cpufreq% %coretemp% | %memory% | %battery% | %dynnetwork% | <action=`kitty --class Newsboat newsboat`>RSS %newsboat%</action> | %date% | %kbd% "   -- #69DFFA
 }
