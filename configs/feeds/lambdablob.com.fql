@@ -1,0 +1,26 @@
+LET title = 'Lambda Blob'
+LET url = 'https://lambdablob.com/'
+LET postSel = '.container .container .card'
+LET subtitleSel = '.card-description + p'
+LET titleSel = '.card-title a'
+
+LET doc = DOCUMENT(url, { driver: 'cdp' })
+
+LET items = (
+  FOR post IN ELEMENTS(doc, postSel)
+    LET title = ELEMENT(post, titleSel)
+    LET subtitle = ELEMENT(post, subtitleSel)
+    LET link = ELEMENT(post, 'a')
+    RETURN {
+      id: url + link.attributes.href,
+      link: url + link.attributes.href,
+      title: title.innerText,
+      subtitle: subtitle.innerText,
+    }
+)
+
+RETURN {
+  title: title,
+  home_page: url,
+  items: items,
+}

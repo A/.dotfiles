@@ -1,0 +1,38 @@
+LET title = 'Between Two Commits'
+LET url = 'https://betweentwocommits.com'
+LET nextSel = '.next a'
+LET postSel = '.post-preview'
+LET subtitleSel = '.post-subtitle'
+LET titleSel = '.post-title'
+LET metaSel = '.post-meta'
+
+LET doc = DOCUMENT(url, { driver: 'cdp' })
+
+LET items = (
+  FOR i DO WHILE ELEMENT_EXISTS(doc, nextSel)
+    LET next = url + ELEMENT(doc, nextSel).attributes.href
+    LET wait = i > 0 ? NAVIGATE(doc, next) : false
+    LET nav = wait ? WAIT(2000) && WAIT_NAVIGATION(doc) : false
+
+    FOR post IN ELEMENTS(doc, postSel)
+      LET title = ELEMENT(post, titleSel)
+      LET subtitle = ELEMENT(post, subtitleSel)
+      LET link = ELEMENT(post, 'a')
+      LET date = REGEX_MATCH(
+        INNER_TEXT(post, metaSel),
+        '\s+on\s+(.*)$'
+      )[1]
+      RETURN {
+        id: url + link.attributes.href,
+        link: url + link.attributes.href,
+        title: title.innerText,
+        subtitle: subtitle.innerText,
+        date: date
+      }
+)
+
+RETURN {
+  title: title,
+  home_page: url,
+  items: items,
+}
