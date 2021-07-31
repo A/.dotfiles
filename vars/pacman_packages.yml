@@ -37,6 +37,8 @@ pacman_packages:
     state: latest
   - name: nmap
     state: latest
+  - name: kubectl
+    state: latest
 
 pacman_gui_packages:
   - name: telegram-desktop

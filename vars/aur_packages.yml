@@ -7,6 +7,8 @@ aur_packages:
     state: latest
   - name: soundcloud-dl-git
     state: latest
+  - name: minikube
+    state: latest
 
 aur_gui_packages:
   - name: picom-tryone-git
