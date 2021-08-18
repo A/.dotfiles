@@ -1,7 +1,7 @@
 # Queries
 https://archlinux.org/feeds/news/ "~Arch News"
 "query:* All Unread:unread = \"yes\""
-"query:* Reddit:( rssurl =~ \"reddit\" and unread == \"yes\" )"
+# "query:* Reddit:( rssurl =~ \"reddit\" and unread == \"yes\" )"
 "query:* Mozilla:( rssurl =~ \"blog.mozilla.org\" and unread == \"yes\" )"
 "query:* Blogs:( tags # \"blogs\" and unread == \"yes\" )"
 "query:* Telegram:( rssurl =~ \"tg.i-c-a.su\" and unread == \"yes\" )"
@@ -17,6 +17,7 @@ file:///var/feeds/betweentwocommits.com.xml "~Between Two Commits" blogs linux
 file:///var/feeds/lambdablob.com.xml "~Lambda Blob" blogs
 
 # Blogs
+https://blog.kamyshev.me/rss/ "~Kamyshev" blogs frontend
 http://blog.mozilla.com/nnethercote/feed/ "~Nicholas Nethercote, Mozilla" blogs
 https://nnethercote.github.io/feed.xml "~Nicholas Nethercote, Personal" blogs
 http://philcalcado.com/feed.xml "~Phil Calçado" blogs
@@ -30,6 +31,9 @@ https://www.mnot.net/blog/index.atom blogs architecture
 https://infrequently.org/feed/ "~Alex Russel" blogs frontend
 https://junegunn.kr/atom.xml blogs linux
 https://www.distrotube.com/videos/index.xml linux
+https://blog.jessfraz.com/index.xml linux blogs docker
+https://usesthis.com/feed.atom linux blogs
+
 
 https://cprss.s3.amazonaws.com/javascriptweekly.com.xml "~JavaScript Weekly" newspappers
 https://feeds.feedburner.com/jster newspappers
@@ -44,16 +48,17 @@ https://alistapart.com/main/feed/ "~A List Apart" newspappers
 https://engineering.atspotify.com/feed/ techcompanies
 https://www.techatbloomberg.com/feed/ techcompanies
 https://engineering.fb.com/feed/ techcompanies
+https://deepsource.io/blog/index.xml techcompanies
 
 # https://www.reddit.com/r/archlinux/.rss "~/r/archlinux"
-https://www.reddit.com/r/xmonad/.rss "~/r/xmonad"
+# https://www.reddit.com/r/xmonad/.rss "~/r/xmonad"
 # https://www.reddit.com/r/unixporn/.rss "~/r/unixporn"
 # https://www.reddit.com/r/thinkpad/.rss "~/r/thinkpad"
-https://www.reddit.com/r/neovim/.rss "~/r/neovim"
+# https://www.reddit.com/r/neovim/.rss "~/r/neovim"
 # https://www.reddit.com/r/zsh/.rss "~/r/zsh"
 # https://www.reddit.com/r/typescript/.rss "~/r/typescript"
 # https://www.reddit.com/r/javascript/.rss "~/r/javascript"
-https://www.reddit.com/r/commandline/.rss "~/r/commandline"
+# https://www.reddit.com/r/commandline/.rss "~/r/commandline"
 
 https://blog.mozilla.org/ux/feed/
 

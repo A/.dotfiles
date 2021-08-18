@@ -1,5 +1,7 @@
 browser "$HOME/.bin/open-link %u"
 prepopulate-query-feeds yes
+text-width 120
+save-path ~/Dev/@A/notes/saved_articles
 
 ignore-article "*" "title =~ \"bspwm\""
 ignore-article "*" "title =~ \"Tailwind\""
@@ -20,7 +22,7 @@ ignore-article "*" "title =~ \"PWA\""
 ignore-article "*" "title =~ \"WordPress\""
 ignore-article "*" "title =~ \"pixel-perfect\""
 ignore-article "*" "title =~ \"usability\""
-ignore-article "*" "title =~ \"accessability\""
+ignore-article "*" "title =~ \"accessibility\""
 ignore-article "*" "title =~ \"bootstrap\""
 ignore-article "*" "title =~ \"tutorial\""
 ignore-article "*" "title =~ \"accessible\""
@@ -49,5 +51,7 @@ ignore-article "https://www.reddit.com/r/neovim/.rss" "title =~ \"colorscheme\""
 ignore-article "https://www.reddit.com/r/neovim/.rss" "title =~ \"colorscheme\""
 ignore-article "https://www.reddit.com/r/neovim/.rss" "title =~ \"question\""
 ignore-article "https://www.reddit.com/r/neovim/.rss" "title =~ \"Telescope\""
+
+ignore-article "https://100r.co/links/rss.xml" "title =~ \"Summary\""
 
 ignore-mode "display"
