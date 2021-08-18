@@ -1,0 +1,17 @@
+#!/bin/zsh
+
+cd /home/a8ka/Dev/@A/notes
+
+CHARS=$(find -name "*.md" | sed -e 's/"/"\\""/g' -e 's/.*/"&"/' | xargs -I{} cat "{}" | wc -w)
+FILES=$(find -name "*.md" | wc -l)
+LINES=$(find -name "*.md" | sed -e 's/"/"\\""/g' -e 's/.*/"&"/' | xargs -I{} cat "{}" | wc -l)
+LINKS=$(find -name "*.md" | sed -e 's/"/"\\""/g' -e 's/.*/"&"/' | xargs -I{} cat "{}" | grep "\[\[" | wc -l)
+IMGS=$(find -name "*.png" -or -name "*.jpg" -or -name "*.gif" | wc -l)
+
+echo "\
+notes_images ${IMGS}\n\
+notes_lines ${LINES}\n\
+notes_files ${FILES}\n\
+notes_chars ${CHARS}\n\
+notes_links ${LINKS}\
+" | curl --data-binary @- "http://localhost:9091/metrics/job/notes"
