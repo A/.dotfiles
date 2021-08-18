@@ -9,6 +9,8 @@ aur_packages:
     state: latest
   - name: minikube
     state: latest
+  - name: kubectl
+    state: latest
 
 aur_gui_packages:
   - name: picom-tryone-git
