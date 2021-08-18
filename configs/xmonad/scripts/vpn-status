@@ -1,0 +1,10 @@
+#/bin/bash
+
+STATUS=$(nordvpn status | grep "Status:" | cut -d':' -f2 | sed -e 's/^[[:space:]]*//')
+
+if [ "$STATUS" == "Connected" ]; then
+  CITY=$(nordvpn status | grep "City" | cut -d':' -f2 | sed -e 's/^[[:space:]]*//')
+  echo "${CITY}"
+else
+  echo "${STATUS}"
+fi
