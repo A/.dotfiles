@@ -1,41 +1,49 @@
-FROM alpine:latest
+FROM archlinux:latest
 
-# TODO: Split build and actual containers
-# TODO: Reduce size from 2.4gb
+RUN pacman -Syu --noconfirm --needed base-devel git sudo
+RUN mkdir /repos
+RUN chmod 777 /repos
 
-RUN apk add --update \
-  neovim \
-  neovim-doc \
-  python3 \
-  python2 \
-  py-pip \
-  nodejs \
-  yarn \
-  npm \
-  curl \
-  fzf \
-  bash \
-  git \
-  gcc \
-  python2-dev \
-  python3-dev \
-  musl-dev \
-  g++\
-  ripgrep
+RUN useradd -m -s /bin/bash -d /build build
+RUN echo "build ALL=NOPASSWD: ALL" >> /etc/sudoers
 
+USER build
+
+RUN git clone https://aur.archlinux.org/neovim-nightly-bin.git /repos/neovim-nightly-bin
+WORKDIR /repos/neovim-nightly-bin
+RUN makepkg -si --noconfirm
+
+WORKDIR /
+USER root
+RUN rm -rf /repos
+
+# Providers
+RUN pacman -Syu --noconfirm python3 python-pip python2 python2-pip nodejs yarn
 RUN pip install neovim
-RUN pip3 install neovim
+RUN pip2 install pynvim
+RUN yarn global add neovim
 
-RUN npm i -g neovim bash-language-server typescript-language-server vim-language-server yaml-language-server
+# Utils
+RUN pacman -Syu --noconfirm fzf ripgrep curl
 
-COPY config /root/.config/nvim
+# LSP
+RUN yarn global add \
+  typescript-language-server \
+  typescript vim-language-server \
+  vim-language-server \
+  yaml-language-server \
+  diagnostic-languageserver \
+  eslint \
+  eslint_d \
+  prettier
 
-RUN nvim +'PlugInstall --sync' +qall
+# Config & Plugins
+# COPY config /root/.config/nvim
+# RUN nvim +'PlugInstall --sync' +qall
 
+VOLUME ["/root/.config/nvim"]
 VOLUME ["/src"]
-
 WORKDIR /src
 
+# USER 1000
 CMD nvim .
-
-

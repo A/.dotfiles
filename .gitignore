@@ -1,3 +1,5 @@
 # Folder view configuration files
 .DS_Store
 files/git
+configs/nvim
+!configs/nvim/init.vim
