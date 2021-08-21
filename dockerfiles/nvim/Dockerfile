@@ -1,48 +1,51 @@
 FROM archlinux:latest
 
-RUN pacman -Syu --noconfirm --needed base-devel git sudo
-RUN mkdir /repos
-RUN chmod 777 /repos
+# Install basic deps
+RUN pacman -Syu --noconfirm --needed base-devel git sudo npm jq
 
-RUN useradd -m -s /bin/bash -d /build build
-RUN echo "build ALL=NOPASSWD: ALL" >> /etc/sudoers
+# Create a user 1000
+RUN useradd -m -s /bin/bash -d /user user
+RUN echo "user ALL=NOPASSWD: ALL" >> /etc/sudoers
 
-USER build
+USER user
+ENV HOME=/user
 
-RUN git clone https://aur.archlinux.org/neovim-nightly-bin.git /repos/neovim-nightly-bin
-WORKDIR /repos/neovim-nightly-bin
+# Setup AURs
+ENV AURS_DIR="${HOME}/aurs"
+RUN mkdir -p $AURS_DIR
+
+# Install neovim nightly from aurs
+RUN git clone https://aur.archlinux.org/neovim-nightly-bin.git ${AURS_DIR}/neovim-nightly-bin
+WORKDIR "${AURS_DIR}/neovim-nightly-bin"
 RUN makepkg -si --noconfirm
 
-WORKDIR /
-USER root
-RUN rm -rf /repos
+WORKDIR "${HOME}"
+RUN rm -rf ${AURS_DIR}
 
-# Providers
-RUN pacman -Syu --noconfirm python3 python-pip python2 python2-pip nodejs yarn
+ENV SHARED_DIR="${HOME}/.local/share"
+
+ENV PATH="${SHARED_DIR}/npm/bin/:${PATH}"
+RUN npm config --global set prefix ${SHARED_DIR}/npm
+
+# Install neovim providers
+RUN sudo pacman -Syu --noconfirm python3 python-pip python2 python2-pip nodejs npm
 RUN pip install neovim
 RUN pip2 install pynvim
-RUN yarn global add neovim
+RUN npm i -g neovim
 
-# Utils
-RUN pacman -Syu --noconfirm fzf ripgrep curl
+# Install shell utils
+RUN sudo pacman -Syu --noconfirm fzf ripgrep curl bat fd
 
-# LSP
-RUN yarn global add \
-  typescript-language-server \
-  typescript vim-language-server \
-  vim-language-server \
-  yaml-language-server \
-  diagnostic-languageserver \
-  eslint \
-  eslint_d \
-  prettier
 
-# Config & Plugins
-# COPY config /root/.config/nvim
-# RUN nvim +'PlugInstall --sync' +qall
+# Config:
+VOLUME ["${HOME}/.config/nvim"]
 
-VOLUME ["/root/.config/nvim"]
+# Local cache:
+VOLUME ["${HOME}/.local/share"]
+
+# Source Code:
 VOLUME ["/src"]
+
 WORKDIR /src
 
 # USER 1000

@@ -2,4 +2,5 @@
 .DS_Store
 files/git
 configs/nvim
-!configs/nvim/init.vim
+!configs/nvim/init.lua
+!configs/nvim/lua
