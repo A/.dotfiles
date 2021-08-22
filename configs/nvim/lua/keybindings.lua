@@ -65,8 +65,8 @@ local keys = {
     l = {
       name = 'LSP',
       r = { "<cmd>lua require('fzf-lua').lsp_references()<CR>", 'Search for references' },
-      d = { "<cmd>lua require('fzf-lua').lsp_definitions()<CR>", 'Search for definitions' },
-      D = { "<cmd>lua require('fzf-lua').lsp_declarations()<CR>", 'Search for declarations' },
+      f = { "<cmd>lua require('fzf-lua').lsp_definitions()<CR>", 'Search for definitions' },
+      F = { "<cmd>lua require('fzf-lua').lsp_declarations()<CR>", 'Search for declarations' },
       t = { "<cmd>lua require('fzf-lua').lsp_typedefs()<CR>", 'Search for type definitions' },
       i = { "<cmd>lua require('fzf-lua').lsp_implementations()<CR>", 'Search for implementations' },
       s = { "<cmd>lua require('fzf-lua').lsp_document_symbols()<CR>", 'Search for document symbols' },
@@ -78,8 +78,8 @@ local keys = {
     m = {
       name = 'Misc',
       b = { "<cmd>lua require('fzf-lua').builtin()<CR>", 'fzf-lua builtin methods' },
-      h = { "<cmd>lua require('fzf-lua').help_tags()<CR>", 'help tags' },
-      m = { "<cmd>lua require('fzf-lua').man_pages()<CR>", 'man pages' },
+      t = { "<cmd>lua require('fzf-lua').help_tags()<CR>", 'help tags' },
+      M = { "<cmd>lua require('fzf-lua').man_pages()<CR>", 'man pages' },
       c = { "<cmd>lua require('fzf-lua').colorschemes()<CR>", 'color schemes' },
       r = { "<cmd>lua require('fzf-lua').commands()<CR>", 'commands' },
       h = { "<cmd>lua require('fzf-lua').command_history()<CR>", 'commands history' },
@@ -92,6 +92,12 @@ local keys = {
   n = {
     name = 'Navigation',
     o = { "<cmd>CHADopen<CR>", 'Open navigation' },
+    O = { "<cmd>:CHADopen --nofocus<CR>", 'Open navigation without focus' },
+    f = { "<cmd>CHADopen --always-focus<CR>", 'Focus navigation' },
+  },
+  c = {
+    name = 'Code Stuff',
+    c = { "<cmd>CommentToggle<CR>", 'Comment' },
   },
 }
 

@@ -1,7 +1,7 @@
 local opt = vim.opt
 
 opt.colorcolumn = '120'
-opt.completeopt = 'preview'
+opt.completeopt = {'menuone', 'noinsert', 'noselect'} 
 opt.cursorline = true
 opt.encoding = 'utf-8'
 opt.expandtab = true

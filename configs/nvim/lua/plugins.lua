@@ -10,6 +10,8 @@ end
 cmd 'packadd paq-nvim'
 local paq = require('paq-nvim').paq
 
+require('paq-nvim'):setup({ verbose = true })
+
 paq {'savq/paq-nvim', opt = true}
 paq {'A/vim-trash-polka'}
 paq {'folke/which-key.nvim'}
@@ -36,3 +38,19 @@ paq {'kyazdani42/nvim-web-devicons'}
 
 -- paq {'ojroques/nvim-lspfuzzy'}
 paq {'lewis6991/gitsigns.nvim'}
+paq {'terrortylor/nvim-comment'}
+paq {'nvim-lua/lsp-status.nvim'}
+paq {'akinsho/nvim-bufferline.lua'}
+
+require('bufferline').setup{}
+
+
+require('compe').setup {
+  min_length = 2,
+  preselect = 'disable',
+  max_abbr_width = 80, max_kind_width = 40, max_menu_width = 40,
+  source = {buffer = true, path = true, nvim_lsp = true, omni = {filetypes = {'tex'}}},
+}
+
+require('gitsigns').setup()
+require('nvim_comment').setup()
