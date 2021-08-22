@@ -1,0 +1,9 @@
+#!/bin/bash
+
+docker run --rm -it \
+  -v "${HOME}/Dev/@A/.dotfiles/configs/nvim:/user/.config/nvim:rw" \
+  -v "${PWD}:/src:rw" \
+  -v "${HOME}/.nvim-cache:/user/.local/share:rw" \
+  --cpus=2 \
+  --memory=3g \
+  shuva1ov/nvim:${NVIM_DOCKER_VERSION:-latest}
