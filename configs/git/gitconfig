@@ -3,3 +3,4 @@
 	name = 'Anton Shuvalov'
 [core]
 	editor = nvim
+	bare = false
