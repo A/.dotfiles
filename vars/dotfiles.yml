@@ -14,10 +14,8 @@ dotfiles:
   - src: "{{ dotfiles_source_dir }}/git/gitconfig"
     dest: "{{ ansible_env.HOME }}/.gitconfig"
 
-  - src: "{{ dotfiles_source_dir }}/nvim/init.vim"
-    dest: "{{ configs_home }}/nvim/init.vim"
-  - src: "{{ dotfiles_source_dir }}/nvim/config.d"
-    dest: "{{ configs_home }}/nvim/config.d"
+  - src: "{{ dotfiles_source_dir }}/nvim"
+    dest: "{{ configs_home }}/nvim"
 
   - src: "{{ dotfiles_source_dir }}/tmux/tmux.conf"
     dest: "{{ configs_home }}/tmux/tmux.conf"

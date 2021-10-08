@@ -13,6 +13,7 @@ opt.list = true
 opt.mouse = 'a'
 opt.wrap = false
 opt.number = true
+opt.rnu = true
 opt.scrolloff = 8
 opt.shiftwidth = 2
 opt.showtabline = 0
@@ -23,3 +24,9 @@ opt.tabstop = 2
 opt.updatetime = 750
 opt.wildignore = {'package-lock.json','yarn.lock'}
 opt.grepprg = 'rg --color=never --vimgrep'
+opt.swapfile = false
+opt.mouse = 'a'
+opt.termguicolors = false
+opt.viewoptions = 'cursor,folds'
+opt.sessionoptions = 'folds'
+opt.clipboard = 'unnamedplus'

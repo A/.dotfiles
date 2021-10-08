@@ -1,9 +1,22 @@
 local wk = require("which-key")
 local g = vim.g      -- a table to access global variables
+local api = vim.api
 
 g.mapleader = ' '
 
 local keys = {
+  t = {
+    name = 'Todos',
+    t = { 
+      '<cmd>lua require("fzf-lua").live_grep('..
+        '{ '..
+          'cwd = "/home/a8ka/Dev/@A/notes/", prompt = "Tag❯ ", '..
+          'rg_opts = "--hidden --column --no-heading --smart-case -g \'!{.git,node_modules}\' -g \'*.todo.md\'"'..
+        '}'..
+      ')<CR>',
+      'Search todos'
+    }
+  },
   l = {
     name = 'LSP',
     a = { '<cmd>lua vim.lsp.buf.code_action()<CR>', 'Select a code action' },
@@ -90,15 +103,44 @@ local keys = {
     }
   },
   n = {
-    name = 'Navigation',
-    o = { "<cmd>CHADopen<CR>", 'Open navigation' },
-    O = { "<cmd>:CHADopen --nofocus<CR>", 'Open navigation without focus' },
-    f = { "<cmd>CHADopen --always-focus<CR>", 'Focus navigation' },
+    name = 'NERDTree',
+    o = { "<cmd>NERDTree<CR>", 'Open' },
+    t = { "<cmd>NERDTreeToggle<CR>", 'Toggle' },
+    f = { "<cmd>NERDTreeFind<CR>", 'Find' },
+    R = { "<cmd>NERDTreeRefreshRoot<CR>", 'Refresh' },
   },
   c = {
     name = 'Code Stuff',
     c = { "<cmd>CommentToggle<CR>", 'Comment' },
   },
+  g = {
+    name = 'Git',
+    b = { '<cmd>:Git blame<CR>', 'Blame'},
+    d = { '<cmd>:Git diff<CR>', 'Diff'},
+    l = { '<cmd>:Git log<CR>', 'Log'},
+    s = { '<cmd>:Git<CR>', 'Status'},
+    o = { '<cmd>:Git browse', 'Open url to this file' },
+  },
+  m = {
+    name = 'Misc',
+    d = { '<cmd>:lua vim.cmd(":colorscheme trash-polka")<CR>', 'Toggle dark theme'},
+    l = { '<cmd>:lua vim.cmd(":colorscheme trash-polka-light")<CR>', 'Toggle light theme'},
+  }
 }
 
+
 wk.register(keys, { prefix = "<leader>", mode = 'n' })
+
+
+local function nnoremap(left, right)
+  vim.api.nvim_set_keymap('n', left, right, {noremap = true})
+end
+
+api.nvim_set_keymap('n', '<S-Down>', ':lua require("lib/vim-tmux-navigation").navigate("down")<cr>', { noremap = true })
+api.nvim_set_keymap('n', '<S-Up>', ':lua require("lib/vim-tmux-navigation").navigate("up")<cr>', { noremap = true })
+api.nvim_set_keymap('n', '<S-Right>', ':lua require("lib/vim-tmux-navigation").navigate("right")<cr>', { noremap = true })
+api.nvim_set_keymap('n', '<S-Left>', ':lua require("lib/vim-tmux-navigation").navigate("left")<cr>', { noremap = true })
+
+
+api.nvim_set_keymap('i', '<C-Space', 'compe#complete()', {expr = true, noremap = true})
+api.nvim_set_keymap('i', '<C-y>', 'compe#confirm()', {expr = true, noremap = true})

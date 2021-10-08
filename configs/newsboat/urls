@@ -11,6 +11,7 @@ https://archlinux.org/feeds/news/ "~Arch News"
 "query:* Tech Companies:( tags # \"techcompanies\" and unread == \"yes\" )"
 "query:* Newspappers:( tags # \"newspappers\" and unread == \"yes\" )"
 "query:* Linux:( tags # \"linux\" and unread == \"yes\" )"
+"query:* Startups:( tags # \"startups\" and unread == \"yes\" )"
 
 # Local
 file:///var/feeds/betweentwocommits.com.xml "~Between Two Commits" blogs linux
@@ -34,6 +35,7 @@ https://www.distrotube.com/videos/index.xml linux
 https://blog.jessfraz.com/index.xml linux blogs docker
 https://usesthis.com/feed.atom linux blogs
 
+https://trends.vc/feed/ startups
 
 https://cprss.s3.amazonaws.com/javascriptweekly.com.xml "~JavaScript Weekly" newspappers
 https://feeds.feedburner.com/jster newspappers

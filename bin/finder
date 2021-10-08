@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+fzf --height 100% --layout reverse --info inline --border \
+    --preview 'bat {}' --preview-window right,60%,border-horizontal | xargs -I{} sh -c 'nohup xdg-open {} &'

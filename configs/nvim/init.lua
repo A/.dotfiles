@@ -5,6 +5,12 @@ require 'opts'
 require 'plugins'
 require 'lsp'
 require 'keybindings'
-require 'statusline'.setup()
+
+-- Local tweaks
+require 'lib/vim-tmux-navigation'
+require 'lib/nvim-session'
 
 cmd 'colorscheme trash-polka'
+
+vim.api.nvim_command('au BufEnter *.prism :set ft=prisma')
+

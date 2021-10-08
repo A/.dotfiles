@@ -1,46 +1,29 @@
-local nvim_lsp = require('lspconfig')
-local statusline = require('statusline')
-local dls = require('diagnosticls-configs')
-local lsp_status = require('lsp-status')
+local lspconfig = require('lspconfig')
 
-lsp_status.register_progress()
+local eslint = {
+  lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+  lintStdin = true,
+  lintFormats = {"%f:%l:%c: %m"},
+  lintIgnoreExitCode = true,
+  formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+  formatStdin = true
+}
 
-function get_lsp_status_text()
-  local s = lsp_status.status()
-  
-  if s == '' then
-    s = 'OFF'
+local function eslint_config_exists()
+  local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
+
+  if not vim.tbl_isempty(eslintrc) then
+    return true
   end
 
-  return 'LSP: ' .. s
+  if vim.fn.filereadable("package.json") then
+    if vim.fn.json_decode(vim.fn.readfile("package.json"))["eslintConfig"] then
+      return true
+    end
+  end
+
+  return false
 end
-
-statusline.add(get_lsp_status_text)
-
-local on_attach = function(client, bufnr)
-  lsp_status.on_attach(client)
-  -- require('completion').on_attach()
-end
-
-dls.init({ on_attach = on_attach })
-dls.setup({
-  javascript = {
-    linter = require 'diagnosticls-configs.linters.eslint_d',
-    formatter = require 'diagnosticls-configs.formatters.prettier',
-  },
-  javascriptreact = {
-    linter = require 'diagnosticls-configs.linters.eslint_d',
-    formatter = require 'diagnosticls-configs.formatters.prettier',
-  },
-  typescript = {
-    linter = require 'diagnosticls-configs.linters.eslint_d',
-    formatter = require 'diagnosticls-configs.formatters.prettier',
-  },
-  typescriptreact = {
-    linter = require 'diagnosticls-configs.linters.eslint_d',
-    formatter = require 'diagnosticls-configs.formatters.prettier',
-  },
-})
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -50,15 +33,52 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     }
 )
 
+lspconfig.tsserver.setup({ on_attach = function(client)
+    if client.config.flags then
+      client.config.flags.allow_incremental_sync = true
+    end
+    client.resolved_capabilities.document_formatting = false
+end})
 
+lspconfig.efm.setup {
+  init_options = {
+    documentFormatting = true
+  },
+  on_attach = function(client)
+    client.resolved_capabilities.document_formatting = true
+    client.resolved_capabilities.goto_definition = false
+  end,
+  root_dir = function()
+    if not eslint_config_exists() then
+      return nil
+    end
+    return vim.fn.getcwd()
+  end,
+  settings = {
+    languages = {
+      javascript = {eslint},
+      javascriptreact = {eslint},
+      ["javascript.jsx"] = {eslint},
+      typescript = {eslint},
+      ["typescript.tsx"] = {eslint},
+      typescriptreact = {eslint}
+    }
+  },
+  filetypes = {
+    "javascript",
+    "javascriptreact",
+    "javascript.jsx",
+    "typescript",
+    "typescript.tsx",
+    "typescriptreact"
+  },
+}
 
-local servers = {'tsserver', 'vimls', 'yamlls'}
-
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-  }
-end
+lspconfig.vimls.setup({})
+lspconfig.yamlls.setup({})
+lspconfig.dockerls.setup({})
+lspconfig.prismals.setup({})
+lspconfig.intelephense.setup({})
 
 
 -- LUA LSP

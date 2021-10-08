@@ -48,9 +48,11 @@ import qualified Data.Map        as M
 myTerminal = "kitty"
 myScreensaver = "xscreensaver-command -activate"
 mySelectScreenshot = "xfce4-screenshooter -cr"
+myFinder = "kitty --hold --class FZFFinder --directory ~ zsh -c '~/.bin/finder; sleep 0.5'"
 myLauncher = "rofi -show combi -theme minimal"
 mySearch = "rofi -show search -theme minimal"
 myCalc = "rofi -show calc -theme minimal"
+myBookmarks = "buku_run"
 
 ------------------------------------------------------------------------
 -- Workspaces
@@ -82,6 +84,8 @@ myCenterFloatClassNames = [
   , "zoom"
   , "Blueman-manager"
   , "Newsboat"
+  , "Oilbuku"
+  , "FZFFinder"
   ]
 
 myCenterFloatTitles = [
@@ -266,9 +270,21 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_equal),
       spawn myCalc)
 
+  , ((modMask, xK_o),
+      spawn myFinder)
+
+  -- Bookmarks
+  , ((modMask, xK_b), submap . M.fromList $
+      [ ((0, xK_s),     spawn "kitty --class Oilbuku zsh -c 'oil; sleep .5'")
+      , ((0, xK_t),     spawn "kitty --class Oilbuku zsh -c 'oil -t; sleep .5'")
+      , ((0, xK_n),     spawn "kitty --class Oilbuku zsh -c 'oil -T; sleep .5'")
+      , ((0, xK_a),     spawn "kitty --class Oilbuku zsh -c 'oil -a; sleep .5'")
+      , ((0, xK_d),     spawn "kitty --class Oilbuku zsh -c 'oil -d; sleep .5'")
+      ])
+
   -- Lock the screen using command specified by myScreensaver.
-  , ((modMask, xK_0),
-     spawn myScreensaver)
+  -- , ((modMask, xK_0),
+  --    spawn myScreensaver)
 
   -- Spawn the launcher using command specified by myLauncher.
   -- Use this to launch programs without a key binding.
