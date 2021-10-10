@@ -1,0 +1,13 @@
+---
+- name: Ensure homebrew packages are managed
+  include_role:
+    name: homebrew
+  vars: 
+    homebrew_packages: "{{ mas_homebrew_packages }}"
+
+- name: Ensure MAS packages are managed
+  community.general.mas:
+    id: "{{ item.id }}"
+    state: "{{ item.state }}"
+  with_items: "{{ mas_packages }}"
+  when: ansible_facts["os_family"] == "Darwin"

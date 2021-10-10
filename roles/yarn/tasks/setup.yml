@@ -5,6 +5,12 @@
   vars:
     pacman_packages: "{{ yarn_pacman_packages }}"
 
+- name: Ensure yarn homebrew packages are managed
+  include_role:
+    name: homebrew
+  vars:
+    homebrew_packages: "{{ yarn_homebrew_packages }}"
+
 - name: set fact about yarn and node are managed
   set_fact:
     yarn_is_managed: true

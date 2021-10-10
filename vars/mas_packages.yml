@@ -1,0 +1,17 @@
+---
+mas_packages:
+  - name: Things 3
+    id: 904280696
+    state: latest
+  - name: 1Password
+    id: 1333542190
+    state: latest
+  - name: NordVPN
+    id: 1116599239
+    state: latest
+  - name: Telegram
+    id: 747648890
+    state: latest
+  - name: Tweetbot 3
+    id: 1384080005
+    state: latest

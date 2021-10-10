@@ -7,8 +7,11 @@
     - include_vars: dir=vars
       tags: always
 
-    - import_role: name=dotfiles
-      tags: [dotfiles, cli]
+    - import_role: name=homebrew
+      tags: [homebrew, cli]
+
+    - import_role: name=mas
+      tags: [mas, gui]
 
     - import_role: name=meta_pacman
       tags: [pacman, cli]
@@ -25,8 +28,12 @@
     - import_role: name=tmux
       tags: [tmux, cli]
 
+    - import_role: name=dotfiles
+      tags: [dotfiles, cli]
+
     - import_role: name=python
       tags: [python, cli]
+      when: ansible_facts["os_family"] == "Archlinux"
 
     - import_role: name=yarn
       tags: [yarn, cli]
@@ -36,15 +43,15 @@
 
     - import_role: name=docker
       tags: [docker, cli]
+      when: ansible_facts["os_family"] == "Archlinux"
 
     - import_role: name=gui_apps
       tags: [gui]
+      when: ansible_facts["os_family"] == "Archlinux"
 
     - import_role: name=1password
       tags: [1password, gui]
-
-    - import_role: name=pritunl
-      tags: [pritunl, gui]
+      when: ansible_facts["os_family"] == "Archlinux"
 
     - import_role: name=cron
       tags: [cron]

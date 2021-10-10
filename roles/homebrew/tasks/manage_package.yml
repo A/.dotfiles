@@ -1,0 +1,12 @@
+---
+- name: install {{ item.name }} brew package
+  community.general.homebrew:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  register: homebrew_install_log
+  changed_when: >
+    (homebrew_install_log.stdout is defined) and
+    ('is already installed' not in homebrew_install_log.stdout)
+  failed_when: >
+    (homebrew_install_log.stderr is defined) and
+    ('Error' in homebrew_install_log.stderr)

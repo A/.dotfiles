@@ -12,18 +12,14 @@ nvim_pacman_packages:
     state: present
   - name: yarn
     state: present
-  - name: npm
-    state: absent
-  - name: cmake
-    state: absent
-
-nvim_aur_packages: []
 
 nvim_pip3_packages:
-  - neovim
+  - name: neovim
+    state: latest
 
 nvim_pip2_packages:
-  - pynvim
+  - name: pynvim
+    state: latest
 
 nvim_yarn_packages:
   - name: neovim
@@ -35,4 +31,6 @@ nvim_yarn_packages:
   - name: vim-language-server
     state: latest
   - name: yaml-language-server
+    state: latest
+  - name: intelephense
     state: latest

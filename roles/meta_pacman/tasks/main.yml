@@ -3,3 +3,4 @@
   pacman: "{{ item }}"
   become: true
   with_items: "{{ pacman_packages }}"
+  when: ansible_facts["os_family"] == "Archlinux"

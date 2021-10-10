@@ -3,3 +3,11 @@ yarn_pacman_packages:
     state: present
   - name: yarn
     state: latest
+
+yarn_homebrew_packages:
+  - name: node
+    state: present
+  - name: yarn
+    state: latest
+  - name: yarn-completion
+    state: latest

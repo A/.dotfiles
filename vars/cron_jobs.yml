@@ -6,11 +6,11 @@ cron_jobs:
     job: "newsboat -x reload"
 
   - name: "Update local rss-feeds"
-    state: present
+    state: absent
     minute: "37"
     job: "/home/a8ka/Dev/@A/feeds-crawler/crawl"
 
   - name: "Process new tracks"
-    state: present
+    state: absent
     minute: "0"
     job: "/home/a8ka/.bin/analyze-new-tracks"
