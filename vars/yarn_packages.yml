@@ -1,9 +1,0 @@
-yarn_packages:
-  - name: typescript
-    state: latest
-  - name: eslint
-    state: latest
-  - name: n
-    state: latest
-  - name: github-repo-manager
-    state: latest
