@@ -4,6 +4,11 @@
   vars:
     pacman_packages: "{{ pacman_gui_packages }}"
 
+- name: ensure MAS gui packages are managed
+  include_role: name=mas
+  vars:
+    pacman_packages: "{{ mas_gui_packages }}"
+
 - name: ensure pacman gui packages are managed
   include_role: name=aur
   vars:

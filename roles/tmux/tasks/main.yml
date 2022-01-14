@@ -1,10 +1,4 @@
 ---
-- name: role tmux | manage pacman packages
-  include_role:
-    name: meta_pacman
-  vars:
-    pacman_packages: "{{ tmux_pacman_packages }}"
-
 - name: ensure tpm is installed
   git:
     repo: "{{ tmux_tpm_repo }}"

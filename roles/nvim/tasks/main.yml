@@ -1,19 +1,12 @@
 ---
-- name: role nvim | manage aur packages
-  include_role: name=aur
-  vars:
-    aur_packages: "{{ nvim_aur_packages }}"
-
 - name: role nvim | manage pacman packages
   include_role: name=meta_pacman
   vars:
     pacman_packages: "{{ nvim_pacman_packages }}"
 
 - name: role nvim | manage python packages
-  include_role: name=python
-  vars:
-    pip3_packages: "{{ nvim_pip3_packages }}"
-    pip2_packages: "{{ nvim_pip2_packages }}"
+  pip: "{{ item }}"
+  with_items: "{{ nvim_pip3_packages }}"
 
 - name: role nvim | manage yarn packages
   include_role: name=yarn

@@ -1,0 +1,5 @@
+---
+- name: install brew packages
+  include_tasks: manage_package.yml
+  with_items: "{{ homebrew_packages }}"
+  when: ansible_facts["os_family"] == "Darwin"

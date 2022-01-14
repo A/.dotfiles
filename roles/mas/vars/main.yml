@@ -1,0 +1,4 @@
+---
+mas_homebrew_packages:
+  - name: mas
+    state: present

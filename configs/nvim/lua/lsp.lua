@@ -79,6 +79,7 @@ lspconfig.yamlls.setup({})
 lspconfig.dockerls.setup({})
 lspconfig.prismals.setup({})
 lspconfig.intelephense.setup({})
+lspconfig.pyright.setup({})
 
 
 -- LUA LSP

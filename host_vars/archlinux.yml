@@ -1,0 +1,220 @@
+---
+pacman_packages:
+  - name: base-devel
+    state: latest
+  - name: openssh
+    state: latest
+  - name: git
+    state: latest
+  - name: fzf
+    state: latest
+  - name: nodejs
+    state: latest
+  - name: deno
+    state: latest
+  - name: python-pip
+    state: latest
+  - name: core/icu
+    state: latest
+  - name: htop
+    state: latest
+  - name: dnsutils
+    state: latest
+  - name: traceroute
+    state: latest
+  - name: neofetch
+    state: latest
+  - name: xclip
+    state: latest
+  - name: ripgrep
+    state: latest
+  - name: newsboat
+    state: latest
+  - name: tree
+    state: latest
+  - name: powertop
+    state: latest
+  - name: go
+    state: latest
+  - name: nmap
+    state: latest
+
+pacman_gui_packages:
+  - name: telegram-desktop
+    state: latest
+  - name: nitrogen
+    state: latest
+  - name: code
+    state: latest
+  - name: zathura
+    state: latest
+  - name: zathura-pdf-mupdf
+    state: latest
+  - name: font-manager
+    state: latest
+  - name: rofi
+    state: latest
+  - name: rofi-calc
+    state: latest
+  - name: flatpak
+    state: latest
+  - name: xmonad
+    state: latest
+  - name: xmonad-utils
+    state: latest
+  - name: xmonad-contrib
+    state: latest
+  - name: xmobar
+    state: latest
+
+aur_packages:
+  - name: git-extras
+    state: latest
+  - name: bpm-tools
+    state: latest
+  - name: keyfinder-cli-git
+    state: latest
+  - name: soundcloud-dl-git
+    state: latest
+  - name: minikube
+    state: latest
+  - name: kubectl
+    state: latest
+
+aur_gui_packages:
+  - name: picom-tryone-git
+    state: latest
+  - name: todoist-appimage
+    state: latest
+  - name: obsidian-appimage
+    state: latest
+  - name: microsoft-edge-dev-bin
+    state: latest
+  - name: slack-desktop
+    state: latest
+  - name: nerd-fonts-iosevka
+    state: latest
+  - name: zoom
+    state: latest
+  - name: haskell-ide-engine
+    state: latest
+  - name: xbanish
+    state: latest
+  - name: tableplus
+    state: latest
+
+cargo_packages:
+  - name: exa
+    state: present
+  - name: bat
+    state: present
+  - name: cargo-update
+    state: present
+  - name: fd-find
+    state: present
+  - name: du-dust
+    state: latest
+  - name: songrec
+    state: latest
+
+cargo_gui_packages:
+  - name: alacritty
+    state: present
+
+pip2_packages: []
+pip3_packages:
+  - jmespath
+  - awscli
+  - termgraph
+
+yarn_packages:
+  - name: typescript
+    state: latest
+  - name: eslint
+    state: latest
+  - name: n
+    state: latest
+  - name: github-repo-manager
+    state: latest
+
+cron_jobs:
+  - name: "Pull newsboat feeds"
+    state: present
+    minute: "0"
+    job: "newsboat -x reload"
+  - name: "Update local rss-feeds"
+    state: absent
+    minute: "37"
+    job: "/home/a8ka/Dev/@A/feeds-crawler/crawl"
+  - name: "Process new tracks"
+    state: absent
+    minute: "0"
+    job: "/home/a8ka/.bin/analyze-new-tracks"
+
+configs_default_home: "{{ lookup('env', 'HOME') }}/.configs"
+configs_home: "{{ lookup('env', 'XDG_CONFIG_HOME') | default(configs_default_home, True) }}"
+
+dotfiles_source_dir: "{{ playbook_dir }}/configs"
+dotfiles:
+  - src: "{{ dotfiles_source_dir }}/zsh/zshrc"
+    dest: "{{ ansible_env.HOME }}/.zshrc"
+
+  - src: "{{ dotfiles_source_dir }}/zsh/config.d"
+    dest: "{{ configs_home }}/zsh/config.d"
+
+  - src: "{{ dotfiles_source_dir }}/git/gitconfig"
+    dest: "{{ ansible_env.HOME }}/.gitconfig"
+
+  - src: "{{ dotfiles_source_dir }}/nvim"
+    dest: "{{ configs_home }}/nvim"
+
+  - src: "{{ dotfiles_source_dir }}/tmux/tmux.conf"
+    dest: "{{ configs_home }}/tmux/tmux.conf"
+
+  - src: "{{ dotfiles_source_dir }}/ripgrep/ripgreprc"
+    dest: "{{ configs_home }}/ripgrep/ripgreprc"
+
+  - src: "{{ dotfiles_source_dir }}/i3/config"
+    dest: "{{ configs_home }}/i3/config"
+
+  - src: "{{ dotfiles_source_dir }}/alacritty/alacritty.yml"
+    dest: "{{ configs_home }}/alacritty/alacritty.yml"
+
+  - src: "{{ dotfiles_source_dir }}/picom/picom.conf"
+    dest: "{{ configs_home }}/picom/picom.conf"
+
+  - src: "{{ dotfiles_source_dir }}/conky/conky.conf"
+    dest: "{{ configs_home }}/conky/conky.conf"
+
+  - src: "{{ playbook_dir }}/bin"
+    dest: "{{ ansible_env.HOME }}/.bin"
+
+  - src: "{{ dotfiles_source_dir }}/newsboat/urls"
+    dest: "{{ configs_home }}/newsboat/urls"
+
+  - src: "{{ dotfiles_source_dir }}/newsboat/config"
+    dest: "{{ configs_home }}/newsboat/config"
+
+  - src: "{{ dotfiles_source_dir }}/xmonad/xmonad.hs"
+    dest: "{{ ansible_env.HOME }}/.xmonad/xmonad.hs"
+
+  - src: "{{ dotfiles_source_dir }}/xmonad/xmobarrc.hs"
+    dest: "{{ ansible_env.HOME }}/.xmonad/xmobarrc.hs"
+
+  - src: "{{ dotfiles_source_dir }}/xmonad/run.sh"
+    dest: "{{ ansible_env.HOME }}/.xmonad/run.sh"
+
+  - src: "{{ dotfiles_source_dir }}/xmonad/config.d"
+    dest: "{{ ansible_env.HOME }}/.xmonad/config.d"
+
+  - src: "{{ dotfiles_source_dir }}/xmonad/scripts"
+    dest: "{{ ansible_env.HOME }}/.xmonad/scripts"
+
+  - src: "{{ dotfiles_source_dir }}/kitty/kitty.conf"
+    dest: "{{ configs_home }}/kitty/kitty.conf"
+
+  - src: "{{ dotfiles_source_dir }}/kitty/themes"
+    dest: "{{ configs_home }}/kitty/themes"
+
+  - src: "{{ dotfiles_source_dir }}/feeds"
+    dest: "{{ configs_home }}/feeds"

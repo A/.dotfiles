@@ -1,31 +1,22 @@
 ## Dotfiles
 
-Arch Linux dotfiles provisioned by ansible designed to be easy to manage and config.
+Yet another dotfiles repo for macos & arch linux includes things below:
+
+- pacman & aur apps
+- homebrew apps
+- mas apps
+- cron jobs
+- python, rust, nodejs global packages
+- dotfiles configs
+
+Per host configuration is in `host_var` dir.
 
 ### Usage
 
 ```
-ansible-playbook dotfiles.yml [--tag] # run a special tag
-ansible-playbook dotfiles.yml --skip-tags gui # ignore gui-packages
+ansible-playbook dotfiles.yml --limit=macos --tag=homebrew
+ansible-playbook dotfiles.yml --limit=linux --skip-tags gui
 ```
-
-### Configuration
-
-Roles configuration is pulled from `vars` directory, tweak this files to achieve desired state.
-
-### App Configs
-
-App configs are stored in `configs/` directory and managed by `dotfiles` role, tagged as `dotfiles`.
-Configs are symlinked according to their destinations specified in `vars/dotfiles.yml`
-
-### Packages
-
-Managed packages are specified in `vars/pacman_packages.yml`, `vars/aur_packages.yml`, `vars/cargo_packages.yml`,
-and `vars/yarn_packages.yml` accordingly to the package manager they belongs to.
-
-### Cron Jobs
-
-Cron jobs are specified in `vars/cron_jobs.yml`.
 
 *Example configuration*:
 
