@@ -1,3 +1,4 @@
 # Folder view configuration files
 .DS_Store
 files/git
+packer_compiled.lua 
