@@ -1,0 +1,74 @@
+---
+homebrew_packages:
+  - name: tmux
+    state: latest
+  - name: neovim
+    state: latest
+  - name: fzf
+    state: latest
+  - name: node
+    state: latest
+  - name: htop
+    state: latest
+  - name: ripgrep
+    state: latest
+  - name: tree
+    state: latest
+  - name: go
+    state: latest
+  - name: nmap
+    state: latest
+  - name: git-extras
+    state: latest
+  - name: minikube
+    state: latest
+  - name: kubectl
+    state: latest
+  - name: docker
+    state: latest
+  - name: docker-compose
+    state: latest
+  - name: zsh-autosuggestions
+    state: latest
+  - name: zsh-completions
+    state: latest
+  - name: pritunl
+    state: latest
+  - name: visual-studio-code
+    state: latest
+  - name: amethyst
+    state: latest
+  - name: newsboat
+    state: latest
+  - name: bpm-tools
+    state: latest
+  - name: obsidian
+    state: latest
+  - name: google-chrome
+    state: latest
+  - name: firefox
+    state: latest
+  - name: spotify
+    state: latest
+  - name: font-hack-nerd-font
+    state: latest
+
+mas_packages:
+  - name: Things 3
+    id: 904280696
+    state: latest
+  - name: 1Password
+    id: 1333542190
+    state: latest
+  - name: NordVPN
+    id: 1116599239
+    state: latest
+  - name: Telegram
+    id: 747648890
+    state: latest
+  - name: Tweetbot 3
+    id: 1384080005
+    state: latest
+  - name: Slack
+    id: 803453959
+    state: latest

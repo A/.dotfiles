@@ -15,3 +15,6 @@ mas_packages:
   - name: Tweetbot 3
     id: 1384080005
     state: latest
+  - name: Slack
+    id: 803453959
+    state: latest

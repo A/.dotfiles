@@ -1,12 +1,9 @@
 ---
-- hosts: localhost
+- hosts: all
   environment:
     PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.cargo/bin"
 
   tasks:
-    - include_vars: dir=vars
-      tags: always
-
     - import_role: name=homebrew
       tags: [homebrew, cli]
 

@@ -126,7 +126,7 @@ _G.packer_plugins = {
     path = "/Users/anton/.local/share/nvim/site/pack/packer/start/nvim-comment"
   },
   ["nvim-compe"] = {
-    config = { "\27LJ\2\n能2\0\0\5\0\14\0\0176\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\5\0005\4\4\0=\4\6\0035\4\a\0=\4\b\0035\4\t\0=\4\n\0035\4\v\0=\4\f\3=\3\r\2B\0\2\1K\0\1\0\vsource\vbuffer\1\0\1\rpriority\3申3\tpath\1\0\1\rpriority\3申3\rnvim_lsp\1\0\1\rpriority\33\fluasnip\1\0\0\1\0\2\tmenu\n[SNP]\rpriority\3ﾘ\4\1\0\5\14preselect\venable\15min_length\3\1\17autocomplete\2\fenabled\2\18documentation\2\nsetup\ncompe\frequire\0" },
+    config = { "\27LJ\2\n能2\0\0\5\0\14\0\0176\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\5\0005\4\4\0=\4\6\0035\4\a\0=\4\b\0035\4\t\0=\4\n\0035\4\v\0=\4\f\3=\3\r\2B\0\2\1K\0\1\0\vsource\vbuffer\1\0\1\rpriority\3申3\tpath\1\0\1\rpriority\3申3\rnvim_lsp\1\0\1\rpriority\33\fluasnip\1\0\0\1\0\2\rpriority\3ﾘ\4\tmenu\n[SNP]\1\0\5\14preselect\venable\15min_length\3\1\17autocomplete\2\fenabled\2\18documentation\2\nsetup\ncompe\frequire\0" },
     loaded = true,
     path = "/Users/anton/.local/share/nvim/site/pack/packer/start/nvim-compe",
     wants = { "LuaSnip" }
@@ -178,10 +178,6 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: nvim-comment
-time([[Config for nvim-comment]], true)
-try_loadstring("\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17nvim_comment\frequire\0", "config", "nvim-comment")
-time([[Config for nvim-comment]], false)
 -- Config for: gitsigns.nvim
 time([[Config for gitsigns.nvim]], true)
 try_loadstring("\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
@@ -192,8 +188,12 @@ try_loadstring("\27LJ\2\nH\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K
 time([[Config for LuaSnip]], false)
 -- Config for: nvim-compe
 time([[Config for nvim-compe]], true)
-try_loadstring("\27LJ\2\n能2\0\0\5\0\14\0\0176\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\5\0005\4\4\0=\4\6\0035\4\a\0=\4\b\0035\4\t\0=\4\n\0035\4\v\0=\4\f\3=\3\r\2B\0\2\1K\0\1\0\vsource\vbuffer\1\0\1\rpriority\3申3\tpath\1\0\1\rpriority\3申3\rnvim_lsp\1\0\1\rpriority\33\fluasnip\1\0\0\1\0\2\tmenu\n[SNP]\rpriority\3ﾘ\4\1\0\5\14preselect\venable\15min_length\3\1\17autocomplete\2\fenabled\2\18documentation\2\nsetup\ncompe\frequire\0", "config", "nvim-compe")
+try_loadstring("\27LJ\2\n能2\0\0\5\0\14\0\0176\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\5\0005\4\4\0=\4\6\0035\4\a\0=\4\b\0035\4\t\0=\4\n\0035\4\v\0=\4\f\3=\3\r\2B\0\2\1K\0\1\0\vsource\vbuffer\1\0\1\rpriority\3申3\tpath\1\0\1\rpriority\3申3\rnvim_lsp\1\0\1\rpriority\33\fluasnip\1\0\0\1\0\2\rpriority\3ﾘ\4\tmenu\n[SNP]\1\0\5\14preselect\venable\15min_length\3\1\17autocomplete\2\fenabled\2\18documentation\2\nsetup\ncompe\frequire\0", "config", "nvim-compe")
 time([[Config for nvim-compe]], false)
+-- Config for: nvim-comment
+time([[Config for nvim-comment]], true)
+try_loadstring("\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17nvim_comment\frequire\0", "config", "nvim-comment")
+time([[Config for nvim-comment]], false)
 if should_profile then save_profiles() end
 
 end)

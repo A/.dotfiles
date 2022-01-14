@@ -1,6 +1,6 @@
 plugins=(\
   git npm github yarn\
   docker docker-compose\
-  rust cargo rustup\
+  rust\
   zsh-autosuggestions zsh-completions\
 )

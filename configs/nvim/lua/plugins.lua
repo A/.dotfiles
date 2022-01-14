@@ -11,6 +11,7 @@ end
 
 local packer = require('packer')
 
+
 packer.startup(function (use)
   use 'wbthomason/packer.nvim'
   -- use 'sheerun/vim-polyglot'
@@ -98,21 +99,6 @@ packer.startup(function (use)
   -- completion
   use {
     "hrsh7th/nvim-compe",
-    config = function()
-      require'compe'.setup {
-        enabled = true,
-        autocomplete = true,
-        min_length = 1,
-        preselect = 'enable',
-        documentation = true,
-        source = {
-          luasnip = { menu = '[SNP]', priority = 600 },
-          nvim_lsp = { priority = 500 },
-          path = { priority = 400 },
-          buffer = { priority = 400 },
-        },
-      }
-    end,
     wants = {"LuaSnip"},
     requires = {
         {
@@ -155,8 +141,31 @@ require('lualine').setup({
 
 
 
+
+
 local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
 
 require('nvim-treesitter.configs').setup {
 	ensure_installed = { "javascript", "tsx", "typescript", "php", "dockerfile" },
 }
+
+-- local id = require'compe'.register_source('obs', require'lib/compe_obsidian')
+
+-- print(id)
+
+require'compe'.setup {
+  enabled = true,
+  autocomplete = true,
+  min_length = 1,
+  debug = true,
+  preselect = 'enable',
+  documentation = true,
+  source = {
+    obs = { priority = 10000, menu = '[OBS]' },
+    luasnip = { menu = '[SNP]', priority = 600 },
+    nvim_lsp = { priority = 500 },
+    path = { priority = 400 },
+    buffer = { priority = 400 }
+  },
+}
+

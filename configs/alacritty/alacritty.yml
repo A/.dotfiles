@@ -46,12 +46,12 @@ colors:
 #   primary:
 #     background: '0xf6f9ff'
 #     foreground: '0x3b4252'
-#
+# 
 #   # Cursor colors
 #   cursor:
 #     text:   '0x3b4251'
 #     cursor: '0x3b4252'
-#
+# 
 #   # Normal colors
 #   normal:
 #     black:   '0x3b4251'
@@ -62,7 +62,7 @@ colors:
 #     magenta: '0xb48dac'
 #     cyan:    '0x88c0d0'
 #     white:   '0xb9bcc2'
-#
+# 
 #   # Bright colors
 #   bright:
 #     black:   '0x4c556a'
@@ -76,5 +76,5 @@ colors:
 
 font:
   normal:
-    family: Iosevka Nerd Font
-  size: 11.0
+    family: Hack Nerd Font Mono
+  size: 14.0
