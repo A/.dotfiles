@@ -20,7 +20,7 @@ FILES=$(find $1 -type f -name '*.md')
 OUTPUT=""
 
 for FILE in $FILES; do
-  TODOS=$(grep -rhi "^\s*\-\s*\[\(\s*\|\~\)]" $FILE);
+  TODOS=$(grep -rhi "^\s*\-\s*\[\(\s*\|\~\)]" "$(echo $FILE | sed 's/ /\\ /g')");
   if [ ! -z "$TODOS" ]; then
     OUTPUT+=$(echo -e "\n\n## $FILE");
     if [ -z "$2" ]; then

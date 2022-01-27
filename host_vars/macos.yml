@@ -72,3 +72,15 @@ mas_packages:
   - name: Slack
     id: 803453959
     state: latest
+
+yarn_packages:
+  - name: typescript
+    state: latest
+  - name: eslint
+    state: latest
+  - name: n
+    state: latest
+  - name: github-repo-manager
+    state: latest
+  - name: pyright
+    state: latest
