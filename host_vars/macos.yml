@@ -32,24 +32,24 @@ homebrew_packages:
     state: latest
   - name: zsh-completions
     state: latest
-# - name: pritunl
-#   state: latest
-# - name: visual-studio-code
-#   state: latest
-# - name: amethyst
-#   state: latest
-# - name: newsboat
-#   state: latest
+  - name: pritunl
+    state: latest
+  - name: visual-studio-code
+    state: latest
+  - name: amethyst
+    state: latest
+  - name: newsboat
+    state: latest
   - name: bpm-tools
     state: latest
-# - name: obsidian
-#   state: latest
-# - name: google-chrome
-#   state: latest
-# - name: firefox
-#   state: latest
-# - name: spotify
-#   state: latest
+  - name: obsidian
+    state: latest
+  - name: google-chrome
+    state: latest
+  - name: firefox
+    state: latest
+  - name: spotify
+    state: latest
   - name: font-hack-nerd-font
     state: latest
 
