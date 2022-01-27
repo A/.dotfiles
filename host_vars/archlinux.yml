@@ -136,6 +136,8 @@ yarn_packages:
     state: latest
   - name: github-repo-manager
     state: latest
+  - name: pyright
+    state: latest
 
 cron_jobs:
   - name: "Pull newsboat feeds"
