@@ -1,114 +1,52 @@
+-- local lsp_installer = require("nvim-lsp-installer")
+--local eslint_config_exists = require('lib.eslint_config_exists')
 local lspconfig = require('lspconfig')
+local lsp_installer_servers = require('nvim-lsp-installer.servers')
+local format_config = require('lsp.format')
+local on_attach = require('lsp.on_attach')
 
-local eslint = {
-  lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
-  lintStdin = true,
-  lintFormats = {"%f:%l:%c: %m"},
-  lintIgnoreExitCode = true,
-  formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
-  formatStdin = true
+
+local server_names = {
+    "efm",
+    "tsserver",
+    "rust_analyzer",
+    "pyright",
+    "remark_ls",
+    "ansiblels",
+    "yamlls",
+    "taplo",
+    "sumneko_lua",
+    "vimls",
 }
 
-local function eslint_config_exists()
-  local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
-
-  if not vim.tbl_isempty(eslintrc) then
-    return true
-  end
-
-  if vim.fn.filereadable("package.json") then
-    if vim.fn.json_decode(vim.fn.readfile("package.json"))["eslintConfig"] then
-      return true
-    end
-  end
-
-  return false
-end
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        underline = true,
-        virtual_text = false,
-        signs = true,
-    }
-)
-
-lspconfig.tsserver.setup({ on_attach = function(client)
-    if client.config.flags then
-      client.config.flags.allow_incremental_sync = true
-    end
-    client.resolved_capabilities.document_formatting = false
-end})
-
-lspconfig.efm.setup {
-  init_options = {
-    documentFormatting = true
-  },
-  on_attach = function(client)
-    client.resolved_capabilities.document_formatting = true
-    client.resolved_capabilities.goto_definition = false
-  end,
-  root_dir = function()
-    if not eslint_config_exists() then
-      return nil
-    end
-    return vim.fn.getcwd()
-  end,
-  settings = {
-    languages = {
-      javascript = {eslint},
-      javascriptreact = {eslint},
-      ["javascript.jsx"] = {eslint},
-      typescript = {eslint},
-      ["typescript.tsx"] = {eslint},
-      typescriptreact = {eslint}
-    }
-  },
-  filetypes = {
-    "javascript",
-    "javascriptreact",
-    "javascript.jsx",
-    "typescript",
-    "typescript.tsx",
-    "typescriptreact"
-  },
-}
-
-lspconfig.vimls.setup({})
-lspconfig.yamlls.setup({})
-lspconfig.dockerls.setup({})
-lspconfig.prismals.setup({})
-lspconfig.intelephense.setup({})
-lspconfig.pyright.setup({})
-
-
--- LUA LSP
-require('lspconfig')["sumneko_lua"].setup { on_attach = on_attach, flags = { debounce_text_changes = 150 }}
-
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, "lua/?.lua")
-table.insert(runtime_path, "lua/?/init.lua")
-
-require'lspconfig'.sumneko_lua.setup {
-  -- cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
-  cmd = { 'lua-language-server', '-E', './main.lua' };
-  settings = {
-    Lua = {
-      runtime     = { version = 'LuaJIT',path = runtime_path },
-
-      diagnostics = {
-        globals   = { "hs", "vim", "it", "describe", "before_each", "after_each" },
-        disable   = { "lowercase-global", "undefined-global", "unused-local", "unused-vararg", "trailing-space" }
-      },
-
-      workspace   = { library = vim.api.nvim_get_runtime_file("", true), maxPreload = 2000; preloadFileSize = 1000; },
-      telemetry   = { enable = false },
+local server_configs = {
+  efm = {
+    filetypes = vim.tbl_keys(format_config),
+    init_options = {
+      documentFormatting = true,
+      hover = true,
+      documentSymbol = true,
+      codeAction = true,
+      completion = true,
     },
-      workspace   = { library = {
-          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-          [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true
-        }
-      }
+    root_dir = lspconfig.util.root_pattern { '.git/', '.' },
+    settings = { languages = format_config },
   },
 }
 
+-- Loop through the servers listed above.
+for _, server_name in pairs(server_names) do
+    local server_available, server = lsp_installer_servers.get_server(server_name)
+    if server_available then
+        server:on_ready(function ()
+          local config = server_configs[server_name] or {}
+          config.on_attach = on_attach
+          server:setup(config)
+          vim.cmd [[ do User LspAttachBuffers ]]
+        end)
+        if not server:is_installed() then
+            -- Queue the server to be installed.
+            server:install()
+        end
+    end
+end

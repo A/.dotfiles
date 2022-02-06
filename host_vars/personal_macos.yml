@@ -1,4 +1,21 @@
 ---
+dotfiles_source_dir: "{{ playbook_dir }}/configs"
+dotfiles:
+  - src: "{{ dotfiles_source_dir }}/zsh/zshrc"
+    dest: "{{ ansible_env.HOME }}/.zshrc"
+  - src: "{{ dotfiles_source_dir }}/zsh/config.d"
+    dest: "{{ configs_home }}/zsh/config.d"
+  - src: "{{ dotfiles_source_dir }}/nvim"
+    dest: "{{ configs_home }}/nvim"
+  - src: "{{ dotfiles_source_dir }}/tmux/tmux.conf"
+    dest: "{{ configs_home }}/tmux/tmux.conf"
+  - src: "{{ dotfiles_source_dir }}/ripgrep/ripgreprc"
+    dest: "{{ configs_home }}/ripgrep/ripgreprc"
+  - src: "{{ dotfiles_source_dir }}/efm-langserver"
+    dest: "{{ configs_home }}/efm-langserver"
+  - src: "{{ playbook_dir }}/bin"
+    dest: "{{ ansible_env.HOME }}/.bin"
+
 homebrew_packages:
   - name: tmux
     state: latest
