@@ -71,18 +71,10 @@ packer.startup(function (use)
   }
 
   -- lsp
-  use { 'neovim/nvim-lspconfig',
-    run = table.concat({
-      'npm i -g',
-      'typescript-language-server',
-      'typescript',
-      'vim-language-server',
-      'yaml-language-server',
-      'diagnostic-languageserver',
-      'dockerfile-language-server-nodejs',
-      'ansible-language-server',
-      '@prisma/language-server',
-    }, ' ')
+  use {
+    'neovim/nvim-lspconfig',
+    'williamboman/nvim-lsp-installer',
+    'ray-x/lsp_signature.nvim',
   }
   use 'nvim-lua/lsp-status.nvim'
   use 'arkav/lualine-lsp-progress'

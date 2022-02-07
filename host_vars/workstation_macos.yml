@@ -53,10 +53,6 @@ homebrew_packages:
     state: latest
   - name: amethyst
     state: latest
-  - name: newsboat
-    state: latest
-  - name: bpm-tools
-    state: latest
   - name: obsidian
     state: latest
   - name: google-chrome
@@ -66,6 +62,8 @@ homebrew_packages:
   - name: spotify
     state: latest
   - name: font-hack-nerd-font
+    state: latest
+  - name: efm-langserver
     state: latest
 
 mas_packages:
