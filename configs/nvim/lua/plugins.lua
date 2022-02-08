@@ -140,5 +140,5 @@ require('nvim-treesitter.configs').setup {
 -- print(id)
 
 require('nvim_comment').setup()
-require "plugins/cmp"
+require "plugin_settings/cmp"
 require "lib/obsidian_cmp_source"
