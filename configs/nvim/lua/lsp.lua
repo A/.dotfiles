@@ -11,7 +11,6 @@ local server_names = {
     "tsserver",
     "rust_analyzer",
     "pyright",
-    "remark_ls",
     "ansiblels",
     "yamlls",
     "taplo",
