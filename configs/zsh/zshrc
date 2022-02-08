@@ -5,5 +5,8 @@ ZSH_CONFIG_HOME=$XDG_CONFIG_HOME/zsh
 ZSH_THEME="norm"
 ZSH="${HOME}/.oh-my-zsh"
 
+autoload -Uz compinit
+compinit
+
 for f (~/.config/zsh/config.d/*(N.))  . $f
 source $HOME/.oh-my-zsh/oh-my-zsh.sh

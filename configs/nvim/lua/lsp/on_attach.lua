@@ -21,7 +21,6 @@ return function(client)
   end
 
   if client.resolved_capabilities.document_formatting then
-    print("FORMATTING!")
     vim.cmd [[
         augroup Format
           au! * <buffer>
