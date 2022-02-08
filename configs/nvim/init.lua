@@ -16,7 +16,7 @@ cmd 'colorscheme trash-polka'
 api.nvim_command('au BufEnter *.prism :set ft=prisma')
 
 api.nvim_command('augroup obsidian')
-  api.nvim_command('au BufEnter *.md :set path=./**')
+  api.nvim_command('au BufEnter *.md :set path+=./**')
   api.nvim_command('au BufEnter *.md :set isfname+=32')
   api.nvim_command('au BufEnter *.md :set suffixesadd+=.md')
 api.nvim_command('augroup END')

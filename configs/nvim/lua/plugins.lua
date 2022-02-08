@@ -18,7 +18,7 @@ packer.startup(function (use)
 
   -- help
   use { 'folke/which-key.nvim',
-    requires = {{ 'nvim-lua/plenary.nvim' }} 
+    requires = {{ 'nvim-lua/plenary.nvim' }}
   }
 
   -- ui
@@ -39,7 +39,7 @@ packer.startup(function (use)
   -- use {
   --   'kyazdani42/nvim-tree.lua',
   --   requires = 'kyazdani42/nvim-web-devicons',
-  --   config = function() 
+  --   config = function()
   --     vim.g['nvim_tree_disable_window_picker'] = 1
   --   end,
   -- }
@@ -66,7 +66,6 @@ packer.startup(function (use)
   use 'editorconfig/editorconfig-vim'
   use { 'terrortylor/nvim-comment',
     config = function()
-      require('nvim_comment').setup()
     end
   }
 
@@ -75,6 +74,7 @@ packer.startup(function (use)
     'neovim/nvim-lspconfig',
     'williamboman/nvim-lsp-installer',
     'ray-x/lsp_signature.nvim',
+    'jose-elias-alvarez/nvim-lsp-ts-utils',
   }
   use 'nvim-lua/lsp-status.nvim'
   use 'arkav/lualine-lsp-progress'
@@ -88,21 +88,17 @@ packer.startup(function (use)
     }, ' ')
   }
 
-  -- completion
-  use {
-    "hrsh7th/nvim-compe",
-    wants = {"LuaSnip"},
-    requires = {
-        {
-            "L3MON4D3/LuaSnip",
-            wants = "friendly-snippets",
-            config = function()
-                require("luasnip/loaders/from_vscode").load()
-            end
-        },
-        "rafamadriz/friendly-snippets"
-    }
-  }
+  -- https://github.com/hrsh7th/nvim-cmp
+  use "hrsh7th/nvim-cmp"
+  use "hrsh7th/cmp-nvim-lsp"
+  use "hrsh7th/cmp-buffer"
+  use "hrsh7th/cmp-path"
+  use "hrsh7th/cmp-cmdline"
+  use "hrsh7th/cmp-vsnip"
+  use "f3fora/cmp-spell"
+  use "hrsh7th/cmp-calc"
+  use "hrsh7th/cmp-emoji"
+  use "onsails/lspkind-nvim"
 end)
 
 require('lsp-status').config({
@@ -135,29 +131,14 @@ require('lualine').setup({
 
 
 
-local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+-- local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
 
 require('nvim-treesitter.configs').setup {
 	ensure_installed = { "javascript", "tsx", "typescript", "php", "dockerfile" },
 }
 
--- local id = require'compe'.register_source('obs', require'lib/compe_obsidian')
-
 -- print(id)
 
-require'compe'.setup {
-  enabled = true,
-  autocomplete = true,
-  min_length = 1,
-  debug = true,
-  preselect = 'enable',
-  documentation = true,
-  source = {
-    obs = { priority = 10000, menu = '[OBS]' },
-    luasnip = { menu = '[SNP]', priority = 600 },
-    nvim_lsp = { priority = 500 },
-    path = { priority = 400 },
-    buffer = { priority = 400 }
-  },
-}
-
+require('nvim_comment').setup()
+require "plugins/cmp"
+require "lib/obsidian_cmp_source"

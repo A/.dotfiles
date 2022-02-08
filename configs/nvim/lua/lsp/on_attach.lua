@@ -11,7 +11,6 @@ return function(client)
   end
 
   -- So that the only client with , client.nameformat capabilities is efm
-  print("Client Name:", client.name)
   if client.name ~= 'efm' then
     client.resolved_capabilities.document_formatting = false
   end
