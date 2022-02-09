@@ -45,26 +45,31 @@ lspkind.init({
 })
 
 cmp.setup({
-    formatting = {
-        format = lspkind.cmp_format {
-            with_text = false,
-            maxwidth = 50,
-            menu = {
-                buffer = "BUF",
-                nvim_lsp = "LSP",
-                path = "PATH",
-                calc = "CALC",
-                spell = "SPELL",
-                emoji = "EMOJI"
-            }
-        }
-    },
-    experimental = {native_menu = false, ghost_text = false},
-    sources = {
-        {name = "nvim_lsp"}, {name = "buffer", keyword_length = 5},
-        {name = "calc"}, {name = "emoji"}, {name = "spell"},
-        {name = "path"}, {name = "obsidian"}
-    }
+  snippet = {
+  expand = function(args)
+    require('luasnip').lsp_expand(args.body)
+  end,
+  },
+  formatting = {
+      format = lspkind.cmp_format {
+          with_text = false,
+          maxwidth = 50,
+          menu = {
+              buffer = "BUF",
+              nvim_lsp = "LSP",
+              path = "PATH",
+              calc = "CALC",
+              spell = "SPELL",
+              emoji = "EMOJI"
+          }
+      }
+  },
+  experimental = {native_menu = false, ghost_text = false},
+  sources = {
+      {name = "nvim_lsp"}, { name = 'luasnip' }, {name = "buffer", keyword_length = 5},
+      {name = "calc"}, {name = "emoji"}, {name = "spell"},
+      {name = "path"}, {name = "obsidian"}
+  }
 })
 
 -- Use buffer source for `/`.
