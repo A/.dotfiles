@@ -45,7 +45,7 @@ local keys = {
     },
   },
   f = {
-    name = 'FZF',
+    name = 'Files & Buffers',
     f = {
       name = 'Files & Buffers',
       p = { "<cmd>lua require('fzf-lua').files()<CR>", 'Search in files'},
@@ -132,9 +132,6 @@ local keys = {
 wk.register(keys, { prefix = "<leader>", mode = 'n' })
 
 
-local function nnoremap(left, right)
-  vim.api.nvim_set_keymap('n', left, right, {noremap = true})
-end
 
 api.nvim_set_keymap('n', '<S-Down>', ':lua require("lib/vim-tmux-navigation").navigate("down")<cr>', { noremap = true })
 api.nvim_set_keymap('n', '<S-Up>', ':lua require("lib/vim-tmux-navigation").navigate("up")<cr>', { noremap = true })
