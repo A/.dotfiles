@@ -93,4 +93,25 @@ packer.startup(function (use)
     "saadparwaiz1/cmp_luasnip",
     "rafamadriz/friendly-snippets",
   }
+
+  -- use {
+  --   "petobens/poet-v"
+  -- }
+
+  -- use {
+  --   "KCaverly/py.nvim",
+  --   ft = {"python"},
+  --   config = function()
+  --     require("py").setup()
+  --   end
+  -- }
+
+  -- use {
+  --   'rafi/vim-venom',
+  --   ft = {'python'},
+  --   config = function()
+  --     vim.g.venom_loaded = 1
+  --     require('venom').setup()
+  --   end
+  -- }
 end)
