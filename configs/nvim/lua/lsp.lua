@@ -65,12 +65,6 @@ local server_configs = {
           diagnosticMode = "workspace",
           useLibraryCodeForTypes = true,
           typeCheckingMode = "off", -- this needs to be turned off if Django type stubs are not installed
-          extraPaths = {
-            "~/KOG/kog/data_apps",
-            "~/KOG/kog/api_apps",
-            "~/KOG/kog/gui_apps",
-            "~/KOG/kog",
-          }
         }
       }
     },

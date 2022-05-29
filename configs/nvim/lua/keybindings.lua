@@ -138,6 +138,3 @@ api.nvim_set_keymap('n', '<S-Up>', ':lua require("lib/vim-tmux-navigation").navi
 api.nvim_set_keymap('n', '<S-Right>', ':lua require("lib/vim-tmux-navigation").navigate("right")<cr>', { noremap = true })
 api.nvim_set_keymap('n', '<S-Left>', ':lua require("lib/vim-tmux-navigation").navigate("left")<cr>', { noremap = true })
 
-
-api.nvim_set_keymap('i', '<C-Space', 'compe#complete()', {expr = true, noremap = true})
-api.nvim_set_keymap('i', '<C-y>', 'compe#confirm()', {expr = true, noremap = true})
