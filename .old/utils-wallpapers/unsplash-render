@@ -1,7 +1,0 @@
-#!/bin/sh
-
-while true;
-do
-    feh --bg-fill "$(get-random-file $UNSPLASH_DIR)"
-    sleep 60s
-done &
