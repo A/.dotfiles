@@ -4,3 +4,5 @@
 [core]
 	editor = nvim
 	bare = false
+[init]
+	defaultBranch = master
