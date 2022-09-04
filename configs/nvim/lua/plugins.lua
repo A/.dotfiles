@@ -1,41 +1,35 @@
-local table_merge = require('lib/table_merge').table_merge
-local keys = require('keys_config').keys
-local enabled_packages = require('config').enabled_packages
-
-require('lib/packer_autoinstall')
-
 local packer = require('packer')
+local has_prop = require('lib/utils/has_prop').has_prop
+local table_merge = require('lib/utils/table_merge').table_merge
+local enabled_packages = require('config').enabled_packages
+local keys = require('config').keys
+
+
+-- Call pre_install hooks
+has_prop(enabled_packages, 'pre_install', function(package)
+  package.pre_install()
+end)
 
 packer.startup(function (use)
-  use 'wbthomason/packer.nvim'
-  -- TODO: put into require where it needed
   use 'nvim-lua/plenary.nvim'
 
-  -- Call use hooks if exist
-  for _,p in pairs(enabled_packages) do
-    local package = require(p)
+  -- Call install hooks
+  has_prop(enabled_packages, 'install', function(package)
+    package.install(use)
+  end)
 
-    if package.use_hook~=nil then
-      package.use_hook(use)
-    end
-  end
+  -- Call setup hooks
+  has_prop(enabled_packages, 'setup', function(package)
+    package.setup()
+  end)
 
-  -- Call keybindings hooks if exist
-  for _,p in pairs(enabled_packages) do
-    local package = require(p)
-    if package.get_keybindings~=nil then
-      print()
-      local package_keys = package.get_keybindings()
-      table_merge(keys, package_keys)
-    end
-  end
+  -- Get keybindings
+  has_prop(enabled_packages, 'keys', function(package)
+    table_merge(keys, package.keys)
+  end)
+end)
 
-  -- Call final hooks if exist
-  for _,p in pairs(enabled_packages) do
-    local package = require(p)
-    if package.final_hook~=nil then
-      package.final_hook()
-    end
-  end
-
+-- Call post_setup hooks
+has_prop(enabled_packages, 'post_setup', function(package)
+  package.post_setup()
 end)

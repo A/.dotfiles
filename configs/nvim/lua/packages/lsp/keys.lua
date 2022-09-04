@@ -1,6 +1,3 @@
-local wk = require("which-key")
-local api = vim.api
-
 local keys = {
   l = {
     name = 'LSP',
@@ -29,19 +26,8 @@ local keys = {
       l = {'<cmd>lua print()vim.inspect()vim.lsp.buf.list_workspace_folders()<CR>', 'List folders in workspace'},
     },
   },
-  c = {
-    name = 'Code Stuff',
-    c = { "<cmd>CommentToggle<CR>", 'Comment' },
-  },
 }
 
-
-wk.register(keys, { prefix = "<leader>", mode = 'n' })
-
-
-
-api.nvim_set_keymap('n', '<S-Down>', ':lua require("lib/vim-tmux-navigation").navigate("down")<cr>', { noremap = true })
-api.nvim_set_keymap('n', '<S-Up>', ':lua require("lib/vim-tmux-navigation").navigate("up")<cr>', { noremap = true })
-api.nvim_set_keymap('n', '<S-Right>', ':lua require("lib/vim-tmux-navigation").navigate("right")<cr>', { noremap = true })
-api.nvim_set_keymap('n', '<S-Left>', ':lua require("lib/vim-tmux-navigation").navigate("left")<cr>', { noremap = true })
-
+return {
+  keys = keys,
+}

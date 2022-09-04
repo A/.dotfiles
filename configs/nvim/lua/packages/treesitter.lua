@@ -1,6 +1,6 @@
 local enabled_treesitter_configs = require('config').enabled_treesitter_configs;
 
-local function use_hook(use)
+local function install(use)
   use {
     { 'nvim-treesitter/nvim-treesitter',
       run = ':TSUpdate',
@@ -15,5 +15,5 @@ local function use_hook(use)
 end
 
 return {
-  use_hook = use_hook,
+  install = install,
 }

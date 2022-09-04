@@ -1,4 +1,12 @@
-local function use_hook(use)
+local keys = {
+  c = {
+    name = 'Code Stuff',
+    c = { "<cmd>CommentToggle<CR>", 'Comment' },
+  },
+}
+
+
+local function install(use)
   use({ 'terrortylor/nvim-comment',
     config = function()
       require('nvim_comment').setup()
@@ -6,17 +14,8 @@ local function use_hook(use)
   })
 end
 
-local function get_keybindings()
-  return {
-    c = {
-      name = 'Code Stuff',
-      c = { "<cmd>CommentToggle<CR>", 'Comment' },
-    },
-  }
-end
 
 return {
-  use_hook = use_hook,
-  get_keybindings = get_keybindings,
+  install = install,
+  keys = keys,
 }
-

@@ -10,7 +10,6 @@ return function(client)
     end
   end
 
-  -- So that the only client with , client.nameformat capabilities is efm
   if client.name ~= 'efm' then
     client.resolved_capabilities.document_formatting = false
   end
@@ -28,5 +27,4 @@ return function(client)
         augroup END
       ]]
   end
-
 end

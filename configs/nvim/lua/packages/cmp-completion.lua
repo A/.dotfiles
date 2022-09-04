@@ -1,4 +1,4 @@
-local function use_hook(use)
+local function install(use)
   use {
     { "hrsh7th/nvim-cmp",
       config = function()
@@ -99,5 +99,5 @@ local function use_hook(use)
 end
 
 return {
-  use_hook = use_hook,
+  install = install,
 }

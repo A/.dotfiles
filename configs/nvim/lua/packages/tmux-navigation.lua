@@ -5,7 +5,7 @@ local keymap = vim.keymap
 
 local M = {}
 
-function use_hook()
+function install()
   local navigation_map = {
       left = {
           vim = 'h',
@@ -47,7 +47,7 @@ function use_hook()
   end
 end
 
-local function final_hook()
+local function post_setup()
   keymap.set('n', '<S-Down>', M.navigate('down'), { noremap = true })
   keymap.set('n', '<S-Up>', M.navigate('up'), { noremap = true})
   keymap.set('n', '<S-Right>', M.navigate('right'), { noremap = true})
@@ -55,6 +55,6 @@ local function final_hook()
 end
 
 return {
-  use_hook = use_hook,
-  final_hook = final_hook,
+  install = install,
+  post_setup = post_setup,
 }

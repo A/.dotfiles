@@ -1,4 +1,5 @@
 local enabled_packages = {
+  'packages/packer',
   'packages/which-key',
   'packages/nerdtree',
   'packages/theme',
@@ -12,6 +13,7 @@ local enabled_packages = {
   'packages/lsp',
   'packages/tmux-navigation',
   'packages/nvim-session',
+  'packages/quickfix-to-bottom',
 }
 
 local enabled_treesitter_configs = {
@@ -23,7 +25,24 @@ local enabled_treesitter_configs = {
   "python",
 }
 
+local enabled_lsp_servers = {
+  "efm",
+  "tsserver",
+  "rust_analyzer",
+  "pyright",
+  "ansiblels",
+  "yamlls",
+  "taplo",
+  "sumneko_lua",
+  "vimls",
+}
+
+-- base whichkeys config. Mutated in `<package>.keybindings_hook`
+local keys = {}
+
 return {
   enabled_packages = enabled_packages,
+  enabled_lsp_servers = enabled_lsp_servers,
   enabled_treesitter_configs = enabled_treesitter_configs,
+  keys = keys,
 }
