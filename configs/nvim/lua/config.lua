@@ -14,6 +14,8 @@ local enabled_packages = {
   'packages/tmux-navigation',
   'packages/nvim-session',
   'packages/quickfix-to-bottom',
+  'packages/neo-tree',
+  'packages/treesitter',
 }
 
 local enabled_treesitter_configs = {
