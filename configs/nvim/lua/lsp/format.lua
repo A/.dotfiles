@@ -10,6 +10,13 @@ local eslint = {
 local prettier = { formatCommand = './node_modules/.bin/prettier --stdin-filepath ${INPUT}', formatStdin = true }
 local stylua = { formatCommand = 'stylua -s -', formatStdin = true }
 local blue = { formatCommand = 'blue --quiet -', formatStdin = true }
+local pylint = {
+    lintCommand = 'pylint --output-format text --score no --msg-template {path}:{line}:{column}:{C}:pylint:{msg} --load-plugins=pylint_django --load-plugins=pylint_django.checkers.migrations ${INPUT}',
+    lintFormats = {"%f:%l:%c:%t:%m"},
+    lintStdin = false,
+    lintOffsetColumns = 1,
+    lintCategoryMap = {I = 'H', R = 'I', C = 'I', W = 'W', E = 'E', F = 'E'}
+  }
 
 return {
   css = { prettier },

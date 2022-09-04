@@ -1,6 +1,8 @@
+local g = vim.g
 local opt = vim.opt
 
-vim.g.markdown_fenced_languages = { 'html', 'python', 'ruby', 'vim' }
+g.mapleader = ' '
+g.markdown_fenced_languages = { 'html', 'python', 'ruby', 'vim' }
 
 opt.backup = false
 opt.clipboard = 'unnamedplus'
