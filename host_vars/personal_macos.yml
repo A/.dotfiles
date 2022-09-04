@@ -1,4 +1,5 @@
 ---
+ansible_python_interpreter: /usr/bin/python3
 dotfiles_source_dir: "{{ playbook_dir }}/configs"
 dotfiles:
   - src: "{{ dotfiles_source_dir }}/zsh/zshrc"
@@ -69,6 +70,8 @@ homebrew_packages:
     state: latest
   - name: font-hack-nerd-font
     state: latest
+  - name: grammarly-desktop
+    state: latest
 
 mas_packages:
   - name: Things 3
@@ -101,3 +104,6 @@ yarn_packages:
     state: latest
   - name: pyright
     state: latest
+
+pip3_packages:
+  - blue
