@@ -1,9 +1,9 @@
--- Auto-install packer if it hasn't been installed
 local fn = vim.fn
 local execute = vim.api.nvim_command
 
 
 local function pre_install()
+  -- Auto-install packer if it hasn't been installed
   local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
   if fn.empty(fn.glob(install_path)) > 0 then

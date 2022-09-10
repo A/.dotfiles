@@ -66,9 +66,13 @@ local function install(use)
           experimental = {native_menu = false, ghost_text = false},
 
           sources = {
-              {name = "nvim_lsp"}, { name = 'luasnip' }, {name = "buffer", keyword_length = 5},
-              {name = "calc"}, {name = "emoji"}, {name = "spell"},
-              {name = "path"}, {name = "obsidian"}
+              {name = "nvim_lsp"},
+              {name = 'luasnip' },
+              {name = "buffer", keyword_length = 5},
+              {name = "calc"},
+              {name = "emoji"},
+              {name = "spell"},
+              {name = "path"},
           }
         })
 
@@ -79,8 +83,6 @@ local function install(use)
         cmp.setup.cmdline(":", {
             sources = cmp.config.sources({{name = "path"}}, {{name = "cmdline"}})
         })
-
-        require("lib/obsidian_cmp_source")
       end
     },
 

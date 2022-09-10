@@ -63,12 +63,12 @@ local function setup()
         with_markers = true,
         indent_marker = "│",
         last_indent_marker = "└",
-        highlight = "NeoTreeIndentMarker",
+        highlight = "Comment",
         -- expander config, needed for nesting files
         with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
         expander_collapsed = "",
         expander_expanded = "",
-        expander_highlight = "NeoTreeExpander",
+        expander_highlight = "Comment",
       },
       icon = {
         folder_closed = "",

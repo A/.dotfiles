@@ -57,5 +57,6 @@ end
 
 local source = Source.new()
 
--- Register custom source to nvim-cmp.
-require('cmp').register_source('obsidian', source)
+return {
+  source = source,
+}

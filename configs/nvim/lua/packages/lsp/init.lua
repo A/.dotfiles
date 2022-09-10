@@ -21,7 +21,7 @@ local function post_setup()
 
   local pyright_settings = require('packages/lsp/lsp_python').settings
   local efm_settings = require('packages/lsp/lsp_efm').settings
-  local on_attach = require('packages/lsp/on_attach')
+  -- local on_attach = require('packages/lsp/on_attach')
 
   local server_configs = {
     efm = efm_settings,
@@ -33,8 +33,15 @@ local function post_setup()
       local server_available, server = lsp_installer_servers.get_server(server_name)
       if server_available then
           server:on_ready(function ()
-            local config = server_configs[server_name] or {}
-            config.on_attach = on_attach
+            -- local config = server_configs[server_name] or {}
+            local config = {}
+            -- config.on_attach = on_attach
+            config.on_attach = function(client)
+              if client.name ~= 'null_ls' then
+                client.resolved_capabilities.document_formatting = false
+              end
+
+            end
             server:setup(config)
             vim.cmd [[ do User LspAttachBuffers ]]
           end)

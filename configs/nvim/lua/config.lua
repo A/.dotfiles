@@ -16,27 +16,31 @@ local enabled_packages = {
   'packages/quickfix-to-bottom',
   'packages/neo-tree',
   'packages/treesitter',
+  'packages/null-ls',
+  'packages/trouble',
+  'packages/todo-comments',
+  'packages/nvim-obsidian',
 }
 
 local enabled_treesitter_configs = {
-  "javascript",
-  "tsx",
-  "typescript",
-  "php",
-  "dockerfile",
-  "python",
+  'javascript',
+  'tsx',
+  'typescript',
+  'php',
+  'dockerfile',
+  'python',
 }
 
 local enabled_lsp_servers = {
-  "efm",
-  "tsserver",
-  "rust_analyzer",
-  "pyright",
-  "ansiblels",
-  "yamlls",
-  "taplo",
-  "sumneko_lua",
-  "vimls",
+  'efm',
+  'tsserver',
+  'rust_analyzer',
+  'pyright',
+  'ansiblels',
+  'yamlls',
+  'taplo',
+  'sumneko_lua',
+  'vimls',
 }
 
 -- base whichkeys config. Mutated in `<package>.keybindings_hook`
