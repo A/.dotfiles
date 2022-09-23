@@ -1,7 +1,6 @@
 local enabled_packages = {
   'packages/packer',
   'packages/which-key',
-  'packages/nerdtree',
   'packages/theme',
   'packages/indent-blankline',
   'packages/git',
@@ -20,6 +19,9 @@ local enabled_packages = {
   'packages/trouble',
   'packages/todo-comments',
   'packages/nvim-obsidian',
+  'packages/extended-syntax',
+  'packages/close-buffers',
+  'packages/import-cost',
 }
 
 local enabled_treesitter_configs = {
@@ -32,15 +34,15 @@ local enabled_treesitter_configs = {
 }
 
 local enabled_lsp_servers = {
-  'efm',
-  'tsserver',
-  'rust_analyzer',
-  'pyright',
   'ansiblels',
-  'yamlls',
-  'taplo',
+  'efm',
+  'pyright',
+  'rust_analyzer',
   'sumneko_lua',
+  'taplo',
+  'tsserver',
   'vimls',
+  'yamlls',
 }
 
 -- base whichkeys config. Mutated in `<package>.keybindings_hook`

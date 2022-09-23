@@ -19,10 +19,12 @@ g.markdown_fenced_languages = {
   'vim',
 }
 
+opt.verbose = 2
+opt.verbosefile = "/Users/anton/.logs/nvim.log"
 opt.backup = false
 opt.clipboard = 'unnamedplus'
 opt.colorcolumn = '120'
-opt.completeopt = {'menuone', 'noinsert', 'noselect'} 
+opt.completeopt = {'menuone', 'noinsert', 'noselect'};
 opt.cursorline = true
 opt.encoding = 'utf-8'
 opt.expandtab = true

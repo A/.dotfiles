@@ -13,6 +13,7 @@ end
 
 local function setup()
   require('lsp-status').config(lsp_status_config)
+  require('nvim-lsp-installer').setup({})
 end
 
 
@@ -21,7 +22,6 @@ local function post_setup()
 
   local pyright_settings = require('packages/lsp/lsp_python').settings
   local efm_settings = require('packages/lsp/lsp_efm').settings
-  -- local on_attach = require('packages/lsp/on_attach')
 
   local server_configs = {
     efm = efm_settings,
@@ -30,26 +30,17 @@ local function post_setup()
 
   -- Loop through the servers listed above.
   for _, server_name in pairs(enabled_lsp_servers) do
-      local server_available, server = lsp_installer_servers.get_server(server_name)
-      if server_available then
-          server:on_ready(function ()
-            -- local config = server_configs[server_name] or {}
-            local config = {}
-            -- config.on_attach = on_attach
-            config.on_attach = function(client)
-              if client.name ~= 'null_ls' then
-                client.resolved_capabilities.document_formatting = false
-              end
+      local lspconfig = require('lspconfig')
+      local config = server_configs[server_name] or {}
 
-            end
-            server:setup(config)
-            vim.cmd [[ do User LspAttachBuffers ]]
-          end)
-          if not server:is_installed() then
-              -- Queue the server to be installed.
-              server:install()
-          end
+      config.on_attach = function(client)
+        if client.name ~= 'null_ls' then
+          client.resolved_capabilities.document_formatting = false
+        end
       end
+
+      lspconfig[server_name].setup(config)
+      vim.cmd [[ do User LspAttachBuffers ]]
   end
 end
 

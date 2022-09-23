@@ -11,10 +11,8 @@ local keys = {
 }
 
 local function install(use)
-  use {
-    'folke/trouble.nvim',
-    requires = 'kyazdani42/nvim-web-devicons'
-  }
+  use 'folke/trouble.nvim'
+  use 'kyazdani42/nvim-web-devicons'
 end
 
 
