@@ -3,4 +3,5 @@ plugins=(\
   docker docker-compose\
   rust\
   zsh-autosuggestions zsh-completions\
+  kubectl\
 )

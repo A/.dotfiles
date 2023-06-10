@@ -16,7 +16,6 @@ local function setup()
   require('nvim-lsp-installer').setup({})
 end
 
-
 local function post_setup()
   local lsp_installer_servers = require('nvim-lsp-installer.servers')
 
@@ -35,7 +34,8 @@ local function post_setup()
 
       config.on_attach = function(client)
         if client.name ~= 'null_ls' then
-          client.resolved_capabilities.document_formatting = false
+          -- client.resolved_capabilities.document_formatting = false
+          client.server_capabilities.documentFormattingProvider = false
         end
       end
 

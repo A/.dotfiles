@@ -2,8 +2,9 @@
 import os
 import re
 import keyfinder
+import unidecode
+import threading
 
-# cwd = os.path.dirname(os.path.realpath(__file__))
 cwd = os.getcwd()
 files = os.listdir(cwd)
 
@@ -22,22 +23,39 @@ def get_key(file):
     key = keyfinder.key(file)
     return f'{key.camelot()} {key}'
 
-
-for file in files:
-    _, ext = os.path.splitext(file)
-    if ext not in EXTS:
-        continue
-
+def rename(file):
     key = get_key(file)
+
     name = remove_numeration(file)
     name = remove_original_mix(name)
 
     next_file = f'{key} - {name}'
-    # next_file = name
 
-    print(file)
-    print(next_file)
-    print()
+    print(f'[RENAME] {next_file}')
 
-    # breakpoint()
     os.rename(os.path.join(cwd, file), os.path.join(cwd, next_file))
+
+def is_processed(file):
+    return re.match(r'^\d+[A-G]\s+', file)
+
+for file in files:
+    _, ext = os.path.splitext(file)
+
+    if ext not in EXTS:
+        continue
+
+    if is_processed(file):
+        print(f'[SKIP] {file}')
+        continue
+
+    print(f'[ANALYZING] {file}')
+
+    unaccented_file = unidecode.unidecode(file)
+    if file != unaccented_file:
+        os.rename(os.path.join(cwd, file), os.path.join(cwd, unaccented_file))
+        file = unaccented_file
+
+    thread = threading.Thread(target=rename, args=(file,))
+    thread.start()
+    thread.join()
+

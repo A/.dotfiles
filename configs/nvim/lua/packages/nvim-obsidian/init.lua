@@ -1,18 +1,15 @@
 local keys = {
   o = {
     name = 'Obsidian',
-    r = { "<cmd>lua require('packages/nvim-obsidian/lib').rename()<CR>", "Rename Note" },
-    b = { "<cmd>lua require('packages/nvim-obsidian/lib').show_backlinks()<CR>", "Show Backlinks" },
+    r = { "<cmd>lua require('packages/nvim-obsidian/lib').rename()<CR>", "Rename a note" },
+    b = { "<cmd>lua require('packages/nvim-obsidian/lib').show_backlinks()<CR>", "Show backlinks" },
+    h = { "<cmd>lua require('packages/nvim-obsidian/lib').hover_link()<CR>", "Preview a link under cursor" },
+    x = { "<cmd>lua require('packages/nvim-obsidian/lib').open_link()<CR>", "Open a link under cursor" },
   }
 }
 
 local function install(use)
-  use({
-    'andrewferrier/vim-wrapping-softhard',
-    config = function()
-        require('wrapping').setup(opts)
-    end,
-  })
+  use 'cdutboy928/vim_markdown_shortcuts.vim'
 end
 
 local function setup_cmp()

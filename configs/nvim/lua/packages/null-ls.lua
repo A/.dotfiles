@@ -4,7 +4,10 @@ end
 
 local function setup()
   local null_ls = require('null-ls')
+  local lspconfig = require('lspconfig')
+
   null_ls.setup({
+    root_dir = lspconfig.util.root_pattern(".null-ls-root", "Makefile", "tsconfig.json", "go.mod", "poetry.toml", ".git"),
     sources = {
       -- null_ls.builtins.completion.spell,
       null_ls.builtins.code_actions.eslint_d,
@@ -26,7 +29,7 @@ local function setup()
       null_ls.builtins.formatting.fixjson,
       null_ls.builtins.formatting.lua_format,
       null_ls.builtins.formatting.markdownlint,
-      null_ls.builtins.formatting.prettier,
+      null_ls.builtins.formatting.prettierd,
 
       null_ls.builtins.hover.dictionary,
     },

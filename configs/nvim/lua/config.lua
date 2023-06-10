@@ -13,7 +13,8 @@ local enabled_packages = {
   'packages/tmux-navigation',
   'packages/nvim-session',
   'packages/quickfix-to-bottom',
-  'packages/neo-tree',
+  -- 'packages/neo-tree',
+  'packages/nerdtree',
   'packages/treesitter',
   'packages/null-ls',
   'packages/trouble',
@@ -22,6 +23,8 @@ local enabled_packages = {
   'packages/extended-syntax',
   'packages/close-buffers',
   'packages/import-cost',
+  'packages/todo-txt',
+  'packages/glow'
 }
 
 local enabled_treesitter_configs = {

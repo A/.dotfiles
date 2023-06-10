@@ -1,6 +1,5 @@
 local function install(use)
-  use 'nono/vim-handlebars'
-  use 'jidn/vim-dbml'
+  use  'freitass/todo.txt-vim'
 end
 
 return {

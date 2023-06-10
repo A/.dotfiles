@@ -8,6 +8,8 @@ local fn = vim.fn
 -- https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-876700701
 -- https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-877293306
 local function get_python_path(workspace)
+  print("get python path")
+
   -- Use activated virtualenv.
   if env.VIRTUAL_ENV then
     return path.join(env.VIRTUAL_ENV, 'bin', 'python')
@@ -17,7 +19,8 @@ local function get_python_path(workspace)
   local match = fn.glob(path.join(workspace, 'poetry.lock'))
   if match ~= '' then
     local venv = fn.trim(fn.system('poetry env info -p'))
-    return path.join(venv, 'bin', 'python')
+    local p = path.join(venv, 'bin', 'python')
+    return p
   end
 
   -- Fallback to system Python.
@@ -26,7 +29,7 @@ end
 
 
 local function on_init(client)
-    client.config.settings.python.pythonPath = get_python_path(client.config.root_dir)
+  client.config.settings.python.pythonPath = get_python_path(client.config.root_dir)
 end
 
 

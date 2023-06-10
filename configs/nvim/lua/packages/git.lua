@@ -1,11 +1,11 @@
 local keys = {
   g = {
     name = 'git',
-    b = { '<cmd>:git blame<cr>', 'blame'},
-    d = { '<cmd>:git diff<cr>', 'diff'},
-    l = { '<cmd>:git log<cr>', 'log'},
-    s = { '<cmd>:git<cr>', 'status'},
-    o = { '<cmd>:git browse', 'open url to this file' },
+    b = { '<cmd>:G blame<cr>', 'blame'},
+    d = { '<cmd>:G diff<cr>', 'diff'},
+    l = { '<cmd>:G log<cr>', 'log'},
+    s = { '<cmd>:G<cr>', 'status'},
+    o = { '<cmd>:G browse', 'open url to this file' },
   },
 }
 

@@ -17,9 +17,11 @@ g.markdown_fenced_languages = {
   'ts=typescript',
   'typescript',
   'vim',
+  'dbml',
+  'sass',
 }
 
-opt.verbose = 2
+-- opt.verbose = 2
 opt.verbosefile = "/Users/anton/.logs/nvim.log"
 opt.backup = false
 opt.clipboard = 'unnamedplus'

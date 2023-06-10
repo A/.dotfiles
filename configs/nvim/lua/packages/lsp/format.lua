@@ -19,16 +19,16 @@ local pylint = {
   }
 
 return {
-  css = { prettier },
-  html = { prettier },
-  javascript = { prettier, eslint },
-  javascriptreact = { prettier, eslint },
-  json = { prettier },
+  -- css = { prettier },
+  -- html = { prettier },
+  -- javascript = { prettier, eslint },
+  -- javascriptreact = { prettier, eslint },
+  -- json = { prettier },
   lua = { stylua },
-  markdown = { prettier },
+  -- markdown = { prettier },
   python = { blue },
-  scss = { prettier },
-  typescript = { prettier, eslint },
-  typescriptreact = { prettier, eslint },
-  yaml = { prettier },
+  -- scss = { prettier },
+  -- typescript = { prettier, eslint },
+  -- typescriptreact = { prettier, eslint },
+  -- yaml = { prettier },
 }
