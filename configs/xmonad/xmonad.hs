@@ -1,8 +1,9 @@
+-- https://brianbuccola.com/how-to-install-xmonad-and-xmobar-via-stack/
 import System.IO
 import System.Exit
 
-import qualified Data.List as L
-import Data.Char (isSpace, toUpper)
+-- import qualified Data.List as L
+-- import Data.Char (isSpace, toUpper)
 
 import XMonad
 import XMonad.Config.Xfce
@@ -10,7 +11,7 @@ import XMonad.Actions.Navigation2D
 import XMonad.Actions.UpdatePointer
 import XMonad.Actions.Submap
 import XMonad.Actions.SpawnOn
-import qualified XMonad.Actions.Search as S
+-- import qualified XMonad.Actions.Search as S
 
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
@@ -23,7 +24,7 @@ import XMonad.Layout.Fullscreen
 import XMonad.Layout.BinarySpacePartition as BSP
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Tabbed
-import XMonad.Layout.ThreeColumns
+-- import XMonad.Layout.ThreeColumns
 import XMonad.Layout.Spacing
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
@@ -32,12 +33,12 @@ import XMonad.Layout.Renamed
 import XMonad.Layout.Simplest
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
-import XMonad.Layout.ZoomRow
+-- import XMonad.Layout.ZoomRow
 
-import Control.Arrow (first)
+-- import Control.Arrow (first)
 
-import XMonad.Util.Run (runProcessWithInput, spawnPipe)
-import XMonad.Util.EZConfig(additionalKeys)
+import XMonad.Util.Run (spawnPipe)
+-- import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Cursor
 
 import Graphics.X11.ExtraTypes.XF86
@@ -46,13 +47,13 @@ import qualified Data.Map        as M
 
 -- Defaults
 myTerminal = "kitty"
-myScreensaver = "xscreensaver-command -activate"
+-- myScreensaver = "xscreensaver-command -activate"
 mySelectScreenshot = "xfce4-screenshooter -cr"
 myFinder = "kitty --hold --class FZFFinder --directory ~ zsh -c '~/.bin/finder; sleep 0.5'"
 myLauncher = "rofi -show combi -theme minimal"
 mySearch = "rofi -show search -theme minimal"
 myCalc = "rofi -show calc -theme minimal"
-myBookmarks = "buku_run"
+-- myBookmarks = "buku_run"
 
 ------------------------------------------------------------------------
 -- Workspaces

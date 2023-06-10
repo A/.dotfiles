@@ -1,5 +1,5 @@
 #!/bin/sh
 
-if [ -z "$(pgrep conky)" ] ; then
-    conky &
-fi
+# if [ -z "$(pgrep conky)" ] ; then
+    # conky &
+# fi

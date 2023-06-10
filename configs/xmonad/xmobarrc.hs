@@ -6,13 +6,13 @@ Config {
   , fgColor = "#bbc2cf"
   , position = TopW L 100
   , commands = [ 
-      Run Com ".xmonad/scripts/covid-vietnam"   []           "covid"    3000
-    , Run Com ".xmonad/scripts/currency"        [ "BTCUSD" ] "BTCUSD"   300
+      -- Run Com ".xmonad/scripts/covid-vietnam"   []           "covid"    3000
+      Run Com ".xmonad/scripts/currency"        [ "BTCUSD" ] "BTCUSD"   300
     , Run Com ".xmonad/scripts/currency"        [ "USDRUB" ] "USDRUB"   300
     , Run Com ".xmonad/scripts/currency"        [ "EURRUB" ] "EURRUB"   300
     , Run Com ".xmonad/scripts/coffee"          []           "coffee"   3000
-    , Run Com ".xmonad/scripts/newsboat-unread" []           "newsboat" 300
-    , Run Com ".xmonad/scripts/vpn-status"      []           "vpn" 30
+    -- , Run Com ".xmonad/scripts/newsboat-unread" []           "newsboat" 300
+    -- , Run Com ".xmonad/scripts/vpn-status"      []           "vpn" 30
 
     , Run Weather "VVTS" [
         "--template", "<skyConditionS> <tempC>°C"
@@ -81,5 +81,5 @@ Config {
     ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = "%StdinReader% }{COVID = %covid% | COFFEE = %coffee% | BTC = $%BTCUSD% | USD = %USDRUB%Р | EUR = %EURRUB%Р | %VVTS% | %cpu% %cpufreq% %coretemp% | %memory% | %battery% | %dynnetwork% | <action=`kitty --class Newsboat newsboat`>RSS %newsboat%</action> | <action=`$(nordvpn status | grep -q Connected && nordvpn disconnect) || nordvpn connect`>VPN: %vpn%</action> | %date% | %kbd% "   -- #69DFFA
+  , template = "%StdinReader% }{ BTC = $%BTCUSD% | USD = %USDRUB%Р | EUR = %EURRUB%Р | %VVTS% | %cpu% %cpufreq% %coretemp% | %memory% | %battery% | %dynnetwork% | %date% | %kbd% "   -- #69DFFA
 }
