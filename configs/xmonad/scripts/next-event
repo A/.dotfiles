@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+
+# Prints next events from gcalcli. Supports multiple calendars
+import subprocess
+from datetime import datetime, timedelta
+from typing import List
+
+CONFIG_DIR = '~/.cache/gcalcli'
+# CONFIGS = ['work', 'personal']
+CONFIGS = ['personal']
+
+END_OF_DAY = datetime.now().strftime('%Y-%m-%dT23:59:59')
+NOW = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+
+def main():
+    next_meetings = []
+    for c in CONFIGS:
+        new_meetings = get_meetings(c)
+        next_meetings += new_meetings
+
+    if not next_meetings:
+        print('📆 No meetings today')
+        return
+
+    next_meetings.sort(key=lambda x: x["from"])
+    meeting = next_meetings[0]
+
+    time = meeting["from"].split(' ')[1]
+    title = meeting["title"]
+    print(f"📆 {time} - {title}")
+    
+
+def get_meetings(config):
+    cmd = [
+        'gcalcli', '--config-folder', f"{CONFIG_DIR}/{config}", 'agenda', '--tsv', '--nodeclined', NOW, END_OF_DAY]
+
+    meetings = subprocess.run(
+        cmd,
+        universal_newlines=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    ).stdout.split('\n')
+    
+    retarr = []
+    for meeting in meetings:
+        if not meeting:
+            continue
+        arr = meeting.split('\t')
+        retarr.append({
+            "from": f"{arr[0]} {arr[1]}",
+            "to": f"{arr[2]} {arr[3]}",
+            "title": arr[4]
+        })
+        
+    return retarr
+
+
+# def truncate(value: str, max_length: int) -> str:
+#     return value[:max_length] + (value[:max_length] and '…')
+#
+#
+# def get_recent_meeting(meetings: List[str], calendar: str) -> str:
+#     print(meetings)
+#     for line in meetings:
+#         breakpoint()
+#         if calendar not in line:
+#             continue  # Ignore other calendars
+#
+#         next_meeting = line.split()
+#         time = datetime.strptime('{} {}'.format(*next_meeting[:2]), '%Y-%m-%d %H:%M')
+#         now = datetime.now()
+#         diff = now - time
+#         breakpoint()
+#         if diff > timedelta(minutes=30):
+#             continue  # Ignore events from more than 30 minutes ago.
+#
+#         if diff < timedelta(hours=-12):
+#             break  # Ignore meetings more than 12 hours away.
+#
+#         return '{}: {}'.format(
+#             naturaltime(diff), truncate(' '.join(next_meeting[4:-1]), 48))
+#     return 'No meetings today!'
+
+
+if __name__ == '__main__':
+    main()
+    # meetings = subprocess.run(
+    #     GCALCLI_COMMAND,
+    #     universal_newlines=True,
+    #     stdout=subprocess.PIPE,
+    #     stderr=subprocess.PIPE).stdout
+    #
+    # print('📆  %s' % get_recent_meeting(meetings.split('\n'), CALENDAR))

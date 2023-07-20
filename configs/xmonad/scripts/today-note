@@ -1,0 +1,3 @@
+#! /bin/bash
+
+dela list --today --format='$title' '/home/a8ka/Dev/@A/notes/*.md' | shuf -n 1

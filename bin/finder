@@ -1,4 +1,54 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
-fzf --height 100% --layout reverse --info inline --border \
-    --preview 'bat {}' --preview-window right,60%,border-horizontal | xargs -I{} sh -c 'nohup xdg-open {} &'
+SEARCH_MODULES_DIR=~/.bin/fzf-search
+find $SEARCH_MODULES_DIR -type f | grep -v '_main' | xargs -I{} basename {} .sh | fzf | xargs -I{} zsh $SEARCH_MODULES_DIR/{}.sh
+
+
+# IFS=: read -ra selected < <(
+#   FZF_DEFAULT_COMMAND="$RG_PREFIX $(printf %q "$INITIAL_QUERY")" \
+#   fzf --ansi \
+#       --color "hl:-1:underline,hl+:-1:underline:reverse" \
+#       --disabled --query "$INITIAL_QUERY" \
+#       --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+#       --bind "ctrl-d:change-prompt(Docs> )+reload($RG_PREFIX --type docs {q} || true)" \
+#       --prompt 'All> ' \
+#       --delimiter : \
+#       --preview 'bat --color=always {1} --highlight-line {2}' \
+#       --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
+# )
+# [ -n "${selected[0]}" ] && ${EDITOR} "${selected[0]}" "+${selected[1]}"
+
+      # --header '╱ CTRL-R (Ripgrep mode) ╱ CTRL-F (fzf mode) ╱' \
+      # --bind "ctrl-f:unbind(change,ctrl-f)+change-prompt(fzf> )+enable-search+clear-query+rebind(ctrl-r)" \
+      # --bind "ctrl-r:unbind(ctrl-r)+change-prompt(ripgrep> )+disable-search+reload($RG_PREFIX {q} || true)+rebind(change,ctrl-f)" \
+
+
+
+# Use fzf and ripgrep to parse directories and find patterns of text
+# and open selected files in vim
+# Switch between Ripgrep launcher mode (CTRL-R) and fzf filtering mode (CTRL-F)
+# See more: https://github.com/junegunn/fzf/blob/master/ADVANCED.md#switching-between-ripgrep-mode-and-fzf-mode
+
+# Ignore auto-generated files and folders
+# RG_IGNORE="'!{.git,node_modules,package-lock.json,yarn.lock,.cache}'"
+# RG_IGNORE=""
+# RG_PREFIX="rg --column --line-number --no-heading --hidden -g $RG_IGNORE --color=always --smart-case "
+# INITIAL_QUERY="${*:-}"
+#
+# IFS=: read -ra selected < <(
+#   FZF_DEFAULT_COMMAND="$RG_PREFIX $(printf %q "$INITIAL_QUERY")" \
+#   fzf --ansi \
+#       --color "hl:-1:underline,hl+:-1:underline:reverse" \
+#       --disabled --query "$INITIAL_QUERY" \
+#       --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+#       --bind "ctrl-d:change-prompt(Docs> )+reload($RG_PREFIX --type docs {q} || true)" \
+#       --prompt 'All> ' \
+#       --delimiter : \
+#       --preview 'bat --color=always {1} --highlight-line {2}' \
+#       --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
+# )
+# [ -n "${selected[0]}" ] && ${EDITOR} "${selected[0]}" "+${selected[1]}"
+#
+#       # --header '╱ CTRL-R (Ripgrep mode) ╱ CTRL-F (fzf mode) ╱' \
+#       # --bind "ctrl-f:unbind(change,ctrl-f)+change-prompt(fzf> )+enable-search+clear-query+rebind(ctrl-r)" \
+#       # --bind "ctrl-r:unbind(ctrl-r)+change-prompt(ripgrep> )+disable-search+reload($RG_PREFIX {q} || true)+rebind(change,ctrl-f)" \

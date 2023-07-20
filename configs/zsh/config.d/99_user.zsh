@@ -4,6 +4,7 @@ alias ..="cd ..;"
 alias :q=exit
 alias serve="python -m http.server"
 alias fzf-search="locate / | fzf"
+alias evim="nvim -u none"
 
 alias b="oil"
 alias ba="oil -a"

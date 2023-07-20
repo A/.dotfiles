@@ -1,1 +1,19 @@
---glob=!.yarn/*
+# -*-mode:gitignore-*- vim:ft=gitignore
+
+# ~/.ripgreprc
+# =============================================================================
+# Configures default options for ripgrep line-oriented search tool.
+#
+# Environment variable `RIPGREP_CONFIG_PATH` must point to this file.
+# See https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md
+--line-number
+
+# Don't let ripgrep vomit really long lines to my terminal, and show a preview.
+--max-columns=150
+--max-columns-preview
+
+--glob=!{.git,node_modules,package-lock.json,yarn.lock,.cache,.rustup,.cargo}
+--glob=!*.{min.js,bundle.js,out,backup}
+
+# Make search case insensitive, unless an uppercase letter is used.
+--smart-case

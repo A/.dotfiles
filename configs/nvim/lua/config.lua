@@ -19,12 +19,13 @@ local enabled_packages = {
   'packages/null-ls',
   'packages/trouble',
   'packages/todo-comments',
-  'packages/nvim-obsidian',
+  -- 'packages/nvim-obsidian',
   'packages/extended-syntax',
   'packages/close-buffers',
   'packages/import-cost',
   'packages/todo-txt',
-  'packages/glow'
+  'packages/glow',
+  'packages/obsidian'
 }
 
 local enabled_treesitter_configs = {
@@ -41,11 +42,12 @@ local enabled_lsp_servers = {
   'efm',
   'pyright',
   'rust_analyzer',
-  'sumneko_lua',
+  'lua_ls',
   'taplo',
   'tsserver',
   'vimls',
   'yamlls',
+  'hls',
 }
 
 -- base whichkeys config. Mutated in `<package>.keybindings_hook`

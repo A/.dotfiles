@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+import re, glob, os, datetime
+
+# DIR = os.environ['NOTES_DIR']
+DIR = "/home/a8ka/Dev/@A/notes"
+GLOB = "todo*.md"
+YYYYmmDD = datetime.datetime.now().strftime("%Y%m%d")
+MINUTE = datetime.datetime.now().minute
+
+os.chdir(DIR)
+
+todos = []
+
+for file in glob.glob(DIR + "/" + GLOB):
+    with open(file, 'r') as file:
+        for line in file.read().splitlines(True):
+            if re.match('^\w*- \[ \] ' + YYYYmmDD, line):
+                todos.append(line)
+
+if not todos:
+  print("Чилл, бро!")
+  exit(0)
+
+# Rotate todos every minute
+picked = todos[MINUTE % len(todos)]
+
+picked = re.sub('\n', '', picked)
+picked = re.sub('^\w*- \[ \] ' + YYYYmmDD, '', picked)
+
+print(picked)

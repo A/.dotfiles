@@ -1,11 +1,11 @@
 local Source = {}
 
-function table.empty (self)
-    for _, _ in pairs(self) do
-        return false
-    end
-    return true
-end
+-- function table.empty (self)
+--     for _, _ in pairs(self) do
+--         return false
+--     end
+--     return true
+-- end
 
 Source.new = function()
     local self = setmetatable({}, { __index = Source })

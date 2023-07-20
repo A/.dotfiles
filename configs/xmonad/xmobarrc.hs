@@ -1,16 +1,21 @@
 Config {
-    font = "xft:Iosevka:size=8:bold:antialias=true"
-  , additionalFonts = []
+    -- font = "xft:'Iosevka Nerd Font':size=8:bold:antialias=true"
+    font = "Iosevka Nerd Font 14"
+  , additionalFonts = [
+    "xft:Sans Serif-10:normal"
+  ]
   , allDesktops = True
   , bgColor = "#282c34"
   , fgColor = "#bbc2cf"
-  , position = TopW L 100
+  , position = TopH 24
   , commands = [ 
       -- Run Com ".xmonad/scripts/covid-vietnam"   []           "covid"    3000
       Run Com ".xmonad/scripts/currency"        [ "BTCUSD" ] "BTCUSD"   300
     , Run Com ".xmonad/scripts/currency"        [ "USDRUB" ] "USDRUB"   300
     , Run Com ".xmonad/scripts/currency"        [ "EURRUB" ] "EURRUB"   300
     , Run Com ".xmonad/scripts/coffee"          []           "coffee"   3000
+    , Run Com "python" [".xmonad/scripts/next-event"]        "MEETING"  3000
+    , Run Com ".xmonad/scripts/today-note"      []           "NOTE"  3000
     -- , Run Com ".xmonad/scripts/newsboat-unread" []           "newsboat" 300
     -- , Run Com ".xmonad/scripts/vpn-status"      []           "vpn" 30
 
@@ -81,5 +86,5 @@ Config {
     ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = "%StdinReader% }{ BTC = $%BTCUSD% | USD = %USDRUB%Р | EUR = %EURRUB%Р | %VVTS% | %cpu% %cpufreq% %coretemp% | %memory% | %battery% | %dynnetwork% | %date% | %kbd% "   -- #69DFFA
+  , template = "%StdinReader% }{ %NOTE% | %MEETING% | BTC = $%BTCUSD% | USD = %USDRUB%Р | EUR = %EURRUB%Р | %VVTS% | %cpu% %cpufreq% %coretemp% | %memory% | %battery% | %dynnetwork% | %date% | %kbd% "   -- #69DFFA
 }

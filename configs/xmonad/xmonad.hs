@@ -33,6 +33,8 @@ import XMonad.Layout.Renamed
 import XMonad.Layout.Simplest
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
+import XMonad.Prompt
+import XMonad.Prompt.Input
 -- import XMonad.Layout.ZoomRow
 
 -- import Control.Arrow (first)
@@ -47,23 +49,19 @@ import qualified Data.Map        as M
 
 -- Defaults
 myTerminal = "kitty"
+myTodoList = "dela list '/home/a8ka/Dev/@A/notes/*.md' --format='- [$status] $title $tags' | rofi -dmenu -theme minimal"
 -- myScreensaver = "xscreensaver-command -activate"
 mySelectScreenshot = "xfce4-screenshooter -cr"
-myFinder = "kitty --hold --class FZFFinder --directory ~ zsh -c '~/.bin/finder; sleep 0.5'"
+myFinder = "kitty --class FZFFinder --directory ~ zsh -c 'source ~/.zshrc; ~/.bin/finder; sleep 0.5'"
 myLauncher = "rofi -show combi -theme minimal"
 mySearch = "rofi -show search -theme minimal"
 myCalc = "rofi -show calc -theme minimal"
 -- myBookmarks = "buku_run"
 
+
 ------------------------------------------------------------------------
 -- Workspaces
-myWorkspaces = [
-    "1:term"
-  , "2:web"
-  , "3:code"
-  , "4:notes"
-  , "5:media"
-  ] ++ map show [6..9]
+myWorkspaces = map show [1..9]
 
 -- Window rules:
 -- Center Float Apps:
@@ -87,18 +85,20 @@ myCenterFloatClassNames = [
   , "Newsboat"
   , "Oilbuku"
   , "FZFFinder"
+  , "Blueberry.py"
   ]
 
 myCenterFloatTitles = [
     "CMUS"
   , "Picture-in-Picture"
+  , "Picture in picture"
   ]
 
 -- Apps bound to a specific workspace:
 myWorkspaceAttachedApps = [
-    ("2:web", "firefox")
-  , ("4:notes", "obsidian")
-  , ("4:notes", "Todoist")
+    ("1", "firefox")
+  , ("4", "obsidian")
+  , ("4", "Todoist")
   ]
 
 myManageHook = composeAll . concat $
@@ -203,9 +203,10 @@ inactive    = base02
 focusColor  = blue
 unfocusColor = base02
 
-myFont      = "xft:Iosevka:size=14:bold:antialias=true"
-myBigFont   = "xft:Iosevka:size=16:bold:antialias=true"
-myWideFont  = "xft:Iosevka Term:"
+myFont = "xft:Iosevka Nerd Font:size=14:antialias=true"
+mySmallFont = "xft:Iosevka Nerd Font:size=10:antialias=true"
+myBigFont = "xft:Iosevka Nerd Font:size=16:bold:antialias=true"
+myWideFont  = "xft:Iosevka Nerd Font:"
             ++ "style=Regular:pixelsize=180:hinting=true"
 
 -- this is a "fake title" used as a highlight bar in lieu of full borders
@@ -247,6 +248,15 @@ myTabTheme = def
 winMask = mod4Mask
 altMask = mod1Mask
 
+myXPConfig :: XPConfig
+myXPConfig = def { font = mySmallFont,
+  height = 80,
+  borderColor = active,
+  promptBorderWidth = 4,
+  position = CenteredAt 0.25 0.5
+
+}
+
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   ----------------------------------------------------------------------
   -- Custom key bindings
@@ -271,6 +281,10 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_equal),
       spawn myCalc)
 
+  , ((modMask .|. controlMask, xK_space),
+      spawn myTodoList
+    )
+
   , ((modMask, xK_o),
       spawn myFinder)
 
@@ -286,6 +300,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   -- Lock the screen using command specified by myScreensaver.
   -- , ((modMask, xK_0),
   --    spawn myScreensaver)
+  , ((controlMask, xK_space),  inputPrompt myXPConfig " TODO" ?+ \t -> spawnHere ("/home/a8ka/.bin/add-todo " ++ t))
 
   -- Spawn the launcher using command specified by myLauncher.
   -- Use this to launch programs without a key binding.

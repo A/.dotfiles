@@ -9,9 +9,25 @@ local function install(use)
   use 'jose-elias-alvarez/nvim-lsp-ts-utils'
   use 'nvim-lua/lsp-status.nvim'
   use 'arkav/lualine-lsp-progress'
+  use {
+    'mrcjkb/haskell-tools.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim', -- optional
+    },
+    branch = '1.x.x', -- recommended
+  }
 end
 
 local function setup()
+  local ok, wf = pcall(require, "vim.lsp._watchfiles")
+  if ok then
+     -- disable lsp watcher. Too slow on linux
+     wf._watchfunc = function()
+       return function() end
+     end
+  end
+
   require('lsp-status').config(lsp_status_config)
   require('nvim-lsp-installer').setup({})
 end

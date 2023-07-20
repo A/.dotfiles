@@ -1,0 +1,3 @@
+#! /bin/bash
+
+echo "- [ ] $@" >> "/home/a8ka/Dev/@A/notes/todo - inbox.md"

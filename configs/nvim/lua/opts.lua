@@ -22,7 +22,7 @@ g.markdown_fenced_languages = {
 }
 
 -- opt.verbose = 2
-opt.verbosefile = "/Users/anton/.logs/nvim.log"
+-- opt.verbosefile = "/Users/anton/.logs/nvim.log"
 opt.backup = false
 opt.clipboard = 'unnamedplus'
 opt.colorcolumn = '120'
@@ -55,3 +55,6 @@ opt.viewoptions = 'cursor,folds'
 opt.wildignore = {'package-lock.json','yarn.lock'}
 opt.wrap = false
 opt.writebackup = false
+
+
+vim.cmd([[iabbrev <expr> ymd% strftime("%Y%m%d")]])
