@@ -96,6 +96,7 @@ local function post_setup()
   vim.cmd(":syn region markdownWikiLink matchgroup=markdownLinkDelimiter start='\\[\\[' end='\\]\\]' contains=markdownLinkUrl keepend oneline concealends")
 
   local cwd = fn.getcwd()
+  -- TODO: ignore if current buffer is not empty
   if cwd:find('^/home/a8ka/Dev/@A/notes') ~= nil then
     cmd.edit('Index.md')
   end

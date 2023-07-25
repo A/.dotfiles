@@ -2,7 +2,7 @@
 set -e
 
 INT=eDP-1
-EXT_1=DP-1-1
+EXT_1=DP-1
 # EXT_2=DP-1-3
 
 MODELINE=$(cvt 3840 2160 30 | grep -i modeline | sed "s/Modeline\ //")
