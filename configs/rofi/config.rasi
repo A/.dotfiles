@@ -1,0 +1,19 @@
+configuration {
+  modi: "window,drun,combi,search:~/.bin/rofi-web-search.sh";
+  combi-modi: "drun,window,file-browser";
+
+  display-run: ":: ";
+  display-drun: ":: ";
+  display-window: ":: ";
+  display-calc: ":: ";
+  display-search: ":: ";
+  drun-display-format: "{name}";
+  font: "Iosevka Nerd Font Medium 16";
+  show-icons: false;
+
+  filebrowser {
+    directory: "~";
+  }
+}
+
+/* @theme "minimal" */

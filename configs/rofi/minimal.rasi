@@ -1,0 +1,53 @@
+* {
+  bg: rgba(30, 30, 30, 0.6);
+  bg-alt: #414141;
+  fg: #ffffff;
+  fg-alt: #aaaaaa;
+
+  background-color: @bg;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+}
+ 
+element {
+  padding: 6;
+  orientation: vertical;
+  children: [element-text];
+} 
+
+element-text {
+  text-color: @fg-alt;
+}
+
+element-text selected {
+  text-color: @fg;
+}
+
+entry {
+  padding: 12 0 12 3;
+  text-color: #ffffff;
+}
+
+inputbar {
+  children: [prompt, entry];
+}
+
+listview {
+  columns: 1;
+  lines: 10;
+}
+
+mainbox {
+  children: [inputbar, listview];
+}
+
+prompt {
+  padding: 12 0 0 12;
+  text-color: @fg;
+}
+
+window {
+  transparency: "real";
+}
