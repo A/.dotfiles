@@ -13,8 +13,6 @@ local keys = {
 local function install(use)
   use({
     '~/Dev/@A/vim-trash-polka',
-    config = function()
-    end
   })
 end
 

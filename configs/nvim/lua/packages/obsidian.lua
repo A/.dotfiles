@@ -2,6 +2,8 @@ local cmd = vim.cmd
 local keymap = vim.keymap
 local ui = vim.ui
 local fn = vim.fn
+local autocmd = vim.api.nvim_create_autocmd
+
 
 local keys = {
   o = {
@@ -24,12 +26,12 @@ local function new_note()
 end
 
 local function install(use)
-
-
+  -- use "MDeiml/tree-sitter-markdown"
   use {
     "epwalsh/obsidian.nvim",
     -- lazy = true,
-    -- event = { "BufReadPre " .. vim.fn.expand "~" .. "/Dev/@A/notes/**.md" },
+    -- opt = true,
+    -- event = { "BufRead $NOTES_DIR*" },
     config = function ()
       require('obsidian').setup({
         dir = "~/Dev/@A/notes",
@@ -53,7 +55,6 @@ local function install(use)
           date_format = "%Y-%m-%d-%a",
           time_format = "%H:%M",
         },
-
         follow_url_func = function(url)
           -- Open the URL in the default web browser.
           -- vim.fn.jobstart({"open", url})  -- Mac OS
@@ -94,6 +95,8 @@ end
 local function post_setup()
   vim.cmd(":au! BufNewFile,BufRead *.md set ft=lsp_markdown")
   vim.cmd(":syn region markdownWikiLink matchgroup=markdownLinkDelimiter start='\\[\\[' end='\\]\\]' contains=markdownLinkUrl keepend oneline concealends")
+  vim.cmd([[:au! BufEnter,BufNewFile,BufRead *.md syn match markdownTag "#[0-9A-Za-z:._]\+"]])
+
 
   local cwd = fn.getcwd()
   -- TODO: ignore if current buffer is not empty

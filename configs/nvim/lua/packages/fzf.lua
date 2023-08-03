@@ -7,7 +7,9 @@ local keys = {
       b = { "<cmd>lua require('fzf-lua').buffers()<CR>", 'Search in buffers'},
       q = { "<cmd>lua require('fzf-lua').quickfix()<CR>", 'Search in quickfix'},
       h = { "<cmd>lua require('fzf-lua').oldfiles()<CR>", 'Search in opened files history'},
-      l = { "<cmd>lua require('fzf-lua').loclist()<CR>", 'Search in location list'},
+      l = { "<cmd>lua require('fzf-lua').blines()<CR>", 'Search in current buffer lines'},
+      v = { "<cmd>lua require('fzf-lua').grep_visual()<CR>", 'Grep in visual selection'},
+      L= { "<cmd>lua require('fzf-lua').loclist()<CR>", 'Search in location list'},
     },
     s = {
       name = 'Search',

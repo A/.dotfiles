@@ -21,9 +21,9 @@ local enabled_packages = {
   'packages/todo-comments',
   -- 'packages/nvim-obsidian',
   'packages/extended-syntax',
-  'packages/close-buffers',
-  'packages/import-cost',
-  'packages/todo-txt',
+  -- 'packages/close-buffers',
+  -- 'packages/import-cost',
+  -- 'packages/todo-txt',
   'packages/glow',
   'packages/obsidian'
 }

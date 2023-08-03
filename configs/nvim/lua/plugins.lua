@@ -1,4 +1,3 @@
-local packer = require('packer')
 local has_prop = require('lib/utils/has_prop').has_prop
 local table_merge = require('lib/utils/table_merge').table_merge
 local enabled_packages = require('config').enabled_packages
@@ -10,9 +9,7 @@ has_prop(enabled_packages, 'pre_install', function(package)
   package.pre_install()
 end)
 
-packer.startup(function (use)
-  use 'nvim-lua/plenary.nvim'
-
+require('packer').startup(function (use)
   -- Call install hooks
   has_prop(enabled_packages, 'install', function(package)
     package.install(use)

@@ -21,8 +21,6 @@ g.markdown_fenced_languages = {
   'sass',
 }
 
--- opt.verbose = 2
--- opt.verbosefile = "/Users/anton/.logs/nvim.log"
 opt.backup = false
 opt.clipboard = 'unnamedplus'
 opt.colorcolumn = '120'
@@ -56,5 +54,10 @@ opt.wildignore = {'package-lock.json','yarn.lock'}
 opt.wrap = false
 opt.writebackup = false
 
+-- opt.verbose = 2
+-- opt.verbosefile = "/Users/anton/.logs/nvim.log"
 
 vim.cmd([[iabbrev <expr> ymd% strftime("%Y%m%d")]])
+
+vim.api.nvim_create_autocmd({ "InsertEnter" }, { command = "hi CursorLine ctermbg=8" })
+vim.api.nvim_create_autocmd({ "InsertLeave" }, { command = "hi CursorLine ctermbg=none" })
