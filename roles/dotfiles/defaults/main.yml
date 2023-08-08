@@ -1,6 +1,6 @@
 ---
 dotfiles_source_dir: "{{ playbook_dir }}/files/configs/"
-dotfiles_default_dest: "{{ lookup('env', 'HOME') }}/.configs"
+dotfiles_default_dest: "{{ lookup('env', 'HOME') }}/.config"
 dotfiles_dest: "{{ lookup('env', 'XDG_CONFIG_HOME') | default('configs_default_dest', True) }}"
 configs_default_home: "{{ lookup('env', 'HOME') }}/.config"
 configs_home: "{{ lookup('env', 'XDG_CONFIG_HOME') | default(configs_default_home, True) }}"

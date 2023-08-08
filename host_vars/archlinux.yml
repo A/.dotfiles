@@ -1,5 +1,7 @@
 ---
 pacman_packages:
+  - name: acpi
+    state: latest
   - name: base-devel
     state: latest
   - name: openssh
@@ -38,6 +40,14 @@ pacman_packages:
     state: latest
   - name: nmap
     state: latest
+  - name: yaml-language-server
+    state: latest
+  - name: python-dotenv
+    state: latest
+  - name: haskell-language-server
+    state: latest
+  - name: direnv
+    state: latest
 
 pacman_gui_packages:
   - name: telegram-desktop
@@ -66,6 +76,8 @@ pacman_gui_packages:
     state: latest
   - name: xmobar
     state: latest
+  - name: kitty
+    state: latest
 
 aur_packages:
   - name: git-extras
@@ -80,28 +92,26 @@ aur_packages:
     state: latest
   - name: kubectl
     state: latest
+  - name: zsh-autosuggestions
+    state: latest
+  - name: zsh-completions
+    state: latest
+  - name: markdownlint
+    state: latest
 
 aur_gui_packages:
-  - name: picom-tryone-git
-    state: latest
-  - name: todoist-appimage
-    state: latest
-  - name: obsidian-appimage
-    state: latest
-  - name: microsoft-edge-dev-bin
-    state: latest
   - name: slack-desktop
     state: latest
-  - name: nerd-fonts-iosevka
+  - name: ttf-iosevka-nerd
     state: latest
   - name: zoom
     state: latest
   - name: haskell-ide-engine
-    state: latest
+    state: absent
   - name: xbanish
-    state: latest
-  - name: tableplus
-    state: latest
+    state: absent
+# - name: tableplus
+#   state: latest
 
 cargo_packages:
   - name: exa

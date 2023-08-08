@@ -14,8 +14,8 @@ Per host configuration is in `host_var` dir.
 ### Usage
 
 ```
-ansible-playbook dotfiles.yml --limit=macos --tag=homebrew
-ansible-playbook dotfiles.yml --limit=linux --skip-tags gui
+ansible-playbook dotfiles.yml --limit=macos --tag=homebrew --ask-become-pass
+ansible-playbook dotfiles.yml --limit=archlinux --skip-tags gui --ask-become-pass
 ```
 
 *Example configuration*:

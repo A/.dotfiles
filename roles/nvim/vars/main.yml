@@ -4,10 +4,6 @@ nvim_pacman_packages:
     state: present
   - name: python3
     state: present
-  - name: python2
-    state: present
-  - name: python2-pip
-    state: present
   - name: nodejs
     state: present
   - name: yarn
@@ -15,10 +11,6 @@ nvim_pacman_packages:
 
 nvim_pip3_packages:
   - name: neovim
-    state: latest
-
-nvim_pip2_packages:
-  - name: pynvim
     state: latest
 
 nvim_yarn_packages:
