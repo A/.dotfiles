@@ -59,5 +59,5 @@ opt.writebackup = false
 
 vim.cmd([[iabbrev <expr> ymd% strftime("%Y%m%d")]])
 
-vim.api.nvim_create_autocmd({ "InsertEnter" }, { command = "hi CursorLine ctermbg=8" })
+vim.api.nvim_create_autocmd({ "InsertEnter" }, { command = "hi CursorLine ctermbg=16" })
 vim.api.nvim_create_autocmd({ "InsertLeave" }, { command = "hi CursorLine ctermbg=none" })

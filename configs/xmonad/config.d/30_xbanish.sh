@@ -1,5 +1,5 @@
 #!/bin/sh
-if [ -z "$(pgrep xbanish)" ] ; then
-    xbanish &
-fi
+# if [ -z "$(pgrep xbanish)" ] ; then
+#     xbanish &
+# fi
 

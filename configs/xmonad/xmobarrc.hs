@@ -4,10 +4,12 @@ Config {
   , additionalFonts = [
     "xft:Sans Serif-10:normal"
   ]
+  , overrideRedirect = True
   , allDesktops = True
   , bgColor = "#282c34"
   , fgColor = "#bbc2cf"
   , position = TopH 24
+  , lowerOnStart = True
   , commands = [ 
       -- Run Com ".xmonad/scripts/covid-vietnam"   []           "covid"    3000
       Run Com ".xmonad/scripts/currency"        [ "BTCUSD" ] "BTCUSD"   300
@@ -86,5 +88,6 @@ Config {
     ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = "%StdinReader% }{ %NOTE% | %MEETING% | BTC = $%BTCUSD% | USD = %USDRUB%Р | EUR = %EURRUB%Р | %VVTS% | %cpu% %cpufreq% %coretemp% | %memory% | %battery% | %dynnetwork% | %date% | %kbd% "   -- #69DFFA
+  -- , template = "%StdinReader% }{ %NOTE% | %MEETING% | BTC = $%BTCUSD% | USD = %USDRUB%Р | EUR = %EURRUB%Р | %VVTS% | %cpu% %cpufreq% %coretemp% | %memory% | %battery% | %dynnetwork% | %date% | %kbd% "   -- #69DFFA
+  , template = " %NOTE% | %MEETING% }{ BTC = $%BTCUSD% | USD = %USDRUB%Р | EUR = %EURRUB%Р | %VVTS% | %cpu% %cpufreq% %coretemp% | %memory% | %battery% | %dynnetwork% | %date% | %kbd% "   -- #69DFFA
 }

@@ -264,20 +264,31 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   -- Custom key bindings
   --
   -- Start a terminal.  Terminal to start is specified by myTerminal variable.
-  [ 
-    ((modMask .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
-  , ((controlMask, xK_space),  inputPrompt myXPConfig " TODO" ?+ \t -> spawnHere ("/home/a8ka/.bin/add-todo " ++ t))
-  , ((modMask .|. controlMask, xK_space), spawn myTodoList)
-  , ((modMask, xK_o), spawn myFinder)
-  , ((modMask, xK_d), spawn myLauncher)
-  , ((modMask, xK_s), spawn mySearch)
-  , ((modMask .|. shiftMask, xK_s), spawn mySelectScreenshot)
-  , ((0, xF86XK_AudioMute), spawn "amixer -q set Master toggle")
-  , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q set Master 5%-")
-  , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 5%+")
-  , ((0, 0x1008FF16), spawn "")
-  , ((0, 0x1008FF14), spawn "")
-  , ((0, 0x1008FF17), spawn "")
+  [ ((modMask .|. shiftMask, xK_Return),
+     spawn $ XMonad.terminal conf)
+
+
+  -- Apps Keybindings
+  , ((modMask, xK_a), submap . M.fromList $
+      [ ((0, xK_s),     spawn "slack")
+      , ((0, xK_t),     spawn "todoist")
+      , ((0, xK_m),     spawn "telegram-desktop")
+      , ((0, xK_n),     spawn "obsidian")
+      , ((0, xK_f),     spawn "firefox")
+      , ((0, xK_p),     spawn "1password")
+      , ((0, xK_c),     spawnHere (myTerminal ++ " -t CMUS -e cmus") )
+      ])
+
+  -- Rofi variants
+  , ((modMask, xK_equal),
+      spawn myCalc)
+
+  , ((modMask .|. controlMask, xK_space),
+      spawn myTodoList
+    )
+
+  , ((modMask, xK_o),
+      spawn myFinder)
 
   -- Bookmarks
   , ((modMask, xK_b), submap . M.fromList $
@@ -288,36 +299,128 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
       , ((0, xK_d),     spawn "kitty --class Oilbuku zsh -c 'oil -d; sleep .5'")
       ])
 
-  , ((modMask .|. shiftMask, xK_c), kill)
+  -- Lock the screen using command specified by myScreensaver.
+  -- , ((modMask, xK_0),
+  --    spawn myScreensaver)
+  , ((controlMask, xK_space),  inputPrompt myXPConfig " TODO" ?+ \t -> spawnHere ("/home/a8ka/.bin/add-todo " ++ t))
+
+  -- Spawn the launcher using command specified by myLauncher.
+  -- Use this to launch programs without a key binding.
+  , ((modMask, xK_d),
+     spawn myLauncher)
+
+  , ((modMask, xK_s),
+     spawn mySearch)
+
+  -- Take a selective screenshot using the command specified by mySelectScreenshot.
+  , ((modMask .|. shiftMask, xK_s),
+     spawn mySelectScreenshot)
+
+  -- Toggle current focus window to fullscreen
   , ((modMask, xK_f), sendMessage $ Toggle FULL)
-  , ((modMask, xK_space), sendMessage NextLayout)
-  , ((modMask .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
-  , ((modMask, xK_j), windows W.focusDown)
-  , ((modMask, xK_k), windows W.focusUp)
-  , ((modMask, xK_m), windows W.focusMaster)
-  , ((modMask, xK_Return), windows W.swapMaster)
-  , ((modMask .|. shiftMask, xK_j), windows W.swapDown)
-  , ((modMask .|. shiftMask, xK_k), windows W.swapUp)
-  , ((modMask, xK_h), sendMessage Shrink)
-  , ((modMask, xK_l), sendMessage Expand)
+
+  -- Mute volume.
+  , ((0, xF86XK_AudioMute),
+     spawn "amixer -q set Master toggle")
+
+  -- Decrease volume.
+  , ((0, xF86XK_AudioLowerVolume),
+     spawn "amixer -q set Master 5%-")
+
+  -- Increase volume.
+  , ((0, xF86XK_AudioRaiseVolume),
+     spawn "amixer -q set Master 5%+")
+
+  -- Audio previous.
+  , ((0, 0x1008FF16),
+     spawn "")
+
+  -- Play/pause.
+  , ((0, 0x1008FF14),
+     spawn "")
+
+  -- Audio next.
+  , ((0, 0x1008FF17),
+     spawn "")
+
+  -- Eject CD tray.
+  , ((0, 0x1008FF2C),
+     spawn "eject -T")
+
+  --------------------------------------------------------------------
+  -- "Standard" xmonad key bindings
+  --
+
+  -- Close focused window.
+  , ((modMask .|. shiftMask, xK_c),
+     kill)
+
+  -- Cycle through the available layout algorithms.
+  , ((modMask, xK_space),
+     sendMessage NextLayout)
+
+  --  Reset the layouts on the current workspace to default.
+  , ((modMask .|. shiftMask, xK_space),
+     setLayout $ XMonad.layoutHook conf)
 
   -- Resize viewed windows to the correct size.
-  , ((modMask, xK_n), refresh)
+  , ((modMask, xK_n),
+     refresh)
+
+  -- Move focus to the next window.
+  , ((modMask, xK_j),
+     windows W.focusDown)
+
+  -- Move focus to the previous window.
+  , ((modMask, xK_k),
+     windows W.focusUp  )
+
+  -- Move focus to the master window.
+  , ((modMask, xK_m),
+     windows W.focusMaster  )
+
+  -- Swap the focused window and the master window.
+  , ((modMask, xK_Return),
+     windows W.swapMaster)
+
+  -- Swap the focused window with the next window.
+  , ((modMask .|. shiftMask, xK_j),
+     windows W.swapDown  )
+
+  -- Swap the focused window with the previous window.
+  , ((modMask .|. shiftMask, xK_k),
+     windows W.swapUp    )
+
+  -- Shrink the master area.
+  , ((modMask, xK_h),
+     sendMessage Shrink)
+
+  -- Expand the master area.
+  , ((modMask, xK_l),
+     sendMessage Expand)
 
   -- Push window back into tiling.
-  , ((modMask, xK_t), withFocused $ windows . W.sink)
+  , ((modMask, xK_t),
+     withFocused $ windows . W.sink)
 
   -- Increment the number of windows in the master area.
-  , ((modMask, xK_comma), sendMessage (IncMasterN 1))
+  , ((modMask, xK_comma),
+     sendMessage (IncMasterN 1))
 
   -- Decrement the number of windows in the master area.
-  , ((modMask, xK_period), sendMessage (IncMasterN (-1)))
+  , ((modMask, xK_period),
+     sendMessage (IncMasterN (-1)))
+
+  -- Toggle the status bar gap.
+  -- TODO: update this binding with avoidStruts, ((modMask, xK_b),
 
   -- Quit xmonad.
-  , ((modMask .|. shiftMask, xK_o), io (exitWith ExitSuccess))
+  , ((modMask .|. shiftMask, xK_o),
+     io (exitWith ExitSuccess))
 
   -- Restart xmonad.
-  , ((modMask, xK_q), restart "xmonad" True)
+  , ((modMask, xK_q),
+     restart "xmonad" True)
   ]
   ++
 
