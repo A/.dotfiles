@@ -16,6 +16,7 @@ local keys = {
     t = { "<cmd>ObsidianTemplate<CR>", "Insert Template" },
     n = { "<cmd>lua require('packages/obsidian').new_note()<CR>", "Create a new note" },
     x = { "<cmd>lua require('packages/nvim-obsidian/lib').open_link()<CR>", "Open a link under cursor" },
+    o = { "<cmd>ObsidianFollowLink<CR>", "Follow link"},
   }
 }
 
@@ -75,19 +76,20 @@ local function install(use)
         -- is not installed, or if it the command does not support it, the
         -- remaining finders will be attempted in the original order.
         finder = "fzf-lua",
+        mappings = {},
+
       })
 
 
       -- Optional, override the 'gf' keymap to utilize Obsidian's search functionality.
       -- see also: 'follow_url_func' config option above.
-      vim.keymap.set("n", "gf", function()
-        if require("obsidian").util.cursor_on_markdown_link() then
-          return "<cmd>ObsidianFollowLink<CR>"
-        else
-          return "gf"
-        end
-      end, { noremap = false, expr = true })
-
+      -- vim.keymap.set("n", "gf", function()
+      --   if require("obsidian").util.cursor_on_markdown_link() then
+      --     return "<cmd>ObsidianFollowLink<CR>"
+      --   else
+      --     return "gf"
+      --   end
+      -- end, { noremap = false, expr = true })
     end,
   }
 end
@@ -100,7 +102,7 @@ local function post_setup()
 
   local cwd = fn.getcwd()
   -- TODO: ignore if current buffer is not empty
-  if cwd:find('^/home/a8ka/Dev/@A/notes') ~= nil then
+  if cwd:find('^/home/anton/Dev/@A/notes') ~= nil then
     cmd.edit('Index.md')
   end
 end

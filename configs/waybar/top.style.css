@@ -1,0 +1,116 @@
+* {
+    font-family: Iosevka Nerd Font, sans-serif;
+    font-size: 12px;
+}
+
+window#waybar {
+  background-color: rgba(255,255,255,0);
+  margin: 2px 8px;
+}
+
+tooltip {
+  border-radius: 1px;
+  border: 2px solid #AF5F5F;
+  background-color: rgba(46,51,64, 0.85);
+  color: #d8dee8;
+  font-size: 16px;
+}
+
+#workspaces,
+box.horizontal.modules-center,
+#tray,
+#custom-timer,
+#custom-timer-stats
+{
+  margin: 4px;
+  background-color: #EFF8FE;
+  border-radius: 1px;
+  border: 2px solid #AF5F5F;
+  box-shadow: 0px 1px 4px rgba(0,0,0,.25);
+}
+
+box.horizontal.modules-center,
+box.horizontal.modules-right,
+#custom-timer,
+#custom-timer-stats,
+#tray
+{
+  padding: 0 10px;
+}
+
+#workspaces button {
+  background-color: transparent;
+  color: #2e3340;
+  border-radius: 0;
+  padding: 0 4px;
+}
+
+
+#workspaces button:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#workspaces button.active {
+    background-color: #AF5F5F;
+    color: #d8dee8;
+}
+
+#workspaces button.urgent {
+  background-color: #AF5F5F;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#language,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-root-free-space,
+#home-free-space
+{
+    padding: 0 4px;
+    color: #2e3340;
+}
+
+#custom-dela,
+#custom-pacman,
+#custom-docker,
+#custom-notification
+{
+  padding: 0 2px;
+}
+
+#battery.charging, #battery.plugged {
+    padding: 0 8px;
+    color: #2e3340;
+    background-color: #8FA77D;
+}
+
+
+#battery.critical:not(.charging) {
+    background-color: #AF5F5F;
+    color: #D8DEE8;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+
+@keyframes blink {
+    to {
+        background-color: #D8DEE8;
+        color: #2E3340;
+    }
+}

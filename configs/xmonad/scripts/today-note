@@ -1,3 +1,5 @@
-#! /bin/bash
+#! /bin/zsh
 
-dela list --today --format='$title' '/home/a8ka/Dev/@A/notes/*.md' | shuf -n 1
+source ~/.zshrc
+TODO=`dela list --today --format='$title' '/home/anton/Dev/@A/notes/*.md' | shuf -n 1`
+echo $TODO

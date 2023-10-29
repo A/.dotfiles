@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [[ "${1:-}" = slack://* ]]; then
+    exec /usr/lib/slack/slack --enable-crashpad "$1"
+fi
+
+exec /usr/bin/xdg-open "$@"

@@ -25,7 +25,8 @@ local enabled_packages = {
   -- 'packages/import-cost',
   -- 'packages/todo-txt',
   'packages/glow',
-  'packages/obsidian'
+  'packages/obsidian',
+  'packages/nvim-colorizer'
 }
 
 local enabled_treesitter_configs = {

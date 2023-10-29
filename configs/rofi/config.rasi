@@ -8,7 +8,7 @@ configuration {
   display-calc: ":: ";
   display-search: ":: ";
   drun-display-format: "{name}";
-  font: "Iosevka Nerd Font Medium 16";
+  font: "Iosevka Nerd Font Regular 16";
   show-icons: false;
 
   filebrowser {
@@ -16,4 +16,4 @@ configuration {
   }
 }
 
-/* @theme "minimal" */
+@theme "minimal"

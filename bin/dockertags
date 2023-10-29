@@ -1,0 +1,40 @@
+#!/bin/bash
+
+if [ $# -lt 1 ]
+then
+cat << HELP
+
+dockertags  --  list all tags for a Docker image on a remote registry.
+
+EXAMPLE: 
+    - list all tags for ubuntu:
+       dockertags ubuntu
+
+    - list all php tags containing apache:
+       dockertags php apache
+
+HELP
+fi
+
+
+image_arr=($(echo $1 | tr "/" "\n"))
+
+if [ "${#image_arr[@]}" -eq 1 ]; then
+  org=library
+  image=${image_arr[0]}
+else
+  org=${image_arr[0]}
+  image=${image_arr[1]}
+
+fi
+
+URL="https://registry.hub.docker.com/v2/repositories/${org}/${image}/tags?page_size=1024" 
+
+tags=`curl -L -s ${URL} | jq '."results"[]["name"]'`
+
+if [ -n "$2" ]
+then
+    tags=` echo "${tags}" | grep "$2" `
+fi
+
+echo "${tags}"

@@ -1,6 +1,6 @@
 [user]
 	email = anton@shuvalov.info
-	name = 'Anton Shuvalov'
+	name = Anton Shuvalov
 [core]
 	editor = nvim
 	bare = false

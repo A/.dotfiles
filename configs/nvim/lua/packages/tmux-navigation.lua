@@ -42,7 +42,7 @@ function install()
       end
 
       -- empty status line
-      cmd('echo')
+      -- cmd('echo')
     end
   end
 end

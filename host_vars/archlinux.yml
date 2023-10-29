@@ -2,6 +2,8 @@
 pacman_packages:
   - name: acpi
     state: latest
+  - name: pkgfile
+    state: latest
   - name: base-devel
     state: latest
   - name: openssh
@@ -13,8 +15,8 @@ pacman_packages:
   - name: nodejs
     state: latest
   - name: deno
-    state: latest
-  - name: python-pip
+    state: absent
+  - name: cronie
     state: latest
   - name: core/icu
     state: latest
@@ -25,8 +27,6 @@ pacman_packages:
   - name: traceroute
     state: latest
   - name: neofetch
-    state: latest
-  - name: xclip
     state: latest
   - name: ripgrep
     state: latest
@@ -40,44 +40,66 @@ pacman_packages:
     state: latest
   - name: nmap
     state: latest
-  - name: yaml-language-server
-    state: latest
-  - name: python-dotenv
-    state: latest
-  - name: haskell-language-server
-    state: latest
   - name: direnv
     state: latest
+  - name: hyprpaper
+    state: latest
+  - name: network-manager-applet
+    state: latest
+  - name: udiskie
+    state: latest
+  - name: rofi
+    state: latest
+  - name: mkcert
+    state: latest
+  - name: openvpn
+    state: latest
+  - name: networkmanager-openvpn
+    state: latest
+  - name: imagemagick
+    state: latest
+  # - name: blueman
+  #   state: latest
+  # - name: yaml-language-server
+  #   state: latest
+  # - name: python-dotenv
+  #   state: latest
+  # - name: haskell-language-server
+  #   state: latest
 
 pacman_gui_packages:
   - name: telegram-desktop
     state: latest
-  - name: nitrogen
-    state: latest
-  - name: code
-    state: latest
+  # - name: nitrogen
+  #   state: latest
+  # - name: code
+  #   state: latest
   - name: zathura
     state: latest
   - name: zathura-pdf-mupdf
     state: latest
   - name: font-manager
     state: latest
-  - name: rofi
+  - name: mesa-utils
     state: latest
-  - name: rofi-calc
+  - name: dolphin
     state: latest
-  - name: flatpak
-    state: latest
-  - name: xmonad
-    state: latest
-  - name: xmonad-utils
-    state: latest
-  - name: xmonad-contrib
-    state: latest
-  - name: xmobar
-    state: latest
-  - name: kitty
-    state: latest
+  # - name: rofi
+  #   state: latest
+  # - name: rofi-calc
+  #   state: latest
+  # - name: flatpak
+  #   state: latest
+  # - name: xmonad
+  #   state: latest
+  # - name: xmonad-utils
+  #   state: latest
+  # - name: xmonad-contrib
+  #   state: latest
+  # - name: xmobar
+  #   state: latest
+  # - name: kitty
+  #   state: latest
 
 aur_packages:
   - name: git-extras
@@ -98,6 +120,8 @@ aur_packages:
     state: latest
   - name: markdownlint
     state: latest
+  - name: blueman-git
+    state: latest
 
 aur_gui_packages:
   - name: slack-desktop
@@ -110,8 +134,20 @@ aur_gui_packages:
     state: absent
   - name: xbanish
     state: absent
-# - name: tableplus
-#   state: latest
+  - name: vivaldi
+    state: latest
+  - name: tableplus
+    state: latest
+  - name: postman-bin
+    state: latest
+  - name: swaync
+    state: latest
+  - name: wlr-randr
+    state: latest
+  - name: swappy
+    state: latest
+  - name: pasystray-wayland
+    state: latest
 
 cargo_packages:
   - name: exa
@@ -149,19 +185,19 @@ yarn_packages:
   - name: pyright
     state: latest
 
-cron_jobs:
-  - name: "Pull newsboat feeds"
-    state: present
-    minute: "0"
-    job: "newsboat -x reload"
-  - name: "Update local rss-feeds"
-    state: absent
-    minute: "37"
-    job: "/home/a8ka/Dev/@A/feeds-crawler/crawl"
-  - name: "Process new tracks"
-    state: absent
-    minute: "0"
-    job: "/home/a8ka/.bin/analyze-new-tracks"
+cron_jobs: []
+  # - name: "Pull newsboat feeds"
+  #   state: present
+  #   minute: "0"
+  #   job: "newsboat -x reload"
+  # - name: "Update local rss-feeds"
+  #   state: absent
+  #   minute: "37"
+  #   job: "/home/a8ka/Dev/@A/feeds-crawler/crawl"
+  # - name: "Process new tracks"
+  #   state: absent
+  #   minute: "0"
+  #   job: "/home/a8ka/.bin/analyze-new-tracks"
 
 configs_default_home: "{{ lookup('env', 'HOME') }}/.configs"
 configs_home: "{{ lookup('env', 'XDG_CONFIG_HOME') | default(configs_default_home, True) }}"
@@ -207,20 +243,26 @@ dotfiles:
   - src: "{{ dotfiles_source_dir }}/newsboat/config"
     dest: "{{ configs_home }}/newsboat/config"
 
-  - src: "{{ dotfiles_source_dir }}/xmonad/xmonad.hs"
-    dest: "{{ ansible_env.HOME }}/.xmonad/xmonad.hs"
+  #- src: "{{ dotfiles_source_dir }}/xmonad/xmonad.hs"
+  #  dest: "{{ ansible_env.HOME }}/.xmonad/xmonad.hs"
 
-  - src: "{{ dotfiles_source_dir }}/xmonad/xmobarrc.hs"
-    dest: "{{ ansible_env.HOME }}/.xmonad/xmobarrc.hs"
+  # - src: "{{ dotfiles_source_dir }}/xmonad/xmobarrc.hs"
+  #   dest: "{{ ansible_env.HOME }}/.xmonad/xmobarrc.hs"
 
-  - src: "{{ dotfiles_source_dir }}/xmonad/run.sh"
-    dest: "{{ ansible_env.HOME }}/.xmonad/run.sh"
+  # - src: "{{ dotfiles_source_dir }}/xmonad/run.sh"
+  #   dest: "{{ ansible_env.HOME }}/.xmonad/run.sh"
 
-  - src: "{{ dotfiles_source_dir }}/xmonad/config.d"
-    dest: "{{ ansible_env.HOME }}/.xmonad/config.d"
+  # - src: "{{ dotfiles_source_dir }}/xmonad/config.d"
+  #   dest: "{{ ansible_env.HOME }}/.xmonad/config.d"
 
-  - src: "{{ dotfiles_source_dir }}/xmonad/scripts"
-    dest: "{{ ansible_env.HOME }}/.xmonad/scripts"
+  # - src: "{{ dotfiles_source_dir }}/xmonad/scripts"
+  #   dest: "{{ ansible_env.HOME }}/.xmonad/scripts"
+
+  - src: "{{ dotfiles_source_dir }}/hypr"
+    dest: "{{ configs_home }}/hypr"
+
+  - src: "{{ dotfiles_source_dir }}/waybar"
+    dest: "{{ configs_home }}/waybar"
 
   - src: "{{ dotfiles_source_dir }}/kitty/kitty.conf"
     dest: "{{ configs_home }}/kitty/kitty.conf"

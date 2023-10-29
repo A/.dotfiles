@@ -1,8 +1,7 @@
 * {
-  bg: rgba(30, 30, 30, 0.6);
-  bg-alt: #414141;
-  fg: #ffffff;
-  fg-alt: #aaaaaa;
+  bg: #3B4252;
+  fg: rgba(247, 250, 255, 0.5);
+  fg-active: rgba(247, 250, 255, 1);
 
   background-color: @bg;
   border: 0;
@@ -18,22 +17,24 @@ element {
 } 
 
 element-text {
-  text-color: @fg-alt;
+  text-color: @fg;
+  opacity: 0.5;
 }
 
 element-text selected {
-  text-color: @fg;
+  text-color: @fg-active;
+  text-style: bold;
 }
 
 entry {
   padding: 12 0 12 3;
-  text-color: #ffffff;
+  text-color: @fg-active;
+  text-style: bold;
 }
 
 inputbar {
   children: [prompt, entry];
 }
-
 listview {
   columns: 1;
   lines: 10;

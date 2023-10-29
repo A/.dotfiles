@@ -2,7 +2,7 @@
 https://archlinux.org/feeds/news/ "~Arch News"
 "query:* All Unread:unread = \"yes\""
 # "query:* Reddit:( rssurl =~ \"reddit\" and unread == \"yes\" )"
-"query:* Mozilla:( rssurl =~ \"blog.mozilla.org\" and unread == \"yes\" )"
+# "query:* Mozilla:( rssurl =~ \"blog.mozilla.org\" and unread == \"yes\" )"
 "query:* Blogs:( tags # \"blogs\" and unread == \"yes\" )"
 "query:* Telegram:( rssurl =~ \"tg.i-c-a.su\" and unread == \"yes\" )"
 "query:* Frontend:( tags # \"frontend\" and unread == \"yes\" )"
@@ -19,11 +19,11 @@ file:///var/feeds/lambdablob.com.xml "~Lambda Blob" blogs
 
 # Blogs
 https://blog.kamyshev.me/rss/ "~Kamyshev" blogs frontend
-http://blog.mozilla.com/nnethercote/feed/ "~Nicholas Nethercote, Mozilla" blogs
+# http://blog.mozilla.com/nnethercote/feed/ "~Nicholas Nethercote, Mozilla" blogs
 # https://nnethercote.github.io/feed.xml "~Nicholas Nethercote, Personal" blogs
 http://philcalcado.com/feed.xml "~Phil Calçado" blogs
 # https://100r.co/links/rss.xml "~100 Rabbints" blogs
-https://addyosmani.com/feed.xml "~Addy Osmani" blogs frontend
+# https://addyosmani.com/feed.xml "~Addy Osmani" blogs frontend
 # https://humanwhocodes.com/feeds/blog.xml "~Nicholas Zakas" blogs frontend
 https://vitkarpov.me/index.xml "~Vitaly Karpov" algorithms
 # https://jakearchibald.com/posts.rss "~Jake Archibald" blogs frontend
@@ -66,7 +66,7 @@ https://www.reddit.com/r/commandline/.rss "~/r/commandline"
 
 https://github.com/neovim/neovim/tags.atom "~/gh/neovim"
 
-https://blog.mozilla.org/ux/feed/
+# https://blog.mozilla.org/ux/feed/
 
 https://tg.i-c-a.su/rss/iamakulov_channel "Ivan Akulov"
 https://tg.i-c-a.su/rss/defront
