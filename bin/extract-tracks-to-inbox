@@ -1,0 +1,5 @@
+#! /bin/bash
+
+find -path "./Downloads/*.mp3" -exec mv {} ./Inbox/ \;
+find -path "./Downloads/*.flac" -exec mv {} ./Inbox/ \;
+find -path "./Downloads/*.wav" -exec mv {} ./Inbox/ \;

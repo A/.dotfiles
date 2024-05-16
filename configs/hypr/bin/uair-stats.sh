@@ -1,8 +1,12 @@
 #! /bin/bash
 STATS_FILE=~/.tmp/pomodoro.log
 
-F=`cat ${STATS_FILE} | grep $(date '+%Y-%m-%d') | grep F | wc -l`
-R=`cat ${STATS_FILE} | grep $(date '+%Y-%m-%d') | grep R | wc -l`
-P=`cat ${STATS_FILE} | grep $(date '+%Y-%m-%d') | grep P | wc -l`
+PROJECTS=$(cat ~/.config/uair/uair.toml | perl -n -e'/id = \"(.*)\"/ && print "$1\n"')
 
-echo "F:${F} R:${R} P:${P}"
+RESULT=""
+for PROJECT in $PROJECTS; do
+  PROJECT_NUMBER=`cat ${STATS_FILE} | grep $(date '+%Y-%m-%d') | grep "@${PROJECT}" | wc -l`
+  RESULT="${RESULT} ${PROJECT}:${PROJECT_NUMBER}"
+done;
+
+echo ${RESULT}

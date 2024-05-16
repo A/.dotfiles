@@ -1,76 +1,85 @@
 # Queries
-https://archlinux.org/feeds/news/ "~Arch News"
+
+"query:* All:unread = \"yes\" or unread = \"no\"
 "query:* All Unread:unread = \"yes\""
+
+"query:* Layoffs:(title =~ \"layoff\" or title =~\"lays off\")"
+"query:* AI:(title =~ \"AI \" or title =~\"AI's\")"
+"query:* BITCOIN:(title =~ \"bitcoin \" or title =~\"btc \")"
+
+"query:* MUSIC:( tags # \"music\" and unread == \"yes\" )"
+"query:* DEV:( tags # \"dev\" and unread == \"yes\" )"
+"query:* NEWS:( tags # \"news\" and unread == \"yes\" )"
+
+https://canthisevenbecalledmusic.com/feed/ "~Can This Even Be Called Music?" music
+https://theprogressivesubway.com/feed/ "~The Progressive Subway" music
+
+https://archlinux.org/feeds/news/ "~Arch News" dev
+https://monthly-reports.archlinux.page/index.xml "~Arch Monthly Reports" dev
+https://マリウス.com/index.xml dev
+https://junegunn.kr/atom.xml dev
+http://philcalcado.com/feed.xml "~Phil Calçado" dev
+https://cprss.s3.amazonaws.com/javascriptweekly.com.xml "~JavaScript Weekly" dev
+https://feeds.feedburner.com/jster dev
+https://feeds.feedburner.com/ponyfooweekly dev
+http://blog.cleancoder.com/atom.xml dev
+https://web.dev/feed.xml dev
+https://alistapart.com/main/feed/ "~A List Apart" dev
+https://engineering.atspotify.com/feed/ dev
+https://www.techatbloomberg.com/feed/ dev
+https://engineering.fb.com/feed/ dev
+https://deepsource.io/blog/index.xml dev
+https://www.reddit.com/r/archlinux/.rss "~/r/archlinux" dev
+https://www.reddit.com/r/hyprland/.rss "~/r/hyprland" dev
+https://www.reddit.com/r/neovim/.rss "~/r/neovim" dev
+https://github.com/neovim/neovim/tags.atom "~/gh/neovim" dev
+https://tg.i-c-a.su/rss/valya_reads_issue dev
+https://xn--gckvb8fzb.comindex.xml dev
+https://news.ycombinator.com/rss news
+https://weightythoughts.com/feed dev
+
+
 # "query:* Reddit:( rssurl =~ \"reddit\" and unread == \"yes\" )"
 # "query:* Mozilla:( rssurl =~ \"blog.mozilla.org\" and unread == \"yes\" )"
-"query:* Blogs:( tags # \"blogs\" and unread == \"yes\" )"
-"query:* Telegram:( rssurl =~ \"tg.i-c-a.su\" and unread == \"yes\" )"
-"query:* Frontend:( tags # \"frontend\" and unread == \"yes\" )"
-"query:* Algorithms:( tags # \"algorithms\" and unread == \"yes\" )"
-"query:* Architecture:( tags # \"architecture\" and unread == \"yes\" )"
-"query:* Tech Companies:( tags # \"techcompanies\" and unread == \"yes\" )"
-"query:* Newspappers:( tags # \"newspappers\" and unread == \"yes\" )"
-"query:* Linux:( tags # \"linux\" and unread == \"yes\" )"
-"query:* Startups:( tags # \"startups\" and unread == \"yes\" )"
+# "query:* Blogs:( tags # \"blogs\" and unread == \"yes\" )"
+# "query:* Telegram:( rssurl =~ \"tg.i-c-a.su\" and unread == \"yes\" )"
+# "query:* Frontend:( tags # \"frontend\" and unread == \"yes\" )"
+# "query:* Algorithms:( tags # \"algorithms\" and unread == \"yes\" )"
+# "query:* Architecture:( tags # \"architecture\" and unread == \"yes\" )"
+# "query:* Tech Companies:( tags # \"techcompanies\" and unread == \"yes\" )"
+# "query:* Newspappers:( tags # \"newspappers\" and unread == \"yes\" )"
+# "query:* Linux:( tags # \"linux\" and unread == \"yes\" )"
+# "query:* Startups:( tags # \"startups\" and unread == \"yes\" )"
 
-# Local
-file:///var/feeds/betweentwocommits.com.xml "~Between Two Commits" blogs linux
-file:///var/feeds/lambdablob.com.xml "~Lambda Blob" blogs
+# # Local
+# file:///var/feeds/betweentwocommits.com.xml "~Between Two Commits" blogs linux
+# file:///var/feeds/lambdablob.com.xml "~Lambda Blob" blogs
 
-# Blogs
-https://blog.kamyshev.me/rss/ "~Kamyshev" blogs frontend
+# https://trends.vc/feed/
+# https://blog.kamyshev.me/rss/ "~Kamyshev" blogs frontend
 # http://blog.mozilla.com/nnethercote/feed/ "~Nicholas Nethercote, Mozilla" blogs
 # https://nnethercote.github.io/feed.xml "~Nicholas Nethercote, Personal" blogs
-http://philcalcado.com/feed.xml "~Phil Calçado" blogs
 # https://100r.co/links/rss.xml "~100 Rabbints" blogs
 # https://addyosmani.com/feed.xml "~Addy Osmani" blogs frontend
 # https://humanwhocodes.com/feeds/blog.xml "~Nicholas Zakas" blogs frontend
-https://vitkarpov.me/index.xml "~Vitaly Karpov" algorithms
+# https://vitkarpov.me/index.xml "~Vitaly Karpov" algorithms
 # https://jakearchibald.com/posts.rss "~Jake Archibald" blogs frontend
 # https://www.mnot.net/blog/index.atom blogs architecture
 # https://daniel.haxx.se/blog/feed "~Daniel Stenberg" blogs
 # https://infrequently.org/feed/ "~Alex Russel" blogs frontend
-https://junegunn.kr/atom.xml blogs linux
-https://www.distrotube.com/videos/index.xml linux
-https://blog.jessfraz.com/index.xml linux blogs docker
+# https://www.distrotube.com/videos/index.xml linux
+# https://blog.jessfraz.com/index.xml linux blogs docker
 # https://usesthis.com/feed.atom linux blogs
-
-https://trends.vc/feed/ startups
-
-https://cprss.s3.amazonaws.com/javascriptweekly.com.xml "~JavaScript Weekly" newspappers
-https://feeds.feedburner.com/jster newspappers
-https://feeds.feedburner.com/ponyfooweekly newspappers
-https://martinfowler.com/feed.atom architecture
-http://blog.cleancoder.com/atom.xml architecture
-https://web.dev/feed.xml newspappers
-https://web-standards.ru/articles/feed/ "~web-standards.ru" newspappers
-https://www.smashingmagazine.com/feed/ "~Smashing Magazine" newspappers
-https://alistapart.com/main/feed/ "~A List Apart" newspappers
-
-https://engineering.atspotify.com/feed/ techcompanies
-https://www.techatbloomberg.com/feed/ techcompanies
-https://engineering.fb.com/feed/ techcompanies
-https://deepsource.io/blog/index.xml techcompanies
-
-
-https://www.reddit.com/r/archlinux/.rss "~/r/archlinux"
-https://www.reddit.com/r/ManjaroLinux/new.rss "~/r/manjaro"
-https://www.reddit.com/r/xmonad/.rss "~/r/xmonad"
-https://www.reddit.com/r/unixporn/.rss "~/r/unixporn"
-https://www.reddit.com/r/thinkpad/.rss "~/r/thinkpad"
-https://www.reddit.com/r/neovim/.rss "~/r/neovim"
-https://www.reddit.com/r/zsh/.rss "~/r/zsh"
-https://www.reddit.com/r/typescript/.rss "~/r/typescript"
-https://www.reddit.com/r/javascript/.rss "~/r/javascript"
-https://www.reddit.com/r/commandline/.rss "~/r/commandline"
-
-https://github.com/neovim/neovim/tags.atom "~/gh/neovim"
-
+# https://web-standards.ru/articles/feed/ "~web-standards.ru" newspappers
+# https://www.smashingmagazine.com/feed/ "~Smashing Magazine" newspappers
+# https://www.reddit.com/r/ManjaroLinux/new.rss "~/r/manjaro"
+# https://www.reddit.com/r/xmonad/.rss "~/r/xmonad"
+# https://www.reddit.com/r/unixporn/.rss "~/r/unixporn"
+# https://www.reddit.com/r/thinkpad/.rss "~/r/thinkpad"
+# https://www.reddit.com/r/zsh/.rss "~/r/zsh"
+# https://www.reddit.com/r/typescript/.rss "~/r/typescript"
+# https://www.reddit.com/r/javascript/.rss "~/r/javascript"
+# https://www.reddit.com/r/commandline/.rss "~/r/commandline"
 # https://blog.mozilla.org/ux/feed/
-
-https://tg.i-c-a.su/rss/iamakulov_channel "Ivan Akulov"
-https://tg.i-c-a.su/rss/defront
-https://tg.i-c-a.su/rss/valya_reads_issue
-https://xn--gckvb8fzb.comindex.xml blogs linux
-
-https://news.ycombinator.com/rss news
+# https://tg.i-c-a.su/rss/iamakulov_channel "Ivan Akulov"
+# https://tg.i-c-a.su/rss/defront

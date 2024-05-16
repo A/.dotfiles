@@ -1,3 +1,4 @@
 #! /bin/bash
 
-echo "- [ ] $@" >> "/home/a8ka/Dev/@A/notes/todo - inbox.md"
+content=$(zenity --entry --text "Create a ToDo")
+[ ! -z "$content" ] && echo "- [ ] $content" >> "/home/$(whoami)/Dev/@A/notes/todo.md"

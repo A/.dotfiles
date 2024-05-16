@@ -9,24 +9,27 @@ local enabled_packages = {
   'packages/editorconfig',
   'packages/comment',
   'packages/cmp-completion',
+  -- 'packages/nvim-java',
   'packages/lsp',
   'packages/tmux-navigation',
   'packages/nvim-session',
   'packages/quickfix-to-bottom',
-  -- 'packages/neo-tree',
   'packages/nerdtree',
   'packages/treesitter',
   'packages/null-ls',
   'packages/trouble',
   'packages/todo-comments',
-  -- 'packages/nvim-obsidian',
   'packages/extended-syntax',
+  'packages/glow',
+  'packages/obsidian',
+  'packages/nvim-colorizer',
+  'packages/pretty-fold',
+  'packages/nvim-metals',
+  -- 'packages/neo-tree',
+  -- 'packages/nvim-obsidian',
   -- 'packages/close-buffers',
   -- 'packages/import-cost',
   -- 'packages/todo-txt',
-  'packages/glow',
-  'packages/obsidian',
-  'packages/nvim-colorizer'
 }
 
 local enabled_treesitter_configs = {
@@ -49,6 +52,9 @@ local enabled_lsp_servers = {
   'vimls',
   'yamlls',
   'hls',
+  -- 'java_language_server',
+  -- 'jdtls'
+  -- 'jdtls',
 }
 
 -- base whichkeys config. Mutated in `<package>.keybindings_hook`

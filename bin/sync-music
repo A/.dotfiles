@@ -1,0 +1,49 @@
+#!/bin/bash
+
+set -e
+
+
+SOURCE=~/Music/
+TARGET=/run/media/anton/7944-F2AC/
+
+
+# Playlist builders (see: ~/.bin/create_playlist). I've been frustrated, that nice looking players
+# doesn't support smart playlists in 2023, so I thought I can build them manually it on the sync step
+#
+# TODO: Move into yaml config
+create_playlist \
+  --collection=${SOURCE}\
+  --genre_contains="Punk"\
+  --output="${SOURCE}/Playlists/All Punk.m3u"\
+  --title="All Punk" 2>&1 \
+  | grep -v TagLib
+
+create_playlist \
+  --collection=~/Music\
+  --genre_contains="Instrumental Hip-Hop"\
+  --comment_contains="inbox"\
+  --output="${SOURCE}/Playlists/Chill Hop (Inbox).m3u"\
+  --title="Inbox Instrumental Hip-Hop" 2>&1 \
+  | grep -v TagLib
+
+create_playlist \
+  --collection=~/Music\
+  --genre_contains="Instrumental Hip-Hop"\
+  --comment_not_contains="inbox"\
+  --output="${SOURCE}/Playlists/Chill Hop (Selected).m3u"\
+  --title="Picked Instrumental Hip-Hop" 2>&1 \
+  | grep -v TagLib
+
+create_playlist \
+  --collection=~/Music\
+  --genre_contains="Soundtrack"\
+  --genre_contains="Orchestral"\
+  --output="~/Music/Playlists/Orchestral Soundtracks.m4u"\
+  --title="Orchestral Soundtracks" 2>&1 \
+  | grep -v TagLib
+
+# Sync folder. Modify window handles fat32 limitations, exclude here to keep podcasts position pointers
+
+cd "${TARGET}"
+echo ${PWD}
+rsync -auvP --delete --modify-window=1 --exclude=position.sabp.dat ${SOURCE} ./Music/

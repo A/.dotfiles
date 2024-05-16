@@ -1,0 +1,10 @@
+#!/bin/bash
+
+WINDOWS=$(hyprctl clients -j | jq -r '.[] | select(.workspace.name == "hidden") | "\(.pid) \(.class)"')
+
+selection=$(echo "$WINDOWS" | wofi -p "Hidden Windows" --show dmenu)
+
+CURRENT_WORKSPACE=$(hyprctl activewindow | grep "workspace: " | cut -d' ' -f2)
+PID=$(echo $selection | cut -d' ' -f1)
+
+hyprctl dispatch movetoworkspace $CURRENT_WORKSPACE,pid:$PID 

@@ -9,14 +9,14 @@ local function install(use)
   use 'jose-elias-alvarez/nvim-lsp-ts-utils'
   use 'nvim-lua/lsp-status.nvim'
   use 'arkav/lualine-lsp-progress'
-  use {
-    'mrcjkb/haskell-tools.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope.nvim', -- optional
-    },
-    branch = '1.x.x', -- recommended
-  }
+  -- use {
+  --   'mrcjkb/haskell-tools.nvim',
+  --   requires = {
+  --     'nvim-lua/plenary.nvim',
+  --     'nvim-telescope/telescope.nvim', -- optional
+  --   },
+  --   branch = '1.x.x', -- recommended
+  -- }
 end
 
 local function setup()

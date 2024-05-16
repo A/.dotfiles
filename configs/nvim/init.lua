@@ -1,3 +1,7 @@
 require 'opts'
-require 'plugins'
+
+local plugins = require('plugins')
+local config = require('config')
+
+plugins.init(config)
 

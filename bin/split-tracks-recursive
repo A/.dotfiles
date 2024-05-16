@@ -1,0 +1,38 @@
+#!/bin/bash
+
+WORKING_DIR=$PWD
+DIRS=$(find -mindepth 1 -maxdepth 1 -type d)
+
+IFS=$'\n'
+for DIR in ${DIRS}; do
+  cd "${WORKING_DIR}"
+  cd "${DIR}"
+
+  FILES=$(find -type f -name "*.flac" -o -name "*.ape")
+  CUEFILES=$(find -type f -name "*.cue")
+
+  ls .
+
+  read -p "Process ${DIR}?" -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+    for FILE in ${FILES}; do
+      echo "Select CUE for ${FILE}"
+      select CUEFILE in ${CUEFILES}; do
+        break
+      done
+      echo "FILE:$FILE"
+      echo "CUE:$CUEFILE"
+
+      if test -f "${CUEFILE}"; then
+        read -p "Proceed? " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+          split-tracks $FILE $CUEFILE
+        fi
+      fi
+    done;
+  fi
+done;

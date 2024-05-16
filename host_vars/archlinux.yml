@@ -185,11 +185,12 @@ yarn_packages:
   - name: pyright
     state: latest
 
-cron_jobs: []
-  # - name: "Pull newsboat feeds"
-  #   state: present
-  #   minute: "0"
-  #   job: "newsboat -x reload"
+cron_jobs:
+  - name: "Pull newsboat feeds"
+    state: present
+    minute: "0"
+    job: "newsboat -x reload"
+
   # - name: "Update local rss-feeds"
   #   state: absent
   #   minute: "37"
@@ -263,6 +264,9 @@ dotfiles:
 
   - src: "{{ dotfiles_source_dir }}/waybar"
     dest: "{{ configs_home }}/waybar"
+
+  - src: "{{ dotfiles_source_dir }}/wlogout"
+    dest: "{{ configs_home }}/wlogout"
 
   - src: "{{ dotfiles_source_dir }}/kitty/kitty.conf"
     dest: "{{ configs_home }}/kitty/kitty.conf"

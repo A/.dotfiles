@@ -21,7 +21,7 @@ for KEYWORD in "${IGNORE_READER_MODE[@]}"; do
 done
 
 if [[ ${MODE} == "reader" ]]; then
-  firefox "about:reader?url=${URL}"
+  firefox --kiosk "about:reader?url=${URL}"
 else
-  firefox "${URL}"
+  firefox --kiosk "${URL}"
 fi;

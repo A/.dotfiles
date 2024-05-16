@@ -1,0 +1,31 @@
+#!/bin/bash
+set -e
+
+bold=$(tput bold)
+normal=$(tput sgr0)
+
+print_help() {
+  echo "${bold}Pacman helper${normal}"
+  echo "Set of pacman helper scripts to manage an arch linux system."
+  echo ""
+  echo "  pacman-helper ${bold}new-deps${normal} <package>"
+  echo "    Prints new dependencies to be installed along with a given package"
+  echo ""
+  echo "  pacman-helper ${bold}update-dates${normal} <package>"
+  echo "    Prints dates when a given package has been installed or updated"
+  echo ""
+}
+
+if [ "$1" = "new-deps" ]; then
+  comm -12 <(pactree -srl $2 | sort) <(pacman -Qq | sort)
+  exit 0
+fi
+
+if [ "$1" = "update-dates" ]; then
+  grep "\(upgraded\|installed\) $2 " /var/log/pacman.log
+  exit 0
+fi
+
+print_help;
+exit 1;
+

@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+
+import subprocess
+
+if __name__ == '__main__':
+
+    files = subprocess.run(['fd', '-i', '-E "/home/anton/Dev/*"'], encoding='utf-8',
+                           capture_output=True).stdout.split('\n')
+
+    title = 'wofi-files'
+    rofi_command = 'wofi -dmenu -i -p {}'.format(title)
+    rofi_input = '\n'.join(file for file in files)
+    cp = subprocess.run(rofi_command.split(), input=rofi_input,
+                        encoding='utf-8', capture_output=True)
+
+    if cp.returncode == 0:
+        file = cp.stdout.strip()
+        xdg_command = ['xdg-open', file]
+        subprocess.run(xdg_command,
+                       encoding='utf-8', capture_output=True)

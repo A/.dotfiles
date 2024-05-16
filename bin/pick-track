@@ -1,0 +1,13 @@
+#!/bin/bash
+
+export IFS='
+'
+
+PICKED_CONTAINER=/Picked/$(date '+%Y-%m')/
+MUSIC_DIR=~/Music/
+PICKED_DIR=$(zenity --width=600 --height=450  --list --column Directory $(ls ${MUSIC_DIR}))
+
+DEST=${MUSIC_DIR}${PICKED_DIR}${PICKED_CONTAINER}
+
+mkdir -p "${DEST}"
+mv "$1" "${DEST}"

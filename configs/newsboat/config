@@ -2,7 +2,14 @@ browser "$HOME/.bin/open-link %u"
 prepopulate-query-feeds yes
 text-width 120
 save-path ~/Dev/@A/notes/saved_articles
+datetime-format "%Y-%m-%d"
 
+bookmark-cmd "/usr/share/doc/newsboat/contrib/getpocket.com/send-to-pocket.sh"
+
+ignore-article "*" "title =~ \"Apple Watch\""
+ignore-article "*" "title =~ \"IDEA\""
+ignore-article "*" "title =~ \"Windows 11\""
+ignore-article "*" "title =~ \"emacs\""
 ignore-article "*" "title =~ \"bspwm\""
 ignore-article "*" "title =~ \"Tailwind\""
 ignore-article "*" "title =~ \"Learn\""
@@ -55,3 +62,4 @@ ignore-article "https://www.reddit.com/r/neovim/.rss" "title =~ \"Telescope\""
 ignore-article "https://100r.co/links/rss.xml" "title =~ \"Summary\""
 
 ignore-mode "display"
+bind-key SPACE toggle-article-read

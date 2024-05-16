@@ -1,0 +1,49 @@
+#!/bin/python
+
+import re
+import dbus
+import os
+
+def dbus_to_python(data):
+    '''
+        convert dbus data types to python native data types
+    '''
+    if isinstance(data, dbus.String):
+        data = str(data)
+    elif isinstance(data, dbus.Boolean):
+        data = bool(data)
+    elif isinstance(data, dbus.Int64):
+        data = int(data)
+    elif isinstance(data, dbus.Double):
+        data = float(data)
+    elif isinstance(data, dbus.Array):
+        data = [dbus_to_python(value) for value in data]
+    elif isinstance(data, dbus.Dictionary):
+        new_data = dict()
+        for key in data.keys():
+            new_data[dbus_to_python(key)] = dbus_to_python(data[key])
+        data = new_data
+    return data
+
+
+bus = dbus.SessionBus()
+
+for service in bus.list_names():
+    if service.startswith('org.mpris.MediaPlayer2.'):
+        player = dbus.SessionBus().get_object(service, '/org/mpris/MediaPlayer2')
+
+        status=player.Get('org.mpris.MediaPlayer2.Player', 'PlaybackStatus', dbus_interface='org.freedesktop.DBus.Properties')
+        print(status)
+
+        metadata = player.Get('org.mpris.MediaPlayer2.Player', 'Metadata', dbus_interface='org.freedesktop.DBus.Properties')
+        metadata = dbus_to_python(metadata)
+        print(metadata)
+
+        trackid = str(metadata["mpris:trackid"])
+
+        if "DeaDBeeF" in trackid:
+            file_url = metadata["xesam:url"]
+            file = re.sub(r"file:\/\/", "", file_url)
+            if os.path.isfile(file):
+                os.remove(file)
+                os.system("playerctl next")

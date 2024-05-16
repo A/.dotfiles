@@ -5,12 +5,7 @@ alias :q=exit
 alias serve="python -m http.server"
 alias fzf-search="locate / | fzf"
 alias evim="nvim -u none"
-
-alias b="oil"
-alias ba="oil -a"
-alias bd="oil -d"
-alias bt="oil -t"
-alias bT="oil -T"
-
+alias hyprlog="cat /tmp/hypr/$(ls -t /tmp/hypr/ | head -n 1)/hyprland.log"
+alias pacheck="comm -12 <(pactree -srl $pkgname | sort) <(pacman -Qq | sort)"
 alias speed='for i in {1..3}; do echo "\n\rRetry ${i}:"; speedtest --simple; done'
 alias glgo="git log --pretty=oneline --abbrev-commit"

@@ -95,7 +95,8 @@ local function install(use)
 end
 
 local function post_setup()
-  vim.cmd(":au! BufNewFile,BufRead *.md set ft=lsp_markdown")
+  -- vim.cmd(":au FileType mkd set filetype=lsp_markdown")
+  vim.cmd(":au! BufEnter,BufNewFile,BufRead *.md set ft=lsp_markdown")
   vim.cmd(":syn region markdownWikiLink matchgroup=markdownLinkDelimiter start='\\[\\[' end='\\]\\]' contains=markdownLinkUrl keepend oneline concealends")
   vim.cmd([[:au! BufEnter,BufNewFile,BufRead *.md syn match markdownTag "#[0-9A-Za-z:._]\+"]])
 

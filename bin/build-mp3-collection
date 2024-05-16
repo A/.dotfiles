@@ -1,0 +1,19 @@
+#!/bin/bash
+
+SOURCE=~/Music/Collection/
+DEST=~/Music/MP3/
+
+
+SAVEIFS=${IFS}
+IFS='
+'
+FILE_LIST=`find "$SOURCE" -type f -iname '*.wav' -o -iname '*.mp3' -o -iname '*.flac'`
+
+for FILE in ${FILE_LIST}; do
+  echo $FILE
+  PREFIX=`echo $FILE | awk -F \. 'OFS="."{ $NF="" }1' | sed 's/.$//'`
+  echo $PREFIX
+done;
+      # -exec echo {}
+      # # ffmpeg -i {} -acodec libmp3lame \
+      # #   $DEST$(readlink -f {} | cut -d"/" -f 5-)/{} \;

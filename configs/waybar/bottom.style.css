@@ -1,13 +1,14 @@
 * {
-    font-family: Iosevka Nerd Font, sans-serif;
-    font-size: 12px;
+  font-family:
+    Iosevka Nerd Font,
+    sans-serif;
+  font-size: 12px;
 }
 
 window#waybar {
-  background-color: rgba(255,255,255,0);
+  background-color: rgba(255, 255, 255, 0);
   margin: 2px 8px;
 }
-
 
 #tray,
 #custom-btcusd,
@@ -15,14 +16,23 @@ window#waybar {
 #custom-usdrub,
 #custom-eurrub,
 #custom-dela,
-box.horizontal.modules-right
-{
+#custom-debug,
+#custom-screenrecorder,
+box.horizontal.modules-right {
   margin-bottom: 4px;
-  background-color: #EFF8FE;
+  background-color: #2e3340;
   border-radius: 1px;
-  border: 2px solid #AF5F5F;
-  box-shadow: 0px 1px 4px rgba(0,0,0,.25);
+  border: 4px solid #af5f5f;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
   padding: 2px 6px;
+}
+
+#custom-screenrecorder {
+  padding-right: 12px;
+}
+
+#custom-debug {
+  min-width: 120px;
 }
 
 #clock,
@@ -37,8 +47,15 @@ box.horizontal.modules-right
 #pulseaudio,
 #wireplumber,
 #custom-root-free-space,
-#home-free-space
-{
-    padding: 0 4px;
-    color: #2e3340;
+#home-free-space {
+  padding: 0 4px;
+  color: #eff8fe;
+}
+
+tooltip {
+  border-radius: 1px;
+  border: 2px solid #af5f5f;
+  background-color: rgba(46, 51, 64, 0.85);
+  color: #d8dee8;
+  font-size: 16px;
 }

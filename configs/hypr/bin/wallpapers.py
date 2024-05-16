@@ -4,6 +4,7 @@
 # - hyprctl
 # - jq
 
+import sys
 import os
 import logging
 import subprocess
@@ -58,7 +59,13 @@ def set_wallpapers():
 
 def main():
     logging.info('Started')
+    if 'next' in sys.argv:
+        logging.info('Setting random wallpapers')
+        set_wallpapers()
+        return
+    
     while True:
+        logging.info('Start daemon')
         set_wallpapers()
         time.sleep(INTERVAL)
 

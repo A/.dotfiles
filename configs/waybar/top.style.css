@@ -20,12 +20,15 @@ tooltip {
 box.horizontal.modules-center,
 #tray,
 #custom-timer,
-#custom-timer-stats
+#custom-timer-stats,
+#custom-deadbeef,
+#mpris,
+#custom-wlogout
 {
   margin: 4px;
-  background-color: #EFF8FE;
+  background-color: #2e3340;
   border-radius: 1px;
-  border: 2px solid #AF5F5F;
+  border: 4px solid #AF5F5F;
   box-shadow: 0px 1px 4px rgba(0,0,0,.25);
 }
 
@@ -33,14 +36,26 @@ box.horizontal.modules-center,
 box.horizontal.modules-right,
 #custom-timer,
 #custom-timer-stats,
+#custom-deadbeef,
+#mpris,
 #tray
 {
   padding: 0 10px;
 }
 
+box.horizontal.modules-right {
+  padding-right: 0;
+}
+
+#custom-wlogout {
+  color: #AF5F5F;
+  padding: 0 14px 0 10px;
+  font-weight: bold;
+}
+
 #workspaces button {
   background-color: transparent;
-  color: #2e3340;
+  color: #EFF8FE;
   border-radius: 0;
   padding: 0 4px;
 }
@@ -56,8 +71,8 @@ box.horizontal.modules-right,
 }
 
 #workspaces button.urgent {
-  background-color: #AF5F5F;
-  animation-name: blink;
+  background-color: #ffa042;
+  /* animation-name: blink; */
   animation-duration: 0.5s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
@@ -78,8 +93,8 @@ box.horizontal.modules-right,
 #custom-root-free-space,
 #home-free-space
 {
-    padding: 0 4px;
-    color: #2e3340;
+  padding: 0 4px;
+  color: #EFF8FE;
 }
 
 #custom-dela,

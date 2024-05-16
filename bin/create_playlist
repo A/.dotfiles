@@ -1,0 +1,126 @@
+#! /bin/python3
+
+import os
+import argparse, sys
+import taglib
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--collection", help="Path to music collection")
+parser.add_argument("--title", help="Playlist title")
+
+parser.add_argument("--genre_contains", action='append', help="Text to match against the GENRE")
+parser.add_argument("--genre_not_contains", action='append', help="Text to match against the GENRE")
+
+parser.add_argument("--comment_contains", action='append', help="Text to match against the COMMENT")
+parser.add_argument("--comment_not_contains", action='append', help="Text to match against the COMMENT")
+
+parser.add_argument("--output", help="Path to the resulting playlist")
+args=parser.parse_args()
+
+
+EXTENSIONS = ['.flac', '.mp3']
+COLLECTION_PATH = os.path.expanduser(args.collection)
+PLAYLIST_PATH = os.path.expanduser(args.output)
+
+GENRE_CONTAINS = args.genre_contains or []
+GENRE_NOT_CONTAINS = args.genre_not_contains or []
+
+COMMENT_CONTAINS = args.comment_contains or []
+COMMENT_NOT_CONTAINS = args.comment_not_contains or []
+PLAYLIST_TITLE = args.title or ""
+
+
+def get_files(dir):
+    for root, _, files in os.walk(dir):
+        for file in files:
+            for ext in EXTENSIONS:
+                if file.endswith(ext):
+                    yield os.path.join(root, file)
+
+
+def get_tags(file):
+    with taglib.File(file) as song:
+        return song.tags
+
+
+def get_dir_from_filepath(s):
+    f = os.path.basename(s)
+    p = s[:-(len(f))-1]
+    return p
+
+
+def match_genre(tags):
+    matched_contains = []
+    matched_not_contains = []
+
+    if "GENRE" in tags:
+        genre = ", ".join(tags["GENRE"]).lower()
+
+        if len(GENRE_CONTAINS):
+            for s in GENRE_CONTAINS:
+                matched_contains.append(s.lower() in genre)
+
+        if len(GENRE_NOT_CONTAINS):
+            for s in GENRE_NOT_CONTAINS:
+                matched_not_contains.append(s.lower() not in genre)
+
+        return all([
+            False if len(GENRE_CONTAINS) and not any(matched_contains) else True,
+            False if len(GENRE_NOT_CONTAINS) and not any(matched_not_contains) else True
+        ])
+
+    return False
+
+
+def match_comment(tags):
+    matched_contains = []
+    matched_not_contains = []
+
+    if "COMMENT" in tags:
+        comment = ", ".join(tags["COMMENT"]).lower()
+
+        if len(COMMENT_CONTAINS):
+            for s in COMMENT_CONTAINS:
+                matched_contains.append(s.lower() in comment)
+
+        if len(COMMENT_NOT_CONTAINS):
+            for s in COMMENT_NOT_CONTAINS:
+                matched_not_contains.append(s.lower() not in comment)
+
+        result = all([
+            False if len(COMMENT_CONTAINS) and not any(matched_contains) else True,
+            False if len(COMMENT_NOT_CONTAINS) and not any(matched_not_contains) else True
+        ])
+
+        return result
+
+    return False
+
+
+def main():
+    playlist_root = get_dir_from_filepath(PLAYLIST_PATH)
+    print(playlist_root)
+    print(f"Creating a playlist: '{PLAYLIST_TITLE}'")
+    with open(PLAYLIST_PATH, encoding="utf-8", mode='w+') as f:
+
+        f.write(f"#EXTM3U\n\n")
+
+        f.write(f"#PLAYLIST:{PLAYLIST_TITLE}\n")
+
+        for file in get_files(COLLECTION_PATH):
+            tags = get_tags(file)
+            matched = []
+
+            if GENRE_CONTAINS or GENRE_NOT_CONTAINS:
+                matched.append(match_genre(tags))
+
+            if COMMENT_CONTAINS or COMMENT_NOT_CONTAINS:
+                matched.append(match_comment(tags))
+
+            if all(matched):
+                file = os.path.relpath(file, playlist_root) 
+                f.write(f"{file}\n")
+
+
+main()

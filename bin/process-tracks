@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+
+import argparse, sys
+import keyfinder
+import glob
+import subprocess
+
+#
+# print(f"Args: {args}\nCommand Line: {sys.argv}\nfoo: {args.bpm_range}")
+# print(f"Dict format: {vars(args)}")
+
+EXTENSIONS = ['flac', 'mp3']
+
+def parse_args():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('source', help="Source directory")
+    parser.add_argument("--min-bpm", help="Min BPM value", type=int, default=80)
+    parser.add_argument("--max-bpm", help="Max BPM value", type=int, default=160)
+    parser.add_argument("--out", help="Directory to copy/move processed files into", required=True)
+
+    return parser.parse_args()
+
+def get_files(dir, exts):
+    files = []
+    for ext in exts:
+        mask = f"{dir}/**.{ext}"
+        print(mask)
+        files.extend(glob.glob(mask))
+    return files
+
+def get_bpm(file):
+    output = subprocess.check_output(f'sox "{file}" -t raw -r 44100 -e float -c 1 - | bpm -m 80 -x 160 |' + 'awk "{print int($1+0.5)}"', shell=True)
+    print(output)
+
+
+def main():
+    args = parse_args()
+    files = get_files(args.source, EXTENSIONS)
+    for file in files:
+        key = keyfinder.key(file)
+        bpm = get_bpm(file)
+        print(file, key, key.camelot())
+
+main()
