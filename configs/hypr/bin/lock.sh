@@ -6,7 +6,4 @@ then
 else
   echo "$(date '+%Y-%m-%dT%T.%3N'): Start locking" >> ~/.tmp/logs/sleep.log
   hyprlock -q --immediate
-  sleep 2
 fi
-
-# systemctl suspend

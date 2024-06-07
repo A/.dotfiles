@@ -2,7 +2,7 @@
 
 SIGNAL=1
 pid_file="/tmp/waybar-screenrecorder"
-wf_recorder_opts="--audio"
+wf_recorder_opts="--audio --pixel-format yuv420p"
 video_extension="mp4"
 
 get_status() {

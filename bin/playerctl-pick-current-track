@@ -44,4 +44,4 @@ for service in bus.list_names():
             file = re.sub(r"file:\/\/", "", file_url)
             if os.path.isfile(file):
                 print(file)
-                os.system(f"~/.bin/pick-track '{file}'")
+                os.system(f"~/.bin/pick-track \"{file}\"")

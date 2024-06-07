@@ -28,7 +28,7 @@ box.horizontal.modules-center,
   margin: 4px;
   background-color: #2e3340;
   border-radius: 1px;
-  border: 4px solid #AF5F5F;
+  border: 2px solid #AF5F5F;
   box-shadow: 0px 1px 4px rgba(0,0,0,.25);
 }
 
@@ -40,6 +40,7 @@ box.horizontal.modules-right,
 #mpris,
 #tray
 {
+  color: #EFF8FE;
   padding: 0 10px;
 }
 

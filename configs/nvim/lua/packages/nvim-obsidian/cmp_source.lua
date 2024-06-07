@@ -25,11 +25,11 @@ end
 
 function Source:complete(request, callback)
   local word = string.sub(request.context.cursor_before_line, request.offset)
-  local cmd = "rg --files | rg "..word
+  local cmd = "rg --files | rg --no-line-number "..word
 
-  local pfile = io.popen(cmd)
+  local handle_file_list = io.popen(cmd)
 
-  local words = pfile:lines()
+  local words = handle_file_list:lines()
   local t, i = {}, 0
 
   for filename in words do
@@ -37,22 +37,36 @@ function Source:complete(request, callback)
     local name = filename:match("(.+)%..+$")
     if name ~= nil then
       if string.match(filename, ".md") then
-        t[i] = { label = "[["..name.."]]" }
+        t[i] = { 
+          label = "[["..name.."]]",
+          filename = filename,
+          documentation = documentation,
+        }
       else
         t[i] = { label = "![["..filename.."]]" }
       end
     end
-
   end
+  handle_file_list:close()
 
   if #t == 0 then
     return callback()
   end
 
-  pfile:close()
-
-
   callback(t)
+end
+
+function Source:resolve(completion_item, callback)
+    local cmd = 'cat ' .. '"' .. completion_item.filename .. '"'
+    local handle_file_content = io.popen(cmd)
+
+    -- completion_item.documentation = cmd
+    if handle_file_content ~= nil then
+      completion_item.documentation = handle_file_content:read("*a")
+      handle_file_content:close()
+    end
+
+    callback(completion_item)
 end
 
 local source = Source.new()

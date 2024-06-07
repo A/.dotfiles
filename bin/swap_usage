@@ -1,0 +1,22 @@
+#!/bin/bash
+
+for proc_dir in /proc/*
+do
+    if [ -d "$proc_dir" ]
+    then
+        pid=$(basename "$proc_dir")
+        if [[ $pid =~ ^-?[0-9]+$ ]]
+        then
+            if grep -q "VmSwap" $proc_dir/status
+            then
+                swap_usage_nums=$(cat $proc_dir/status | grep VmSwap | awk '{ print $2 }')
+                if (( swap_usage_nums > 0 ))
+                then
+                    swap_usage_unit=$(cat $proc_dir/status | grep VmSwap | awk '{ print $3 }')
+                    cmdline=$(cat $proc_dir/cmdline | sed -e "s/\x00/ /g";)
+                    echo "${swap_usage_nums}${swap_usage_unit} $cmdline"
+                fi
+            fi
+        fi
+    fi
+done | sort -h -r

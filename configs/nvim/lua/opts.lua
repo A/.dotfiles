@@ -54,6 +54,7 @@ opt.wildignore = {'package-lock.json','yarn.lock'}
 opt.wrap = false
 opt.writebackup = false
 opt.termguicolors = true
+opt.conceallevel = 2
 
 -- opt.verbose = 2
 -- opt.verbosefile = "/Users/anton/.logs/nvim.log"
