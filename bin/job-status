@@ -1,0 +1,36 @@
+#! /bin/bash
+
+OUTDATED_SEC=300
+RUNNING_LOG=/tmp/running-jobs
+FINISHED_LOG=/tmp/finished-jobs
+
+now=$(date +%s)
+
+if test -f "$RUNNING_LOG"; then
+  CONTENT=$(cat $RUNNING_LOG)
+  TS=$(echo $CONTENT| awk '{print $1}')
+  JOB=$(echo $CONTENT| awk '{print $2}')
+  RUNNING_SEC=$(($now-$TS))
+  JOB_NAME=$(basename $JOB)
+  echo "[RUNNING: ${RUNNING_SEC}s] ${JOB_NAME}"
+  exit 0;
+fi
+
+if test -f "$FINISHED_LOG"; then
+  CONTENT=$(cat $FINISHED_LOG)
+  TS=$(echo $CONTENT| awk '{print $1}')
+  JOB=$(echo $CONTENT| awk '{print $2}')
+  STATUS=$(echo $CONTENT| awk '{print $3}')
+
+  AGO_SEC=$(($now-$TS))
+  JOB_NAME=$(basename $JOB)
+
+  # print nothing if outdated
+  (( $OUTDATED_SEC<($now-$TS) )) && exit 0
+
+  case $STATUS in
+    0) echo "[FINISHED: ${AGO_SEC}s ago] ${JOB_NAME}" ;;
+    *) echo "[FAILED: ${AGO_SEC}s] ${JOB_NAME}" ;;
+  esac
+  
+fi

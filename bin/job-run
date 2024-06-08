@@ -1,0 +1,18 @@
+#! /bin/bash
+
+# trap 'rm /tmp/running-jobs' SIGINT
+
+echo "$(date +%s) $1" > /tmp/running-jobs
+sh -c "$1 > /tmp/jobs.log 2>&1"
+STATUS=$?
+
+echo "$(date +%s) $1 $STATUS" > /tmp/finished-jobs
+rm /tmp/running-jobs || true
+
+echo 
+
+case $STATUS in
+  0) notify-send "Job '$(basename ${1})' is done." ;;
+  *) notify-send "Job '$(basename ${1})' is failed." ;;
+esac
+

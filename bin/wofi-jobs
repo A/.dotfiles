@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+import subprocess
+
+if __name__ == '__main__':
+
+
+    jobs = subprocess.run(['ls', '/home/anton/.bin/jobs'], encoding='utf-8',
+                           capture_output=True).stdout.split('\n')
+
+    title = 'wofi-jobs'
+    rofi_command = 'wofi -dmenu -i -p {}'.format(title)
+    rofi_input = '\n'.join(job for job in jobs)
+    cp = subprocess.run(rofi_command.split(), input=rofi_input,
+                        encoding='utf-8', capture_output=True)
+
+    if cp.returncode == 0:
+        file = cp.stdout.strip()
+        xdg_command = ["/home/anton/.bin/job-run", f"/home/anton/.bin/jobs/{file}"]
+        subprocess.run(xdg_command,
+                       encoding='utf-8', capture_output=True)
