@@ -1,3 +1,0 @@
-#!/bin/bash
-
-cat ./node_modules/$1/package.json | grep version

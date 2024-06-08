@@ -30,7 +30,7 @@ fi
 
 URL="https://registry.hub.docker.com/v2/repositories/${org}/${image}/tags?page_size=1024" 
 
-tags=`curl -L -s ${URL} | jq '."results"[]["name"]'`
+tags=`curl -L -s ${URL} | jq -r '."results"[]["name"]'`
 
 if [ -n "$2" ]
 then

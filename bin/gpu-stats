@@ -1,9 +1,0 @@
-#!/bin/bash
-
-STATS=$(nvidia-smi -q)
-
-G_UTILIZATION=$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits)
-G_TEMP=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits)
-
-echo "$G_POWER"
-
