@@ -1,0 +1,8 @@
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: node_exporter_emperor
+    static_configs:
+      - targets: ["node_exporter:9100"]
