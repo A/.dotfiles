@@ -1,12 +1,12 @@
 ---
-- name: Ensure {{ dest | dirname }} directory exists
+- name: Ensure {{ item.dest | dirname }} directory exists
   file:
-    path: "{{ dest | dirname }}"
+    path: "{{ item.dest | dirname }}"
     state: directory
 
-- name: Ensure {{ dest }} is linked
+- name: Ensure {{ item.dest }} is linked
   file:
-    src: "{{ src }}"
-    dest: "{{ dest }}"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     state: link
     force: True

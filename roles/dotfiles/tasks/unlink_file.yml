@@ -1,0 +1,11 @@
+---
+- name: Ensure {{ item.dest }} file is a link to dotfiles directory
+  stat:
+    path: "{{ item.dest }}"
+  register: dotfiles_dest
+
+- name: Ensure {{ item.dest }} is unlinked
+  file:
+    path: "{{ item.dest }}"
+    state: absent
+  when: dotfiles_dest.stat.exists and dotfiles_dest.stat.lnk_source == item.src

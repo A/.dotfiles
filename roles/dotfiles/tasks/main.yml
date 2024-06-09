@@ -2,11 +2,17 @@
 - debug:
     msg: "{{ configs_home }}"
 
-    #- name: Ensure {{ configs_home }} exists
-    #  file:
-    #    path: "{{ configs_home }}"
-    #    state: directory
-    #
-    #- name: Ensure dotfiles are managed
-    #  include: link_file.yml src={{ item.src }} dest={{ item.dest }}
-    #  with_items: "{{ dotfiles }}"
+- name: Ensure directory {{ configs_home }} exists
+  file:
+    path: "{{ configs_home }}"
+    state: directory
+  
+- name: Ensure dotfiles are linked
+  include_tasks: link_file.yml
+  with_items: "{{ dotfiles }}"
+  when: item.state is not defined or item.state == "present"
+
+- name: Ensure dotfiles are unlinked
+  include_tasks: unlink_file.yml
+  with_items: "{{ dotfiles }}"
+  when: item.state is defined and item.state == "absent"

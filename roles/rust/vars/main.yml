@@ -1,0 +1,6 @@
+---
+rust_pacman_packages:
+  - name: rust
+    state: present
+  # - name: rustup
+  #   state: present
