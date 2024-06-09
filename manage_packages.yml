@@ -1,0 +1,21 @@
+---
+- hosts: all
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.cargo/bin"
+
+  tasks:
+    - import_role: name=python
+      when: ansible_facts["os_family"] == "Archlinux"
+
+    - name: Process packages
+      include_tasks: manage_package.yml
+
+      when:
+        - (ansible_run_tags == ['all'] and ansible_skip_tags == []) or (package.name in ansible_run_tags) or (package.name not in ansible_skip_tags and (package.name in ansible_run_tags or ansible_run_tags == ['all']))
+      tags:
+        - always
+
+      loop: "{{ packages }}"
+      loop_control:
+        loop_var: package
+

@@ -1,6 +1,4 @@
 ---
-- name: ensure pacman packages {{ pacman_packages | map(attribute='name') }} are managed
-  pacman: "{{ item }}"
-  become: true
+- name: Ensure pacman packages {{ pacman_packages | map(attribute='name') }} are managed
+  include_tasks: manage_package.yml
   with_items: "{{ pacman_packages }}"
-  when: ansible_facts["os_family"] == "Archlinux"

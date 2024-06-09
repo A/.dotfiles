@@ -1,0 +1,10 @@
+---
+- name: role rust | manage pacman packages
+  include_role: name=meta_pacman
+  vars:
+    pacman_packages: "{{ rust_pacman_packages }}"
+
+- name: Ensure rustup installed proper rust version
+  shell: rustup default stable
+  changed_when: false
+

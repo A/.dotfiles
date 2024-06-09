@@ -23,7 +23,8 @@ box.horizontal.modules-center,
 #custom-timer-stats,
 #custom-deadbeef,
 #mpris,
-#custom-wlogout
+#custom-wlogout,
+#custom-jobs
 {
   margin: 4px;
   background-color: #2e3340;
@@ -37,6 +38,7 @@ box.horizontal.modules-right,
 #custom-timer,
 #custom-timer-stats,
 #custom-deadbeef,
+#custom-jobs,
 #mpris,
 #tray
 {

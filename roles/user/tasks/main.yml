@@ -1,0 +1,5 @@
+---
+- name: ensure user is managed
+  user: "{{ item }}"
+  with_items: "{{ users }}"
+  become: True

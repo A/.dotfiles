@@ -1,0 +1,6 @@
+- name: Ensure git_config settings are managed
+  git_config:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    scope: "{{ item.scope }}"
+  with_items: "{{ git_config }}"

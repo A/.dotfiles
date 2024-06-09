@@ -1,0 +1,5 @@
+- name: Ensure {{ repo }} is checked out
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+  with_items: "{{ git_repos }}"

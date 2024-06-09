@@ -1,0 +1,60 @@
+- debug: msg="Ensure the package "{{package.name }}" is managed"
+
+- import_role: name=gpg_key
+  vars:
+    gpg_keys: "{{ package.gpg_keys | default([]) }}"
+
+- import_role: name=meta_pacman
+  vars:
+    pacman_packages: "{{ package.pacman_packages | default([]) }}"
+
+- import_role: name=aur
+  vars:
+    aur_packages: "{{ package.aur_packages | default([]) }}"
+
+- import_role: name=rust
+  vars:
+    cargo_packages: "{{ package.cargo_packages | default([]) }}"
+
+- import_role: name=yarn
+  vars:
+    yarn_packages: "{{ package.yarn_packages | default([]) }}"
+
+- import_role: name=git_config
+  vars:
+    git_config: "{{ package.git_config | default([]) }}"
+
+- import_role: name=git_repo
+  vars:
+    git_repos: "{{ package.git_repos | default([]) }}"
+
+- import_role: name=homebrew
+  vars:
+    homebrew_packages: "{{ package.homebrew_packages | default([]) }}"
+
+- import_role: name=mas
+  vars:
+    mas_packages: "{{ package.mas_packages | default([]) }}"
+
+- import_role: name=dotfiles
+  vars:
+    dotfiles: "{{ package.links | default([]) }}"
+
+- import_role: name=cron
+  vars:
+    cron_jobs: "{{ package.cron_jobs | default([]) }}"
+
+- import_role: name=python
+  vars:
+    pip3_packages: "{{ package.pip3_packages | default([]) }}"
+    pip2_packages: "{{ package.pip2_packages | default([]) }}"
+
+- import_role: name=user
+  vars:
+    users: "{{ package.users | default([]) }}"
+
+- include_role: name=systemd
+  vars:
+    systemd_services: "{{ package.systemd_services | default([]) }}"
+  when:
+    - "'microsoft' not in ansible_kernel"

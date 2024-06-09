@@ -1,0 +1,6 @@
+--- 
+- name: Ensure pacman package "{{ item.name }}" is managed
+  pacman: "{{ item }}"
+  become: true
+  when: ansible_facts["os_family"] == "Archlinux"
+

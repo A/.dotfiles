@@ -5,14 +5,14 @@
   vars:
     pacman_packages: "{{ python_pacman_packages }}"
 
-- name: install pip2 package {{ item }}
-  shell: python2 -m pip install --user --upgrade {{ item }}
+- name: install pip2 package {{ item.name }}
+  shell: python2 -m pip install --user --upgrade {{ item.name }}
   register: pip2_installation_log
   with_items: "{{ pip2_packages }}"
   changed_when: "'Requirement already satisfied' not in pip2_installation_log.stdout"
 
-- name: install pip3 package {{ item }}
-  shell: pip3 install --user --upgrade {{ item }}
+- name: install pip3 package {{ item.name }}
+  shell: pip3 install --user --upgrade {{ item.name }}
   register: pip3_installation_log
   with_items: "{{ pip3_packages }}"
   changed_when: 

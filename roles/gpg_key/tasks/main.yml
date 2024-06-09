@@ -1,0 +1,6 @@
+--- 
+- name: Ensure {{ item.name }} gpg key is added
+  community.general.pacman_key: "{{item}}"
+  with_items: "{{ gpg_keys }}"
+  become: true
+  when: ansible_facts["os_family"] == "Archlinux"

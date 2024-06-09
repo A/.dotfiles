@@ -3,4 +3,5 @@ aur_pacman_packages: []
 
 aur_cargo_packages:
   - name: paru
+    git: https://github.com/Morganamilo/paru.git
     state: present

@@ -3,3 +3,6 @@
 files/git
 packer_compiled.lua 
 todo.md
+bin.old
+pacman.pkgs
+aur.pkgs

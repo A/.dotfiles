@@ -1,0 +1,27 @@
+---
+- name: Ensure {{ item.name }} cargo package is installed
+  shell: cargo install {{ item.name }};
+  changed_when:
+    - "'is already installed' not in cargo_install_log.stdout"
+    - "'is already installed' not in cargo_install_log.stderr"
+  register: cargo_install_log
+  when: item.state == "present" and item.git is not defined
+
+- name: Ensure {{ item.name }} git isn't installed yet
+  shell: cargo install --list
+  register: cargo_install_list
+  changed_when: item.git not in cargo_install_list.stdout
+  when: item.git is defined and item.state == "latest"
+
+- name: Ensure {{ item.name }} git cargo packages are installed
+  shell: cargo install --git {{item.git}}
+  when:
+    - item.git is defined
+    - cargo_install_list is defined 
+    - cargo_install_list.stdout is defined
+    - item.git not in cargo_install_list.stdout
+
+- name: Ensure {{ item.name }} cargo packages are uninstalled
+  shell: cargo uninstall {{ item.name }}
+  register: cargo_uninstall_log
+  when: item.state == "absent"

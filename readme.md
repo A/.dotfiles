@@ -8,52 +8,86 @@ Yet another dotfiles repo for macos & arch linux includes things below:
 - cron jobs
 - python, rust, nodejs global packages
 - dotfiles configs
+- user management
+- systemd service management
 
 Per host configuration is in `host_var` dir.
 
 ### Usage
 
 ```
-ansible-playbook dotfiles.yml --limit=macos --tag=homebrew --ask-become-pass
-ansible-playbook dotfiles.yml --limit=archlinux --skip-tags gui --ask-become-pass
+ansible-playbook manage_packages.yml.yml --limit=archlinux --tag=hyprland --ask-become-pass
+ansible-playbook dotfiles.yml --limit=archlinux --skip-tags fonts --ask-become-pass
 ```
 
 *Example configuration*:
 
 ```yaml
-pacman_packages:
-  - name: openssh
-    state: latest
+# Dependencies are grouped into packages to simplify management
+# Package name can be used as a tag. (see: manage_packages.yml)
+packages:
+  - name: hyprland
+    pacman_packages:
+      - name: hyprpaper
+        state: latest
+      - name: hyprland
+        state: latest
+      - name: network-manager-applet
+        state: latest
+      - name: udiskie
+        state: latest
+      - name: rofi
+        state: latest
+      - name: networkmanager-openvpn
+        state: latest
+      - name: mesa-utils
+        state: latest
+    aur_packages:
+      - name: hyprevents-git
+        state: latest
+      - name: hyprlock-git
+        state: latest
+      - name: hyprpicker
+        state: latest
+      - name: hyprprop-git
+        state: latest
+      - name: uair
+        state: latest
+      - name: hyprpaper
+        state: latest
+      - name: blueman-git
+        state: latest
+      - name: swaync
+        state: latest
+      - name: wlr-randr
+        state: latest
+      - name: pasystray-wayland
+        state: latest
+      - name: swappy
+        state: latest
 
-pacman_gui_packages:
-  - name: telegram-desktop
-    state: latest
+    links:
+      - src: "{{ dotfiles_source_dir }}/hypr"
+        dest: "{{ configs_home }}/hypr"
+      - src: "{{ dotfiles_source_dir }}/waybar"
+        dest: "{{ configs_home }}/waybar"
+      - src: "{{ dotfiles_source_dir }}/wlogout"
+        dest: "{{ configs_home }}/wlogout"
 
-# aur packages managed by paru
-aur_packages:
-  - name: tmux-git
-    state: latest
-
-aur_gui_packages:
-  - name: obsidian-appimage
-    state: latest
-
-# rust packages managed by cargo
-cargo_packages:
-  - name: exa
-    state: present # only present or absent
-
-cargo_gui_packages:
-  - name: alacritty
-    state: present
-
-# nodejs packages managed by yarn
-yarn_packages:
-  - name: n
-    state: latest
-
-# Python packages
-pip2_packages: []
-pip3_packages:
-  - termgraph
+  - name: docker
+    pacman_packages:
+      - name: docker
+        state: latest
+      - name: docker-compose
+        state: latest
+    users:
+      - name: "{{ ansible_env.USER }}"
+        groups: docker
+        append: True
+    systemd_services:
+      - name: docker.service
+        state: started
+        enabled: true
+        masked: False
+        fail_on_error: True
 ```

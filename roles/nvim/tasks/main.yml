@@ -13,9 +13,9 @@
   vars:
     yarn_packages: "{{ nvim_yarn_packages }}"
 
-- name: ensure plugins are installed
-  shell: nvim +'PlugInstall --sync' +qall
-  changed_when: false
+# - name: ensure plugins are installed
+#   shell: nvim +'PlugInstall --sync' +qall
+#   changed_when: false
 
 - name: ensure nvim is a git core.editor
   git_config:
