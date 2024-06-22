@@ -1,0 +1,49 @@
+@import "/home/anton/.config/wofi/theme.css";
+
+* {
+  font-family: Iosevka Nerd Font Mono;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+window {
+  background: @window-background;
+}
+
+#input {
+  padding: 0 15px;
+  border-radius: 0;
+  background: @input-background;
+  font-family: Iosevka Nerd Font Mono Medium;
+  color: @input-color;
+}
+
+#input:first-child > :nth-child(1) {
+  margin-right: 15px;
+}
+
+#input:first-child > :nth-child(1),
+#input:first-child > :nth-child(4) {
+  color: @input-color;
+}
+
+#input:focus {
+  box-shadow: none;
+}
+
+#img {
+  margin: 10px;
+}
+
+#entry:selected {
+  border-radius: 0;
+  outline: none;
+}
+
+#text {
+  color: @text-color;
+}
+
+#text:selected {
+
+}

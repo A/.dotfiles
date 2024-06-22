@@ -1,0 +1,22 @@
+---
+- name: Ensure pacman packages are managed
+  include_role: name=meta_pacman
+  vars:
+    pacman_packages: "{{ aur_pacman_packages }}"
+
+- name: Check if paru command exists
+  shell: command -v paru
+  register: paru_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Set fact based on paru existence
+  set_fact:
+    paru_exists: "{{ paru_check.rc == 0 }}"
+
+- name: Ensure rust packages are managed
+  include_role: name=rust
+  vars: 
+    cargo_packages: "{{ aur_cargo_packages }}"
+  when: not paru_exists
+

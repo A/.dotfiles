@@ -1,4 +1,4 @@
-- name: Ensure {{ repo }} is checked out
+- name: Ensure {{ git_repos | map(attribute=repo) }} are checked out
   git:
     repo: "{{ item.repo }}"
     dest: "{{ item.dest }}"

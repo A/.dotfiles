@@ -1,4 +1,3 @@
-local cmd = vim.cmd
 
 
 local keys = {
@@ -18,7 +17,7 @@ end
 
 
 local function setup()
-  cmd 'colorscheme trash-polka'
+  require("colorscheme")
 end
 
 

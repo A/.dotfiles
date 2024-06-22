@@ -91,6 +91,14 @@ packages:
         state: latest
       - name: swappy
         state: latest
+      - name: xdg-desktop-portal-hyprland-git
+        state: latest
+      - name: wlogout
+        state: latest
+      - name: waybar-module-pacman-updates-git
+        state: latest
+      - name: volumectl
+        state: latest
 
     links:
       - src: "{{ dotfiles_source_dir }}/hypr"
@@ -128,6 +136,10 @@ packages:
       - name: gitlint
         state: latest
       - name: markdownlint
+        state: latest
+      - name: shellcheck-bin
+        state: latest
+      - name: lua-format
         state: latest
     pip3_packages:
       - name: neovim
@@ -213,9 +225,15 @@ packages:
     aur_packages:
       - name: slack-desktop
         state: latest
-      # - name: zoom
-      #   state: latest
+
+  - name: browsers
+    pacman_packages:
       - name: vivaldi
+        state: latest
+
+  - name: zoom
+    aur_packages:
+      - name: zoom
         state: latest
 
   - name: 1password
@@ -303,6 +321,8 @@ packages:
         dest: "{{ configs_home }}/kitty/kitty.conf"
       - src: "{{ dotfiles_source_dir }}/kitty/themes"
         dest: "{{ configs_home }}/kitty/themes"
+      - src: "{{ dotfiles_source_dir }}/kitty/switch-theme"
+        dest: "{{ configs_home }}/kitty/switch-theme"
 
   - name: misc-scripts
     links:
@@ -380,6 +400,15 @@ packages:
         state: latest
       - name: ast-firmware
         state: latest
+      - name: wd719x-firmware
+        state: latest
+      - name: upd72020x-fw
+        state: latest
+
+  - name: linux-git
+    aur_packages:
+      - name: linux-git
+        state: latest
 
   - name: fonts
     pacman_packages:
@@ -394,3 +423,18 @@ packages:
     aur_packages:
       - name: ttf-iosevka-nerd
         state: latest
+  - name: wofi
+    pacman_packages:
+      - name: wofi
+        state: latest
+    links:
+      - src: "{{ dotfiles_source_dir }}/wofi"
+        dest: "{{ configs_home }}/wofi"
+
+
+  - name: pritunl
+    skip: True
+    aur_packages:
+      - name: pritunl-client-bin
+        state: absent
+

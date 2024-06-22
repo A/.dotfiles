@@ -1,0 +1,5 @@
+#! /bin/bash
+
+killall waybar > /dev/null
+waybar --config ~/.config/waybar/top.config --style ~/.config/waybar/top.style.css > /dev/null 2>&1 &
+waybar --config ~/.config/waybar/bottom.config --style ~/.config/waybar/bottom.style.css > /dev/null 2>&1 &

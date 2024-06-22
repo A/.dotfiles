@@ -16,7 +16,7 @@ bold_font        auto
 italic_font      auto
 bold_italic_font auto
 
-font_size 10.0
+font_size 12.0
 
 include themes/trash-polka.conf
 
@@ -42,6 +42,6 @@ map ctrl+shift+k set_colors --configured /home/anton/.config/kitty/themes/trash-
 
 
 # BEGIN_KITTY_THEME
-# Trash-Polka-Light
+# Trash-Polka
 include current-theme.conf
 # END_KITTY_THEME

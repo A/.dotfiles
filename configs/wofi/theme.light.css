@@ -1,0 +1,6 @@
+@define-color window-background rgba(239, 248, 254, 0.75);
+@define-color text-color #2e3340;
+@define-color input-background rgba(239, 248, 254, 0.85);
+@define-color input-color #2e3340;
+@define-color active-item-border-color #af5f5f;
+

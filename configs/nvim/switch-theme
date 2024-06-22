@@ -1,0 +1,32 @@
+#! /bin/sh
+# set -e
+
+PATH=${PATH}:/home/anton/.local/bin;
+CWD="${BASH_SOURCE%/*}"
+
+# pip3 install neovim-remote
+
+INSTANCES=$(ls "/run/user/1000/" | grep "nvim.")
+
+
+if [ "$1" = "light" ]; then
+  echo "vim.cmd 'colorscheme trash-polka-light'" > "${CWD}/lua/colorscheme.lua"
+  for instance in /run/user/1000/nvim*; do
+    nvr --servername=${instance} --remote-send '<esc>:colorscheme trash-polka-light<enter>'
+  done
+  exit 0;
+fi
+
+if [ "$1" = "dark" ]; then
+  echo "vim.cmd 'colorscheme trash-polka'" > "${CWD}/lua/colorscheme.lua"
+  for instance in /run/user/1000/nvim*; do
+    echo "$instance"
+    nvr --servername=${instance} --remote-send '<esc>:colorscheme trash-polka<enter>'
+    echo "$instance done"
+  done
+  exit 0;
+fi
+
+echo "There is no \"$1\" command"
+exit 1;
+

@@ -11,7 +11,7 @@ compinit
 for f (~/.config/zsh/config.d/*(N.))  . $f
 source $HOME/.oh-my-zsh/oh-my-zsh.sh
 
-if [ "$TMUX" = "" ]; then tmux; fi
+# if [ "$TMUX" = "" ]; then tmux; fi
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"

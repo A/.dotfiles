@@ -1,0 +1,24 @@
+#! /bin/zsh
+set -e
+
+if [ "$1" = "light" ]; then
+  cp ~/.config/kitty/themes/trash-polka-light.conf ~/.config/kitty/current-theme.conf
+  for socket in /tmp/kitty*; do
+    kitten @ --to unix:${socket} set-colors --configured ~/.config/kitty/themes/trash-polka-light.conf
+  done
+  exit 0;
+fi
+
+if [ "$1" = "dark" ]; then
+  cp ~/.config/kitty/themes/trash-polka.conf ~/.config/kitty/current-theme.conf
+  for socket in /tmp/kitty*; do
+    kitten @ --to unix:${socket} set-colors --configured ~/.config/kitty/themes/trash-polka.conf
+  done
+
+  exit 0;
+fi
+
+echo "There is no \"$1\" command"
+exit 1;
+
+

@@ -56,6 +56,9 @@ opt.writebackup = false
 opt.termguicolors = true
 opt.conceallevel = 2
 
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+opt.foldtext = "v:lua.vim.treesitter.foldtext()"
+
 -- opt.verbose = 2
 -- opt.verbosefile = "/Users/anton/.logs/nvim.log"
 

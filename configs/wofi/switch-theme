@@ -1,0 +1,18 @@
+#! /bin/bash
+set -e
+
+CWD="${BASH_SOURCE%/*}"
+
+if [ "$1" = "light" ]; then
+  echo '@import "theme.light.css";'  > "${CWD}/theme.css";
+  exit 0;
+fi
+
+if [ "$1" = "dark" ]; then
+  echo '@import "theme.dark.css";' > "${CWD}/theme.css";
+  exit 0;
+fi
+
+echo "There is no \"$1\" command"
+exit 1;
+

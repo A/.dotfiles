@@ -19,7 +19,7 @@ AUDIOFILE=$1
 CUEFILE=$2
 [ "$CUEFILE" ] || CUEFILE=${AUDIOFILE%.*}.cue
 [ -e "$CUEFILE" ] || { echo "CUE file not found: $CUEFILE"; exit 1; } 
-# cuefix "$CUEFILE"
+cuefix "$CUEFILE"
 cuebreakpoints "$CUEFILE" | shnsplit -O always -a $TEMPTRACK -o flac "$AUDIOFILE"
 cuetag.sh "$CUEFILE" $TEMPTRACK*.flac
 cueprint -t "$OUTPUT_FORMAT.flac\n" "$CUEFILE" | rename_from_file $TEMPTRACK*.flac

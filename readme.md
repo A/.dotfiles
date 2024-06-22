@@ -17,7 +17,7 @@ Per host configuration is in `host_var` dir.
 
 ```
 ansible-playbook manage_packages.yml.yml --limit=archlinux --tag=hyprland --ask-become-pass
-ansible-playbook dotfiles.yml --limit=archlinux --skip-tags fonts --ask-become-pass
+ansible-playbook manage_packages.yml --limit=archlinux --skip-tags fonts --ask-become-pass
 ```
 
 *Example configuration*:

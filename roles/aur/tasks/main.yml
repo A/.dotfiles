@@ -1,20 +1,25 @@
 ---
 - name: Manage aur packages
   block:
-    - name: Ensure pacman packages are managed
-      include_role: name=meta_pacman
-      vars:
-        pacman_packages: "{{ aur_pacman_packages }}"
+    - name: Check pre-conditions
+      include_tasks: manage_deps.yml
+      when: paru_exists is not defined or not paru_exists
 
-    - name: Ensure rust packages are managed
-      include_role: name=rust
-      vars: 
-        cargo_packages: "{{ aur_cargo_packages }}"
-
-    - name: ensure {{ aur_packages | map(attribute='name') }} aur packages are installed
+    - name: Ensure {{ aur_packages | map(attribute='name') }} aur packages are installed
       shell: paru -S --noconfirm --needed {{ item.name }}
       with_items: "{{ aur_packages }}"
       when: item.state == 'latest' or item.state == 'present'
       register: "aur_installation_log"
       changed_when: "'there is nothing to do' not in aur_installation_log.stdout"
+
+    - name: Ensure {{ aur_packages | map(attribute='name') }} aur packages are uninstalled
+      shell: paru -R --noconfirm {{ item.name }}
+      with_items: "{{ aur_packages }}"
+      when: item.state == 'absent'
+      register: "aur_uninstallation_log"
+      changed_when: "'target not found' not in aur_uninstallation_log.stderr"
+      ignore_errors: True
+
   when: ansible_facts["os_family"] == "Archlinux"
+  tags:
+    - always

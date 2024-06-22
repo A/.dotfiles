@@ -1,0 +1,10 @@
+@define-color component-background rgba(239, 248, 254, 0.85);
+@define-color component-active-background #af5f5f;
+@define-color component-border rgba(239, 248, 254, 0.85);
+@define-color component-text #2e3340;
+@define-color component-text-muted #3F4451;
+@define-color tooltip-background rgba(240, 240, 240, 0.85);
+
+@define-color tray-background rgba(67, 75, 94, 0.85);
+@define-color tray-text #eff8fe;
+@define-color tray-border rgba(67, 75, 94, 0.85);

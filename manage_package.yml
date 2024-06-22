@@ -1,60 +1,115 @@
-- debug: msg="Ensure the package "{{package.name }}" is managed"
-
-- import_role: name=gpg_key
+- name: Manage "{{ package.name }}" GPG keys
+  include_role: name=gpg_key
   vars:
     gpg_keys: "{{ package.gpg_keys | default([]) }}"
+  when:
+    - gpg_keys | length > 0
+  tags:
+    - always
 
-- import_role: name=meta_pacman
+- name: Manage "{{ package.name }}" Pacman packages
+  include_role: name=meta_pacman
   vars:
     pacman_packages: "{{ package.pacman_packages | default([]) }}"
+  tags:
+    - always
+  when: pacman_packages | length > 0
 
-- import_role: name=aur
+- name: Manage "{{ package.name }}" AUR packages
+  include_role: name=aur
   vars:
     aur_packages: "{{ package.aur_packages | default([]) }}"
+  tags:
+    - always
+  when: aur_packages | length > 0
 
-- import_role: name=rust
+- name: Manage "{{ package.name }}" Cargo packages
+  include_role: name=rust
   vars:
     cargo_packages: "{{ package.cargo_packages | default([]) }}"
+  tags:
+    - always
+  when: cargo_packages | length > 0
 
-- import_role: name=yarn
+- name: Manage "{{ package.name }}" Yarn packages
+  include_role: name=yarn
   vars:
     yarn_packages: "{{ package.yarn_packages | default([]) }}"
+  tags:
+    - always
+  when: yarn_packages | length > 0
 
-- import_role: name=git_config
+- name: Manage "{{ package.name }}" Git configuration
+  include_role: name=git_config
   vars:
     git_config: "{{ package.git_config | default([]) }}"
+  tags:
+    - always
+  when: git_config | length > 0
 
-- import_role: name=git_repo
+- name: Manage "{{ package.name }}" Git repositories
+  include_role: name=git_repo
   vars:
     git_repos: "{{ package.git_repos | default([]) }}"
+  tags:
+    - always
+  when: git_repos | length > 0
 
-- import_role: name=homebrew
+- name: Manage "{{ package.name }}" Homebrew packages
+  include_role: name=homebrew
   vars:
     homebrew_packages: "{{ package.homebrew_packages | default([]) }}"
+  tags:
+    - always
+  when: homebrew_packages | length > 0
 
-- import_role: name=mas
+- name: Manage "{{ package.name }}" MAS packages
+  include_role: name=mas
   vars:
     mas_packages: "{{ package.mas_packages | default([]) }}"
+  tags:
+    - always
+  when: mas_packages | length > 0
 
-- import_role: name=dotfiles
+- name: Manage "{{ package.name }}" dotfiles
+  include_role: name=dotfiles
   vars:
     dotfiles: "{{ package.links | default([]) }}"
+  tags:
+    - always
+  when: dotfiles | length > 0
 
-- import_role: name=cron
+- name: Manage "{{ package.name }}" CRON jobs
+  include_role: name=cron
   vars:
     cron_jobs: "{{ package.cron_jobs | default([]) }}"
+  tags:
+    - always
+  when: cron_jobs | length > 0
 
-- import_role: name=python
+- name: Manage "{{ package.name }}" Python packages
+  include_role: name=python
   vars:
     pip3_packages: "{{ package.pip3_packages | default([]) }}"
     pip2_packages: "{{ package.pip2_packages | default([]) }}"
+  tags:
+    - always
+  when: pip3_packages | length > 0 or pip2_packages | length > 0
 
-- import_role: name=user
+- name: Manage "{{ package.name }}" user configurations
+  include_role: name=user
   vars:
     users: "{{ package.users | default([]) }}"
+  tags:
+    - always
+  when: users | length > 0
 
-- include_role: name=systemd
+- name: Manage "{{ package.name }}" Systemd services
+  include_role: name=systemd
   vars:
     systemd_services: "{{ package.systemd_services | default([]) }}"
   when:
     - "'microsoft' not in ansible_kernel"
+    - systemd_services | length > 0
+  tags:
+    - always

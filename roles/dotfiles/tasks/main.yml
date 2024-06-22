@@ -1,18 +1,20 @@
 ---
-- debug:
-    msg: "{{ configs_home }}"
+- name: Manage dotfiles
+  block:
+    - name: Ensure directory {{ configs_home }} exists
+      file:
+        path: "{{ configs_home }}"
+        state: directory
+      
+    - name: Ensure dotfiles are linked
+      include_tasks: link_file.yml
+      with_items: "{{ dotfiles }}"
+      when: item.state is not defined or item.state == "present"
 
-- name: Ensure directory {{ configs_home }} exists
-  file:
-    path: "{{ configs_home }}"
-    state: directory
-  
-- name: Ensure dotfiles are linked
-  include_tasks: link_file.yml
-  with_items: "{{ dotfiles }}"
-  when: item.state is not defined or item.state == "present"
+    - name: Ensure dotfiles are unlinked
+      include_tasks: unlink_file.yml
+      with_items: "{{ dotfiles }}"
+      when: item.state is defined and item.state == "absent"
 
-- name: Ensure dotfiles are unlinked
-  include_tasks: unlink_file.yml
-  with_items: "{{ dotfiles }}"
-  when: item.state is defined and item.state == "absent"
+  tags:
+    - always
