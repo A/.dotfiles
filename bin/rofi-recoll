@@ -1,0 +1,224 @@
+#!/usr/bin/env python3
+
+# -*- coding: utf-8 -*-
+#
+# Do a Recoll search using Rofi. Requires Recoll, the Recoll Python module,
+# and Rofi. Python 3 only.
+#
+# Inspired by recollq.py by Jean-Francois Dockes.
+#
+# Anders Jensen-Urstad <anders@unix.se>
+# License: GPLv2
+
+__version__ = "0.3"
+
+import sys
+import re
+from os import getenv
+from argparse import ArgumentParser, RawTextHelpFormatter
+from html import escape
+from base64 import b64encode, b64decode
+from subprocess import Popen, PIPE
+from recoll import recoll
+
+class matchmethods(object):
+    def startMatch(self, idx):
+        return '<b>'
+    def endMatch(self):
+        return '</b>'
+
+def colorize(string, color):
+    return '<span color=\"%s\">%s</span>' % (color, string)
+
+def to_unicode(string):
+    if string and not isinstance(string, str):
+        return str(string, 'utf-8')
+    else:
+        return string
+
+def process_doc(query, doc, match_obj, args):
+    res = {}
+
+    if doc.title:
+        res['title'] = escape(doc.title, False)
+    else:
+        res['title'] = escape(doc.filename, False)
+
+    absolute_path = b64encode(doc.url.replace('file://', '', 1).encode('utf-8')).decode('utf-8')
+
+    colors = {'abstract': args.color_abstract, 'file_path': args.color_path,
+              'title': args.color_title, 'file_info': args.color_file_info}
+
+    res['file_path'] = escape(doc.url, False)
+    res['file_path'] = res['file_path'].replace('file://', '', 1)
+    if args.strip_path and res['file_path'].startswith(args.strip_path):
+        res['file_path'] = res['file_path'][len(args.strip_path) + 1:]
+
+    res['file_info'] = doc.mtype
+
+    res['abstract'] = ''
+    if args.show_abstract:
+        if args.synthetic_abstract:
+            res['abstract'] = escape(query.makedocabstract(doc, methods=match_obj), False).strip().replace('\0', '')
+            res['abstract'] = res['abstract'].replace('&lt;b&gt;', '<b>')
+            res['abstract'] = res['abstract'].replace('&lt;/b&gt;', '</b>')
+        else:
+            res['abstract'] = escape(doc.abstract, False).strip().replace('\0', '')
+            res['abstract'] = query.highlight(res['abstract'], ishtml=0, methods=match_obj)
+
+    # Try to check if document is contained with another document. Not sure how useful
+    # this actually is (so disabled)...
+    #if doc.rcludi.endswith('|'):
+    #    res['warning'] = ''
+    #else:
+    #    res['warning'] = 'Inside '
+
+    for field in res:
+        if colors[field]:
+            res[field] = colorize(res[field], colors[field])
+
+    if args.show_abstract:
+        output = '<b>{title}</b> <i>{file_info}</i>\n{file_path}\n<small><i>{abstract}</i></small>' \
+                 '\n\n{absolute_path}'
+    else:
+        output = '<b>{title}</b> <i>{file_info}</i>\n{file_path}\n\n{absolute_path}'
+
+    formatted = output.format(title=res['title'], file_info=res['file_info'], file_path=res['file_path'],
+                              abstract=res['abstract'], absolute_path=absolute_path)
+
+    # We use \t as item separator with Rofi, so strip them from item content
+    return re.sub(r'\t', '', formatted) + '\t'
+
+def run_query(recoll_db, args):
+    query = recoll_db.query()
+    results = query.execute(args.query_string)
+    match_obj = matchmethods()
+    user_num_results = int(args.num_results)
+
+    if results:
+        if results > user_num_results and user_num_results != 0:
+            results_docs = query.fetchmany(user_num_results)
+        else:
+            results_docs = query.fetchmany(results)
+
+        results_list = []
+        for doc in results_docs:
+            results_list.append(process_doc(query, doc, match_obj, args))
+
+        return results_list
+    return False
+
+def handle_args():
+    epilog_str = 'By default this program simply outputs the path of the\n' \
+                 'selected match, so you could use a pipe instead of -o <program>.\n' \
+                 'Colors should be specified in hex (\'#FF0000\') or by name (\'red\').'
+
+    parser = ArgumentParser(formatter_class=RawTextHelpFormatter, epilog=epilog_str)
+    parser.add_argument('-c', '--recoll-confdir', default='',
+                        help='Recoll config directory, if not default (overrides $RECOLL_CONFDIR)')
+    parser.add_argument('-e', '--query-extra', default=None,
+                        help='Additional search arguments to add to Recoll query.\n' \
+                        'To avoid issues use a leading space (-e \' -foo\'),\n' \
+                        'or do --query-extra="-foo"')
+    parser.add_argument('-i', '--extra-dbs', default=[],
+                        help='Additional index(es) to search. E.g. -i ~/.recoll-foo.\n' \
+                        'If multiple, put inside quotes and use absolute paths:\n' \
+                        '-i \'/home/foo/.recoll-one/xapiandb /home/foo/.recoll-two/xapiandb\'')
+    parser.add_argument('--no-abstract', dest='show_abstract', action='store_false',
+                        help='Don\'t show abstracts')
+    parser.add_argument('--synthetic-abstract', dest='synthetic_abstract', action='store_true',
+                        help='Tells Recoll to build an abstract by extracting text around search terms,\n' \
+                             'rather than the one stored in the index. A bit slower.')
+    parser.add_argument('-n', '--num-results', default=20,
+                        help='Number of results to show (default 20; 0 for no limit)')
+    parser.add_argument('-o', '--open-with', default=None,
+                        help='Open match with specified program., e.g. -o xdg-open, -o \'subl -n\'')
+    parser.add_argument('query_string', nargs='?', default=None,
+                        help='Search query. Quote multiple terms. If omitted, search dialog will be shown.')
+    parser.add_argument('-r', '--rofi-options', default=None,
+                        help='Extra arguments to Rofi. To avoid issues use a leading space, e.g.:\n' \
+                        '-r \' -width 60 -location 1\'\n' \
+                        'or do --rofi-options=\'-width 60 -location 1\'')
+    parser.add_argument('-p', '--strip-path', default=getenv('HOME', None),
+                        help='Path to strip from *displayed* file path. Default: $HOME.\n' \
+                        'Don\'t include trailing slash. Set to \'\' to disable.')
+    parser.add_argument('-x', '--xclip-copy', dest='xclip_copy', action='store_true',
+                        help='Copy path of selected match to X primary selection (xclip required)')
+    parser.add_argument('-V', '--version', action='version', help='Show program version.',
+                        version='%(prog)s {version}'.format(version=__version__))
+    parser.add_argument('--prompt', default='Search', help='Rofi prompt')
+
+    colors = ['--color-abstract', '--color-file-info', '--color-path', '--color-title']
+    for color in colors:
+        parser.add_argument(color, default=None)
+
+    parser.set_defaults(show_abstract=True, xclip_copy=False, synthetic_abstract=False)
+    return parser.parse_args()
+
+def main(argv):
+    args = handle_args()
+
+    # If query wasn't specified on command line, open a Rofi dialog to ask for it
+    if not args.query_string:
+        rofi_search_cmd = ['rofi', '-dmenu', '-p', args.prompt]
+
+        if args.rofi_options:
+            rofi_search_cmd += args.rofi_options.split()
+
+        search_dialog = Popen(rofi_search_cmd, stdout=PIPE, stderr=PIPE)
+        args.query_string = to_unicode(search_dialog.communicate()[0].strip())
+
+        if search_dialog.returncode != 0:
+            sys.exit(1)
+
+    if args.query_extra and args.query_string:
+        args.query_string += ' ' + args.query_extra
+
+    if args.extra_dbs:
+        args.extra_dbs = args.extra_dbs.split()
+
+    recoll_db = recoll.connect(confdir=args.recoll_confdir, extra_dbs=args.extra_dbs)
+    recoll_db.setAbstractParams(maxchars=100, contextwords=10)
+
+    if args.query_string:
+        results_list = run_query(recoll_db, args)
+        if results_list:
+            results_formatted = ''.join(results_list)
+        else:
+            results_formatted = 'No results.'
+    else:
+        sys.exit(0)
+
+    rofi_element_height = '3'
+    if not args.show_abstract:
+        rofi_element_height = '2'
+
+    rofi_results_cmd = ['rofi', '-dmenu', '-markup-rows', '-eh', rofi_element_height,
+                        '-sep', '\t', '-p', 'Filter results']
+    if args.rofi_options:
+        rofi_results_cmd += args.rofi_options.split()
+
+    # Pipe formatted results to Rofi
+    rofi = Popen(rofi_results_cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    selected_match = rofi.communicate(input=results_formatted.encode('utf-8'))[0].decode('utf-8')
+
+    # If a match was selected, decode its file path and do something with it
+    if selected_match and results_list:
+        file_path = b64decode(selected_match.split()[-1]).decode('utf-8')
+
+        if args.xclip_copy:
+            xclip = Popen(['xclip', '-selection', 'primary', '-f'], stdin=PIPE)
+            xclip.communicate(input=file_path)
+
+        if args.open_with:
+            open_cmd = args.open_with.split()
+            open_cmd.append(file_path)
+            Popen(open_cmd)
+            sys.exit(0)
+
+        print(file_path)
+
+    sys.exit(0)
+
+if __name__ == '__main__':
+    main(sys.argv)

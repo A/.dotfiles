@@ -1,4 +1,0 @@
----
-tmux_pacman_packages:
-  - name: tmux
-    state: latest

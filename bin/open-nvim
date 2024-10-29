@@ -1,0 +1,4 @@
+#!/bin/bash
+
+DIR=$(dirname "$1")
+kitty --working-directory=$DIR -e zsh -c "nvim \"$1\""

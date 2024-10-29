@@ -9,7 +9,7 @@
 
 window#waybar {
   background-color: rgba(255, 255, 255, 0);
-  margin: 2px 8px;
+  margin: 2px 20px;
 }
 
 tooltip {
@@ -23,14 +23,16 @@ tooltip {
 #workspaces,
 box.horizontal.modules-center,
 #tray,
+#bluetooth,
 #custom-timer,
 #custom-timer-stats,
 #custom-deadbeef,
 #mpris,
 #custom-wlogout,
 #custom-jobs,
+#custom-zapusk,
 #custom-pipewire {
-  margin: 4px;
+  margin: 4px 0px;
   background-color: @component-background;
   border-radius: 3px;
   border: 0px solid @component-border;
@@ -43,8 +45,10 @@ box.horizontal.modules-right,
 #custom-timer-stats,
 #custom-deadbeef,
 #custom-jobs,
+#custom-zapusk,
 #custom-pipewire,
 #mpris,
+#bluetooth,
 #tray {
   color: @component-text;
   padding: 0 10px;
@@ -59,6 +63,14 @@ box.horizontal.modules-right,
 
 box.horizontal.modules-right {
   padding-right: 0;
+}
+
+.modules-right {
+  margin-right: 6px;
+}
+
+.modules-left {
+  margin-left: 6px;
 }
 
 #custom-wlogout {

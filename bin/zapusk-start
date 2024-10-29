@@ -1,0 +1,4 @@
+#! /bin/zsh
+
+source ~/.zshrc
+zapusk-server &

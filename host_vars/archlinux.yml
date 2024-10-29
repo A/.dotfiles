@@ -107,6 +107,8 @@ packages:
         dest: "{{ configs_home }}/waybar"
       - src: "{{ dotfiles_source_dir }}/wlogout"
         dest: "{{ configs_home }}/wlogout"
+      - src: "{{ dotfiles_source_dir }}/swaync"
+        dest: "{{ configs_home }}/swaync"
 
   - name: nvim
     git_config:
@@ -182,6 +184,9 @@ packages:
         dest: "{{ ansible_env.HOME }}/.zshrc"
       - src: "{{ dotfiles_source_dir }}/zsh/config.d"
         dest: "{{ configs_home }}/zsh/config.d"
+    users:
+      - name: "{{ ansible_env.USER }}"
+        shell: /usr/bin/zsh
 
   - name: tmux
     pacman_packages:
@@ -216,6 +221,10 @@ packages:
       - name: jmespath
         state: present
       - name: awscli
+        state: present
+
+    cargo_packages:
+      - name: tokei
         state: present
 
   - name: apps
@@ -310,6 +319,11 @@ packages:
       - name: eslint
         state: latest
       - name: n
+        state: latest
+
+  - name: zenity
+    aur_packages:
+      - name: zenity-gtk3
         state: latest
 
   - name: kitty

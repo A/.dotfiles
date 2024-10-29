@@ -1,5 +1,0 @@
-zsh_pacman_packages:
-  - name: git
-    state: latest
-  - name: zsh
-    state: latest

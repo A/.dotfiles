@@ -1,0 +1,17 @@
+@define-color window-background #2e3340;
+@define-color window-border  #393f4f;
+
+@define-color block-background #393f4f;
+@define-color block-border #444b5e;
+@define-color block-color #EFF8FE;
+@define-color block-color-muted #565968;
+@define-color block-color-accent #AF5F5F;
+
+@define-color mpris-block-color #EFF8FE;
+@define-color slider-background #565968;
+@define-color slider-background-active #565968;
+
+@define-color image-background transparent;
+
+@define-color button-transparent-background rgba(239, 248, 254, 0.2);
+@define-color button-transparent-background-hover rgba(239, 248, 254, 0.5);

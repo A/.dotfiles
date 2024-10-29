@@ -1,12 +1,11 @@
 #! /bin/zsh
 
-sleep 0.1
-
 if [ "$1" = "light" ]; then
   ~/.config/waybar/switch-theme light
   ~/.config/nvim/switch-theme light
   ~/.config/kitty/switch-theme light
   ~/.config/wofi/switch-theme light
+  ~/.config/swaync/switch-theme light
 
   gsettings set org.gnome.desktop.interface gtk-theme catppuccin-latte-flamingo-standard+default
   gsettings set org.gnome.desktop.interface color-scheme prefer-light
@@ -19,6 +18,7 @@ if [ "$1" = "dark" ]; then
   ~/.config/nvim/switch-theme dark
   ~/.config/kitty/switch-theme dark
   ~/.config/wofi/switch-theme dark
+  ~/.config/swaync/switch-theme dark
 
   gsettings set org.gnome.desktop.interface gtk-theme catppuccin-frappe-red-standard+default
   gsettings set org.gnome.desktop.interface color-scheme prefer-dark

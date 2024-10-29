@@ -75,10 +75,10 @@
   (#set! conceal "")
 )
 
-((list_marker_dot) @list_marker.dot
-  (#offset! @list_marker.dot 0 0 0 -1)
-  (#set! conceal "")
-)
+; ((list_marker_dot) @list_marker.dot
+;   (#offset! @list_marker.dot 0 0 0 -1)
+;   (#set! conceal "")
+; )
 
 ((list_marker_parenthesis) @list_marker.parenthesis
   (#offset! @list_marker.parenthesis 0 0 0 -1)

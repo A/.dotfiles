@@ -1,6 +1,0 @@
----
-- name: ensure tpm is installed
-  git:
-    repo: "{{ tmux_tpm_repo }}"
-    dest: "{{ tmux_config_dir }}/plugins/tpm"
-    accept_hostkey: yes 

@@ -1,0 +1,107 @@
+/**
+ * vim: ft=css
+ */
+@import "./theme.css";
+
+* {
+  color: @block-color;
+}
+
+.control-center {
+  background: @window-background;
+  border-radius: 3px;
+  box-shadow: 0px 1px 8px 4px rgba(25, 27, 34, 0.25);
+  border: 1px solid @window-border;
+  padding: 0 8px;
+}
+
+.widget-volume,
+.widget-backlight {
+  background: @block-background;
+  border: 1px solid @block-border;
+  border-radius: 3px;
+  padding: 0 16px;
+}
+
+scale trough highlight {
+  background-color: @block-color;
+}
+
+scale slider,
+switch slider {
+  background-color: @block-color;
+  box-shadow: none;
+}
+
+.control-center-dnd {
+  background-color: @slider-background;
+  transition: background-color 0.5s;
+}
+
+.control-center-dnd:checked {
+  background-color: @slider-background-active;
+}
+
+.control-center-dnd slider {
+  transition: background-color 0.5s;
+  background-color: @block-color;
+}
+
+.control-center-dnd:checked slider {
+  background-color: @block-color-accent;
+}
+
+.widget-mpris-player {
+  color: @mpris-block-color;
+  border-radius: 6px;
+  box-shadow: 0px 1px 8px 4px rgba(25, 27, 34, 0.5);
+}
+
+.widget-mpris-player button.circular {
+  margin-top: 20px;
+  background-color: @button-transparent-background;
+}
+
+.widget-mpris-player button.circular:hover {
+  background-color: @button-transparent-background-hover;
+}
+
+.widget-mpris-player .widget-mpris-album-art {
+  border-radius: 3px;
+  box-shadow: 0px 1px 8px 4px rgba(25, 27, 34, 0.25);
+}
+
+.notification {
+  background: @block-background;
+  border: 1px solid @block-border;
+  box-shadow: 0px 1px 4px 1px rgba(25, 27, 34, 0.25);
+  border-radius: 3px;
+  padding: 0;
+}
+
+.notification-content:hover {
+  background-color: transparent;
+}
+
+.notification-content {
+  padding: 8px;
+}
+
+.notification-content .image {
+  background-color: @image-background;
+  border-radius: 3px;
+  padding: 12px;
+}
+
+.notification-default-action {
+  border-radius: 3px;
+}
+
+.notification-action {
+  outline: 0;
+}
+
+.notification-default-action:hover,
+.notification-action:hover {
+  background-color: @button-transparent-background;
+}

@@ -1,3 +1,0 @@
----
-tmux_config_dir: "{{ configs_home }}/tmux"
-tmux_tpm_repo: "https://github.com/tmux-plugins/tpm.git"

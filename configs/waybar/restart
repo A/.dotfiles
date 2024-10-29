@@ -1,4 +1,5 @@
-#! /bin/bash
+#! /bin/zsh
+source ~/.zshrc
 
 killall waybar > /dev/null
 waybar --config ~/.config/waybar/top.config --style ~/.config/waybar/top.style.css > /dev/null 2>&1 &

@@ -8,7 +8,7 @@ configuration {
   display-calc: ":: ";
   display-search: ":: ";
   drun-display-format: "{name}";
-  font: "Iosevka Nerd Font Regular 16";
+  font: "Iosevka Nerd Font Regular 11";
   show-icons: false;
 
   filebrowser {

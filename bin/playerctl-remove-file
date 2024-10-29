@@ -3,6 +3,7 @@
 import re
 import dbus
 import os
+from urllib.parse import unquote
 
 def dbus_to_python(data):
     '''
@@ -41,9 +42,11 @@ for service in bus.list_names():
 
         trackid = str(metadata["mpris:trackid"])
 
-        if "DeaDBeeF" in trackid:
+        if ("DeaDBeeF" in trackid) or ("/org/mpd/" in trackid):
             file_url = metadata["xesam:url"]
             file = re.sub(r"file:\/\/", "", file_url)
+            file = unquote(file)
+
             if os.path.isfile(file):
                 os.remove(file)
                 os.system("playerctl next")

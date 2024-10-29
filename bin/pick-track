@@ -1,9 +1,10 @@
 #!/bin/bash
+set -e
 
 export IFS='
 '
 
-PICKED_CONTAINER=/Picked/$(date '+%Y-%m')/
+PICKED_CONTAINER=/$(date '+%Y-%m')/
 MUSIC_DIR=~/Music/
 PICKED_DIR=$(zenity --width=600 --height=450  --list --column Directory $(ls ${MUSIC_DIR}))
 

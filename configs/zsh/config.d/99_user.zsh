@@ -9,3 +9,5 @@ alias evim="nvim -u none"
 alias pacheck="comm -12 <(pactree -srl $pkgname | sort) <(pacman -Qq | sort)"
 alias speed='for i in {1..3}; do echo "\n\rRetry ${i}:"; speedtest --simple; done'
 alias glgo="git log --pretty=oneline --abbrev-commit"
+alias hj="zapusk"
+alias z="zapusk"

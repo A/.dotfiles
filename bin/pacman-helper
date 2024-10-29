@@ -1,8 +1,12 @@
-#!/bin/bash
+#!/bin/zsh
 set -e
+
+autoload colors && colors
+
 
 bold=$(tput bold)
 normal=$(tput sgr0)
+
 
 print_help() {
   echo "${bold}Pacman helper${normal}"
@@ -14,6 +18,9 @@ print_help() {
   echo "  pacman-helper ${bold}update-dates${normal} <package>"
   echo "    Prints dates when a given package has been installed or updated"
   echo ""
+  echo "  pacman-helper ${bold}git-packages-list${normal} <package>"
+  echo "    List *-git packages"
+  echo ""
 }
 
 if [ "$1" = "new-deps" ]; then
@@ -22,7 +29,12 @@ if [ "$1" = "new-deps" ]; then
 fi
 
 if [ "$1" = "update-dates" ]; then
-  grep "\(upgraded\|installed\) $2 " /var/log/pacman.log
+  grep "\(upgraded\|installed\|removed\) $2 " /var/log/pacman.log
+  exit 0
+fi
+
+if [ "$1" = "git-packages-list" ]; then
+  expac "$fg[red] %n $reset_color%v $fg[blue]%l$reset_color" --timefmt='%Y-%m-%d %H:%M:%S' | grep '\-git ' | sort -k3 -n -r | column -t
   exit 0
 fi
 
