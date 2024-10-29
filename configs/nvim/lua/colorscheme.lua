@@ -1,1 +1,1 @@
-vim.cmd 'colorscheme trash-polka'
+vim.cmd 'colorscheme trash-polka-light'

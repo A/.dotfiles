@@ -63,16 +63,16 @@
 
 ((list_marker_plus) @list_marker.plus
   (#offset! @list_marker.plus 0 0 0 -1)
-  (#set! conceal " ")
+  (#set! conceal "⁃")
 )
 ((list_marker_minus) @list_marker.minus
   (#offset! @list_marker.minus 0 0 0 -1)
-  (#set! conceal "")
+  (#set! conceal "⁃")
 )
 
 ((list_marker_star) @list_marker.star
   (#offset! @list_marker.star 0 0 0 -1)
-  (#set! conceal "")
+  (#set! conceal "⁃")
 )
 
 ; ((list_marker_dot) @list_marker.dot
@@ -82,19 +82,25 @@
 
 ((list_marker_parenthesis) @list_marker.parenthesis
   (#offset! @list_marker.parenthesis 0 0 0 -1)
-  (#set! conceal "")
+  (#set! conceal "⁃")
 )
 
 ;; replace '[x]' with 󰄲
 ((task_list_marker_checked) @text.todo.checked
   (#offset! @text.todo.checked 0 -2 0 0)
-  (#set! conceal "")
+  (#set! conceal "•")
 )
 
 ;; replace '[ ]' with 󰄱
 ((task_list_marker_unchecked) @text.todo.unchecked
   (#offset! @text.todo.unchecked 0 -2 0 0)
-  (#set! conceal "")
+  (#set! conceal "◦")
 )
 
 ([(minus_metadata)] @comment)
+
+(fenced_code_block
+  (fenced_code_block_delimiter) @markup.raw.block
+
+  (#set! conceal "`"))
+

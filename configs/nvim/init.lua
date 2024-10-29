@@ -1,7 +1,2 @@
-require 'opts'
-
-local plugins = require('plugins')
-local config = require('config')
-
-plugins.init(config)
-
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")
