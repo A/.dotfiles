@@ -6,6 +6,42 @@ datetime-format "%Y-%m-%d"
 
 bookmark-cmd "/usr/share/doc/newsboat/contrib/getpocket.com/send-to-pocket.sh"
 
+color info              color15 color9 bold
+color listfocus         color15   color9
+color listfocus_unread  color15 color9 bold
+
+
+highlight article "(^Feed:|^Title:|^Date:|^Link:|^Author:)" color0 default bold
+highlight article "https?://[^ ]+" color0 default
+highlight article "\\[[0-9][0-9]*\\]" color0 default bold
+highlight article "\\[image\\ [0-9]+\\]" color0 default bold
+highlight article "\\[embedded flash: [0-9][0-9]*\\]" color0 default bold
+highlight article ":.*\\(link\\)$" color0 default bold
+highlight article ":.*\\(image\\)$" color0 default bold
+highlight article ":.*\\(embedded flash\\)$" color0 default bold
+
+
+highlight-article "title =~ \"react\"" color0 color12
+highlight-article "title =~ \"frontend\"" color0 color12
+highlight-article "title =~ \" js|js |javascript|typescript| ts \"" color0 color12
+highlight-article "title =~ \" ai|ai \"" color0 color12
+highlight-article "title =~ \"python\"" color0 color12
+highlight-article "title =~ \"django|drf\"" color0 color12
+highlight-article "title =~ \"vim|nvim|neovim\"" color0 color12
+highlight-article "title =~ \"rust\"" color0 color12
+highlight-article "title =~ \"database\"" color0 color12
+highlight-article "title =~ \"archlinux| arch \"" color0 color12
+highlight-article "title =~ \"openai\"" color0 color12
+highlight-article "title =~ \"google\"" color0 color12
+highlight-article "title =~ \"aws\"" color0 color12
+highlight-article "title =~ \"github\"" color0 color12
+highlight-article "title =~ \"btc|bitcoin\"" color0 color12
+highlight-article "title =~ \"thinkpad|lenovo| x1 \"" color0 color12
+highlight-article "title =~ \"^fed | fed \"" color0 color12
+
+ignore-article "*" "title =~ \"died\""
+ignore-article "*" "title =~ \"cancer\""
+ignore-article "*" "title =~ \"autism\""
 ignore-article "*" "title =~ \"Apple Watch\""
 ignore-article "*" "title =~ \"IDEA\""
 ignore-article "*" "title =~ \"Windows 11\""

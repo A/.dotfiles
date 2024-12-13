@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 if pgrep -x "newsboat" > /dev/null; then
   cat ~/.tmp/newsboat-current

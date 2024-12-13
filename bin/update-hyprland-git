@@ -1,0 +1,18 @@
+#!/bin/bash
+
+paru -S \
+  hyprland-git \
+  hyprgraphics-git \
+  hyprwayland-scanner-git \
+  hyprutils-git \
+  hyprprop-git \
+  hyprlock-git \
+  hyprlang-git \
+  hyprevents-git \
+  hyprcursor-git \
+  aquamarine-git \
+  hyprprop-git \
+  hyprpicker-git \
+  hyprpaper-git \
+  hyprland-protocols-git \
+  xdg-desktop-portal-hyprland-git

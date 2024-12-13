@@ -7,14 +7,14 @@
 "query:* AI:(title =~ \"AI \" or title =~\"AI's\")"
 "query:* BITCOIN:(title =~ \"bitcoin \" or title =~\"btc \")"
 
-"query:* MUSIC:( tags # \"music\" and unread == \"yes\" )"
+# "query:* MUSIC:( tags # \"music\" and unread == \"yes\" )"
 "query:* DEV:( tags # \"dev\" and unread == \"yes\" )"
 "query:* NEWS:( tags # \"news\" and unread == \"yes\" )"
 
-https://canthisevenbecalledmusic.com/feed/ "~Can This Even Be Called Music?" music
-https://theprogressivesubway.com/feed/ "~The Progressive Subway" music
+# https://canthisevenbecalledmusic.com/feed/ "~Can This Even Be Called Music?" music
+# https://theprogressivesubway.com/feed/ "~The Progressive Subway" music
 
-https://archlinux.org/feeds/news/ "~Arch News" dev
+sttps://archlinux.org/feeds/news/ "~Arch News" dev
 https://monthly-reports.archlinux.page/index.xml "~Arch Monthly Reports" dev
 https://マリウス.com/index.xml dev
 https://junegunn.kr/atom.xml dev

@@ -16,7 +16,6 @@ local function setup_cmp()
 end
 
 local function setup()
-  print(123123)
   setup_cmp()
   require("lib/obsidian/md_buffer_au")
   -- require("lib/obsidian/wikilinks")
