@@ -1,3 +1,5 @@
+local js_formatting_options = { "prettierd", "prettier", "eslint_d", stop_after_first = false }
+
 return {
   "stevearc/conform.nvim",
   opts = {},
@@ -9,6 +11,7 @@ return {
   config = function()
     require("conform").setup({
       format_on_save = function(bufnr)
+
         local ignore_filetypes = { "helm", "lua" }
 
         if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
@@ -30,11 +33,11 @@ return {
       end,
       formatters_by_ft = {
         go = { "goimports", "golines", "gofmt", "gofumpt" },
-        javascript = { { "prettierd", "prettier" } },
-        javascriptreact = { { "prettierd", "prettier" } },
-        typescript = { { "prettierd", "prettier" } },
-        typescriptreact = { { "prettierd", "prettier" } },
-        json = { { "jq" } },
+        javascript = js_formatting_options,
+        javascriptreact = js_formatting_options,
+        typescript = js_formatting_options,
+        typescriptreact = js_formatting_options,
+        json = { "jq" },
 
         lua = { "stylua" },
         sh = { "shfmt" },

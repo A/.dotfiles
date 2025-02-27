@@ -4,6 +4,7 @@
 # - hyprctl
 # - jq
 
+import json
 import sys
 import os
 import logging
@@ -40,25 +41,90 @@ def get_displays():
     return displays
 
 def set_wallpapers():
-    wallpapers = get_wallpapers()
     displays = get_displays()
-
-    if not len(wallpapers):
-        logging.warning("No wallpapers have been found")
-        return
-
     subprocess.run("hyprctl hyprpaper unload all", shell=True)
 
     for display in displays:
+        set_wallpaper(display)
+
+def set_wallpaper(display):
+        wallpapers = get_wallpapers()
+        if not len(wallpapers):
+            logging.warning("No wallpapers have been found")
+            return
+
         wallpaper = random.choice(wallpapers)
+
         logging.info(f'Setting wallpaper for {display}: {wallpaper}')
         subprocess.run(f'hyprctl hyprpaper preload {wallpaper}', shell=True)
         time.sleep(2)
         subprocess.run(f'hyprctl hyprpaper wallpaper {display},{wallpaper}', shell=True)
 
+def get_focused_display():
+    # Extract name of the monitor where focused is true
+    stdout = subprocess.check_output(
+        'hyprctl monitors -j | jq -r \'.[] | select(.focused == true)\'',
+        shell=True
+    ).decode("utf-8")
+    return json.loads(stdout)
+
+def get_active_wallpapers():
+    stdout = subprocess.check_output(
+        'hyprctl hyprpaper listactive',
+        shell=True
+    ).decode("utf-8")
+    
+    retval = {}
+    print(stdout)
+    print('\n')
+    for item in stdout.split('\n'):
+        if not item.strip():
+            continue
+
+        print(f"item {item}")
+        [key, value] = item.split(' = ')
+        retval[key] = value
+
+    return retval
+
+
+def delete_focused_wallpaper():
+    display = get_focused_display()
+    wallpapers_per_display = get_active_wallpapers()
+    active_wallpaper_path = wallpapers_per_display[display['name']]
+
+    print(f'Delete active wallpaper: {active_wallpaper_path}')
+
+    command = [
+        "yad",
+        "--picture",
+        "--filename", active_wallpaper_path,
+        "--size=fit",
+        "--center",
+        "--button=Cancel:1",
+        "--button=Delete:0"
+    ]
+
+    try:
+        result = subprocess.run(command, check=True)
+        exit_code = result.returncode
+        
+        if exit_code == 0:
+            os.remove(active_wallpaper_path)
+            print('Active wallpaper was deleted')
+            set_wallpaper(display['name'])
+            
+    except subprocess.CalledProcessError as e:
+        print(f"Skip. Exit code {e.returncode}")
+
 
 def main():
     logging.info('Started')
+    if 'delete' in sys.argv:
+        delete_focused_wallpaper()
+        return
+
+
     if 'next' in sys.argv:
         logging.info('Setting random wallpapers')
         set_wallpapers()

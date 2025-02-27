@@ -1,0 +1,102 @@
+#!/bin/bash
+
+# Ensure the required environment variables are set
+if [ -z "$FORGEJO_URL" ] || [ -z "$FORGEJO_API_TOKEN" ]; then
+    echo "Error: FORGEJO_URL and FORGEJO_API_TOKEN must be set in the environment."
+    exit 1
+fi
+
+# Extract the hostname from the Forgejo URL
+FORGEJO_HOST=$(echo "$FORGEJO_URL" | awk -F[/:] '{print $4}')
+
+# Determine the organization or user context
+if [ -n "$1" ]; then
+    CONTEXT="$1"
+    CONTEXT_TYPE="orgs"
+    echo "Using organization: $CONTEXT"
+else
+    if [ -z "$FORGEJO_USER" ]; then
+        echo "Error: FORGEJO_USER must be set in the environment when no organization is provided."
+        exit 1
+    fi
+    CONTEXT="$FORGEJO_USER"
+    CONTEXT_TYPE="user"
+    echo "No organization provided. Using user: $FORGEJO_USER"
+fi
+
+# Use the current working directory as the repository directory
+REPO_DIR=$(pwd)
+
+for dir in */; do
+    if [ ! -d "$dir/.git" ]; then
+        echo "Skipping $dir - not a Git repository."
+        continue
+    fi
+
+    repo_name=$(basename "$dir")
+    echo "Processing repository: $repo_name"
+
+    # Construct the API endpoint for repository creation
+    if [ "$CONTEXT_TYPE" == "orgs" ]; then
+        API_ENDPOINT="$FORGEJO_URL/api/v1/orgs/$CONTEXT/repos"
+    else
+        API_ENDPOINT="$FORGEJO_URL/api/v1/user/repos"
+    fi
+
+    # Check if the repository already exists in Forgejo
+    if [ "$CONTEXT_TYPE" == "orgs" ]; then
+        CHECK_REPO_URL="$FORGEJO_URL/api/v1/repos/$CONTEXT/$repo_name"
+    else
+        CHECK_REPO_URL="$FORGEJO_URL/api/v1/repos/$FORGEJO_USER/$repo_name"
+    fi
+
+    check_repo_response=$(curl -s -o /dev/null -w "%{http_code}" -X GET "$CHECK_REPO_URL" \
+        -H "Authorization: token $FORGEJO_API_TOKEN")
+
+    if [ "$check_repo_response" -eq 200 ]; then
+        echo "Repository $repo_name already exists in $CONTEXT. Skipping creation."
+        continue
+    fi
+
+    # Create the repository
+    create_repo_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API_ENDPOINT" \
+        -H "Authorization: token $FORGEJO_API_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{
+              "name": "'"$repo_name"'",
+              "private": false,
+              "mirror": true
+            }')
+
+    if [ "$create_repo_response" -ne 201 ]; then
+        echo "Failed to create repository $repo_name in $CONTEXT on Forgejo."
+        continue
+    fi
+
+    echo "Repository $repo_name created successfully in $CONTEXT on Forgejo."
+
+    cd "$dir" || continue
+
+    # Check if the remote 'fj' exists
+    if git remote | grep -q "^fj$"; then
+        echo "Remote 'fj' already exists. Updating URL."
+        if [ "$CONTEXT_TYPE" == "orgs" ]; then
+            git remote set-url fj "ssh://${FORGEJO_SSH_USER}@$FORGEJO_HOST:${FORGEJO_SSH_PORT}/$CONTEXT/$repo_name.git"
+        else
+            git remote set-url fj "ssh://${FORGEJO_SSH_USER}@$FORGEJO_HOST:${FORGEJO_SSH_PORT}/${FORGEJO_USER}/$repo_name.git"
+        fi
+    else
+        echo "Adding remote 'fj'."
+        if [ "$CONTEXT_TYPE" == "orgs" ]; then
+            git remote add fj "ssh://${FORGEJO_SSH_USER}@$FORGEJO_HOST:${FORGEJO_SSH_PORT}/$CONTEXT/$repo_name.git"
+        else
+            git remote add fj "ssh://${FORGEJO_SSH_USER}@$FORGEJO_HOST:${FORGEJO_SSH_PORT}/${FORGEJO_USER}/$repo_name.git"
+        fi
+    fi
+
+    git push --mirror fj --no-verify
+    echo "Repository $repo_name mirrored to Forgejo."
+    cd ..
+done
+
+echo "Script completed."

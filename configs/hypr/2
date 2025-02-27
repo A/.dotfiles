@@ -18,11 +18,11 @@ group {
     height = 4
     render_titles = false
     indicator_height = 0
-    col.active = rgb(5697d8)
+    col.active = rgb(f05076)
     col.inactive = rgb(AFB7BF)
-    gradient_rounding = 3
+    rounding = 2
   }
-  col.border_active = rgb(AF5F5F)
+  col.border_active = rgb(f05076)
   col.border_inactive = rgb(7F848D)
 }
 

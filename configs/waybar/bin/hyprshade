@@ -1,0 +1,9 @@
+#!/bin/bash
+
+output=$(hyprshade current)
+
+if [ "$output" == "blue-light-filter" ]; then
+    echo "<span foreground='#ff4242'></span>"
+else
+    echo "<span foreground='#999'></span>"
+fi

@@ -164,6 +164,8 @@ packages:
     links:
       - src: "{{ dotfiles_source_dir }}/nvim"
         dest: "{{ configs_home }}/nvim"
+      - src: "{{ dotfiles_source_dir }}/efm-langserver"
+        dest: "{{ configs_home }}/efm-langserver"
 
   - name: zsh
     pacman_packages:

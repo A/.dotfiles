@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Check if input file is provided
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <input_video>"
+    exit 1
+fi
+
+INPUT="$1"
+BASENAME="${INPUT%.*}"
+OUTPUT="${BASENAME}_processed.mp4"
+
+# Normalize audio and speed up video
+ffmpeg -i "$INPUT" \
+    -filter_complex "[0:a]acompressor=threshold=-20dB:ratio=4:attack=5:release=100,volume=2.0[aout];[0:v]setpts=PTS/1.5[vout]" \
+    -map "[vout]" -map "[aout]" \
+    -r 30 -preset fast -crf 23 -c:v libx264 -c:a aac -b:a 192k "$OUTPUT"
+
+echo "Processed video saved as: $OUTPUT"

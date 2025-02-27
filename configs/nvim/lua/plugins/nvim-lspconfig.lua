@@ -59,7 +59,7 @@ return {
 
     local util = require("lspconfig/util")
 
-    local enabled_servers = { "pyright", "ts_ls", "ansiblels", "rust_analyzer", "yamlls", "tailwindcss" }
+    local enabled_servers = { "pyright", "ts_ls", "ansiblels", "rust_analyzer", "yamlls", "efm" }
 
     local settings = {
       pyright = {
@@ -87,6 +87,45 @@ return {
         end,
       },
       ts_ls = {},
+      efm = {
+        settings = {
+          rootMarkers = { ".eslintrc.json", "package.json", ".git" },
+          languages = {
+            javascript = {
+              {
+                lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+                lintStdin = true,
+                lintFormats = { "%f:%l:%c: %m" },
+                lintIgnoreExitCode = true,
+              }
+            },
+            javascriptreact = {
+              {
+                lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+                lintStdin = true,
+                lintFormats = { "%f:%l:%c: %m" },
+                lintIgnoreExitCode = true,
+              }
+            },
+            typescript = {
+              {
+                lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+                lintStdin = true,
+                lintFormats = { "%f:%l:%c: %m" },
+                lintIgnoreExitCode = true,
+              }
+            },
+            typescriptreact = {
+              {
+                lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+                lintStdin = true,
+                lintFormats = { "%f:%l:%c: %m" },
+                lintIgnoreExitCode = true,
+              }
+            },
+          }
+        }
+      }
     }
 
     -- nvim-cmp supports additional completion capabilities

@@ -45,7 +45,7 @@ return {
     { "<leader>lft", "<cmd>Lspsaga finder tyd<CR>", desc = "List Type Definitions" },
 
     { "<leader>la", "<cmd>Lspsaga code_action<CR>", desc = "List Code Actions" },
-    { "<leader>le", "<Cmd>Lspsaga goto_definition<CR>", desc = "Go to Definition" },
+    { "<leader>le", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "Go to Definition" },
     { "<leader>lE", "<Cmd>Lspsaga peek_definition<CR>", desc = "Peek Definition" },
     { "<leader>lt", "<cmd>Lspsaga goto_type_definition<CR>", desc = "Go to Type Definition" },
     { "<leader>lT", "<cmd>Lspsaga peek_type_definition<CR>", desc = "Peek Type Definition" },

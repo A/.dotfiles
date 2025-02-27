@@ -3,5 +3,5 @@ source ~/.zshrc
 
 killall waybar > /dev/null
 
-systemd-run --user --scope -G -p MemoryMax=100M -p MemorySwapMax=100M waybar --config ~/.config/waybar/top.config --style ~/.config/waybar/top.style.css > /dev/null 2>&1 &
-systemd-run --user --scope -G -p MemoryMax=100M -p MemorySwapMax=100M waybar --config ~/.config/waybar/bottom.config --style ~/.config/waybar/bottom.style.css > /dev/null 2>&1 &
+systemd-run --user --scope -G -p MemoryMax=300M -p MemorySwapMax=200M waybar --config ~/.config/waybar/top.config --style ~/.config/waybar/top.style.css > ~/.tmp/logs/waybar.top.log 2>&1 & 
+systemd-run --user --scope -G -p MemoryMax=300M -p MemorySwapMax=100M waybar --config ~/.config/waybar/bottom.config --style ~/.config/waybar/bottom.style.css > ~/.tmp/logs/waybar.bottom.log 2>&1 &

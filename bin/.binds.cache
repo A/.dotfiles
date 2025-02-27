@@ -1,0 +1,130 @@
+::Group name::switch:on:Lid Switch::N/A::~/.config/hypr/bin/sleep.sh
+::Group name::return::N/A::~/.bin/add-todo
+::Group name::F::N/A::2
+::Group name::F::N/A::1
+::Group name::R::N/A::N/A
+::Group name::XF86AudioRaiseVolume::N/A::volumectl up
+::Group name::XF86AudioLowerVolume::N/A::volumectl down
+::Group name::XF86AudioMute::N/A::volumectl toggle
+::Group name::XF86MonBrightnessUp::N/A::brightnessctl set 2%+
+::Group name::XF86MonBrightnessDown::N/A::brightnessctl set 2%-
+::Group name::return::N/A::kitty zsh -c "tmux"
+::Group name::Q::N/A::N/A
+::Group name::DELETE::N/A::N/A
+::Group name::l::N/A::hyprlock;
+::Group name::E::N/A::thunar
+::Group name::V::N/A::N/A
+::Group name::P::N/A::N/A
+::Group name::D::N/A::wofi --conf ~/.config/wofi/config
+::Group name::j::N/A::~/.bin/wofi-jobs --conf ~/.config/wofi/config
+::Group name::equal::N/A::wofi-calc --conf ~/.config/wofi/config
+::Group name::h::N/A::~/.bin/wofi-hyprland-hidden --conf ~/.config/wofi/config
+::Group name::T::N/A::N/A
+::Group name::Tab::N/A::N/A
+::Group name::T::N/A::N/A
+::Group name::left::N/A::l
+::Group name::right::N/A::r
+::Group name::up::N/A::u
+::Group name::down::N/A::d
+::Group name::right::N/A::40 0
+::Group name::left::N/A::-40 0
+::Group name::up::N/A::0 -40
+::Group name::down::N/A::0 40
+::Group name::right::N/A::r
+::Group name::left::N/A::l
+::Group name::up::N/A::u
+::Group name::down::N/A::d
+::Group name::grave::N/A::special
+::Group name::grave::N/A::N/A
+::Group name::1::N/A::1 current
+::Group name::1::N/A::1
+::Group name::2::N/A::2 current
+::Group name::2::N/A::2
+::Group name::3::N/A::3 current
+::Group name::3::N/A::3
+::Group name::4::N/A::4 current
+::Group name::4::N/A::4
+::Group name::5::N/A::5 current
+::Group name::5::N/A::5
+::Group name::6::N/A::6 current
+::Group name::6::N/A::6
+::Group name::7::N/A::7 current
+::Group name::7::N/A::7
+::Group name::8::N/A::8 current
+::Group name::8::N/A::8
+::Group name::9::N/A::9 current
+::Group name::9::N/A::9
+::Group name::0::N/A::10 current
+::Group name::0::N/A::10
+::Group name::F1::N/A::11 current
+::Group name::F1::N/A::11
+::Group name::F2::N/A::12 current
+::Group name::F2::N/A::12
+::Group name::F3::N/A::13 current
+::Group name::F3::N/A::13
+::Group name::F4::N/A::14 current
+::Group name::F4::N/A::14
+::Group name::F5::N/A::15 current
+::Group name::F5::N/A::15
+::Group name::F6::N/A::16 current
+::Group name::F6::N/A::16
+::Group name::F7::N/A::17 current
+::Group name::F7::N/A::17
+::Group name::F8::N/A::18 current
+::Group name::F8::N/A::18
+::Group name::F9::N/A::19 current
+::Group name::F9::N/A::19
+::Group name::F10::N/A::20 current
+::Group name::F10::N/A::20
+::Group name::1::N/A::1
+::Group name::2::N/A::2
+::Group name::3::N/A::3
+::Group name::4::N/A::4
+::Group name::5::N/A::5
+::Group name::6::N/A::6
+::Group name::7::N/A::7
+::Group name::8::N/A::8
+::Group name::9::N/A::9
+::Group name::0::N/A::10
+::Group name::F1::N/A::11
+::Group name::F2::N/A::12
+::Group name::F3::N/A::13
+::Group name::F4::N/A::14
+::Group name::F5::N/A::15
+::Group name::F6::N/A::16
+::Group name::F7::N/A::17
+::Group name::F8::N/A::18
+::Group name::F9::N/A::19
+::Group name::F10::N/A::20
+::Group name::h::N/A::name:hidden
+::Group name::mouse_down::N/A::e+1
+::Group name::mouse_up::N/A::e-1
+::Group name::mouse:272::N/A::movewindow
+::Group name::mouse:273::N/A::resizewindow
+::Group name::mouse:274::N/A::N/A
+::Group name::XF86MonBrightnessUp::N/A::brightnessctl set 2%+
+::Group name::XF86MonBrightnessDown::N/A::brightnessctl set 2%-
+::Group name::XF86MonBrightnessUp::N/A::ddcutil setvcp 10 + 10
+::Group name::XF86MonBrightnessDown::N/A::ddcutil setvcp 10 - 10
+::Group name::XF86AudioRaiseVolume::N/A::pamixer --default-source -i 5
+::Group name::XF86AudioLowerVolume::N/A::pamixer --default-source -d 5
+::Group name::XF86AudioMicMute::N/A::volumectl -m toggle-mute
+::Group name::PRINT::N/A::grim -g "$(slurp)" - | swappy -f -
+::Group name::PRINT::N/A::grim - | swappy -f -
+::Group name::c::N/A::grim -g "$(slurp)" - | tesseract - - -l eng | wl-copy
+::Group name::comma::N/A::playerctl previous
+::Group name::period::N/A::playerctl next
+::Group name::comma::N/A::playerctl position 10-
+::Group name::period::N/A::playerctl position 10+
+::Group name::slash::N/A::playerctl play-pause
+::Group name::END::N/A::~/.bin/playerctl-remove-file
+::Group name::HOME::N/A::~/.bin/playerctl-pick-current-track
+::Group name::K::N/A::xdg-open $(~/.bin/rofi-recoll -c ~/.config/recoll)
+::Group name::W::N/A::~/.config/waybar/restart
+::Group name::page_up::N/A::~/.bin/switch-theme light >> ~/.tmp/switch.log
+::Group name::page_down::N/A::~/.bin/switch-theme dark >> ~/.tmp/switch.log
+::Group name::backslash::N/A::1password --ozone-platform=x11 --toggle
+::Group name::bracketright::N/A::~/.config/hypr/bin/wallpapers.py next
+::Group name::Tab::N/A::N/A
+::Group name::Tab::N/A::N/A
+::Group name::Tab::N/A::prev

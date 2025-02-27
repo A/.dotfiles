@@ -1,0 +1,10 @@
+[[shaders]]
+name = "blue-light-filter"
+default = false
+[shaders.config]
+strength = 0.8
+temperature = 2600.0
+
+[[shaders]]
+name = "vibrance"
+default = true

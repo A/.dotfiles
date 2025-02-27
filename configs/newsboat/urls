@@ -10,14 +10,16 @@
 # "query:* MUSIC:( tags # \"music\" and unread == \"yes\" )"
 "query:* DEV:( tags # \"dev\" and unread == \"yes\" )"
 "query:* NEWS:( tags # \"news\" and unread == \"yes\" )"
+"query:* LINUX:( tags # \"linux\" and unread == \"yes\" )"
+
 
 # https://canthisevenbecalledmusic.com/feed/ "~Can This Even Be Called Music?" music
 # https://theprogressivesubway.com/feed/ "~The Progressive Subway" music
 
-sttps://archlinux.org/feeds/news/ "~Arch News" dev
+sttps://archlinux.org/feeds/news/ "~Arch News" dev linux
 https://monthly-reports.archlinux.page/index.xml "~Arch Monthly Reports" dev
-https://マリウス.com/index.xml dev
-https://junegunn.kr/atom.xml dev
+https://マリウス.com/index.xml dev linux
+https://junegunn.kr/atom.xml dev linux
 http://philcalcado.com/feed.xml "~Phil Calçado" dev
 https://cprss.s3.amazonaws.com/javascriptweekly.com.xml "~JavaScript Weekly" dev
 https://feeds.feedburner.com/jster dev
@@ -29,14 +31,15 @@ https://engineering.atspotify.com/feed/ dev
 https://www.techatbloomberg.com/feed/ dev
 https://engineering.fb.com/feed/ dev
 https://deepsource.io/blog/index.xml dev
-https://www.reddit.com/r/archlinux/.rss "~/r/archlinux" dev
-https://www.reddit.com/r/hyprland/.rss "~/r/hyprland" dev
-https://www.reddit.com/r/neovim/.rss "~/r/neovim" dev
-https://github.com/neovim/neovim/tags.atom "~/gh/neovim" dev
+https://www.reddit.com/r/archlinux/.rss "~/r/archlinux" dev linux
+https://www.reddit.com/r/hyprland/.rss "~/r/hyprland" dev linux
+https://www.reddit.com/r/neovim/.rss "~/r/neovim" dev linux
+https://github.com/neovim/neovim/tags.atom "~/gh/neovim" dev linux
 https://tg.i-c-a.su/rss/valya_reads_issue dev
 https://xn--gckvb8fzb.comindex.xml dev
 https://news.ycombinator.com/rss news
 https://weightythoughts.com/feed dev
+https://kernelnewbies.org/Linux_Kernel_Newbies?action=rss_rc&unique=1&ddiffs=1 dev linux
 
 
 # "query:* Reddit:( rssurl =~ \"reddit\" and unread == \"yes\" )"

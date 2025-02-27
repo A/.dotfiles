@@ -1,4 +1,4 @@
-browser "$HOME/.bin/open-link %u"
+browser "~/.bin/open-link %u"
 prepopulate-query-feeds yes
 text-width 120
 save-path ~/Dev/@A/notes/saved_articles

@@ -1,0 +1,5 @@
+#! /bin/zsh
+FILE="${NOTES_DIR}/todo.cache.md"
+
+cd $NOTES_DIR
+systemd-run --user --scope -p MemoryMax=infinity -p MemorySwapMax=infinity kitty --class dela zsh -c "nvim $FILE"

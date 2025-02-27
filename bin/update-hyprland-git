@@ -14,5 +14,6 @@ paru -S \
   hyprprop-git \
   hyprpicker-git \
   hyprpaper-git \
+  hypridle-git \
   hyprland-protocols-git \
   xdg-desktop-portal-hyprland-git

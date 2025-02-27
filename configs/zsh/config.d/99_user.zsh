@@ -11,3 +11,4 @@ alias speed='for i in {1..3}; do echo "\n\rRetry ${i}:"; speedtest --simple; don
 alias glgo="git log --pretty=oneline --abbrev-commit"
 alias hj="zapusk"
 alias z="zapusk"
+alias wk="watch kubectl"

@@ -1,0 +1,30 @@
+#! /bin/bash
+FILE="${NOTES_DIR}/todo.cache.md"
+
+FORMAT='- [$status] [[$file]] $title $tags'
+FILTER_COLORS="sed -r 's/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g' "
+
+cd "${NOTES_DIR}"
+echo "# In Progress" >$FILE
+echo "" >>$FILE
+dela list -s='~' --format="${FORMAT}" | sed 's/\.md\]\]/\]\]/g' >>$FILE
+echo "" >>$FILE
+echo "" >>$FILE
+
+echo "# Today" >>$FILE
+echo "" >>$FILE
+dela list --today --format="${FORMAT}" | sed 's/\.md\]\]/\]\]/g' >>$FILE
+echo "" >>$FILE
+echo "" >>$FILE
+
+echo "# Reading List" >>$FILE
+echo "" >>$FILE
+dela list --tags="later" -s=" ,s" --format="${FORMAT}" | sed 's/\.md\]\]/\]\]/g' >>$FILE
+echo "" >>$FILE
+echo "" >>$FILE
+
+echo "# Rest" >>$FILE
+echo "" >>$FILE
+dela list -s=' ' --format="${FORMAT}" | sed 's/\.md\]\]/\]\]/g' >>$FILE
+echo "" >>$FILE
+echo "" >>$FILE
