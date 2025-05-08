@@ -1,0 +1,48 @@
+#!/bin/bash
+
+set -e
+
+use_git=false
+
+if [[ "$1" == "--git" ]]; then
+  use_git=true
+fi
+
+if $use_git; then
+  echo "📦 Installing Git versions of Hyprland and related tools..."
+  packages=(
+    # Core Deps
+    hyprland-git
+    hyprgraphics-git
+    hyprwayland-scanner-git
+    hyprutils-git
+    hyprlang-git
+    hyprevents-git
+    hyprcursor-git
+    aquamarine-git
+    hyprland-protocols-git
+    hyprland-qtutils-git
+    # External Tools
+    xdg-desktop-portal-hyprland-git
+    hyprpicker-git
+    hyprpaper-git
+    hypridle-git
+    hyprlock-git
+    hyprprop-git
+    hyprshade-git
+  )
+else
+  echo "📦 Installing stable versions of Hyprland and related tools..."
+  packages=(
+    hyprland
+    hyprpicker
+    xdg-desktop-portal-hyprland
+    hyprpaper
+    hypridle
+    hyprlock
+    hyprprop
+    hyprshade
+  )
+fi
+
+paru -S --needed "${packages[@]}"

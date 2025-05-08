@@ -134,24 +134,25 @@ return {
 
     local mason_lspconfig = require("mason-lspconfig")
     mason_lspconfig.setup({
+      automatic_enable = true,
       ensure_installed = enabled_servers,
     })
 
-    mason_lspconfig.setup_handlers({
-      function(server_name)
-        require("lspconfig")[server_name].setup({
-          capabilities = capabilities,
-          settings = (settings[server_name] or {}).settings,
-          filetypes = (settings[server_name] or {}).filetypes,
-          root_dir = (settings[server_name] or {}).root_dir,
-          on_attach = function(client, bufnr)
-            if client.server_capabilities.documentSymbolProvider then
-              require("nvim-navic").attach(client, bufnr)
-            end
-          end,
-        })
-      end,
-    })
+    -- mason_lspconfig.setup_handlers({
+    --   function(server_name)
+    --     require("lspconfig")[server_name].setup({
+    --       capabilities = capabilities,
+    --       settings = (settings[server_name] or {}).settings,
+    --       filetypes = (settings[server_name] or {}).filetypes,
+    --       root_dir = (settings[server_name] or {}).root_dir,
+    --       on_attach = function(client, bufnr)
+    --         if client.server_capabilities.documentSymbolProvider then
+    --           require("nvim-navic").attach(client, bufnr)
+    --         end
+    --       end,
+    --     })
+    --   end,
+    -- })
 
     require("lsp-status").config({
       indicator_errors = "E:",

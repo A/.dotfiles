@@ -1,9 +1,7 @@
 @import "theme.css";
 
 * {
-  font-family:
-    Iosevka Nerd Font,
-    sans-serif;
+  font-family: Iosevka Nerd Font, sans-serif;
   font-size: 12px;
 }
 
@@ -32,6 +30,7 @@ box.horizontal.modules-center,
 #custom-jobs,
 #custom-zapusk,
 #custom-pipewire,
+#pulseaudio,
 #submap {
   margin: 4px 0px;
   background-color: @component-background;
@@ -55,6 +54,7 @@ box.horizontal.modules-right,
 #mpris,
 #bluetooth,
 #tray,
+#pulseaudio,
 #submap {
   color: @component-text;
   padding: 0 10px;
@@ -127,7 +127,6 @@ box.horizontal.modules-right {
 #backlight,
 #language,
 #network,
-#pulseaudio,
 #wireplumber,
 #custom-root-free-space,
 #home-free-space {

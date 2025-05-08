@@ -4,4 +4,8 @@ plugins=(\
   rust\
   zsh-autosuggestions zsh-completions\
   kubectl\
+  terraform \
+  helm \
+  gcloud \
+  git-commit \
 )

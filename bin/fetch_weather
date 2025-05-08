@@ -1,0 +1,15 @@
+#! /bin/bash
+
+CACHE="$HOME/.cache/weather_report"
+TMP="${CACHE}.tmp"
+
+{
+  printf "HCMC:   %s\n" "$(curl -sf 'https://wttr.in/sgn?format=2')"
+  printf "Dalat:  %s\n" "$(curl -sf 'https://wttr.in/Dalat?format=2')"
+  printf "Hanoi:  %s\n" "$(curl -sf 'https://wttr.in/Hanoi?format=2')"
+  printf "Mui Ne: %s\n" "$(curl -sf 'https://wttr.in/Mui+Ne?format=2')"
+  printf "Moscow: %s\n" "$(curl -sf 'https://wttr.in/Moscow?format=2')"
+  printf "Perm:   %s\n" "$(curl -sf 'https://wttr.in/Perm?format=2')"
+  # printf "\n"
+  # printf "Updated: %s\n" "$(date '+%Y‑%m‑%d %H:%M')"
+} >"$TMP" && mv "$TMP" "$CACHE"

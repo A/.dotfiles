@@ -1,0 +1,45 @@
+#! /bin/python3
+
+import re
+import os
+import argparse
+
+def calculate_total_estimates_from_file(file_path):
+    total_days = 0
+    total_hours = 0
+    
+
+    expanded_path = os.path.expanduser(file_path)  # Expand the tilde to the home directory
+    with open(expanded_path, 'r') as file:
+        content = file.read()
+        # Find all estimates in the format [Xd] or [Xh]
+        matches = re.findall(r'\[(\d+(\.\d+)?)([dh])\]', content)
+        
+        for amount, _, unit in matches:
+            amount = float(amount)
+            if unit == 'd':
+                total_days += amount
+            elif unit == 'h':
+                total_hours += amount
+
+    # Convert total hours to days (assuming 1 day = 8 hours)
+    converted_days = total_hours // 8
+    remaining_hours = total_hours % 8
+
+    # Add converted days to total days
+    total_days += converted_days
+
+    return total_days, remaining_hours
+
+def main():
+    parser = argparse.ArgumentParser(description="Calculate total estimates from a file.")
+    parser.add_argument('file_path', type=str, help='Path to the markdown file containing estimates')
+
+    args = parser.parse_args()
+    total_days, remaining_hours = calculate_total_estimates_from_file(args.file_path)
+
+    print(f"Total Estimate: {total_days} days and {remaining_hours} hours")
+
+if __name__ == "__main__":
+    main()
+

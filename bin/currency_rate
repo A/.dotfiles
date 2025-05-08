@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+import os
+import sys
+import json
+import requests
+from pathlib import Path
+from datetime import datetime, time
+
+API_KEY = os.getenv("CURRENCYFREAKS_API_KEY")
+if not API_KEY:
+    print("Error: CURRENCYFREAKS_API_KEY env variable not set", file=sys.stderr)
+    sys.exit(1)
+
+if len(sys.argv) != 3:
+    print("Usage: currency_rate <TO> <FROM>", file=sys.stderr)
+    print("Example: currency_rate VND USD", file=sys.stderr)
+    sys.exit(2)
+
+to_cur = sys.argv[1].upper()
+from_cur = sys.argv[2].upper()
+
+CACHE_FILE = Path.home() / ".cache" / "currencyfreaks_latest.json"
+API_URL = "https://api.currencyfreaks.com/latest"
+
+def is_cache_valid():
+    if not CACHE_FILE.exists():
+        return False
+    modified = datetime.fromtimestamp(CACHE_FILE.stat().st_mtime)
+    now = datetime.now()
+    ten_am = datetime.combine(now.date(), time(10, 0))
+    return modified.date() == now.date() and modified >= ten_am
+
+def fetch_and_cache():
+    response = requests.get(API_URL, params={"apikey": API_KEY})
+    response.raise_for_status()
+    data = response.json()
+    CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with open(CACHE_FILE, "w") as f:
+        json.dump(data, f)
+    return data
+
+def load_data():
+    if is_cache_valid():
+        with open(CACHE_FILE) as f:
+            return json.load(f)
+    return fetch_and_cache()
+
+def main():
+    data = load_data()
+    rates = data["rates"]
+    base = data["base"]  # always "USD" in free plan
+
+    # Ensure currencies exist
+    if to_cur not in rates or from_cur not in rates:
+        print(f"Error: Missing currency rate for {to_cur} or {from_cur}", file=sys.stderr)
+        sys.exit(3)
+
+    rate_to = float(rates[to_cur])
+    rate_from = float(rates[from_cur])
+    rate = rate_to / rate_from
+    print(f"{rate:,.2f}")
+
+if __name__ == "__main__":
+    main()

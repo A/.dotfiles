@@ -1,0 +1,22 @@
+#!/bin/bash
+
+vpn_list=$(nmcli -t -f NAME,TYPE con show | awk -F':' '$2 == "vpn" || $2 == "wireguard" {print $1}')
+active_vpn=$(nmcli -t -f NAME con show --active | grep -Fxf <(echo "$vpn_list") || true)
+
+menu=$(for vpn in $vpn_list; do
+    if echo "$active_vpn" | grep -Fxq "$vpn"; then
+        echo "$vpn [Connected]"
+    else
+        echo "$vpn [Disconnected]"
+    fi
+done | wofi --dmenu --prompt "VPN")
+
+[ -z "$menu" ] && exit
+
+selection=$(echo "$menu" | sed 's/ \[.*\]//')
+
+if echo "$active_vpn" | grep -Fxq "$selection"; then
+    nmcli con down "$selection"
+else
+    nmcli con up "$selection"
+fi

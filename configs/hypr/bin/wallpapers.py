@@ -12,6 +12,17 @@ import subprocess
 import random
 import time
 from pathlib import Path
+import subprocess
+
+def is_already_running():
+    try:
+        script_path = os.path.abspath(__file__)
+        current_pid = os.getpid()
+        output = subprocess.check_output(f"pgrep -f {script_path}", shell=True).decode("utf-8")
+        pids = [int(pid) for pid in output.strip().split("\n") if pid.strip()]
+        return any(pid != current_pid for pid in pids)
+    except subprocess.CalledProcessError:
+        return False
 
 
 WALLPAPERS_DIR = os.path.expanduser("~/Pictures/Wallpapers")
@@ -119,6 +130,10 @@ def delete_focused_wallpaper():
 
 
 def main():
+    if is_already_running():
+        logging.warning("Script is already running. Exiting.")
+        sys.exit(0)
+
     logging.info('Started')
     if 'delete' in sys.argv:
         delete_focused_wallpaper()

@@ -1,19 +1,23 @@
 #! /bin/bash
 
-case $(cat /sys/firmware/acpi/platform_profile) in
-  "low-power")
-    ICON="󰾆 "
+case $(cat /sys/devices/system/cpu/cpu0/cpufreq/energy_performance_preference) in
+  "power")
+    ICON="󰡳 "
     ;;
 
-  "balanced")
-    ICON="󰾅 "
+  "balance_power")
+    ICON="󰡵 "
+    ;;
+
+  "balance_performance")
+    ICON="󰊚 "
     ;;
 
   "performance")
-    ICON="󰓅 "
+    ICON="󰡴 "
     ;;
   *)
-    ICON="󰾅 "
+    ICON=" "
     ;;
 esac
 

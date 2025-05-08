@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+CACHE="$HOME/.cache/currencies"
+TMP="${CACHE}.tmp"
+
+format_number() {
+  printf "%'0.2f\n" "$1"
+}
+
+{
+  btc=$(curl -sf "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT" | jq -r '.price | tonumber')
+  eth=$(curl -sf "https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT" | jq -r '.price | tonumber')
+  usd=$(curl -sf https://www.cbr-xml-daily.ru/daily_json.js | jq '.Valute.USD.Value')
+  eur=$(curl -sf https://www.cbr-xml-daily.ru/daily_json.js | jq '.Valute.EUR.Value')
+
+  usd_vnd=$(~/.bin/currency_rate VND USD)
+  eur_vnd=$(~/.bin/currency_rate VND EUR)
+  vnd_rub=$(~/.bin/currency_rate VND RUB)
+
+  printf "BTCUSD:   %s\n" "$(format_number "$btc")"
+  printf "ETHUSDT:  %s\n" "$(format_number "$eth")"
+  printf "USDRUB:   %s\n" "$(format_number "$usd")"
+  printf "EURRUB:   %s\n" "$(format_number "$eur")"
+  printf "USDVND:   %s\n" "$usd_vnd"
+  printf "EURVND:   %s\n" "$eur_vnd"
+  printf "VNDRUB:   %s\n" "$vnd_rub"
+} >"$TMP" && mv "$TMP" "$CACHE"

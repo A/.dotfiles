@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Define available power modes
+OPTIONS="power\nbalance_power\nbalance_performance\nperformance"
+
+# Retrieve the current energy performance preference from the first CPU
+CURRENT=$(cat /sys/devices/system/cpu/cpu0/cpufreq/energy_performance_preference)
+
+# Prompt user to select a mode using wofi, highlighting the current mode
+CHOICE=$(echo -e "$OPTIONS" | wofi --dmenu --prompt "Current: $CURRENT" --lines 6)
+
+# Apply the selected power mode
+if [[ -n "$CHOICE" ]]; then
+  for cpu in /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference; do
+    echo "$CHOICE" | tee "$cpu" > /dev/null
+  done
+  notify-send "Power Mode" "Set to $CHOICE"
+fi

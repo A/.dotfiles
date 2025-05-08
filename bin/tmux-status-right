@@ -1,0 +1,57 @@
+#!/bin/bash
+
+pane_current_path="${1:-$(pwd)}"
+
+# Function to crop text to fit within 20 characters, adding "..." if cropped
+crop() {
+  local input="$1"
+  if [ ${#input} -gt 32 ]; then
+    echo "${input:0:31}…"
+  else
+    echo "$input"
+  fi
+}
+
+get_gcloud_project() {
+  local config_path="$HOME/.config/gcloud/configurations/config_default"
+  if [ -f "$config_path" ]; then
+    awk -F ' = ' '/^\[core\]/ {found=1} found && $1=="project" {print $2; exit}' "$config_path"
+  else
+    echo "-"
+  fi
+}
+
+get_docker_context() {
+  jq -r '.currentContext // "default" ' ~/.docker/config.json 2>/dev/null || echo "default"
+}
+
+get_k8s_context() {
+  grep '^current-context:' ~/.kube/config 2>/dev/null | awk '{print $2}' || echo "-"
+}
+
+get_git_branch() {
+  if cd "$pane_current_path" 2>/dev/null && git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    local branch
+    branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "-")
+
+    # Check for dirty state (staged or unstaged)
+    if ! git diff --quiet 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
+      echo "${branch}*"
+    else
+      echo "$branch"
+    fi
+  else
+    echo "-"
+  fi
+}
+
+gcloud_project=$(get_gcloud_project)
+docker_context=$(get_docker_context)
+k8s_context=$(get_k8s_context)
+git_branch=$(get_git_branch)
+
+# Print the status right line with each section
+echo -n "GCL:$(crop "${gcloud_project:--}") "
+echo -n "D:$(crop "${docker_context:--}") "
+echo -n "K8S:$(crop "${k8s_context:--}") "
+echo -n "G:$(crop "${git_branch:--}") "
