@@ -1,0 +1,64 @@
+#!/bin/bash
+
+TRACKS_COUNT=100
+DIR_PATH=""
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -d=*|--dir=*)
+      DIR_PATH="${1#*=}"
+      shift
+      ;;
+    -d|--dir)
+      DIR_PATH="$2"
+      shift 2
+      ;;
+    -c=*|--count=*)
+      TRACKS_COUNT="${1#*=}"
+      shift
+      ;;
+    -c|--count)
+      TRACKS_COUNT="$2"
+      shift 2
+      ;;
+    *)
+      echo "Unknown parameter: $1"
+      echo "Usage: $(basename "$0") -d|--dir <directory_path> [-c|--count <number_of_tracks>]"
+      exit 1
+      ;;
+  esac
+done
+
+if [ -z "$DIR_PATH" ]; then
+    echo "Usage: $(basename "$0") -d|--dir <directory_path> [-c|--count <number_of_tracks>]"
+    exit 1
+fi
+
+# Expand tilde to home directory
+DIR_PATH="${DIR_PATH/#\~/$HOME}"
+
+if ! [[ "$TRACKS_COUNT" =~ ^[0-9]+$ ]]; then
+    echo "Error: Track count must be a positive number"
+    exit 1
+fi
+
+TEMP_PLAYLIST="/tmp/random_playlist_$(basename "$DIR_PATH").m3u"
+TEMP_PLAYLIST=$(echo "$TEMP_PLAYLIST" | sed 's/[^a-zA-Z0-9_\/\.]/_/g')
+
+if [ ! -d "$DIR_PATH" ]; then
+    echo "Error: Directory '$DIR_PATH' not found!"
+    exit 1
+fi
+
+find "$DIR_PATH" -type f \( -name "*.mp3" -o -name "*.flac" -o -name "*.wav" -o -name "*.ogg" -o -name "*.m4a" \) | shuf -n "$TRACKS_COUNT" > "$TEMP_PLAYLIST"
+
+TRACK_COUNT=$(wc -l < "$TEMP_PLAYLIST")
+
+if [ "$TRACK_COUNT" -eq 0 ]; then
+    echo "No music files found in '$DIR_PATH' or its subdirectories"
+    exit 1
+fi
+
+echo "Selected $TRACK_COUNT random tracks from '$(basename "$DIR_PATH")'"
+
+deadbeef "$TEMP_PLAYLIST"

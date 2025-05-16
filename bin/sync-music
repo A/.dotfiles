@@ -1,49 +1,31 @@
-#!/bin/bash
+DIR=~/Music
+MOUNT_POINT=~/mnt/walkman
 
-set -e
+# Ensure the mount point exists
+mkdir -p "$MOUNT_POINT"
 
+# Mount the MTP device
+jmtpfs "$MOUNT_POINT"
 
-SOURCE=~/Music/
-TARGET=/run/media/anton/7944-F2AC/
+# Check for mount success
+if mount | grep "on $MOUNT_POINT" > /dev/null; then
+  # Sync picked music for each genre with date-folder pattern
+  for genre_path in "$DIR"/*/; do
+    GENRE=$(basename "$genre_path")
+    for date_folder in "$DIR/$GENRE/"*/; do
+      DATE=$(basename "$date_folder")
+      if [[ $DATE =~ ^[0-9]{4}-[0-9]{2}$ ]]; then
+        TARGET_DIR="$MOUNT_POINT/SanDisk SD card/Music/$GENRE/"
+        mkdir -p "$TARGET_DIR"
+        
+        # Perform the sync
+        rsync --inplace -auvP "$date_folder" "$TARGET_DIR"
+      fi
+    done
+  done
 
-
-# Playlist builders (see: ~/.bin/create_playlist). I've been frustrated, that nice looking players
-# doesn't support smart playlists in 2023, so I thought I can build them manually it on the sync step
-#
-# TODO: Move into yaml config
-create_playlist \
-  --collection=${SOURCE}\
-  --genre_contains="Punk"\
-  --output="${SOURCE}/Playlists/All Punk.m3u"\
-  --title="All Punk" 2>&1 \
-  | grep -v TagLib
-
-create_playlist \
-  --collection=~/Music\
-  --genre_contains="Instrumental Hip-Hop"\
-  --comment_contains="inbox"\
-  --output="${SOURCE}/Playlists/Chill Hop (Inbox).m3u"\
-  --title="Inbox Instrumental Hip-Hop" 2>&1 \
-  | grep -v TagLib
-
-create_playlist \
-  --collection=~/Music\
-  --genre_contains="Instrumental Hip-Hop"\
-  --comment_not_contains="inbox"\
-  --output="${SOURCE}/Playlists/Chill Hop (Selected).m3u"\
-  --title="Picked Instrumental Hip-Hop" 2>&1 \
-  | grep -v TagLib
-
-create_playlist \
-  --collection=~/Music\
-  --genre_contains="Soundtrack"\
-  --genre_contains="Orchestral"\
-  --output="~/Music/Playlists/Orchestral Soundtracks.m4u"\
-  --title="Orchestral Soundtracks" 2>&1 \
-  | grep -v TagLib
-
-# Sync folder. Modify window handles fat32 limitations, exclude here to keep podcasts position pointers
-
-cd "${TARGET}"
-echo ${PWD}
-rsync -auvP --delete --modify-window=1 --exclude=position.sabp.dat ${SOURCE} ./Music/
+  # Unmount the MTP device
+  fusermount -u "$MOUNT_POINT"
+else
+  echo "Failed to mount MTP device."
+fi

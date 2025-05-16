@@ -16,10 +16,9 @@
 # https://canthisevenbecalledmusic.com/feed/ "~Can This Even Be Called Music?" music
 # https://theprogressivesubway.com/feed/ "~The Progressive Subway" music
 
-sttps://archlinux.org/feeds/news/ "~Arch News" dev linux
+https://archlinux.org/feeds/news/ "~Arch News" dev linux
 https://monthly-reports.archlinux.page/index.xml "~Arch Monthly Reports" dev
 https://マリウス.com/index.xml dev linux
-https://junegunn.kr/atom.xml dev linux
 http://philcalcado.com/feed.xml "~Phil Calçado" dev
 https://cprss.s3.amazonaws.com/javascriptweekly.com.xml "~JavaScript Weekly" dev
 https://feeds.feedburner.com/jster dev

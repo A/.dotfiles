@@ -130,9 +130,6 @@ def delete_focused_wallpaper():
 
 
 def main():
-    if is_already_running():
-        logging.warning("Script is already running. Exiting.")
-        sys.exit(0)
 
     logging.info('Started')
     if 'delete' in sys.argv:
@@ -144,6 +141,10 @@ def main():
         logging.info('Setting random wallpapers')
         set_wallpapers()
         return
+
+    if is_already_running():
+        logging.warning("Script is already running. Exiting.")
+        sys.exit(0)
     
     while True:
         logging.info('Start daemon')

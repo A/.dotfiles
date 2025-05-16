@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# Get the music root directory
+MUSIC_DIR="$HOME/Music"
+
+# Create a temporary file for the menu options
+TEMP_MENU_FILE="/tmp/wofi_music_menu.txt"
+> "$TEMP_MENU_FILE"  # Clear the file
+
+# Find all top-level directories, excluding those with "downloads" in the name
+for DIR in "$MUSIC_DIR"/*; do
+    if [ -d "$DIR" ] && ! echo "$(basename "$DIR")" | grep -q -i "downloads"; then
+        DIR_NAME=$(basename "$DIR")
+        # Count music files in this directory (including subdirectories)
+        FILE_COUNT=$(find "$DIR" -type f \( -name "*.mp3" -o -name "*.flac" -o -name "*.wav" -o -name "*.ogg" -o -name "*.m4a" \) | wc -l)
+        # Only add directories that have music files
+        if [ "$FILE_COUNT" -gt 0 ]; then
+            echo "$DIR_NAME ($FILE_COUNT tracks)" >> "$TEMP_MENU_FILE"
+        fi
+    fi
+done
+
+# Sort the menu file by the directory names (respecting numeric prefixes)
+sort -V "$TEMP_MENU_FILE" -o "$TEMP_MENU_FILE"
+
+# Select a directory using wofi
+SELECTED_MENU_ITEM=$(cat "$TEMP_MENU_FILE" | wofi --dmenu --prompt "Select music directory:" --height 500)
+
+# Exit if no directory selected
+if [ -z "$SELECTED_MENU_ITEM" ]; then
+    echo "No directory selected. Exiting."
+    rm "$TEMP_MENU_FILE"  # Clean up
+    exit 0
+fi
+
+# Extract the directory name from the selected menu item
+SELECTED_DIR_NAME=$(echo "$SELECTED_MENU_ITEM" | sed 's/ ([0-9]* tracks)$//')
+
+# Reconstruct the full path
+SELECTED_DIR="$MUSIC_DIR/$SELECTED_DIR_NAME"
+
+# Select track count using wofi
+TRACK_COUNT=$(echo -e "10\n50\n100\nALL" | wofi --dmenu --prompt "Number of tracks:" --height 200)
+
+# Exit if no track count selected
+if [ -z "$TRACK_COUNT" ]; then
+    echo "No track count selected. Exiting."
+    rm "$TEMP_MENU_FILE"  # Clean up
+    exit 0
+fi
+
+# Create a temporary playlist file
+TEMP_PLAYLIST="/tmp/wofi_playlist_$SELECTED_DIR_NAME.m3u"
+TEMP_PLAYLIST=$(echo "$TEMP_PLAYLIST" | sed 's/[^a-zA-Z0-9_\/\.]/_/g')
+
+# Find music files
+if [ "$TRACK_COUNT" = "ALL" ]; then
+    # Get all tracks
+    find "$SELECTED_DIR" -type f \( -name "*.mp3" -o -name "*.flac" -o -name "*.wav" -o -name "*.ogg" -o -name "*.m4a" \) > "$TEMP_PLAYLIST"
+else
+    # Get random tracks based on selection
+    find "$SELECTED_DIR" -type f \( -name "*.mp3" -o -name "*.flac" -o -name "*.wav" -o -name "*.ogg" -o -name "*.m4a" \) | shuf -n "$TRACK_COUNT" > "$TEMP_PLAYLIST"
+fi
+
+# Count how many tracks were actually found
+ACTUAL_COUNT=$(wc -l < "$TEMP_PLAYLIST")
+
+# Check if we found any tracks
+if [ "$ACTUAL_COUNT" -eq 0 ]; then
+    notify-send "No music files" "No music files found in $SELECTED_DIR_NAME"
+    rm "$TEMP_MENU_FILE"  # Clean up
+    exit 1
+fi
+
+# Send notification
+notify-send "Playing music" "Selected $ACTUAL_COUNT tracks from $SELECTED_DIR_NAME"
+
+# Open the playlist in deadbeef
+deadbeef "$TEMP_PLAYLIST"
+
+# Clean up
+rm "$TEMP_MENU_FILE"
