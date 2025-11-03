@@ -12,6 +12,7 @@ return {
     ensure_installed = {
       "stylua",
       "shfmt",
+      "css-lsp",
     },
   },
 

@@ -1,0 +1,194 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import subprocess
+import json
+import logging
+import argparse
+from pathlib import Path
+from datetime import datetime
+from tqdm import tqdm
+
+def setup_logging():
+    """Configure logging with both file and console handlers"""
+    log_dir = Path.home() / '.cache' / 'audio_duration_logs'
+    log_dir.mkdir(exist_ok=True)
+    
+    log_file = log_dir / f"audio_scan_{datetime.now().strftime('%Y%m%d')}.log"
+    
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler(log_file),
+            logging.StreamHandler(sys.stderr)
+        ]
+    )
+    return logging.getLogger(__name__)
+
+def get_duration(file_path):
+    """Extract duration using ffprobe with error handling"""
+    try:
+        result = subprocess.run([
+            'ffprobe', '-v', 'quiet', '-print_format', 'json',
+            '-show_format', str(file_path)
+        ], capture_output=True, text=True, timeout=10)
+        
+        if result.returncode == 0:
+            data = json.loads(result.stdout)
+            return float(data['format']['duration'])
+    except (subprocess.SubprocessError, json.JSONDecodeError, 
+            subprocess.TimeoutExpired, KeyError, ValueError) as e:
+        logger.debug(f"Failed to process {file_path}: {e}")
+    return None
+
+def format_duration(seconds):
+    """Format seconds to human readable duration"""
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    secs = int(seconds % 60)
+    
+    if hours > 0:
+        return f"{hours}h {minutes}m {secs}s"
+    elif minutes > 0:
+        return f"{minutes}m {secs}s"
+    else:
+        return f"{secs}s"
+
+def collect_audio_files(directory):
+    """Collect all audio files with progress indication"""
+    audio_extensions = {'.mp3', '.wav', '.flac', '.m4a', '.aac', '.ogg', '.opus', '.wma'}
+    
+    logger.info(f"Scanning directory: {directory}")
+    files = []
+    
+    for file_path in directory.rglob('*'):
+        if file_path.is_file() and file_path.suffix.lower() in audio_extensions:
+            files.append(file_path)
+    
+    logger.info(f"Found {len(files)} audio files")
+    return files
+
+def parse_arguments():
+    """Parse command line arguments"""
+    parser = argparse.ArgumentParser(
+        description='Calculate total duration of audio files in a directory',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  %(prog)s                                    # scan current directory
+  %(prog)s /path/to/music                     # scan specific directory
+  %(prog)s --output ~/music_stats.txt        # custom output file
+  %(prog)s /music --output /tmp/stats        # directory with custom output
+        """
+    )
+    
+    parser.add_argument(
+        'directory', 
+        nargs='?', 
+        default=os.getcwd(),
+        help='Directory to scan for audio files (default: current directory)'
+    )
+    
+    parser.add_argument(
+        '--output', '-o',
+        type=Path,
+        default=Path.home() / '.cache' / 'audio_duration',
+        help='Output file path (default: ~/.cache/audio_duration)'
+    )
+    
+    parser.add_argument(
+        '--verbose', '-v',
+        action='store_true',
+        help='Enable verbose logging'
+    )
+    
+    parser.add_argument(
+        '--quiet', '-q',
+        action='store_true',
+        help='Suppress progress bar and info messages'
+    )
+    
+    return parser.parse_args()
+
+def main():
+    args = parse_arguments()
+    
+    global logger
+    logger = setup_logging()
+    
+    if args.verbose:
+        logger.setLevel(logging.DEBUG)
+    elif args.quiet:
+        logger.setLevel(logging.ERROR)
+    
+    # Resolve paths
+    audio_dir = Path(args.directory).resolve()
+    cache_file = args.output.resolve()
+    temp_file = cache_file.with_suffix('.tmp')
+    
+    logger.info(f"Starting audio duration scan - PID: {os.getpid()}")
+    
+    # Validate ffprobe availability
+    try:
+        subprocess.run(['ffprobe', '-version'], 
+                      capture_output=True, check=True, timeout=5)
+    except (subprocess.SubprocessError, FileNotFoundError, subprocess.TimeoutExpired):
+        logger.error("ffprobe not available or not responding")
+        sys.exit(1)
+    
+    # Validate target directory
+    if not audio_dir.is_dir():
+        logger.error(f"Invalid directory: {audio_dir}")
+        sys.exit(1)
+    
+    # Collect files
+    audio_files = collect_audio_files(audio_dir)
+    
+    if not audio_files:
+        logger.warning("No audio files found")
+        total_duration = 0
+        file_count = 0
+    else:
+                
+        # Process with progress bar
+        total_duration = 0
+        file_count = 0
+        failed_count = 0
+        
+        progress_bar = tqdm(audio_files, desc="Processing", unit="files", disable=args.quiet)
+        with progress_bar as pbar:
+            for file_path in pbar:
+                pbar.set_postfix_str(f"Current: {file_path.name[:30]}...")
+                
+                duration = get_duration(file_path)
+                if duration:
+                    total_duration += duration
+                    file_count += 1
+                    logger.debug(f"Processed: {file_path} ({duration:.1f}s)")
+                else:
+                    failed_count += 1
+                    logger.warning(f"Failed to process: {file_path}")
+    
+    # Log summary
+    logger.info(f"Scan complete - Processed: {file_count}, Failed: {failed_count}, "
+               f"Total duration: {format_duration(total_duration)}")
+    logger.info(f"Output file: {cache_file}")
+    
+    # Write results atomically
+    cache_file.parent.mkdir(parents=True, exist_ok=True)
+    
+    with temp_file.open('w') as f:
+        f.write(f"AUDIO_TOTAL:   {format_duration(total_duration)}\n")
+        f.write(f"AUDIO_FILES:   {file_count}\n")
+        f.write(f"AUDIO_MINUTES: {int(total_duration // 60)}\n")
+        f.write(f"AUDIO_HOURS:   {total_duration / 3600:.1f}\n")
+        f.write(f"AUDIO_FAILED:  {failed_count}\n")
+        f.write(f"LAST_SCAN:     {datetime.now().isoformat()}\n")
+    
+    temp_file.replace(cache_file)
+    logger.info(f"Cache updated: {cache_file}")
+
+if __name__ == '__main__':
+    main()

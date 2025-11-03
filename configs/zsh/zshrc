@@ -19,3 +19,10 @@ source $HOME/.oh-my-zsh/oh-my-zsh.sh
 export PATH="$PATH:/home/anton/.lmstudio/bin"
 # End of LM Studio CLI section
 
+
+# bun completions
+[ -s "/home/anton/.bun/_bun" ] && source "/home/anton/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

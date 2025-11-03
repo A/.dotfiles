@@ -1,0 +1,16 @@
+#! /bin/bash
+set -e
+
+if [ "$1" = "light" ]; then
+  ~/.config/hypr/bin/wallpapers.py theme light
+  exit 0;
+fi
+
+if [ "$1" = "dark" ]; then
+  ~/.config/hypr/bin/wallpapers.py theme dark
+  exit 0;
+fi
+
+echo "There is no \"$1\" command"
+exit 1;
+

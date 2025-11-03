@@ -59,7 +59,15 @@ return {
 
     local util = require("lspconfig/util")
 
-    local enabled_servers = { "pyright", "ts_ls", "ansiblels", "rust_analyzer", "yamlls", "efm" }
+    local enabled_servers = {
+      "pyright",
+      "ts_ls",
+      "ansiblels",
+      "rust_analyzer",
+      "yamlls",
+      "efm",
+      "cssls",
+    }
 
     local settings = {
       pyright = {
@@ -97,7 +105,7 @@ return {
                 lintStdin = true,
                 lintFormats = { "%f:%l:%c: %m" },
                 lintIgnoreExitCode = true,
-              }
+              },
             },
             javascriptreact = {
               {
@@ -105,7 +113,7 @@ return {
                 lintStdin = true,
                 lintFormats = { "%f:%l:%c: %m" },
                 lintIgnoreExitCode = true,
-              }
+              },
             },
             typescript = {
               {
@@ -113,7 +121,7 @@ return {
                 lintStdin = true,
                 lintFormats = { "%f:%l:%c: %m" },
                 lintIgnoreExitCode = true,
-              }
+              },
             },
             typescriptreact = {
               {
@@ -121,11 +129,11 @@ return {
                 lintStdin = true,
                 lintFormats = { "%f:%l:%c: %m" },
                 lintIgnoreExitCode = true,
-              }
+              },
             },
-          }
-        }
-      }
+          },
+        },
+      },
     }
 
     -- nvim-cmp supports additional completion capabilities

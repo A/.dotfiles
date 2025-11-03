@@ -1,4 +1,5 @@
 @import "theme.css";
+
 * {
   font-family:
     Iosevka Nerd Font,
@@ -19,6 +20,7 @@ window#waybar {
 #custom-dela,
 #custom-debug,
 #custom-screenrecorder,
+#custom-audio-toggle,
 box.horizontal.modules-right {
   margin-bottom: 4px;
   background-color: @component-background;
@@ -27,6 +29,17 @@ box.horizontal.modules-right {
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
   padding: 2px 6px;
   color: @component-text;
+}
+
+#custom-audio-inbox,
+#custom-audio-collection {
+  color: @component-text;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background-color: @component-background;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+  margin-bottom: 4px;
+  margin-right: 4px;
 }
 
 #custom-screenrecorder {

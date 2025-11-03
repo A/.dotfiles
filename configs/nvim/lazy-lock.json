@@ -10,6 +10,7 @@
   "cmp-spell": { "branch": "master", "commit": "694a4e50809d6d645c1ea29015dad0c293f019d6" },
   "cmp_luasnip": { "branch": "master", "commit": "98d9cb5c2c38532bd9bdb481067b20fea8f32e90" },
   "codecompanion.nvim": { "branch": "main", "commit": "12a1f0e8c8512e69d3ed64b7ac179a024794e4e4" },
+  "comment-hide": { "branch": "main", "commit": "7bb91543facfeaf4e1d4e61f02cbb2c2230b98c4" },
   "conform.nvim": { "branch": "master", "commit": "372fc521f8421b7830ea6db4d6ea3bae1c77548c" },
   "editorconfig-vim": { "branch": "master", "commit": "6a58b7c11f79c0e1d0f20533b3f42f2a11490cf8" },
   "friendly-snippets": { "branch": "main", "commit": "572f5660cf05f8cd8834e096d7b4c921ba18e175" },
