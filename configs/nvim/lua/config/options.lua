@@ -71,4 +71,4 @@ vim.cmd([[iabbrev <expr> ymd% strftime("%y%m%d")]])
 -- vim.api.nvim_create_autocmd({ "insertenter" }, { command = "hi cursorline ctermbg=16" })
 -- vim.api.nvim_create_autocmd({ "insertleave" }, { command = "hi cursorline ctermbg=none" })
 --
-vim.o.winbar = "  %{%v:lua.require'lib.filepath'.eval()%} %{%v:lua.require'nvim-navic'.get_location()%}"
+-- vim.o.winbar = "  %{%v:lua.require'lib.filepath'.eval()%} %{%v:lua.require'nvim-navic'.get_location()%}"

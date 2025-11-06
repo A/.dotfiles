@@ -39,6 +39,7 @@ return {
         typescriptreact = js_formatting_options,
         json = { "jq" },
         css = { "prettier" },
+        scss = { "prettier" },
 
         lua = { "stylua" },
         sh = { "shfmt" },

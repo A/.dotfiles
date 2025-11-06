@@ -1,5 +1,6 @@
 return {
   "nvimdev/lspsaga.nvim",
+  enabled = true,
 
   dependencies = {
     "nvim-treesitter/nvim-treesitter", -- optional
@@ -60,5 +61,7 @@ return {
     { "<leader>ldV", "<cmd>lua vim.diagnostic.config({virtual_text = false})<CR>", desc = "Disable Virtual Text" },
 
     { "<leader>lr", "<cmd>Lspsaga rename<CR>", desc = "Rename all symbol references" },
+
+    { "<leader>ll", "<cmd>lua vim.lsp.codelens.run()<CR>", desc = "Run codelens" },
   },
 }
