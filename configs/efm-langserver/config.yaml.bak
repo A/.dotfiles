@@ -7,7 +7,7 @@ commands:
   - command: notepad
     arguments:
       - ${INPUT}
-    title: メモ帳
+    title: Notepad
 
 tools:
   make-checkmake: &make-checkmake

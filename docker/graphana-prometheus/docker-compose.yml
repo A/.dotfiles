@@ -17,7 +17,7 @@ services:
     expose:
       - 3000
     ports:
-      - 5000:3000
+      - 10000:3000
     volumes:
       - grafana_data:/var/lib/grafana
     networks:
@@ -36,7 +36,7 @@ services:
       - ./files/prometheus/etc/prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
     ports:
-      - 5001:9090
+      - 10001:9090
 
     networks:
       - monitoring

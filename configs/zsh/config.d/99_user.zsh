@@ -12,3 +12,4 @@ alias glgo="git log --pretty=oneline --abbrev-commit"
 alias hj="zapusk"
 alias z="zapusk"
 alias wk="watch kubectl"
+alias avante='nvim -c "lua vim.defer_fn(function()require(\"avante.api\").zen_mode()end, 100)"'
