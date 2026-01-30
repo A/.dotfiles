@@ -4,6 +4,7 @@ local opt = vim.opt
 g.mapleader = " "
 g.markdown_fenced_languages = {
   "bash=sh",
+  "diff",
   "css",
   "html",
   "javascript",

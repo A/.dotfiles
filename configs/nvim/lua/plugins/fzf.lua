@@ -14,7 +14,7 @@ return {
 
     { "<leader>fs", group = "Search" },
     { "<leader>fsg", ":lua require('fzf-lua').grep()<CR>", desc = "Search" },
-    { "<leader>fsl", ":lua require('fzf-lua').grep_last()<CR>", desc = "Search last pattern again" },
+    { "<leader>fsl", ":lua require('fzf-lua').grep({resume=true})<CR>", desc = "Search last pattern again" },
     { "<leader>fsc", ":lua require('fzf-lua').grep_cword()<CR>", desc = "Search the word under cursor" },
     { "<leader>fsC", ":lua require('fzf-lua').grep_cWORD()<CR>", desc = "Search the WORD under cursor" },
     { "<leader>fsv", ":lua require('fzf-lua').grep_visual()<CR>", desc = "Search the visual selection" },

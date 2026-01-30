@@ -6,7 +6,7 @@ vim.diagnostic.config({
   severity_sort = true,
   float = {
     border = "rounded",
-    source = true,
+    source = 'always',
   },
   signs = {
     text = {

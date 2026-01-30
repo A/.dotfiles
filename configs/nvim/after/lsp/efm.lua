@@ -10,6 +10,14 @@ local eslint = {
 local flake8 = {
   lintCommand = "flake8 ${INPUT}",
   lintStdin = true,
+  lintSource = "flake8",
+}
+
+local ruff = {
+  lintCommand = "ruff check --quiet ${FILENAME}",
+  lintFormats = { "%f:%l:%c: %m" },
+  lintStdin = false,
+  lintSource = "ruff",
 }
 
 local black = {
@@ -37,7 +45,7 @@ return {
       javascriptreact = { eslint },
       typescript = { eslint },
       typescriptreact = { eslint },
-      python = { flake8, black },
+      python = { black },
     },
   },
   filetypes = {

@@ -1,0 +1,457 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# dependencies = ["requests", "pyyaml"]
+# ///
+"""
+run_llama - Multi-file LLM Prompt Runner
+
+CLI tool to run prompts against files matching a glob pattern using local llama.cpp server.
+"""
+
+import argparse
+import os
+import re
+import sys
+from pathlib import Path
+
+import requests
+import yaml
+
+XDG_CONFIG_HOME = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
+CONFIG_DIR = XDG_CONFIG_HOME / "run_llama"
+PROMPTS_DIR = CONFIG_DIR / "prompts"
+CONFIG_FILE = CONFIG_DIR / "config.yaml"
+
+
+def get_ollama_url() -> str:
+    """Get the Ollama/llama.cpp server URL from environment."""
+    url = os.environ.get("OLLAMA_URL", "http://localhost:8080")
+    return url.rstrip("/")
+
+
+def load_config() -> dict:
+    """Load config from config.yaml"""
+    if not CONFIG_FILE.exists():
+        return {}
+    try:
+        return yaml.safe_load(CONFIG_FILE.read_text()) or {}
+    except yaml.YAMLError:
+        return {}
+
+
+def load_prompt(key: str) -> tuple[str, dict]:
+    """
+    Load a prompt from prompts/{key}.md
+
+    Returns: (prompt_text, frontmatter_dict)
+    """
+    prompt_file = PROMPTS_DIR / f"{key}.md"
+    if not prompt_file.exists():
+        print(f"Error: Prompt '{key}' not found at {prompt_file}", file=sys.stderr)
+        sys.exit(1)
+
+    content = prompt_file.read_text()
+
+    # Parse frontmatter
+    frontmatter = {}
+    prompt_text = content
+
+    if content.startswith("---"):
+        match = re.match(r"^---\n(.*?)\n---\n?(.*)", content, re.DOTALL)
+        if match:
+            try:
+                frontmatter = yaml.safe_load(match.group(1)) or {}
+            except yaml.YAMLError as e:
+                print(f"Warning: Failed to parse frontmatter: {e}", file=sys.stderr)
+            prompt_text = match.group(2).strip()
+
+    return prompt_text, frontmatter
+
+
+def list_prompts() -> None:
+    """List all available prompts."""
+    if not PROMPTS_DIR.exists():
+        print("No prompts directory found.")
+        print(f"Create prompts at: {PROMPTS_DIR}/")
+        return
+
+    prompts = sorted(PROMPTS_DIR.glob("*.md"))
+    if not prompts:
+        print("No prompts found.")
+        print(f"Create prompts at: {PROMPTS_DIR}/")
+        return
+
+    print("Available prompts:")
+    for p in prompts:
+        name = p.stem
+        content = p.read_text()
+
+        # Parse frontmatter for title
+        title = None
+        prompt_text = content
+        if content.startswith("---"):
+            match = re.match(r"^---\n(.*?)\n---\n?(.*)", content, re.DOTALL)
+            if match:
+                try:
+                    fm = yaml.safe_load(match.group(1)) or {}
+                    title = fm.get("title")
+                except yaml.YAMLError:
+                    pass
+                prompt_text = match.group(2)
+
+        preview = prompt_text.strip().replace("\n", " ")[:80]
+        if title:
+            print(f"  {name:20} {title}: {preview}...")
+        else:
+            print(f"  {name:20} {preview}...")
+
+
+def fetch_models() -> list[dict]:
+    """Fetch available models from the server."""
+    url = get_ollama_url()
+    try:
+        resp = requests.get(f"{url}/v1/models", timeout=10)
+        resp.raise_for_status()
+        return resp.json().get("data", [])
+    except requests.RequestException as e:
+        print(f"Error fetching models: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+def list_models() -> None:
+    """List all available models from the server."""
+    models = fetch_models()
+    if not models:
+        print("No models found.")
+        return
+
+    print("Available models:")
+    for m in models:
+        model_id = m.get("id", "unknown")
+        print(f"  {model_id}")
+
+
+def expand_glob(pattern: str) -> list[Path]:
+    """Expand glob pattern to list of files."""
+    import glob
+    # Expand ~ and environment variables
+    expanded = os.path.expanduser(os.path.expandvars(pattern))
+    # Use glob.glob for proper handling of absolute paths
+    files = sorted(Path(p) for p in glob.glob(expanded, recursive=True))
+    # Filter to only files (not directories)
+    files = [f for f in files if f.is_file()]
+    return files
+
+
+def build_file_content(files: list[Path]) -> str:
+    """Build the user message content with file(s)."""
+    parts = []
+    for f in files:
+        try:
+            content = f.read_text()
+        except Exception as e:
+            content = f"<Error reading file: {e}>"
+
+        # Determine language hint from extension
+        ext = f.suffix.lstrip(".")
+        lang_map = {
+            "py": "python",
+            "js": "javascript",
+            "ts": "typescript",
+            "tsx": "tsx",
+            "jsx": "jsx",
+            "rb": "ruby",
+            "rs": "rust",
+            "go": "go",
+            "java": "java",
+            "c": "c",
+            "cpp": "cpp",
+            "h": "c",
+            "hpp": "cpp",
+            "md": "markdown",
+            "json": "json",
+            "yaml": "yaml",
+            "yml": "yaml",
+            "sh": "bash",
+            "bash": "bash",
+            "zsh": "zsh",
+            "sql": "sql",
+        }
+        lang = lang_map.get(ext, ext or "")
+
+        parts.append(f"File: {f}\n```{lang}\n{content}\n```")
+
+    return "\n\n".join(parts)
+
+
+SYSTEM_SUFFIX = """
+
+You will receive file content in the user message.
+
+If you have nothing valuable to report for a file, return an empty response.
+Files with empty responses will be omitted from the final report."""
+
+
+def call_llm(
+    system_prompt: str,
+    user_content: str,
+    model: str,
+    extra_params: dict | None = None,
+    stream: bool = True,
+    retries: int = 3,
+    quiet: bool = False,
+) -> str | None:
+    """
+    Call the LLM API and stream the response.
+    Returns the full response text, or None on error.
+    """
+    import time
+    url = get_ollama_url()
+
+    full_system = system_prompt + SYSTEM_SUFFIX
+
+    payload = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": full_system},
+            {"role": "user", "content": user_content},
+        ],
+        "stream": stream,
+    }
+
+    # Merge extra parameters
+    if extra_params:
+        for k, v in extra_params.items():
+            if k not in ("model", "messages", "stream"):
+                payload[k] = v
+
+    for attempt in range(retries):
+        try:
+            resp = requests.post(
+                f"{url}/v1/chat/completions",
+                json=payload,
+                stream=stream,
+                timeout=600,
+            )
+            resp.raise_for_status()
+            break
+        except requests.RequestException as e:
+            if attempt < retries - 1:
+                wait = 2 ** attempt
+                print(f"Error: {e}, retrying in {wait}s...", file=sys.stderr)
+                time.sleep(wait)
+            else:
+                print(f"Error calling LLM (gave up after {retries} attempts): {e}", file=sys.stderr)
+                return None
+
+    full_response = []
+
+    if stream:
+        for line in resp.iter_lines():
+            if not line:
+                continue
+            line = line.decode("utf-8")
+            if line.startswith("data: "):
+                data = line[6:]
+                if data.strip() == "[DONE]":
+                    break
+                try:
+                    import json
+                    chunk = json.loads(data)
+                    delta = chunk.get("choices", [{}])[0].get("delta", {})
+                    content = delta.get("content", "")
+                    if content:
+                        if not quiet:
+                            print(content, end="", flush=True)
+                        full_response.append(content)
+                except Exception:
+                    pass
+        if not quiet:
+            print()  # Final newline
+    else:
+        data = resp.json()
+        content = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+        full_response.append(content)
+
+    return "".join(full_response)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Run LLM prompts against files matching a glob pattern",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  run_llama '**/*.py' -p code_review
+  run_llama '**/*.py' -i "Find all TODO comments"
+  run_llama '**/*.py' -p review --batch
+  run_llama 'src/**/*.tsx' -p security -m gemma-3-27b -o report.md
+  run_llama --list-prompts
+  run_llama --list-models
+""",
+    )
+
+    parser.add_argument(
+        "glob",
+        nargs="?",
+        help="File pattern like '**/*.py'",
+    )
+
+    prompt_group = parser.add_mutually_exclusive_group()
+    prompt_group.add_argument(
+        "-p", "--prompt",
+        help="Load system prompt from prompts/{key}.md",
+    )
+    prompt_group.add_argument(
+        "-i", "--inline",
+        help="Inline system prompt string",
+    )
+
+    parser.add_argument(
+        "-m", "--model",
+        help="Model ID (uses default from config if omitted)",
+    )
+    parser.add_argument(
+        "-o", "--output",
+        help="Also write output to file",
+    )
+    parser.add_argument(
+        "-b", "--batch",
+        action="store_true",
+        help="Combine all files into single API call",
+    )
+    parser.add_argument(
+        "-c", "--compact",
+        action="store_true",
+        help="Compact output: filename: response (one line per file)",
+    )
+    parser.add_argument(
+        "-l", "--list-prompts",
+        action="store_true",
+        help="List saved prompts",
+    )
+    parser.add_argument(
+        "--list-models",
+        action="store_true",
+        help="List models from server",
+    )
+
+    args = parser.parse_args()
+
+    # Handle list commands
+    if args.list_prompts:
+        list_prompts()
+        return
+
+    if args.list_models:
+        list_models()
+        return
+
+    # Require glob pattern for actual runs
+    if not args.glob:
+        parser.error("glob pattern is required (or use --list-prompts / --list-models)")
+
+    # Require either -p or -i
+    if not args.prompt and not args.inline:
+        parser.error("either --prompt (-p) or --inline (-i) is required")
+
+    # Load prompt
+    frontmatter = {}
+    if args.prompt:
+        system_prompt, frontmatter = load_prompt(args.prompt)
+    else:
+        system_prompt = args.inline
+
+    # Expand glob
+    files = expand_glob(args.glob)
+    if not files:
+        print(f"No files matched pattern: {args.glob}", file=sys.stderr)
+        sys.exit(1)
+
+    print(f"Found {len(files)} file(s)", file=sys.stderr)
+
+    # Determine model: CLI arg > prompt frontmatter > config default
+    config = load_config()
+    model = args.model or frontmatter.get("model") or config.get("default_model")
+
+    if not model:
+        print("Error: No model specified.", file=sys.stderr)
+        print(f"Either:", file=sys.stderr)
+        print(f"  - Pass -m/--model argument", file=sys.stderr)
+        print(f"  - Set 'model' in prompt frontmatter", file=sys.stderr)
+        print(f"  - Set 'default_model' in {CONFIG_FILE}", file=sys.stderr)
+        print(f"\nExample config.yaml:", file=sys.stderr)
+        print(f"  default_model: gemma-3-12b-it-UD-Q8_K_XL", file=sys.stderr)
+        print(f"\nUse --list-models to see available models.", file=sys.stderr)
+        sys.exit(1)
+
+    # Get extra params from frontmatter
+    extra_params = frontmatter.get("extra", {})
+
+    # ANSI colors
+    CYAN = "\033[36m"
+    YELLOW = "\033[33m"
+    RED = "\033[31m"
+    RESET = "\033[0m"
+    DIM = "\033[2m"
+
+    # Collect all output for file writing
+    all_output = []
+    errors = 0
+    compact = args.compact
+
+    if args.batch:
+        # Single API call with all files
+        if not compact:
+            print(f"\n{'='*60}", file=sys.stderr)
+            print(f"Processing {len(files)} files in batch mode", file=sys.stderr)
+            print(f"{'='*60}\n", file=sys.stderr)
+
+        user_content = build_file_content(files)
+        response = call_llm(system_prompt, user_content, model, extra_params, stream=not compact, quiet=compact)
+        if response is None:
+            errors += 1
+        elif response.strip():
+            all_output.append(response)
+            if compact:
+                print(response)
+    else:
+        # One API call per file
+        total = len(files)
+        for i, f in enumerate(files):
+            progress = f"{DIM}[{i+1}/{total}]{RESET} "
+
+            if not compact:
+                print(f"\n{'='*60}", file=sys.stderr)
+                print(f"[{i+1}/{total}] {f}", file=sys.stderr)
+                print(f"{'='*60}\n", file=sys.stderr)
+
+            user_content = build_file_content([f])
+            response = call_llm(system_prompt, user_content, model, extra_params, stream=not compact, quiet=compact)
+
+            if response is None:
+                errors += 1
+                if compact:
+                    print(f"{progress}{RED}{f}{RESET}: {DIM}(error){RESET}")
+                continue
+
+            if response.strip():
+                one_line = response.strip().replace("\n", " ")
+                if compact:
+                    print(f"{progress}{CYAN}{f}{RESET}: {one_line}")
+                    all_output.append(f"{f}: {one_line}")
+                else:
+                    all_output.append(f"## {f}\n\n{response}")
+
+    if errors:
+        print(f"\n{RED}{errors} file(s) failed to process{RESET}", file=sys.stderr)
+
+    # Write to output file if requested
+    if args.output:
+        output_path = Path(args.output)
+        output_path.write_text("\n\n".join(all_output))
+        print(f"\nOutput written to: {output_path}", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()
