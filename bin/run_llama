@@ -184,12 +184,15 @@ def build_file_content(files: list[Path]) -> str:
     return "\n\n".join(parts)
 
 
-SYSTEM_SUFFIX = """
+SYSTEM_SUFFIX = "\n\nYou will receive file content in the user message."
 
-You will receive file content in the user message.
+SKIP_TOKEN = "<NO_OUTPUT>"
 
-If you have nothing valuable to report for a file, return an empty response.
-Files with empty responses will be omitted from the final report."""
+
+def should_skip(response: str) -> bool:
+    """Check if response indicates skip."""
+    stripped = response.strip()
+    return not stripped or stripped == SKIP_TOKEN
 
 
 def call_llm(
@@ -326,6 +329,11 @@ Examples:
         help="Compact output: filename: response (one line per file)",
     )
     parser.add_argument(
+        "-s", "--hide-empty",
+        action="store_true",
+        help="Hide files with no content from output",
+    )
+    parser.add_argument(
         "-l", "--list-prompts",
         action="store_true",
         help="List saved prompts",
@@ -338,7 +346,6 @@ Examples:
 
     args = parser.parse_args()
 
-    # Handle list commands
     if args.list_prompts:
         list_prompts()
         return
@@ -411,17 +418,22 @@ Examples:
         response = call_llm(system_prompt, user_content, model, extra_params, stream=not compact, quiet=compact)
         if response is None:
             errors += 1
-        elif response.strip():
+        elif not should_skip(response):
             all_output.append(response)
             if compact:
                 print(response)
     else:
         # One API call per file
         total = len(files)
+        CLEAR_LINE = "\033[K"
+
         for i, f in enumerate(files):
             progress = f"{DIM}[{i+1}/{total}]{RESET} "
 
-            if not compact:
+            if compact:
+                # Dynamic progress line (overwritten)
+                print(f"\r{DIM}[{i+1}/{total}] {f}{CLEAR_LINE}{RESET}", end="", file=sys.stderr, flush=True)
+            else:
                 print(f"\n{'='*60}", file=sys.stderr)
                 print(f"[{i+1}/{total}] {f}", file=sys.stderr)
                 print(f"{'='*60}\n", file=sys.stderr)
@@ -432,16 +444,24 @@ Examples:
             if response is None:
                 errors += 1
                 if compact:
-                    print(f"{progress}{RED}{f}{RESET}: {DIM}(error){RESET}")
+                    print(f"\r{CLEAR_LINE}{progress}{RED}{f}{RESET}: {DIM}(error){RESET}")
                 continue
 
-            if response.strip():
-                one_line = response.strip().replace("\n", " ")
-                if compact:
-                    print(f"{progress}{CYAN}{f}{RESET}: {one_line}")
-                    all_output.append(f"{f}: {one_line}")
-                else:
-                    all_output.append(f"## {f}\n\n{response}")
+            if should_skip(response):
+                if compact and not args.hide_empty:
+                    print(f"\r{CLEAR_LINE}{progress}{DIM}{f}: (no content){RESET}")
+                continue
+
+            one_line = response.strip().replace("\n", " ")
+            if compact:
+                print(f"\r{CLEAR_LINE}{progress}{CYAN}{f}{RESET}: {one_line}")
+                all_output.append(f"{f}: {one_line}")
+            else:
+                all_output.append(f"## {f}\n\n{response}")
+
+        # Clear the progress line at the end
+        if compact:
+            print(f"\r{CLEAR_LINE}", end="", file=sys.stderr)
 
     if errors:
         print(f"\n{RED}{errors} file(s) failed to process{RESET}", file=sys.stderr)

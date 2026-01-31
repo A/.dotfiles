@@ -1,0 +1,39 @@
+# Completion for run_llama
+
+_run_llama() {
+    local state
+    _arguments \
+        '-p[Load system prompt]:prompt:->prompts' \
+        '--prompt[Load system prompt]:prompt:->prompts' \
+        '-i[Inline system prompt]:text:' \
+        '--inline[Inline system prompt]:text:' \
+        '-m[Model ID]:model:->models' \
+        '--model[Model ID]:model:->models' \
+        '-o[Output file]:file:_files' \
+        '--output[Output file]:file:_files' \
+        '-b[Batch mode]' \
+        '--batch[Batch mode]' \
+        '-c[Compact output]' \
+        '--compact[Compact output]' \
+        '-s[Hide empty]' \
+        '--hide-empty[Hide empty]' \
+        '-l[List prompts]' \
+        '--list-prompts[List prompts]' \
+        '--list-models[List models]' \
+        '*:file:_files'
+
+    case "$state" in
+        prompts)
+            local prompts_dir="${XDG_CONFIG_HOME:-$HOME/.config}/run_llama/prompts"
+            [[ -d "$prompts_dir" ]] && compadd ${prompts_dir}/*.md(:t:r)
+            ;;
+        models)
+            local cache="${XDG_CACHE_HOME:-$HOME/.cache}/run_llama_models"
+            if [[ -f "$cache" ]]; then
+                compadd ${(f)"$(<$cache)"}
+            fi
+            ;;
+    esac
+}
+
+compdef _run_llama run_llama
