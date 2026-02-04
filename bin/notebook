@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+NVIM_APPNAME=nvim-notebook nvim "${@}"

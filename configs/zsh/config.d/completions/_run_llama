@@ -29,9 +29,11 @@ _run_llama() {
             ;;
         models)
             local cache="${XDG_CACHE_HOME:-$HOME/.cache}/run_llama_models"
-            if [[ -f "$cache" ]]; then
-                compadd ${(f)"$(<$cache)"}
+            # Refresh cache if missing or older than 5 minutes
+            if [[ ! -f "$cache" || $(( $(date +%s) - $(stat -c %Y "$cache" 2>/dev/null || echo 0) )) -gt 300 ]]; then
+                run_llama --list-models 2>/dev/null | awk 'NR>1 {print $1}' > "$cache" 2>/dev/null
             fi
+            [[ -f "$cache" ]] && compadd ${(f)"$(<$cache)"}
             ;;
     esac
 }

@@ -1,0 +1,35 @@
+#!/bin/bash
+# Convert PDF to Markdown via marker API
+
+MARKER_API="${MARKER_API_URL:-http://10.0.0.106:8000}"
+
+if [[ -z "$1" ]]; then
+    echo "Usage: pdf2md <file.pdf> [output.md]"
+    exit 1
+fi
+
+pdf_file="$1"
+if [[ ! -f "$pdf_file" ]]; then
+    echo "Error: File not found: $pdf_file"
+    exit 1
+fi
+
+# Output file: use provided name or derive from input
+if [[ -n "$2" ]]; then
+    output="$2"
+else
+    output="${pdf_file%.pdf}.md"
+fi
+
+echo "Converting: $pdf_file -> $output"
+curl -s -X POST "${MARKER_API}/convert" \
+    -F "pdf_file=@${pdf_file}" \
+    | jq -r '.[0].markdown' > "$output"
+
+if [[ -s "$output" ]]; then
+    echo "Done: $output"
+else
+    echo "Error: Conversion failed"
+    rm -f "$output"
+    exit 1
+fi

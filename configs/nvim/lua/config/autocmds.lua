@@ -4,7 +4,7 @@ vim.api.nvim_command('autocmd BufWinEnter ?* silent! loadview')
 
 
 
-vim.api.nvim_command("augroup obsidian")
+vim.api.nvim_command("augroup markdown")
 vim.api.nvim_command("au FileType markdown :setlocal path+=./**")
 --- Let's `gf` edits file even if it hasn't been created before
 vim.api.nvim_command("au FileType markdown :setlocal isfname+=32")
