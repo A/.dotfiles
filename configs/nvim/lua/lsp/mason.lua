@@ -19,6 +19,7 @@ return {
         "html",
         "lua_ls",
         "markdown_oxide",
+        "rust_analyzer",
       },
     },
     dependencies = {

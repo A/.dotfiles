@@ -1,6 +1,7 @@
 -- markdown-oxide LSP for wiki links, completions, and backlinks
 return {
   "saghen/blink.cmp",
+  enabled = false,
   config = function()
     local capabilities = require("blink.cmp").get_lsp_capabilities()
 
