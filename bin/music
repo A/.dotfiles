@@ -1,0 +1,362 @@
+#!/bin/bash
+set -euo pipefail
+
+YAD="/usr/bin/yad"
+
+current_file() {
+  local file
+  file=$(mpc current -f '%file%')
+  if [ -z "$file" ]; then
+    notify-send "Music" "Nothing playing"
+    exit 1
+  fi
+  echo "$file"
+}
+
+current_query() {
+  local file
+  file=$(current_file)
+  echo "path:$HOME/Music/$file"
+}
+
+beet_id() {
+  beet ls -f '$id' "$1" 2>/dev/null | head -1
+}
+
+beet_field() {
+  local query="$1" field="$2"
+  local val
+  val=$(beet ls -f "\$$field" "$query" 2>/dev/null | head -1)
+  [[ "$val" == "\$$field" ]] && val=""
+  echo "$val"
+}
+
+sync_comments() {
+  local query="$1"
+  local tags rating vocal collection
+  tags=$(beet_field "$query" tags)
+  rating=$(beet_field "$query" rating)
+  vocal=$(beet_field "$query" vocal)
+  collection=$(beet_field "$query" collection)
+
+  local parts=()
+  [[ -n "$tags" ]] && parts+=("tags:$tags")
+  [[ -n "$rating" && "$rating" != "0" ]] && parts+=("rating:${rating%%.*}")
+  [[ "$vocal" == "True" || "$vocal" == "1" ]] && parts+=("vocal")
+  [[ "$collection" == "True" || "$collection" == "1" ]] && parts+=("collection")
+
+  local comment
+  comment=$(IFS=' | '; echo "${parts[*]}")
+  beet modify -y -w "$query" "comments=$comment" >/dev/null 2>&1
+}
+
+all_folders() {
+  beet ls -f '$folder' collection:true 2>/dev/null | grep -v '^\$' | grep -v '^$' | sort -u
+}
+
+all_tags() {
+  beet ls -f '$tags' 2>/dev/null | tr ',' '\n' | sed 's/^ *//;s/ *$//' | grep -v '^\$' | grep -v '^$' | sort -fu
+}
+
+# Build folder CBE value: current first, then other known folders
+folder_combo() {
+  local cur="$1"
+  local folders
+  folders=$(all_folders | grep -v "^${cur}$" || true)
+  local combo="$cur"
+  while IFS= read -r f; do
+    [[ -n "$f" ]] && combo+="!$f"
+  done <<< "$folders"
+  echo "$combo"
+}
+
+rating_combo() {
+  local cur="${1:-0}"
+  case "$cur" in
+    1) echo "1!—!2!3!4!5" ;; 2) echo "2!—!1!3!4!5" ;;
+    3) echo "3!—!1!2!4!5" ;; 4) echo "4!—!1!2!3!5" ;;
+    5) echo "5!—!1!2!3!4" ;; *) echo "—!1!2!3!4!5" ;;
+  esac
+}
+
+bool_check() { [[ "$1" == "True" || "$1" == "1" ]] && echo TRUE || echo FALSE; }
+bool_val()   { [[ "$1" == "TRUE" ]] && echo 1 || echo 0; }
+bool_cmp()   { [[ "$1" == "True" || "$1" == "1" ]] && echo 1 || echo 0; }
+
+# Build yad args for tag checkboxes + new tags field
+# Sets TAG_YAD_ARGS array and TAG_KNOWN array
+build_tag_fields() {
+  local cur_tags="$1"
+  TAG_YAD_ARGS=()
+  TAG_KNOWN=()
+
+  while IFS= read -r t; do
+    [[ -z "$t" ]] && continue
+    TAG_KNOWN+=("$t")
+    if [[ ",${cur_tags,,}," == *",${t,,},"* ]]; then
+      TAG_YAD_ARGS+=(--field="$t:CHK" "TRUE")
+    else
+      TAG_YAD_ARGS+=(--field="$t:CHK" "FALSE")
+    fi
+  done < <(all_tags)
+
+  TAG_YAD_ARGS+=(--field="New tags (comma-separated)" "")
+}
+
+# Parse tag portion of yad result into comma-separated string
+parse_tag_result() {
+  local new_tags=""
+  for i in "${!TAG_KNOWN[@]}"; do
+    local val="${1:-FALSE}"
+    shift || true
+    [[ "$val" == "TRUE" ]] && new_tags+="${TAG_KNOWN[$i]},"
+  done
+  local extra="${1:-}"
+  [[ -n "$extra" ]] && new_tags+="$extra,"
+  new_tags="${new_tags%,}"
+  echo "$new_tags"
+}
+
+cmd_play() {
+  local filter=()
+  case "${1:-}" in
+    inbox)      filter+=("^collection:true"); shift ;;
+    collection) filter+=("collection:true"); shift ;;
+  esac
+  filter+=("$@")
+
+  mpc clear
+  beet ls -f '$path' "${filter[@]}" 2>/dev/null | while read -r path; do
+    rel="${path#$HOME/Music/}"
+    mpc add "$rel"
+  done
+  local count
+  count=$(mpc playlist | wc -l)
+  if [ "$count" -gt 0 ]; then
+    mpc play
+    notify-send "Music" "Playing $count tracks"
+  else
+    notify-send "Music" "No matching tracks"
+  fi
+}
+
+cmd_search() {
+  local selection
+  selection=$(mpc search any "" | wofi --dmenu --conf ~/.config/wofi/config --prompt "Search music")
+  [ -z "$selection" ] && exit 0
+  mpc searchadd filename "$selection"
+  mpc play $(mpc playlist | wc -l)
+}
+
+cmd_playlist() {
+  local playlist
+  playlist=$(mpc lsplaylists | wofi --dmenu --conf ~/.config/wofi/config --prompt "Playlist")
+  [ -z "$playlist" ] && exit 0
+  mpc clear
+  mpc load "$playlist"
+  mpc play
+}
+
+cmd_random() {
+  local count
+  count=$(echo -e "5\n10\n20\n50" | wofi --dmenu --conf ~/.config/wofi/config --prompt "How many random tracks?")
+  [ -z "$count" ] && exit 0
+  mpc clear
+  beet random -n "$count" -f '$path' | while read -r path; do
+    rel="${path#$HOME/Music/}"
+    mpc add "$rel"
+  done
+  mpc play
+}
+
+cmd_tag() {
+  local query
+  query=$(current_query)
+  local track
+  track=$(mpc current -f '%artist% - %title%')
+
+  local cur_tags cur_rating cur_vocal cur_collection
+  cur_tags=$(beet_field "$query" tags)
+  cur_rating=$(beet_field "$query" rating)
+  cur_vocal=$(beet_field "$query" vocal)
+  cur_collection=$(beet_field "$query" collection)
+
+  build_tag_fields "$cur_tags"
+
+  local result
+  result=$($YAD --form --title "Tag: $track" \
+    --separator='|' \
+    --field="Rating:CB" "$(rating_combo "${cur_rating:-0}")" \
+    --field="Vocal:CHK" "$(bool_check "$cur_vocal")" \
+    --field="Collection:CHK" "$(bool_check "$cur_collection")" \
+    --field="Tags:LBL" "" \
+    "${TAG_YAD_ARGS[@]}" \
+    2>/dev/null) || exit 0
+
+  IFS='|' read -ra fields <<< "$result"
+  local rating="${fields[0]}"
+  local vocal="${fields[1]}"
+  local collection="${fields[2]}"
+  # fields[3] is LBL
+  local tags
+  tags=$(parse_tag_result "${fields[@]:4}")
+
+  local new_rating=0
+  [[ "$rating" =~ ^[1-5]$ ]] && new_rating="$rating"
+
+  local mods=()
+  [ "$tags" != "$cur_tags" ] && mods+=("tags=$tags")
+  [ "$new_rating" != "${cur_rating:-0}" ] && mods+=("rating=$new_rating")
+  [ "$(bool_val "$vocal")" != "$(bool_cmp "$cur_vocal")" ] && mods+=("vocal=$(bool_val "$vocal")")
+  [ "$(bool_val "$collection")" != "$(bool_cmp "$cur_collection")" ] && mods+=("collection=$(bool_val "$collection")")
+
+  if [ ${#mods[@]} -gt 0 ]; then
+    local item_id
+    item_id=$(beet_id "$query")
+    beet modify -y "$query" "${mods[@]}"
+    local id_query="id:$item_id"
+    beet move "$id_query"
+    sync_comments "$id_query"
+    beet splupdate >/dev/null 2>&1
+    mpc update --wait >/dev/null 2>&1 &
+    notify-send "Music Tag" "Updated: ${mods[*]}"
+  else
+    notify-send "Music Tag" "No changes"
+  fi
+}
+
+cmd_collect() {
+  local query
+  query=$(current_query)
+  local track
+  track=$(mpc current -f '%artist% - %title%')
+
+  local cur_folder cur_genre cur_tags cur_rating cur_vocal
+  cur_folder=$(beet_field "$query" folder)
+  cur_genre=$(beet_field "$query" genre)
+  cur_tags=$(beet_field "$query" tags)
+  cur_rating=$(beet_field "$query" rating)
+  cur_vocal=$(beet_field "$query" vocal)
+
+  # Default folder to genre for uncollected tracks
+  [[ -z "$cur_folder" ]] && cur_folder="$cur_genre"
+
+  build_tag_fields "$cur_tags"
+
+  local result
+  result=$($YAD --form --title "Collect: $track" \
+    --separator='|' \
+    --field="Folder:CBE" "$(folder_combo "$cur_folder")" \
+    --field="Rating:CB" "$(rating_combo "${cur_rating:-0}")" \
+    --field="Vocal:CHK" "$(bool_check "$cur_vocal")" \
+    --field="Tags:LBL" "" \
+    "${TAG_YAD_ARGS[@]}" \
+    2>/dev/null) || exit 0
+
+  IFS='|' read -ra fields <<< "$result"
+  local folder="${fields[0]}"
+  local rating="${fields[1]}"
+  local vocal="${fields[2]}"
+  # fields[3] is LBL
+  local tags
+  tags=$(parse_tag_result "${fields[@]:4}")
+
+  local new_rating=0
+  [[ "$rating" =~ ^[1-5]$ ]] && new_rating="$rating"
+
+  local mods=("collection=1")
+  [ -n "$folder" ] && mods+=("folder=$folder" "genre=$folder")
+  [ "$tags" != "$cur_tags" ] && mods+=("tags=$tags")
+  [ "$new_rating" != "${cur_rating:-0}" ] && mods+=("rating=$new_rating")
+  [ "$(bool_val "$vocal")" != "$(bool_cmp "$cur_vocal")" ] && mods+=("vocal=$(bool_val "$vocal")")
+
+  local item_id
+  item_id=$(beet_id "$query")
+  beet modify -y "$query" "${mods[@]}"
+  local id_query="id:$item_id"
+  beet move "$id_query"
+  sync_comments "$id_query"
+  beet splupdate >/dev/null 2>&1
+  local pos
+  pos=$(mpc current -f '%position%')
+  mpc del "$pos"
+  mpc update --wait >/dev/null 2>&1 &
+  notify-send "Music Collection" "Added: $track"
+}
+
+cmd_rate() {
+  local rating="${1:?Usage: music rate <1-5>}"
+  local query
+  query=$(current_query)
+  beet modify -y "$query" "rating=$rating"
+  sync_comments "$query"
+  notify-send "Music Rating" "Rated $(mpc current -f '%artist% - %title%') $rating/5"
+}
+
+cmd_inbox() {
+  mpc clear
+  beet ls -f '$path' ^collection:true 2>/dev/null | while read -r path; do
+    rel="${path#$HOME/Music/}"
+    mpc add "$rel"
+  done
+  local count
+  count=$(mpc playlist | wc -l)
+  if [ "$count" -gt 0 ]; then
+    mpc play
+    notify-send "Music Inbox" "Loaded $count tracks"
+  else
+    notify-send "Music Inbox" "No inbox tracks"
+  fi
+}
+
+cmd_import() {
+  local collection=false
+  if [[ "${1:-}" == "--collection" ]]; then
+    collection=true
+    shift
+  fi
+  beet import "$@"
+  if $collection; then
+    beet modify -y collection::^$ collection=1
+    beet move collection:true
+  fi
+}
+
+cmd_delete() {
+  local query
+  query=$(current_query)
+  local title
+  title=$(mpc current -f '%artist% - %title%')
+
+  $YAD --question --title "Delete track" \
+    --text "Delete \"$title\" from library and disk?" \
+    2>/dev/null || exit 0
+
+  local pos
+  pos=$(mpc current -f '%position%')
+  mpc del "$pos"
+  beet remove -d -f "$query"
+  beet splupdate >/dev/null 2>&1
+  mpc update --wait >/dev/null 2>&1 &
+  notify-send "Music" "Deleted: $title"
+}
+
+cmd_splupdate() {
+  beet splupdate
+  notify-send "Music" "Playlists regenerated"
+}
+
+case "${1:-}" in
+  play)      shift; cmd_play "$@" ;;
+  search)    cmd_search ;;
+  playlist)  cmd_playlist ;;
+  random)    cmd_random ;;
+  tag)       cmd_tag ;;
+  collect)   cmd_collect ;;
+  rate)      shift; cmd_rate "$@" ;;
+  import)    shift; cmd_import "$@" ;;
+  inbox)     cmd_inbox ;;
+  delete)    cmd_delete ;;
+  splupdate) cmd_splupdate ;;
+  *)         echo "Usage: music {play|search|playlist|random|tag|collect|rate|import|inbox|delete|splupdate}" >&2; exit 1 ;;
+esac
