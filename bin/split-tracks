@@ -1,25 +1,93 @@
-#!/bin/bash
-#
-set -e
-OUTPUT_FORMAT="%02n.%t"
-TEMPTRACK="_track"
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["cueparser"]
+# ///
 
-# Rename a bunch of files.
-# 
-# Standard input: New filenames (one filename per line)
-# Arguments ($1..$N): Files to rename. 
-rename_from_file() {
-    paste <(for FILE in "$@"; do echo "$FILE"; done) - | \
-        tr '\n' '\t' | xargs -rt -d"\t" -n2 mv
-}
+import subprocess
+import sys
+from pathlib import Path
 
-# Main
-[ $# -ge 1 ] || { echo "Usage: $(basename $0) APE|FLAC|WAV [CUE]"; exit 1; }
-AUDIOFILE=$1
-CUEFILE=$2
-[ "$CUEFILE" ] || CUEFILE=${AUDIOFILE%.*}.cue
-[ -e "$CUEFILE" ] || { echo "CUE file not found: $CUEFILE"; exit 1; } 
-cuefix "$CUEFILE"
-cuebreakpoints "$CUEFILE" | shnsplit -O always -a $TEMPTRACK -o flac "$AUDIOFILE"
-cuetag.sh "$CUEFILE" $TEMPTRACK*.flac
-cueprint -t "$OUTPUT_FORMAT.flac\n" "$CUEFILE" | rename_from_file $TEMPTRACK*.flac
+from cueparser import CueSheet
+
+
+def main():
+    if len(sys.argv) < 2:
+        print(f"Usage: {Path(sys.argv[0]).name} AUDIOFILE [CUEFILE]", file=sys.stderr)
+        sys.exit(1)
+
+    audiofile = Path(sys.argv[1]).resolve()
+    if not audiofile.exists():
+        print(f"Audio file not found: {audiofile}", file=sys.stderr)
+        sys.exit(1)
+
+    if len(sys.argv) >= 3:
+        cuefile = Path(sys.argv[2]).resolve()
+    else:
+        cuefile = audiofile.with_suffix(".cue")
+
+    if not cuefile.exists():
+        print(f"CUE file not found: {cuefile}", file=sys.stderr)
+        sys.exit(1)
+
+    cue = CueSheet()
+    cue.setOutputFormat("", "%performer% - %title%")
+    cue.setData(cuefile.read_text(errors="replace"))
+    cue.parse()
+
+    outdir = audiofile.parent
+    tracks = cue.tracks
+
+    for i, track in enumerate(tracks):
+        num = track.number
+        title = track.title or f"Track {num}"
+        performer = track.performer or cue.performer or "Unknown"
+        start = index_to_seconds(track.offset)
+
+        if i + 1 < len(tracks):
+            end = index_to_seconds(tracks[i + 1].offset)
+        else:
+            end = None
+
+        outname = f"{num:02d}.{performer} - {title}.flac"
+        outpath = outdir / sanitize(outname)
+
+        cmd = ["ffmpeg", "-y", "-i", str(audiofile), "-ss", str(start)]
+        if end is not None:
+            cmd += ["-to", str(end)]
+        cmd += [
+            "-map", "0:a",
+            "-c:a", "flac",
+            "-metadata", f"title={title}",
+            "-metadata", f"artist={performer}",
+            "-metadata", f"album={cue.title or ''}",
+            "-metadata", f"track={num}/{len(tracks)}",
+            str(outpath),
+        ]
+
+        print(f"[{num}/{len(tracks)}] {outname}")
+        subprocess.run(cmd, check=True, capture_output=True)
+
+    print("Done. Removing original files...")
+    audiofile.unlink()
+    cuefile.unlink()
+    print(f"Split into {len(tracks)} tracks in {outdir}")
+
+
+def index_to_seconds(offset: str) -> float:
+    parts = offset.split(":")
+    if len(parts) == 3:
+        m, s, f = int(parts[0]), int(parts[1]), int(parts[2])
+        return m * 60 + s + f / 75.0
+    elif len(parts) == 2:
+        m, s = int(parts[0]), int(parts[1])
+        return m * 60 + s
+    return 0.0
+
+
+def sanitize(name: str) -> str:
+    return name.replace("/", "-").replace("\x00", "")
+
+
+if __name__ == "__main__":
+    main()

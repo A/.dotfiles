@@ -31,7 +31,8 @@ box.horizontal.modules-center,
 #custom-zapusk,
 #custom-pipewire,
 #pulseaudio,
-#submap {
+#submap,
+#custom-zapusk-handle {
   margin: 4px 0px;
   background-color: @component-background;
   border-radius: 3px;
@@ -50,6 +51,7 @@ box.horizontal.modules-right,
 #custom-deadbeef,
 #custom-jobs,
 #custom-zapusk,
+#custom-zapusk-handle,
 #custom-pipewire,
 #mpris,
 #bluetooth,
@@ -134,11 +136,25 @@ box.horizontal.modules-right {
   color: @component-text;
 }
 
-#custom-dela,
+#custom-inhibitor.activated {
+  color: #ff4242;
+}
+
+#custom-beets,
 #custom-pacman,
 #custom-docker,
 #custom-notification {
   padding: 0 2px;
+}
+
+#custom-beets {
+  margin: 4px 0px;
+  background-color: @component-background;
+  border-radius: 3px;
+  border: 0px solid @component-border;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+  color: @component-text;
+  padding: 0 10px;
 }
 
 /* #battery.charging, */

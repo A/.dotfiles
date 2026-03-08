@@ -3,5 +3,13 @@ source ~/.zshrc
 
 killall waybar > /dev/null
 
-systemd-run --user --scope -G -p MemoryMax=500M -p MemorySwapMax=200M waybar --config ~/.config/waybar/top.config --style ~/.config/waybar/top.style.css > ~/.tmp/logs/waybar.top.log 2>&1 & 
+# Wait for xdg-desktop-portal to be available (up to 15s)
+for i in {1..30}; do
+  busctl --user status org.freedesktop.portal.Desktop &>/dev/null && break
+  sleep 0.5
+done
+
+systemd-run --user --scope -G -p MemoryMax=500M -p MemorySwapMax=200M waybar --config ~/.config/waybar/top.config --style ~/.config/waybar/top.style.css > ~/.tmp/logs/waybar.top.log 2>&1 &
 systemd-run --user --scope -G -p MemoryMax=500M -p MemorySwapMax=200M waybar --config ~/.config/waybar/bottom.config --style ~/.config/waybar/bottom.style.css > ~/.tmp/logs/waybar.bottom.log 2>&1 &
+
+~/.config/waybar/bin/idle-inhibit.sh --restore

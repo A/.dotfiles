@@ -1,0 +1,41 @@
+#!/bin/bash
+set -euo pipefail
+
+# One-time migration: convert tags → playlists, remove old fields
+# Run this once, then delete this script.
+
+append_playlist() {
+  local query="$1" new_pl="$2"
+  echo "Migrating: $query → playlist '$new_pl'"
+  beet ls -f '$id' "$query" 2>/dev/null | while read -r id; do
+    local cur
+    cur=$(beet ls -f '$playlists' "id:$id" 2>/dev/null | head -1)
+    [[ "$cur" == '$playlists' ]] && cur=""
+    if [[ -z "$cur" ]]; then
+      beet modify -y "id:$id" "playlists=$new_pl"
+    elif [[ ",${cur}," != *",${new_pl},"* ]]; then
+      beet modify -y "id:$id" "playlists=${cur},${new_pl}"
+    fi
+  done
+}
+
+# Run all migrations (order doesn't matter due to append logic)
+append_playlist "tags:OST" "OST"
+append_playlist "folder:Jazz tags:Coffee Table" "Coffee Table Jazz"
+append_playlist "folder:Ambient tags:Dark" "Dark Ambient"
+append_playlist "folder:Orchestral tags:Dark" "Dark Orchestral"
+append_playlist "folder:Ambient tags:Space" "Space Ambient"
+
+# Clear old fields
+echo "Clearing old fields (tags, rating, vocal, collection)..."
+beet modify -y tags= rating= vocal= collection=
+
+# Move files to match new path rules
+echo "Moving files..."
+beet move
+
+# Regenerate playlists
+echo "Regenerating playlists..."
+music splupdate
+
+echo "Migration complete!"

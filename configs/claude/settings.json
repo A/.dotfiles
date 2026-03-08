@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(xargs cat:*)",
+      "mcp__atlassian__getJiraProjectIssueTypesMetadata",
+      "mcp__atlassian__createJiraIssue",
+      "mcp__atlassian__lookupJiraAccountId",
+      "mcp__atlassian__editJiraIssue",
+      "WebSearch",
+      "WebFetch(domain:community.atlassian.com)",
+      "mcp__atlassian__getJiraIssue"
+    ],
+    "deny": [
+      "Read(**/.env*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(**/.aws/**)",
+      "Read(**/.ssh/**)",
+      "Read(~/.exports)"
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "/home/anton/.claude/statusline.sh"
+  },
+  "enabledPlugins": {
+    "pyright-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "context7@claude-plugins-official": true
+  },
+  "effortLevel": "medium"
+}
