@@ -1,0 +1,29 @@
+directory: ~/Music
+library: ~/.config/beets/library.db
+
+threaded: yes
+asciify_path: yes
+
+import:
+  move: yes
+  copy: no
+  write: yes
+  autotag: no
+  incremental: yes
+
+plugins: smartplaylist types random mpdupdate play mpdstats
+
+paths:
+  "folder::.+": $folder/$artist - $album - $track - $title
+  default: inbox/$genre/$artist - $album - $track - $title
+
+smartplaylist:
+  playlist_dir: ~/Music/playlists
+  relative_to: ~/Music
+  playlists:
+    - name: inbox.m3u
+      query: '^folder::.+'
+
+mpd:
+  host: localhost
+  port: 6600

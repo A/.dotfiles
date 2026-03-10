@@ -21,6 +21,8 @@ packages:
         state: latest
       - name: htop
         state: latest
+      - name: btop
+        state: latest
       - name: dnsutils
         state: latest
       - name: traceroute
@@ -359,6 +361,16 @@ packages:
         dest: "{{ ansible_env.HOME }}/.bin"
 
   - name: music
+    links:
+      - src: "{{ dotfiles_source_dir }}/beets/config.yaml"
+        dest: "{{ configs_home }}/beets/config.yaml"
+      - src: "{{ dotfiles_source_dir }}/mpd/mpd.conf"
+        dest: "{{ configs_home }}/mpd/mpd.conf"
+    pacman_packages:
+      - name: beets
+        state: latest
+      - name: mpd
+        state: latest
     aur_packages:
       - name: bpm-tools
         state: latest

@@ -62,6 +62,10 @@ box.horizontal.modules-right,
   padding: 0 10px;
 }
 
+#custom-zapusk-handle {
+  padding-right: 14px;
+}
+
 #tray {
   background: @tray-background;
   color: @tray-text;
