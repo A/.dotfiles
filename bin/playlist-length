@@ -1,0 +1,7 @@
+#!/bin/sh
+# Usage: playlist-length <playlist-name>
+# Outputs total duration as h:mm:ss
+mpc playlist -f %time% "$1" | awk -F: '
+  {if(NF==3)s+=$1*3600+$2*60+$3;else if(NF==2)s+=$1*60+$2;else s+=$1}
+  END{h=int(s/3600);m=int((s%3600)/60);sec=s%60;printf "%d:%02d:%02d\n",h,m,sec}
+'

@@ -11,7 +11,7 @@ import:
   autotag: no
   incremental: yes
 
-plugins: smartplaylist types random mpdupdate play mpdstats
+plugins: edit smartplaylist types random mpdupdate play mpdstats
 
 paths:
   "folder::.+": $folder/$artist - $album - $track - $title

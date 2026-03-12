@@ -1,5 +1,7 @@
 ---
+name: jira-tasks
 description: Create Jira tasks from a planning document with clear, actionable descriptions
+trigger: When the user asks to create Jira issues/tasks/stories from a planning document, spec, or list of work items. Also triggered when user provides a structured list of tasks and asks to put them in Jira.
 ---
 
 ## User Input
@@ -174,13 +176,13 @@ Then ask: "This task has no explicit DoD. Would you like to add one? For example
 
 ## Checklist Before Creating Issues
 
-1. ✓ Project key confirmed with user
-2. ✓ Epic decision made (new or existing)
-3. ✓ Subtask needs evaluated with user
-4. ✓ DoD copied exactly from original (not invented)
-5. ✓ Tasks listed with time estimates
-6. ✓ Assignees set if mapping provided
-7. ✓ Missing DoD flagged and user asked
+1. Project key confirmed with user
+2. Epic decision made (new or existing)
+3. Subtask needs evaluated with user
+4. DoD copied exactly from original (not invented)
+5. Tasks listed with time estimates
+6. Assignees set if mapping provided
+7. Missing DoD flagged and user asked
 
 ## Sources
 

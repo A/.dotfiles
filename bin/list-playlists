@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+"""List all beets playlists with their distinct artists."""
+
+import subprocess
+
+
+def beet_ls(query, fmt):
+    result = subprocess.run(
+        ["beet", "ls"] + query + ["-f", fmt],
+        capture_output=True, text=True
+    )
+    return result.stdout.strip().splitlines()
+
+
+def get_all_playlists():
+    playlists = set()
+    for line in beet_ls(["playlists::.", ], "$playlists"):
+        for pl in line.split(","):
+            pl = pl.strip()
+            if pl:
+                playlists.add(pl)
+    return sorted(playlists)
+
+
+def get_artists_for_playlist(playlist):
+    artists = set()
+    for line in beet_ls([f"playlists:{playlist}"], "$artist"):
+        artist = line.strip()
+        if artist:
+            artists.add(artist)
+    return sorted(artists)
+
+
+def main():
+    playlists = get_all_playlists()
+    if not playlists:
+        print("No playlists found.")
+        return
+
+    for pl in playlists:
+        artists = get_artists_for_playlist(pl)
+        print(f"\n[{pl}] ({len(artists)} artists)")
+        for a in artists:
+            print(f"  - {a}")
+
+
+if __name__ == "__main__":
+    main()
