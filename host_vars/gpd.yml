@@ -1,0 +1,331 @@
+---
+ansible_python_interpreter: /usr/bin/python3
+
+dotfiles_source_dir: "{{ playbook_dir }}/configs"
+configs_default_home: "{{ lookup('env', 'HOME') }}/.configs"
+configs_home: "{{ lookup('env', 'XDG_CONFIG_HOME') | default(configs_default_home, True) }}"
+
+# Package name can be used as a tag. (see: manage_packages.yml)
+packages:
+  - name: base
+    pacman_packages:
+      - name: acpi
+        state: latest
+      - name: pkgfile
+        state: latest
+      - name: base-devel
+        state: latest
+      - name: openssh
+        state: latest
+      - name: git
+        state: latest
+      - name: htop
+        state: latest
+      - name: dnsutils
+        state: latest
+      - name: traceroute
+        state: latest
+      - name: powertop
+        state: latest
+      - name: nmap
+        state: latest
+      - name: cronie
+        state: latest
+      - name: imagemagick
+        state: latest
+      - name: neofetch
+        state: latest
+      - name: tree
+        state: latest
+    cargo_packages:
+      - name: exa
+        state: present
+      - name: bat
+        state: present
+      - name: fd-find
+        state: present
+      - name: du-dust
+        state: latest
+      - name: cargo-update
+        state: present
+
+  - name: hyprland
+    pacman_packages:
+      - name: hyprpaper
+        state: latest
+      - name: hyprland
+        state: latest
+      - name: network-manager-applet
+        state: latest
+      - name: udiskie
+        state: latest
+      - name: rofi
+        state: latest
+      - name: networkmanager-openvpn
+        state: latest
+      - name: mesa-utils
+        state: latest
+    aur_packages:
+      - name: hyprevents-git
+        state: latest
+      - name: hyprlock-git
+        state: latest
+      - name: hyprpicker
+        state: latest
+      - name: hyprprop-git
+        state: latest
+      - name: uair
+        state: latest
+      - name: hyprpaper
+        state: latest
+      - name: blueman-git
+        state: latest
+      - name: swaync
+        state: latest
+      - name: wlr-randr
+        state: latest
+      - name: pasystray-wayland
+        state: latest
+      - name: swappy
+        state: latest
+      - name: xdg-desktop-portal-hyprland-git
+        state: latest
+      - name: wlogout
+        state: latest
+      - name: waybar-module-pacman-updates-git
+        state: latest
+      - name: volumectl
+        state: latest
+    links:
+      - src: "{{ dotfiles_source_dir }}/hypr"
+        dest: "{{ configs_home }}/hypr"
+      - src: "{{ dotfiles_source_dir }}/waybar"
+        dest: "{{ configs_home }}/waybar"
+      - src: "{{ dotfiles_source_dir }}/wlogout"
+        dest: "{{ configs_home }}/wlogout"
+      - src: "{{ dotfiles_source_dir }}/swaync"
+        dest: "{{ configs_home }}/swaync"
+
+  - name: nvim
+    git_config:
+      - name: core.editor
+        value: nvim
+        scope: global
+    pacman_packages:
+      - name: neovim
+        state: present
+      - name: python3
+        state: present
+      - name: nodejs
+        state: present
+      - name: yarn
+        state: present
+      - name: fzf
+        state: latest
+      - name: actionlint
+        state: latest
+    aur_packages:
+      - name: commitlint
+        state: latest
+      - name: efm-langserver
+        state: latest
+      - name: fixjson
+        state: latest
+      - name: gitlint
+        state: latest
+      - name: markdownlint
+        state: latest
+      - name: shellcheck-bin
+        state: latest
+      - name: lua-format
+        state: latest
+    pip3_packages:
+      - name: neovim
+        state: latest
+    yarn_packages:
+      - name: neovim
+        state: latest
+      - name: bash-language-server
+        state: latest
+      - name: typescript-language-server
+        state: latest
+      - name: vim-language-server
+        state: latest
+      - name: yaml-language-server
+        state: latest
+      - name: intelephense
+        state: latest
+      - name: pyright
+        state: latest
+    links:
+      - src: "{{ dotfiles_source_dir }}/nvim"
+        dest: "{{ configs_home }}/nvim"
+      - src: "{{ dotfiles_source_dir }}/efm-langserver"
+        dest: "{{ configs_home }}/efm-langserver"
+
+  - name: zsh
+    pacman_packages:
+      - name: git
+        state: latest
+      - name: zsh
+        state: latest
+    aur_packages:
+      - name: zsh-autosuggestions
+        state: latest
+      - name: zsh-completions
+        state: latest
+    git_repos:
+      - repo: https://github.com/robbyrussell/oh-my-zsh.git
+        dest: "{{ ansible_env.HOME }}/.oh-my-zsh"
+    links:
+      - src: "{{ dotfiles_source_dir }}/zsh/zshrc"
+        dest: "{{ ansible_env.HOME }}/.zshrc"
+      - src: "{{ dotfiles_source_dir }}/zsh/config.d"
+        dest: "{{ configs_home }}/zsh/config.d"
+    users:
+      - name: "{{ ansible_env.USER }}"
+        shell: /usr/bin/zsh
+
+  - name: tmux
+    pacman_packages:
+      - name: tmux
+        state: latest
+    git_repos:
+      - repo: "https://github.com/tmux-plugins/tpm.git"
+        dest: "{{ configs_home }}/tmux/plugins/tpm"
+    links:
+      - src: "{{ dotfiles_source_dir }}/tmux/tmux.conf"
+        dest: "{{ configs_home }}/tmux/tmux.conf"
+
+  - name: claude
+    links:
+      - src: "{{ dotfiles_source_dir }}/claude/CLAUDE.md"
+        dest: "{{ ansible_env.HOME }}/.claude/CLAUDE.md"
+      - src: "{{ dotfiles_source_dir }}/claude/settings.json"
+        dest: "{{ ansible_env.HOME }}/.claude/settings.json"
+      - src: "{{ dotfiles_source_dir }}/claude/statusline.sh"
+        dest: "{{ ansible_env.HOME }}/.claude/statusline.sh"
+      - src: "{{ dotfiles_source_dir }}/claude/skills"
+        dest: "{{ ansible_env.HOME }}/.claude/skills"
+      - src: "{{ dotfiles_source_dir }}/claude/commands"
+        dest: "{{ ansible_env.HOME }}/.claude/commands"
+
+  - name: ripgrep
+    pacman_packages:
+      - name: ripgrep
+        state: latest
+    links:
+      - src: "{{ dotfiles_source_dir }}/ripgrep/ripgreprc"
+        dest: "{{ configs_home }}/ripgrep/ripgreprc"
+
+  - name: git
+    pacman_packages:
+      - name: git
+        state: latest
+    aur_packages:
+      - name: git-extras
+        state: latest
+    yarn_packages:
+      - name: github-repo-manager
+        state: latest
+    link:
+      - src: "{{ dotfiles_source_dir }}/git/gitconfig"
+        dest: "{{ ansible_env.HOME }}/.gitconfig"
+
+  - name: misc-scripts
+    links:
+      - src: "{{ playbook_dir }}/bin"
+        dest: "{{ ansible_env.HOME }}/.bin"
+
+  - name: kitty
+    pacman_packages:
+      - name: kitty
+        state: latest
+    links:
+      - src: "{{ dotfiles_source_dir }}/kitty/kitty.conf"
+        dest: "{{ configs_home }}/kitty/kitty.conf"
+      - src: "{{ dotfiles_source_dir }}/kitty/themes"
+        dest: "{{ configs_home }}/kitty/themes"
+      - src: "{{ dotfiles_source_dir }}/kitty/switch-theme"
+        dest: "{{ configs_home }}/kitty/switch-theme"
+
+  - name: apps
+    pacman_packages:
+      - name: telegram-desktop
+        state: latest
+    aur_packages:
+      - name: slack-desktop
+        state: latest
+
+  - name: docker
+    pacman_packages:
+      - name: docker
+        state: latest
+      - name: docker-compose
+        state: latest
+    users:
+      - name: "{{ ansible_env.USER }}"
+        groups: docker
+        append: True
+    systemd_services:
+      - name: docker.service
+        state: started
+        enabled: true
+        masked: False
+        fail_on_error: True
+
+  - name: dev
+    pacman_packages:
+      - name: core/icu
+        state: latest
+      - name: go
+        state: latest
+      - name: direnv
+        state: latest
+      - name: mkcert
+        state: latest
+    cargo_packages:
+      - name: tokei
+        state: present
+
+  - name: fonts
+    pacman_packages:
+      - name: font-manager
+        state: latest
+      - name: noto-fonts
+        state: latest
+      - name: noto-fonts-cjk
+        state: latest
+      - name: noto-fonts-emoji
+        state: latest
+    aur_packages:
+      - name: ttf-iosevka-nerd
+        state: latest
+
+  - name: wofi
+    pacman_packages:
+      - name: wofi
+        state: latest
+    links:
+      - src: "{{ dotfiles_source_dir }}/wofi"
+        dest: "{{ configs_home }}/wofi"
+
+  - name: zenity
+    aur_packages:
+      - name: zenity-gtk3
+        state: latest
+
+  - name: 1password
+    aur_packages:
+      - name: 1password
+        state: latest
+    gpg_keys:
+      - id: 3FEF9748469ADBE15DA7CA80AC2D62742012EA22
+        keyserver: keyserver.ubuntu.com
+        state: present
+
+  - name: zathura
+    pacman_packages:
+      - name: zathura
+        state: latest
+      - name: zathura-pdf-mupdf
