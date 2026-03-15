@@ -2,7 +2,7 @@
 ansible_python_interpreter: /usr/bin/python3
 
 dotfiles_source_dir: "{{ playbook_dir }}/configs"
-configs_default_home: "{{ lookup('env', 'HOME') }}/.configs"
+configs_default_home: "{{ lookup('env', 'HOME') }}/.config"
 configs_home: "{{ lookup('env', 'XDG_CONFIG_HOME') | default(configs_default_home, True) }}"
 
 # Package name can be used as a tag. (see: manage_packages.yml)
@@ -315,7 +315,7 @@ packages:
     yarn_packages:
       - name: github-repo-manager
         state: latest
-    link:
+    links:
       - src: "{{ dotfiles_source_dir }}/git/gitconfig"
         dest: "{{ ansible_env.HOME }}/.gitconfig"
 

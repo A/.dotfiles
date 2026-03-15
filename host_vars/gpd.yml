@@ -2,7 +2,7 @@
 ansible_python_interpreter: /usr/bin/python3
 
 dotfiles_source_dir: "{{ playbook_dir }}/configs"
-configs_default_home: "{{ lookup('env', 'HOME') }}/.configs"
+configs_default_home: "{{ lookup('env', 'HOME') }}/.config"
 configs_home: "{{ lookup('env', 'XDG_CONFIG_HOME') | default(configs_default_home, True) }}"
 
 # Package name can be used as a tag. (see: manage_packages.yml)
@@ -33,12 +33,12 @@ packages:
         state: latest
       - name: imagemagick
         state: latest
-      - name: neofetch
+      - name: fastfetch
         state: latest
       - name: tree
         state: latest
     cargo_packages:
-      - name: exa
+      - name: eza
         state: present
       - name: bat
         state: present
@@ -65,20 +65,20 @@ packages:
         state: latest
       - name: mesa-utils
         state: latest
-    aur_packages:
-      - name: hyprevents-git
-        state: latest
-      - name: hyprlock-git
+      - name: hyprlock
         state: latest
       - name: hyprpicker
         state: latest
-      - name: hyprprop-git
+      - name: hypridle
+        state: latest
+      - name: xdg-desktop-portal-hyprland
+        state: latest
+    aur_packages:
+      - name: hyprprop
         state: latest
       - name: uair
         state: latest
-      - name: hyprpaper
-        state: latest
-      - name: blueman-git
+      - name: blueman
         state: latest
       - name: swaync
         state: latest
@@ -88,16 +88,14 @@ packages:
         state: latest
       - name: swappy
         state: latest
-      - name: xdg-desktop-portal-hyprland-git
-        state: latest
       - name: wlogout
         state: latest
       - name: waybar-module-pacman-updates-git
         state: latest
-      - name: volumectl
-        state: latest
+      # - name: volumectl
+      #   state: latest
     links:
-      - src: "{{ dotfiles_source_dir }}/hypr"
+      - src: "{{ dotfiles_source_dir }}/hypr_gpd"
         dest: "{{ configs_home }}/hypr"
       - src: "{{ dotfiles_source_dir }}/waybar"
         dest: "{{ configs_home }}/waybar"
@@ -137,23 +135,19 @@ packages:
         state: latest
       - name: shellcheck-bin
         state: latest
-      - name: lua-format
-        state: latest
     pip3_packages:
       - name: neovim
         state: latest
     yarn_packages:
       - name: neovim
         state: latest
-      - name: bash-language-server
-        state: latest
+      # - name: bash-language-server
+      #   state: latest
       - name: typescript-language-server
         state: latest
       - name: vim-language-server
         state: latest
       - name: yaml-language-server
-        state: latest
-      - name: intelephense
         state: latest
       - name: pyright
         state: latest
@@ -210,6 +204,15 @@ packages:
       - src: "{{ dotfiles_source_dir }}/claude/commands"
         dest: "{{ ansible_env.HOME }}/.claude/commands"
 
+  - name: media
+    pacman_packages:
+      - name: mpv
+        state: latest
+      - name: obs-studio
+        state: latest
+      - name: ffmpeg
+        state: latest
+
   - name: ripgrep
     pacman_packages:
       - name: ripgrep
@@ -228,7 +231,7 @@ packages:
     yarn_packages:
       - name: github-repo-manager
         state: latest
-    link:
+    links:
       - src: "{{ dotfiles_source_dir }}/git/gitconfig"
         dest: "{{ ansible_env.HOME }}/.gitconfig"
 
@@ -312,7 +315,7 @@ packages:
 
   - name: zenity
     aur_packages:
-      - name: zenity-gtk3
+      - name: zenity
         state: latest
 
   - name: 1password

@@ -4,6 +4,17 @@
     path: "{{ item.dest | dirname }}"
     state: directory
 
+- name: Check if {{ item.dest }} is a directory (not a symlink)
+  stat:
+    path: "{{ item.dest }}"
+  register: dest_stat
+
+- name: Remove existing directory at {{ item.dest }} to allow symlink
+  file:
+    path: "{{ item.dest }}"
+    state: absent
+  when: dest_stat.stat.exists and dest_stat.stat.isdir and not dest_stat.stat.islnk
+
 - name: Ensure {{ item.dest }} is linked
   file:
     src: "{{ item.src }}"

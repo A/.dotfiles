@@ -2,3 +2,5 @@
 python_pacman_packages:
   - name: python3
     state: latest
+  - name: python-pip
+    state: latest
