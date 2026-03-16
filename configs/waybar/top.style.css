@@ -27,6 +27,7 @@ box.horizontal.modules-center,
 #custom-deadbeef,
 #mpris,
 #custom-wlogout,
+#custom-gamescope,
 #custom-jobs,
 #custom-zapusk,
 #custom-pipewire,
@@ -85,6 +86,11 @@ box.horizontal.modules-right {
   color: #af5f5f;
   padding: 0 14px 0 10px;
   font-weight: bold;
+}
+
+#custom-gamescope {
+  color: #5f87af;
+  padding: 0 10px;
 }
 
 #workspaces button {
