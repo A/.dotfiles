@@ -1,6 +1,15 @@
 ---
 - name: Manage aur packages
   block:
+    - name: Allow user to run pacman without password (required for AUR helpers)
+      lineinfile:
+        path: /etc/sudoers.d/11-aur-pacman
+        line: '{{ ansible_env.USER }} ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+        create: yes
+        mode: '0440'
+        validate: 'visudo -cf %s'
+      become: true
+
     - name: Check pre-conditions
       include_tasks: manage_deps.yml
       when: paru_exists is not defined or not paru_exists

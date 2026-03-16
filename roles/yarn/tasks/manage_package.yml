@@ -15,6 +15,8 @@
     global: yes
     state: "{{ item.state | default('latest') }}"
     name: "{{ item.name }}"
+  environment:
+    NODE_OPTIONS: "--no-deprecation"
   register: yarn_installation_log
   changed_when: >
     (yarn_installed_version.stdout == "") or

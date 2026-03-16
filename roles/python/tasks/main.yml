@@ -12,7 +12,7 @@
   changed_when: "'Requirement already satisfied' not in pip2_installation_log.stdout"
 
 - name: install pip3 package {{ item.name }}
-  shell: pip3 install --user --upgrade {{ item.name }}
+  shell: python3 -m pip install --user --break-system-packages --upgrade {{ item.name }}
   register: pip3_installation_log
   with_items: "{{ pip3_packages }}"
   changed_when: 
