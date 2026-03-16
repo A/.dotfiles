@@ -1,6 +1,7 @@
 {
   "permissions": {
     "allow": [
+      "Read(**/.env.example)",
       "Bash(find:*)",
       "Bash(cat:*)",
       "Bash(grep:*)",
@@ -12,7 +13,8 @@
       "mcp__atlassian__editJiraIssue",
       "WebSearch",
       "WebFetch(domain:community.atlassian.com)",
-      "mcp__atlassian__getJiraIssue"
+      "mcp__atlassian__getJiraIssue",
+      "Write(**/.env.example)"
     ],
     "deny": [
       "Read(**/.env*)",

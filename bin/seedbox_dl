@@ -1,0 +1,12 @@
+#!/bin/bash
+
+LOCAL_DIR="$HOME/Downloads/MusicSeedbox"
+
+if [ -z "$1" ]; then
+    echo "Usage: seedbox-dl <remote-path>"
+    exit 1
+fi
+
+mkdir -p "$LOCAL_DIR"
+
+rsync -avz --progress -e ssh "${SEEDBOX_HOST}:${1}/" "$LOCAL_DIR/$(basename "$1")/"

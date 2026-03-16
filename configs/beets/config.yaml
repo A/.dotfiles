@@ -1,5 +1,6 @@
 directory: ~/Music
-library: ~/.config/beets/library.db
+library: ~/Music/.beets-library.db
+statefile: ~/Music/.beets-state.pickle
 
 threaded: yes
 asciify_path: yes
@@ -11,7 +12,7 @@ import:
   autotag: no
   incremental: yes
 
-plugins: edit smartplaylist types random mpdupdate play mpdstats
+plugins: edit smartplaylist types random mpdupdate play mpdstats convert
 
 paths:
   "folder::.+": $folder/$artist - $album - $track - $title
@@ -27,3 +28,12 @@ smartplaylist:
 mpd:
   host: localhost
   port: 6600
+
+convert:
+  dest: ~/Dropbox/mp3/collection
+  format: mp3
+  never_convert_lossy_files: yes
+  formats:
+    mp3:
+      command: ffmpeg -i $source -ab 320k -map_metadata 0 -id3v2_version 3 $dest
+      extension: mp3

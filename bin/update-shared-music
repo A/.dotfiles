@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DEST=~/Dropbox/mp3/collection
+PLAYLISTS_SRC=~/Music/playlists
+
+# Convert items with non-empty folder field to MP3
+beet convert -y 'folder::.+'
+
+# Remove old playlists, then copy fresh ones with fixed extensions
+echo "=== UPDATE PLAYLISTS ==="
+echo "Remove old playlists"
+rm -f "$DEST"/*.m3u
+echo "Copy new playlists"
+cp "$PLAYLISTS_SRC"/*.m3u "$DEST"/
+echo "Replace FLAC to MP3"
+sed -i 's/\.flac$/.mp3/g' "$DEST"/*.m3u
+echo "=== UPDATE PLAYLISTS FINISHED ==="

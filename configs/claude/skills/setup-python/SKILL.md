@@ -94,13 +94,7 @@ reportUnknownArgumentType = "none"
 reportUnknownParameterType = "none"
 ```
 
-### 2. .python-version
-
-```
-3.12
-```
-
-### 3. Justfile
+### 2. Justfile
 
 Must contain these command categories. Adapt Django app name, directories, etc. to the project:
 
@@ -170,7 +164,7 @@ createsuperuser:
     uv run python manage.py createsuperuser
 ```
 
-### 4. .pre-commit-config.yaml
+### 3. .pre-commit-config.yaml
 
 Pre-commit hooks are local. They call `just pre-commit` so all tool invocations live in one place:
 
@@ -186,7 +180,7 @@ repos:
         pass_filenames: false
 ```
 
-### 5. Docker Setup
+### 4. Docker Setup
 
 Three Dockerfiles in `docker/{dev,staging,production}/Dockerfile`.
 
@@ -239,7 +233,7 @@ volumes:
   uv_cache:
 ```
 
-### 6. CI — .github/workflows/checks.yaml
+### 5. CI — .github/workflows/checks.yaml
 
 ```yaml
 name: Checks
@@ -269,7 +263,7 @@ jobs:
       - run: uv run pytest
 ```
 
-### 7. README.md
+### 6. README.md
 
 Brief project overview, setup instructions, and service table:
 
@@ -315,7 +309,7 @@ docker compose exec api just fmt           # Format code
 \```
 ```
 
-### 8. CLAUDE.md
+### 7. CLAUDE.md
 
 Operating instructions for Claude Code. Must cover: how to run commands, available just commands,
 architecture overview (fill in once project structure exists), code conventions, env vars.

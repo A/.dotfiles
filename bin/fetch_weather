@@ -1,15 +1,95 @@
-#! /bin/bash
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.12"
+# dependencies = ["httpx"]
+# ///
 
-CACHE="$HOME/.cache/weather_report"
-TMP="${CACHE}.tmp"
+import httpx
+from pathlib import Path
 
-{
-  printf "HCMC:   %s\n" "$(curl -sf 'https://wttr.in/sgn?format=2')"
-  printf "Dalat:  %s\n" "$(curl -sf 'https://wttr.in/Dalat?format=2')"
-  printf "Hanoi:  %s\n" "$(curl -sf 'https://wttr.in/Hanoi?format=2')"
-  printf "Mui Ne: %s\n" "$(curl -sf 'https://wttr.in/Mui+Ne?format=2')"
-  printf "Moscow: %s\n" "$(curl -sf 'https://wttr.in/Moscow?format=2')"
-  printf "Perm:   %s\n" "$(curl -sf 'https://wttr.in/Perm?format=2')"
-  # printf "\n"
-  # printf "Updated: %s\n" "$(date '+%Y‑%m‑%d %H:%M')"
-} >"$TMP" && mv "$TMP" "$CACHE"
+COORDS = {
+    "HCMC":   (10.8231, 106.6297),
+    "Dalat":  (11.9404, 108.4583),
+    "Hanoi":  (21.0285, 105.8542),
+    "Mui Ne": (10.9330, 108.2872),
+    "Moscow": (55.7558,  37.6173),
+    "Perm":   (58.0105,  56.2502),
+}
+
+WMO_EMOJI = {
+    0: "\u2600\ufe0f",
+    1: "\U0001f324\ufe0f",
+    2: "\u26c5",
+    3: "\u2601\ufe0f",
+    45: "\U0001f32b\ufe0f",
+    48: "\U0001f32b\ufe0f",
+    51: "\U0001f326\ufe0f",
+    53: "\U0001f326\ufe0f",
+    55: "\U0001f326\ufe0f",
+    56: "\U0001f327\ufe0f",
+    57: "\U0001f327\ufe0f",
+    61: "\U0001f327\ufe0f",
+    63: "\U0001f327\ufe0f",
+    65: "\U0001f327\ufe0f",
+    66: "\U0001f327\ufe0f",
+    67: "\U0001f327\ufe0f",
+    71: "\u2744\ufe0f",
+    73: "\u2744\ufe0f",
+    75: "\u2744\ufe0f",
+    77: "\u2744\ufe0f",
+    80: "\U0001f327\ufe0f",
+    81: "\U0001f327\ufe0f",
+    82: "\U0001f327\ufe0f",
+    85: "\u2744\ufe0f",
+    86: "\u2744\ufe0f",
+    95: "\u26c8\ufe0f",
+    96: "\u26c8\ufe0f",
+    99: "\u26c8\ufe0f",
+}
+
+FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
+CACHE_DIR = Path.home() / ".cache"
+
+
+def get_weather(client, city):
+    lat, lon = COORDS[city]
+    r = client.get(
+        FORECAST_URL,
+        params={
+            "latitude": lat,
+            "longitude": lon,
+            "current": "temperature_2m,weather_code",
+            "timezone": "auto",
+        },
+    )
+    r.raise_for_status()
+    current = r.json()["current"]
+    temp = current["temperature_2m"]
+    code = current["weather_code"]
+    emoji = WMO_EMOJI.get(code, "?")
+    sign = "+" if temp > 0 else ""
+    return f"{emoji} {sign}{temp:.0f}\u00b0C"
+
+
+def write_cache(name, content):
+    cache = CACHE_DIR / name
+    tmp = cache.with_suffix(".tmp")
+    tmp.write_text(content)
+    tmp.rename(cache)
+
+
+def main():
+    cities = ["HCMC", "Dalat", "Hanoi", "Mui Ne", "Moscow", "Perm"]
+    max_label = max(len(c) for c in cities)
+    lines = []
+
+    with httpx.Client() as client:
+        for city in cities:
+            weather = get_weather(client, city)
+            lines.append(f"{city:<{max_label}}  {weather}")
+
+    write_cache("weather_report", "\n".join(lines) + "\n")
+
+
+if __name__ == "__main__":
+    main()
