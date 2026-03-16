@@ -11,3 +11,6 @@ fi
 
 # systemctl suspend-then-hibernate
 systemctl suspend
+
+# Reload i2c_hid_acpi after resume to fix trackpad (GXTP7385)
+sudo modprobe -r i2c_hid_acpi && sudo modprobe i2c_hid_acpi
