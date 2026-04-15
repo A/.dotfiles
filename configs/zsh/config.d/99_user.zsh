@@ -13,4 +13,6 @@ alias hj="zapusk"
 alias z="zapusk"
 alias wk="watch kubectl"
 alias avante='nvim -c "lua vim.defer_fn(function()require(\"avante.api\").zen_mode()end, 100)"'
-alias glaude='ANTHROPIC_AUTH_TOKEN=${GLM_API_KEY} ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic" claude'
+alias glaude='ANTHROPIC_AUTH_TOKEN=${GLM_API_KEY} ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic" claude --model glm-5.1'
+alias aider-glm="aider --config ~/.aider.conf.yml"
+alias aider-minimax="aider --config ~/.aider.minimax.conf.yml"

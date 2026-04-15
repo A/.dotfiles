@@ -12,7 +12,7 @@ import:
   autotag: no
   incremental: yes
 
-plugins: edit smartplaylist types random mpdupdate play mpdstats convert
+plugins: edit info smartplaylist types random mpdupdate play mpdstats convert fetchart embedart
 
 paths:
   "folder::.+": $folder/$artist - $album - $track - $title
@@ -28,6 +28,20 @@ smartplaylist:
 mpd:
   host: localhost
   port: 6600
+
+art_filename: $albumartist - $album
+
+fetchart:
+  auto: yes
+  sources:
+    - coverart
+    - itunes
+    - amazon
+  store_source: no
+
+embedart:
+  auto: yes
+  ifempty: yes
 
 convert:
   dest: ~/Dropbox/mp3/collection

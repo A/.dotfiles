@@ -1,0 +1,208 @@
+#!/usr/bin/env -S uvx --with requests python3
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["requests"]
+# ///
+"""MiniMax TTS CLI.
+
+Usage:
+  tts-minimax voices
+  tts-minimax generate <input.txt> [--voice VOICE_ID] [--out output.mp3]
+
+Env vars:
+  MINIMAX_API_KEY   (required)
+  MINIMAX_GROUP_ID  (required)
+"""
+
+import json
+import os
+import sys
+import textwrap
+
+import requests
+
+API_KEY = os.environ.get("MINIMAX_API_KEY")
+GROUP_ID = os.environ.get("MINIMAX_GROUP_ID")
+MAX_CHARS = 5000
+MODEL = "speech-02"
+
+
+def die(msg: str) -> None:
+    print(f"error: {msg}", file=sys.stderr)
+    sys.exit(1)
+
+
+def check_env() -> None:
+    if not API_KEY:
+        die("MINIMAX_API_KEY is not set")
+    if not GROUP_ID:
+        die("MINIMAX_GROUP_ID is not set")
+
+
+def cmd_voices() -> None:
+    check_env()
+    url = f"https://api.minimax.io/v1/t2a_v2/voice?GroupId={GROUP_ID}"
+    resp = requests.get(
+        url,
+        headers={"Authorization": f"Bearer {API_KEY}"},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    data = resp.json()
+
+    if data.get("base_resp", {}).get("status_code") != 0:
+        die(f"API error: {data.get('base_resp', {}).get('status_msg')}")
+
+    voices = data.get("voices", [])
+    if not voices:
+        print(json.dumps(data, indent=2))
+        return
+
+    col = max(len(v.get("voice_id", "")) for v in voices)
+    for v in voices:
+        vid = v.get("voice_id", "")
+        name = v.get("display_name") or v.get("name", "")
+        gender = v.get("gender", "")
+        lang = v.get("language", "")
+        print(f"{vid:<{col}}  {name}  [{gender}] [{lang}]")
+
+
+def synthesize(text: str) -> bytes:
+    url = f"https://api.minimax.io/v1/t2a_v2?GroupId={GROUP_ID}"
+    payload = {
+        "model": MODEL,
+        "text": text,
+        "stream": False,
+        "voice_setting": {"voice_id": VOICE_ID, "speed": 1.0, "vol": 1.0, "pitch": 0},
+        "audio_setting": {
+            "sample_rate": 32000,
+            "bitrate": 128000,
+            "format": "mp3",
+            "channel": 1,
+        },
+    }
+    resp = requests.post(
+        url,
+        headers={"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"},
+        json=payload,
+        timeout=300,
+    )
+    resp.raise_for_status()
+    data = resp.json()
+
+    status = data.get("base_resp", {}).get("status_code")
+    if status != 0:
+        die(f"API error {status}: {data.get('base_resp', {}).get('status_msg')}")
+
+    audio_hex = data.get("data", {}).get("audio")
+    if not audio_hex:
+        die(f"no audio in response: {json.dumps(data)}")
+
+    return bytes.fromhex(audio_hex)
+
+
+def split_text(text: str, max_chars: int) -> list[str]:
+    paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
+    chunks, current = [], ""
+    for para in paragraphs:
+        if len(para) > max_chars:
+            for part in textwrap.wrap(para, max_chars):
+                chunks.append(part)
+            current = ""
+            continue
+        if current and len(current) + len(para) + 2 > max_chars:
+            chunks.append(current)
+            current = para
+        else:
+            current = f"{current}\n\n{para}".strip() if current else para
+    if current:
+        chunks.append(current)
+    return chunks
+
+
+def cmd_generate(args: list[str]) -> None:
+    check_env()
+
+    global VOICE_ID, MODEL
+    VOICE_ID = "male-qn-qingse"
+    input_path = None
+    output_path = None
+
+    i = 0
+    while i < len(args):
+        if args[i] in ("--voice", "-v") and i + 1 < len(args):
+            VOICE_ID = args[i + 1]
+            i += 2
+        elif args[i] in ("--model", "-m") and i + 1 < len(args):
+            MODEL = args[i + 1]
+            i += 2
+        elif args[i] in ("--out", "-o") and i + 1 < len(args):
+            output_path = args[i + 1]
+            i += 2
+        else:
+            input_path = args[i]
+            i += 1
+
+    if not input_path:
+        die("usage: tts-minimax generate <input.txt> [--voice VOICE_ID] [--out output.mp3]")
+
+    if not output_path:
+        output_path = os.path.splitext(input_path)[0] + ".mp3"
+
+    text = open(input_path).read().strip()
+    if not text:
+        die("input file is empty")
+
+    chunks = split_text(text, MAX_CHARS)
+    print(f"model={MODEL}  voice={VOICE_ID}  chunks={len(chunks)}  chars={len(text)}  → {output_path}", file=sys.stderr)
+
+    if len(chunks) == 1:
+        open(output_path, "wb").write(synthesize(chunks[0]))
+    else:
+        import subprocess
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_files = []
+            for i, chunk in enumerate(chunks):
+                part_path = os.path.join(tmpdir, f"part_{i:03d}.mp3")
+                print(f"  chunk {i+1}/{len(chunks)} ({len(chunk)} chars)…", file=sys.stderr)
+                open(part_path, "wb").write(synthesize(chunk))
+                tmp_files.append(part_path)
+
+            list_file = os.path.join(tmpdir, "list.txt")
+            with open(list_file, "w") as f:
+                for p in tmp_files:
+                    f.write(f"file '{p}'\n")
+
+            subprocess.run(
+                ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", list_file, "-c", "copy", output_path],
+                check=True,
+                capture_output=True,
+            )
+
+    size_kb = os.path.getsize(output_path) // 1024
+    print(f"saved {output_path} ({size_kb} KB)", file=sys.stderr)
+
+
+def usage() -> None:
+    print(__doc__.strip())
+    sys.exit(1)
+
+
+def main() -> None:
+    args = sys.argv[1:]
+    if not args:
+        usage()
+
+    cmd, rest = args[0], args[1:]
+    if cmd == "voices":
+        cmd_voices()
+    elif cmd == "generate":
+        cmd_generate(rest)
+    else:
+        usage()
+
+
+if __name__ == "__main__":
+    main()

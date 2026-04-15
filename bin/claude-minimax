@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Launch Claude Code with MiniMax API backend
+
+export ANTHROPIC_BASE_URL="https://api.minimax.io/anthropic"
+export ANTHROPIC_AUTH_TOKEN="${MINIMAX_API_KEY:?MINIMAX_API_KEY is not set}"
+export API_TIMEOUT_MS="3000000"
+export ANTHROPIC_MODEL="MiniMax-M2.7"
+export ANTHROPIC_SMALL_FAST_MODEL="MiniMax-M2.7"
+
+exec claude "$@"

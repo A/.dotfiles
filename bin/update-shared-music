@@ -9,10 +9,13 @@ beet convert -y 'folder::.+'
 
 # Remove old playlists, then copy fresh ones with fixed extensions
 echo "=== UPDATE PLAYLISTS ==="
+mkdir -p "$DEST/playlists"
 echo "Remove old playlists"
-rm -f "$DEST"/*.m3u
+rm -f "$DEST/playlists"/*.m3u
 echo "Copy new playlists"
-cp "$PLAYLISTS_SRC"/*.m3u "$DEST"/
+cp "$PLAYLISTS_SRC"/*.m3u "$DEST/playlists"/
 echo "Replace FLAC to MP3"
-sed -i 's/\.flac$/.mp3/g' "$DEST"/*.m3u
+sed -i 's/\.flac$/.mp3/g' "$DEST/playlists"/*.m3u
+echo "Add ../ prefix for relative paths"
+sed -i 's|^[^#/]|../&|' "$DEST/playlists"/*.m3u
 echo "=== UPDATE PLAYLISTS FINISHED ==="
