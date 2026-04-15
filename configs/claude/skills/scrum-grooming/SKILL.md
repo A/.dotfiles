@@ -3,7 +3,7 @@ name: scrum-grooming
 description: Create a structured implementation plan for a feature request. Covers architecture, system design, module design, pattern selection, and milestone-based task planning with DoD. Use when the user describes a new feature, significant change, or multi-step implementation task.
 argument-hint: [feature description or issue reference]
 disable-model-invocation: true
-allowed-tools: Read Glob Grep Bash Agent WebSearch WebFetch
+allowed-tools: Read Write(/tmp/*) Glob Grep Bash(~/.claude/skills/scrum-grooming/validate-plan.py:*) Agent WebSearch WebFetch
 effort: max
 ---
 
@@ -36,11 +36,29 @@ Wait for user feedback on design decisions before proceeding to Phase 3.
 
 ### Phase 3: Write the Plan
 
-Write the plan to `~/Claude/plans/yyyymmdd-{feature-name}.md` following the template in [template.md](template.md).
+Write the plan to `/tmp/plan-draft.md` following the template in [template.md](template.md).
 
-After writing, run the [quality checklist](quality-checklist.md) against your plan. Fix any violations before presenting to the user.
+After writing, run the [quality checklist](quality-checklist.md) against your plan. Fix any violations.
 
-After the plan is finalized, commit to the `~/Claude` git repo:
+#### Cross-validate with Gemini
+
+Run the validation script to get independent feedback from Gemini:
+
+```bash
+~/.claude/skills/scrum-grooming/validate-plan.py /tmp/plan-draft.md
+```
+
+Read the feedback and address valid points by updating the plan draft. Not all feedback needs to be applied — use your judgement to skip suggestions that don't fit.
+
+#### Finalize
+
+Once feedback is addressed, move the plan to its final location:
+
+```bash
+cp /tmp/plan-draft.md ~/Claude/plans/yyyymmdd-{feature-name}.md
+```
+
+Commit to the `~/Claude` git repo:
 ```bash
 cd ~/Claude && git add -A && git commit -m "plan: <feature-name>"
 ```
