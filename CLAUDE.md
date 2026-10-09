@@ -9,10 +9,7 @@ Personal dotfiles for Arch Linux (primary) and macOS, managed with Ansible. Conf
 ## Key Commands
 
 ```bash
-# Apply all dotfiles (symlinks only)
-ansible-playbook dotfiles.yml --tags dotfiles
-
-# Install/update packages for a specific group
+# Install/update one group (packages, links, services)
 ansible-playbook manage_packages.yml --limit=archlinux --tag=hyprland --ask-become-pass
 
 # Install everything (skip fonts example)
@@ -26,10 +23,9 @@ stylua configs/nvim/
 
 ### Ansible Structure
 
-- `dotfiles.yml` — Main playbook, imports roles sequentially (homebrew, pacman, aur, zsh, dotfiles, python, yarn, nvim, etc.)
-- `manage_packages.yml` — Package management playbook; iterates `packages` list from host vars, filterable by tag
+- `manage_packages.yml` — The only playbook; iterates the `packages` groups from host vars (plus `private_packages`, see below), each group name is a tag. `manage_package.yml` dispatches a group's keys to the roles
 - `host_vars/` — Per-host declarations (archlinux.yml, personal_macos.yml, workstation_macos.yml). Each defines `packages` groups containing pacman/aur/homebrew packages, symlink targets (`links`), systemd services, and user groups
-- `roles/` — Ansible roles: `dotfiles` (symlinks), `meta_pacman`, `aur`, `python`, `rust`, `yarn`, `zsh`, `systemd`, `cron`, etc.
+- `roles/` — Ansible roles: `dotfiles` (symlinks), `meta_pacman`, `aur`, `python`, `rust`, `yarn`, `systemd`, `cron`, etc.
 
 ### Config Organization
 
