@@ -1,4 +1,0 @@
-#! /bin/bash
-
-content=$(zenity --entry --text "Create a ToDo")
-[ ! -z "$content" ] && echo "- [ ] $content" >> "/home/$(whoami)/Dev/@A/notes/todo.md"

@@ -1,0 +1,122 @@
+@import "theme.css";
+
+* {
+  font-family: Iosevka Nerd Font, sans-serif;
+  font-size: 12px;
+}
+
+window#waybar {
+  background-color: rgba(255, 255, 255, 0);
+  margin: 2px 20px;
+  padding-top: 6px;
+}
+
+tooltip {
+  border-radius: 1px;
+  border: 1px solid @component-border;
+  background-color: @tooltip-background;
+  color: @component-text;
+  font-size: 16px;
+}
+
+/* Card modules — padding matches top.style.css */
+#clock,
+#custom-g9-mode,
+#custom-timer,
+#custom-beets,
+#custom-pipewire {
+  margin: 4px 0px;
+  padding: 0 10px;
+  background-color: @component-background;
+  color: @component-text;
+  border-radius: 3px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Compact pills — padding matches bottom.style.css */
+#custom-btcusd,
+#custom-ethusdt,
+#custom-usdrub,
+#custom-eurrub,
+#custom-audio-inbox,
+#custom-audio-collection,
+#custom-claude-tokens {
+  margin: 4px 0px;
+  padding: 2px 6px;
+  background-color: @component-background;
+  color: @component-text;
+  border-radius: 3px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Shared status modules (status.modules.jsonc), one card via group/status */
+#status {
+  margin: 4px 0px;
+  padding: 0 6px;
+  background-color: @component-background;
+  border-radius: 3px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+#custom-hyprshade,
+#custom-inhibitor,
+#custom-pacman,
+#custom-docker,
+#custom-github,
+#custom-notification {
+  padding: 0 6px;
+  color: @component-text;
+}
+
+#custom-inhibitor.activated,
+#custom-github.unread {
+  color: #ff4242;
+}
+
+#workspaces {
+  margin: 4px 0px;
+  background-color: @component-background;
+  border-radius: 3px;
+  border: 0px solid @component-border;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+#workspaces button {
+  background-color: transparent;
+  color: @component-text;
+  border-radius: 0;
+  padding: 0 4px;
+}
+
+#workspaces button:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+#workspaces button.active,
+#workspaces button.visible {
+  background-color: @component-active-background;
+  color: @component-text;
+  font-weight: bold;
+}
+
+#workspaces button.urgent {
+  background-color: #ffa042;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+/* Radii must equal #workspaces' 3px: GTK does not clip children to the
+   parent's rounded corners, so a smaller value leaves square corners showing. */
+#workspaces button:first-child {
+  border-radius: 3px 0 0 3px;
+}
+
+#workspaces button:last-child {
+  border-radius: 0 3px 3px 0;
+}
+
+#workspaces button:first-child:last-child {
+  border-radius: 3px;
+}

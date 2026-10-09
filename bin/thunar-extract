@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Extract archive(s) into a directory named after the archive.
+# Used by a Thunar custom action. Handles zip/tar.*/7z/rar/etc via bsdtar.
+set -euo pipefail
+
+strip_ext() {
+	# foo.tar.gz -> foo, bar.zip -> bar, baz.tar.zst -> baz
+	local n="$1"
+	case "$n" in
+	*.tar.gz | *.tar.bz2 | *.tar.xz | *.tar.zst | *.tar.lz | *.tar.lzma) echo "${n%.tar.*}" ;;
+	*) echo "${n%.*}" ;;
+	esac
+}
+
+status=0
+for archive in "$@"; do
+	[ -f "$archive" ] || continue
+	dir="$(dirname -- "$archive")"
+	base="$(basename -- "$archive")"
+	dest="$dir/$(strip_ext "$base")"
+	mkdir -p -- "$dest"
+	if ! bsdtar -xf "$archive" -C "$dest"; then
+		notify-send -u critical "Extract failed" "$base" 2>/dev/null || true
+		status=1
+	fi
+done
+exit "$status"

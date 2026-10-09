@@ -11,19 +11,39 @@ import:
   write: yes
   autotag: no
   incremental: yes
+  languages: [en]   # prefer latin aliases over the native-script MB names
 
-plugins: edit info smartplaylist types random mpdupdate play mpdstats convert fetchart embedart
+plugins: musicbrainz edit info smartplaylist types inline random mpdupdate play mpdstats convert fetchart embedart web
+
+types:
+  collection: bool
+  voice: float
+
+item_fields:
+  genre_slug: |
+    import re
+    g = genres
+    if isinstance(g, str):
+        g = [x for x in re.split(r'\s*;\s*', g) if x]
+    first = g[0] if g else ''
+    return re.sub(r'[^a-z0-9]+', '-', first.lower()).strip('-') or 'unknown'
 
 paths:
-  "folder::.+": $folder/$artist - $album - $track - $title
-  default: inbox/$genre/$artist - $album - $track - $title
+  "collection:true": collection/$genre_slug/$artist - $album - $track - $title
+  default: inbox/$genre_slug/$artist - $album - $track - $title
 
 smartplaylist:
   playlist_dir: ~/Music/playlists
   relative_to: ~/Music
   playlists:
     - name: inbox.m3u
-      query: '^folder::.+'
+      query: '^collection:true'
+    - name: inbox_ambient.m3u
+      query: 'genres:Ambient ^collection:true'
+
+web:
+  host: 127.0.0.1   # localhost only — beets web has NO auth; use 0.0.0.0 only for trusted LAN
+  port: 8337
 
 mpd:
   host: localhost

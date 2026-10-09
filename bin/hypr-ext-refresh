@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Set refresh rate of all external monitors at runtime (not persisted): hypr-ext-refresh <hz>
+set -euo pipefail
+
+[[ $# -eq 1 ]] || { echo "usage: hypr-ext-refresh <hz>" >&2; exit 1; }
+hz="$1"
+
+hyprctl monitors -j | jq -r --arg hz "$hz" '
+  .[] | select(.name | startswith("eDP") | not)
+  | "\(.name),\(.width)x\(.height)@\($hz),\(.x)x\(.y),\(.scale),transform,\(.transform)"
+' | while IFS= read -r rule; do
+  hyprctl keyword monitor "$rule" >/dev/null
+  command -v notify-send >/dev/null && notify-send "${rule%%,*}: ${hz}Hz" || true
+done
+
+# rule applies async; wait so waybar's custom/g9-mode reads the new rate
+sleep 0.5
+pkill -RTMIN+4 -x waybar || true

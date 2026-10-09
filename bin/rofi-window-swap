@@ -1,0 +1,154 @@
+#!/usr/bin/env python3
+"""Rofi window swapper: pick a window, swap it with the active one.
+
+Entries:
+  *  active window (selecting it is a no-op)
+  ■  tiled window        -> swapwindow
+  ◆  floating window     -> move to current workspace + focus
+  ▣  group (all titles)  -> swap whole group
+  ▸  window inside group -> swap that specific window
+"""
+
+import json
+import subprocess
+import sys
+
+MAX_TITLE = 60
+
+
+def hyprctl_json(*args):
+    out = subprocess.run(
+        ["hyprctl", "-j", *args], capture_output=True, text=True
+    ).stdout
+    return json.loads(out) if out.strip() else None
+
+
+def title_of(client):
+    t = client.get("title") or client.get("class") or "?"
+    return t if len(t) <= MAX_TITLE else t[: MAX_TITLE - 1] + "…"
+
+
+def build_entries(clients, active_addr, active_group):
+    """Return list of (label, action, address). action: swap|move|noop"""
+    entries = []
+    by_addr = {c["address"]: c for c in clients}
+    seen_groups = set()
+
+    for c in clients:
+        ws = c.get("workspace", {}).get("id", 0)
+        if ws < 0 or not c.get("mapped", True):
+            continue
+
+        group = c.get("grouped") or []
+        if group:
+            gkey = frozenset(group)
+            if gkey in seen_groups:
+                continue
+            seen_groups.add(gkey)
+            members = [by_addr[a] for a in group if a in by_addr]
+            titles = " + ".join(title_of(m) for m in members)
+            is_active_group = active_addr in group
+            entries.append((
+                ("* " if is_active_group else "") + f"▣ {titles}",
+                "noop" if is_active_group else "swap",
+                group[0],
+            ))
+            for m in members:
+                is_active = m["address"] == active_addr
+                entries.append((
+                    ("* " if is_active else "  ") + f"▸ {title_of(m)}",
+                    "noop" if is_active else "swap",
+                    m["address"],
+                ))
+            continue
+
+        is_active = c["address"] == active_addr
+        if c.get("floating"):
+            icon, action = "◆", "move"
+        else:
+            icon, action = "■", "swap"
+        if is_active:
+            action = "noop"
+        entries.append((
+            ("* " if is_active else "") + f"{icon} {title_of(c)}",
+            action,
+            c["address"],
+        ))
+    return entries
+
+
+def rofi_position_args(active, monitors, n_rows):
+    """Center rofi on the active window.
+
+    Layer-shell quirk: offsets only work when anchored to a corner, so we
+    anchor north-west and subtract half the window size ourselves. Height
+    is made deterministic with fixed-height listview; the 64 + 31*rows
+    formula is calibrated for the current rofi theme/font.
+    """
+    if not active or "at" not in active:
+        return []
+    mon = next(
+        (m for m in monitors if m["id"] == active.get("monitor")), None
+    )
+    if not mon:
+        return []
+    scale = mon.get("scale", 1) or 1
+    mon_w = int(mon["width"] / scale)
+    mon_h = int(mon["height"] / scale)
+    lines = min(n_rows, 15)
+    width = min(700, mon_w)
+    height = 64 + 31 * lines
+    cx = active["at"][0] - mon["x"] + active["size"][0] // 2
+    cy = active["at"][1] - mon["y"] + active["size"][1] // 2
+    x = max(0, min(cx - width // 2, mon_w - width))
+    y = max(0, min(cy - height // 2, mon_h - height))
+    return [
+        "-theme-str",
+        f"window {{ location: north west; width: {width}px;"
+        f" x-offset: {x}px; y-offset: {y}px; }}"
+        f" listview {{ lines: {lines}; fixed-height: true; }}",
+    ]
+
+
+def main():
+    clients = hyprctl_json("clients") or []
+    active = hyprctl_json("activewindow") or {}
+    active_addr = active.get("address")
+    active_group = active.get("grouped") or []
+
+    entries = build_entries(clients, active_addr, active_group)
+    if not entries:
+        sys.exit(0)
+
+    if "--list" in sys.argv:
+        for label, action, addr in entries:
+            print(f"{label}\t{action}\t{addr}")
+        return
+
+    monitors = hyprctl_json("monitors") or []
+    rofi = subprocess.run(
+        ["rofi", "-dmenu", "-i", "-p", "swap", "-format", "i"]
+        + rofi_position_args(active, monitors, len(entries)),
+        input="\n".join(label for label, _, _ in entries),
+        capture_output=True,
+        text=True,
+    )
+    if rofi.returncode != 0 or not rofi.stdout.strip():
+        return
+    _, action, addr = entries[int(rofi.stdout.strip())]
+
+    if action == "noop":
+        return
+    if action == "move" or not active_addr:
+        ws = hyprctl_json("activeworkspace")["id"]
+        subprocess.run([
+            "hyprctl", "--batch",
+            f"dispatch movetoworkspacesilent {ws},address:{addr} ; "
+            f"dispatch focuswindow address:{addr}",
+        ])
+    else:
+        subprocess.run(["hyprctl", "dispatch", "swapwindow", f"address:{addr}"])
+
+
+if __name__ == "__main__":
+    main()

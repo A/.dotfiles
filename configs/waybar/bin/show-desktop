@@ -1,0 +1,53 @@
+#!/bin/sh
+# Toggle "show desktop" on every external monitor at once.
+#
+# Hyprland has no native show-desktop, so each monitor is switched to its own
+# named scratch workspace (desktop-<MONITOR>) and back. Nothing is moved, so
+# tiling order, sizes and floating positions survive the round trip.
+#
+# Scope matches the bar this button lives on (waybar external.config renders on
+# output "!eDP-1"), so the laptop panel is left alone.
+#
+# Direction is decided globally — if any target monitor is already showing its
+# desktop, everything is restored; otherwise everything is hidden. Per monitor
+# the action is then skipped if it is already in the wanted state, so a mixed
+# state converges instead of flip-flopping.
+
+set -eu
+
+EXCLUDE=eDP-1
+
+origin=$(hyprctl -j activeworkspace | jq -r '.monitor')
+
+# focusmonitor warps the pointer to the middle of the target monitor, so the
+# cursor is parked and put back afterwards.
+cursor=$(hyprctl -j cursorpos | jq -r '"\(.x) \(.y)"')
+
+monitors=$(hyprctl -j monitors |
+  jq -r --arg ex "$EXCLUDE" '.[] | select(.name != $ex) | "\(.name) \(.activeWorkspace.name)"')
+
+if printf '%s\n' "$monitors" | grep -q ' desktop-'; then
+  action=restore
+else
+  action=hide
+fi
+
+batch=""
+while read -r name ws; do
+  [ -n "$name" ] || continue
+
+  case "$action:$ws" in
+    hide:desktop-*)    continue ;;                         # already hidden
+    restore:desktop-*) dispatch="workspace previous_per_monitor" ;;
+    restore:*)         continue ;;                         # already restored
+    hide:*)            dispatch="workspace name:desktop-$name" ;;
+  esac
+
+  batch="$batch dispatch focusmonitor $name ; dispatch $dispatch ;"
+done <<EOF
+$monitors
+EOF
+
+[ -n "$batch" ] || exit 0
+
+hyprctl --batch "$batch dispatch focusmonitor $origin ; dispatch movecursor $cursor"

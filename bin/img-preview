@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# Open image(s) in imv in a floating window that keeps the image aspect ratio
+# and never exceeds MAX_FRAC of the focused monitor on either axis.
+#
+# Hyprland window rules can only express sizes relative to the monitor
+# (monitor_w / monitor_h), so aspect-aware sizing has to be done here.
+#
+# Like imv-dir, a single file argument opens the whole directory with that
+# file selected, so left/right browses the neighbours.
+
+set -euo pipefail
+
+MAX_FRAC="${IMG_PREVIEW_MAX_FRAC:-0.6}"   # cap per axis, fraction of monitor
+MIN_LONG_SIDE="${IMG_PREVIEW_MIN_SIDE:-480}"
+UPSCALE="${IMG_PREVIEW_UPSCALE:-0}"       # 1 = blow small images up to the cap
+
+if [ $# -eq 0 ]; then
+  echo "usage: img-preview FILE..." >&2
+  exit 1
+fi
+
+read -r mon_x mon_y mon_w mon_h < <(
+  hyprctl -j monitors |
+    jq -r '.[] | select(.focused) | "\(.x) \(.y) \(.width / .scale | floor) \(.height / .scale | floor)"'
+)
+
+# First frame only: animated GIFs/WEBPs report one line per frame.
+# identify prints no trailing newline, so read would return 1 under set -e.
+read -r img_w img_h < <(identify -format '%w %h\n' "${1}[0]" 2>/dev/null || echo "0 0") || true
+
+if [ "$img_w" -gt 0 ] && [ "$img_h" -gt 0 ]; then
+  read -r win_w win_h < <(awk -v iw="$img_w" -v ih="$img_h" \
+    -v mw="$mon_w" -v mh="$mon_h" -v f="$MAX_FRAC" -v minside="$MIN_LONG_SIDE" -v up="$UPSCALE" 'BEGIN {
+      sw = (mw * f) / iw
+      sh = (mh * f) / ih
+      s = (sw < sh) ? sw : sh
+
+      # Show at native pixels unless asked to fill the cap.
+      if (!up && s > 1) s = 1
+
+      # But bump tiny images up to a usable size, still within the cap.
+      long = (iw > ih) ? iw : ih
+      smin = minside / long
+      if (s < smin && smin < sw && smin < sh) s = smin
+
+      printf "%d %d\n", int(iw * s + 0.5), int(ih * s + 0.5)
+    }') || true
+else
+  win_w=$(awk -v m="$mon_w" -v f="$MAX_FRAC" 'BEGIN{printf "%d", m*f}')
+  win_h=$(awk -v m="$mon_h" -v f="$MAX_FRAC" 'BEGIN{printf "%d", m*f}')
+fi
+
+pos_x=$(( mon_x + (mon_w - win_w) / 2 ))
+pos_y=$(( mon_y + (mon_h - win_h) / 2 ))
+
+if [ $# -eq 1 ] && [ -f "$1" ]; then
+  imv -n "$1" "$(dirname "$1")" &
+else
+  imv "$@" &
+fi
+imv_pid=$!
+
+addr=""
+for _ in $(seq 1 150); do
+  addr=$(hyprctl -j clients | jq -r --arg p "$imv_pid" '.[] | select(.pid == ($p | tonumber)) | .address' | head -1)
+  [ -n "$addr" ] && break
+  sleep 0.02
+done
+
+if [ -n "$addr" ]; then
+  hyprctl --batch "\
+    dispatch setfloating address:$addr ; \
+    dispatch resizewindowpixel exact $win_w $win_h,address:$addr ; \
+    dispatch movewindowpixel exact $pos_x $pos_y,address:$addr" >/dev/null
+fi
+
+wait "$imv_pid"

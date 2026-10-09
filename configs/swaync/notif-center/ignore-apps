@@ -1,0 +1,4 @@
+# notif-center: apps whose notifications are never recorded, one name per line,
+# matched case-insensitively against the Notify app_name. `#` starts a comment.
+# Read on every notification, so edits apply without restarting the recorder;
+# `notif-center prune` drops already-recorded entries of listed apps.

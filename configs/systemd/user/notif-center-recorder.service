@@ -1,0 +1,14 @@
+[Unit]
+Description=notif-center recorder: log every desktop notification from the session bus
+# Only needs the session bus, not the compositor; ordered after the graphical
+# session where one is tracked so it is up before apps start notifying.
+After=dbus.socket graphical-session.target
+Requires=dbus.socket
+
+[Service]
+ExecStart=/usr/bin/python3 %h/.config/swaync/notif-center/notif-center record
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

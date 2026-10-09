@@ -1,0 +1,9 @@
+[Unit]
+Description=Sample battery draw and per-cgroup/process CPU for power-log
+Documentation=file://%h/.bin/power-log
+
+[Service]
+Type=oneshot
+ExecStart=%h/.bin/power-log sample
+Nice=10
+IOSchedulingClass=idle

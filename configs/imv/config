@@ -1,0 +1,39 @@
+[options]
+suppress_default_binds = true
+background = #FFFFFF
+
+# Status line: filename + position, bottom-left, browser-style.
+overlay = true
+overlay_position_bottom = true
+overlay_font = JetBrainsMono Nerd Font:11
+overlay_text_color = ffffff
+overlay_text_alpha = ff
+overlay_background_color = 000000
+overlay_background_alpha = b0
+overlay_text = ${imv_current_file##*/}   ${imv_current_index}/${imv_file_count}   ${imv_width}x${imv_height}
+
+[aliases]
+# Define aliases here. Any arguments passed to an alias are appended to the
+# command.
+# alias = command to run
+
+[binds]
+# Define some key bindings
+q = quit
+<Escape> = quit
+<Delete> = exec rm "$imv_current_file"
+
+<Ctrl+c> = exec wl-copy "$imv_current_file"
+<Ctrl+Shift+c> = exec wl-copy --type image/png < "$imv_current_file"
+
+<Left> = prev
+<Right> = next
+
+x = close
+f = fullscreen
+d = overlay
+
+a = zoom actual
+0 = reset
+
+<space> = toggle_playing

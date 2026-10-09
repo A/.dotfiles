@@ -1,0 +1,82 @@
+#!/usr/bin/python3
+"""notif-center - persistent history of every desktop notification, and its window.
+
+Subcommands:
+  record   long-running recorder: monitor the session bus for Notify calls and
+           append each to the history (run by notif-center-recorder.service)
+  serve    run the window's local HTTP server on 127.0.0.1 (spawned by `ui`)
+  ui       open the history window; starts the server if needed
+  prune    drop already-recorded noise (empty text, apps in ./ignore-apps) from the history
+
+History: $XDG_DATA_HOME/notif-log/log.jsonl (see notiflog.py), never trimmed.
+Window: server.py + static/ here, on the runtime, HTTP base and GTK4+WebKitGTK
+  viewer shared with gh-feed in ~/.config/waybar/webview/; the running server's
+  port is in $XDG_RUNTIME_DIR/notif-center/server.json.
+
+Runs on the system python: the recorder needs PyGObject.
+"""
+
+import sys
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+# configs/swaync/notif-center -> configs/waybar/webview (both live in the dotfiles tree)
+WEBVIEW_DIR = HERE.parent.parent / "waybar" / "webview"
+sys.path[:0] = [str(HERE), str(WEBVIEW_DIR)]
+
+
+def log(message):
+    print(f"notif-center: {message}", file=sys.stderr)
+
+
+def ui_runtime():
+    from runtime import Runtime
+
+    return Runtime(app="notif-center", app_id="dev.notifcenter.ui", title="Уведомления")
+
+
+def cmd_record():
+    import recorder
+
+    return recorder.main()
+
+
+def cmd_serve():
+    from httpd import serve_forever
+    from server import make_log_server
+
+    return serve_forever(make_log_server(), ui_runtime())
+
+
+def cmd_prune():
+    import notiflog
+
+    before, after = notiflog.prune()
+    print(f"notif-center prune: {before} -> {after} entries ({before - after} removed)")
+    return 0
+
+
+def cmd_ui():
+    runtime = ui_runtime()
+    try:
+        port = runtime.ensure_server([sys.executable, str(Path(__file__).resolve()), "serve"])
+        runtime.open_page(f"http://127.0.0.1:{port}/log")
+    except RuntimeError as exc:
+        log(str(exc))
+        return 1
+    return 0
+
+
+COMMANDS = {"record": cmd_record, "serve": cmd_serve, "ui": cmd_ui, "prune": cmd_prune}
+
+
+def main(argv):
+    command = argv[1] if len(argv) > 1 else ""
+    if command not in COMMANDS or len(argv) > 2:
+        log(f"usage: notif-center {{{'|'.join(COMMANDS)}}}")
+        return 2
+    return COMMANDS[command]()
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))

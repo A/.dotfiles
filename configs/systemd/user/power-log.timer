@@ -1,0 +1,12 @@
+[Unit]
+Description=Per-minute power-log sample
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=1min
+# Tight accuracy keeps samples ~60s apart; the default 1min would let systemd
+# batch them up to 2min apart and blur per-interval deltas.
+AccuracySec=5s
+
+[Install]
+WantedBy=timers.target

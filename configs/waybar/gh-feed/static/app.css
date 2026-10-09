@@ -1,0 +1,99 @@
+/* gh-feed: the GitHub feed. Shared palette and controls come from base.css. */
+
+/* GitHub feed */
+
+.feed { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+
+.feed { gap: 6px; }
+
+.item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  gap: 12px;
+  padding: 11px 14px 11px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  cursor: pointer;
+  outline: none;
+}
+
+.item:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+.item:focus-visible { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+.item.unread::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--accent);
+}
+
+.item.read { background: transparent; }
+.item.read .head, .item.read .subject { color: var(--muted); }
+
+.avatar {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.avatar img, .avatar .initial {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--surface-2);
+}
+
+.avatar .initial {
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  background: var(--accent-soft);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.avatar .kind-badge {
+  position: absolute;
+  right: -5px;
+  bottom: -4px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--border);
+  font-size: 11px;
+  line-height: 1;
+}
+
+.item .text { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.item .head { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item.unread .head { font-weight: 600; }
+.item .head .actor { font-weight: 600; }
+.item .head .ref { color: var(--accent); font-weight: 500; }
+.item.read .head .ref { color: var(--muted); }
+.item .subject { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item.unread .subject { font-weight: 500; }
+.item .snippet {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 13px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.item .side { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 6px; }
+.item time { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.item .mark { visibility: hidden; }
+.item:hover .mark, .item:focus-within .mark, .item:focus .mark { visibility: visible; }
+

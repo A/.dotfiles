@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="webview-token" content="{{TOKEN}}">
+  <title>Уведомления</title>
+  <link rel="stylesheet" href="/static/base.css">
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <header class="bar">
+    <span class="title">Уведомления</span>
+    <span id="active-count" class="count" hidden></span>
+    <span class="brand">notif-center</span>
+  </header>
+  <main id="main" tabindex="-1"></main>
+  <div id="toasts" aria-live="polite"></div>
+  <script type="module" src="/static/app.js"></script>
+</body>
+</html>

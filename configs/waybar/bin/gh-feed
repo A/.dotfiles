@@ -1,0 +1,477 @@
+#!/usr/bin/env python3
+"""gh-feed - GitHub notifications indicator for waybar.
+
+Reads the owner's GitHub notifications from a self-hosted ntfy topic (published by
+the homelab poller) and shows the unread count in the waybar bar.
+
+Subcommands:
+  waybar                  waybar "exec": stream the topic forever, print one waybar JSON line per change
+  read-all                mark every stored notification as read
+  ui                      open the GitHub feed window; starts the server if needed
+  serve                   run the window's local HTTP server on 127.0.0.1 (spawned by `ui`)
+
+State: $XDG_CACHE_HOME/gh-feed/state.json
+  {"last_id": <ntfy id>, "items": [{id, time, title, message, click, icon, tags, read}, ...]}
+Avatars: $XDG_CACHE_HOME/gh-feed/avatars/<sha1 of icon url>.png
+Window: ../gh-feed/ (server, static page) on the shared ../webview/ runtime and GTK4+WebKitGTK
+  viewer, built like musictl's ui; the running server's port is in $XDG_RUNTIME_DIR/gh-feed/server.json.
+
+Config: GH_FEED_NTFY_URL (ntfy base URL) and GH_FEED_NTFY_TOPIC, from the environment
+or, when unset, from $XDG_CONFIG_HOME/gh-feed/gh-feed.env (KEY=VALUE lines).
+Token: $XDG_CONFIG_HOME/gh-feed/token.
+
+Stdlib only. The ntfy token is never printed, logged or copied.
+"""
+
+import fcntl
+import hashlib
+import json
+import os
+import shlex
+import signal
+import subprocess
+import sys
+import threading
+import time
+import urllib.request
+from contextlib import contextmanager
+from pathlib import Path
+
+NTFY_BASE = None
+TOPIC = None
+ICON = "\uf408"  # oct-mark_github (Nerd Fonts)
+MAX_ITEMS = 50
+TOOLTIP_ITEMS = 5
+BACKOFF_MIN = 1.0
+BACKOFF_MAX = 60.0
+EMPTY_TOOLTIP = "Нет новых уведомлений"
+ACTION_OPEN = "Открыть"
+ACTION_READ = "Прочитано"
+AVATAR_TIMEOUT = 5
+
+CONFIG_DIR = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
+CACHE_DIR = Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache") / "gh-feed"
+STATE_PATH = CACHE_DIR / "state.json"
+LOCK_PATH = CACHE_DIR / "state.lock"
+AVATAR_DIR = CACHE_DIR / "avatars"
+TOKEN_PATH = CONFIG_DIR / "gh-feed" / "token"
+ENV_PATH = CONFIG_DIR / "gh-feed" / "gh-feed.env"
+UI_DIR = Path(__file__).resolve().parent.parent / "gh-feed"
+WEBVIEW_DIR = UI_DIR.parent / "webview"
+
+
+def log(message):
+    """Print a diagnostic to stderr (stdout is reserved for waybar JSON)."""
+    print(f"gh-feed: {message}", file=sys.stderr)
+
+
+def setting(name):
+    """Env var, falling back to gh-feed.env next to the token: waybar does not inherit the login shell's env."""
+    value = os.environ.get(name)
+    if value:
+        return value
+    try:
+        lines = ENV_PATH.read_text().splitlines()
+    except OSError:
+        return None
+    for line in lines:
+        try:
+            words = shlex.split(line, comments=True)
+        except ValueError:
+            continue
+        if words and words[0].startswith(f"{name}="):
+            return words[0].split("=", 1)[1] or None
+    return None
+
+
+def read_token():
+    """Read the read-only bearer token. Never echo it."""
+    try:
+        return TOKEN_PATH.read_text(encoding="utf-8").strip()
+    except OSError as exc:
+        log(f"cannot read token at {TOKEN_PATH}: {exc}")
+        return None
+
+
+def open_topic(url, token, timeout=120):
+    """Open a ntfy URL with the bearer token."""
+    request = urllib.request.Request(
+        url,
+        headers={
+            "Authorization": f"Bearer {token}",
+            "User-Agent": "gh-feed/1.0",
+            "Accept-Encoding": "identity",
+        },
+    )
+    return urllib.request.urlopen(request, timeout=timeout)
+
+
+def message_ids(token):
+    """Ids currently cached in the topic (used to tell backlog from real new messages).
+
+    Returns None when the poll fails, so callers treat everything as backlog replay.
+    """
+    try:
+        ids = set()
+        with open_topic(f"{NTFY_BASE}/{TOPIC}/json?since=all&poll=1", token, timeout=20) as response:
+            for raw in response:
+                try:
+                    msg = json.loads(raw)
+                except ValueError:
+                    continue
+                if msg.get("event") == "message" and msg.get("id"):
+                    ids.add(msg["id"])
+        return ids
+    except Exception as exc:
+        log(f"cache poll failed: {exc}")
+        return None
+
+
+@contextmanager
+def state_lock():
+    """Exclusive lock around read-modify-write of the state file."""
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    with open(LOCK_PATH, "a+") as lock_file:
+        fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
+
+
+def load_state():
+    """Load the state. Safe to call without the lock: writes are atomic renames."""
+    try:
+        with open(STATE_PATH, encoding="utf-8") as handle:
+            state = json.load(handle)
+    except (OSError, ValueError):
+        state = {}
+    if not isinstance(state, dict):
+        state = {}
+    items = [item for item in state.get("items") or [] if isinstance(item, dict) and item.get("id")]
+    items.sort(key=lambda item: item.get("time") or 0, reverse=True)
+    return {"last_id": state.get("last_id") or "", "items": items[:MAX_ITEMS]}
+
+
+def save_state(state):
+    """Write the state atomically (tmp file + rename)."""
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    tmp_path = CACHE_DIR / f"state.{os.getpid()}.tmp"
+    with open(tmp_path, "w", encoding="utf-8") as handle:
+        json.dump(state, handle, ensure_ascii=False)
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(tmp_path, STATE_PATH)
+
+
+def pango_escape(text):
+    """Escape text for waybar's pango tooltip markup."""
+    return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def waybar_line(state):
+    """Build the single JSON line waybar expects."""
+    unread = [item for item in state["items"] if not item.get("read")]
+    if unread:
+        tooltip_lines = []
+        for index, item in enumerate(unread[:TOOLTIP_ITEMS]):
+            if index:
+                tooltip_lines.append("")
+            tooltip_lines.append(pango_escape(item.get("title") or ""))
+            first_line = (item.get("message") or "").splitlines()
+            if first_line:
+                tooltip_lines.append(
+                    f'<span size="smaller" alpha="45000">{pango_escape(first_line[0])}</span>'
+                )
+        tooltip = "\n".join(tooltip_lines)
+    else:
+        tooltip = EMPTY_TOOLTIP
+
+    return json.dumps(
+        {
+            "text": f"{ICON} {len(unread)}" if unread else "",
+            "class": "unread" if unread else "empty",
+            "tooltip": tooltip,
+        }
+    )
+
+
+def emit(line):
+    sys.stdout.write(line + "\n")
+    sys.stdout.flush()
+
+
+def avatar_path(url):
+    """Local copy of an avatar URL, downloaded once. None on any failure."""
+    if not url:
+        return None
+    path = AVATAR_DIR / f"{hashlib.sha1(url.encode()).hexdigest()}.png"
+    if path.is_file():
+        return path
+    tmp_path = AVATAR_DIR / f"{path.stem}.{os.getpid()}.{threading.get_ident()}.tmp"
+    try:
+        AVATAR_DIR.mkdir(parents=True, exist_ok=True)
+        request = urllib.request.Request(url, headers={"User-Agent": "gh-feed/1.0"})
+        with urllib.request.urlopen(request, timeout=AVATAR_TIMEOUT) as response:
+            data = response.read()
+        with open(tmp_path, "wb") as handle:
+            handle.write(data)
+        os.replace(tmp_path, path)
+        return path
+    except Exception as exc:
+        log(f"avatar download failed: {exc}")
+        tmp_path.unlink(missing_ok=True)
+        return None
+
+
+def notification_body(message):
+    """Pango body: first line bold, the rest (the snippet) italic."""
+    lines = [line for line in (message or "").strip().splitlines() if line.strip()]
+    if not lines:
+        return ""
+    body = f"<b>{pango_escape(lines[0])}</b>"
+    if lines[1:]:
+        body += f"\n<i>{pango_escape(chr(10).join(lines[1:]))}</i>"
+    return body
+
+
+def open_url(url):
+    try:
+        subprocess.run(
+            ["xdg-open", url],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+    except Exception as exc:
+        log(f"xdg-open failed: {exc}")
+
+
+def notify_and_wait(item):
+    """Show the notification and act on the button the user picks.
+
+    Runs off the main thread: -A makes notify-send block until the notification
+    is acted on or dismissed. Must not write stdout, which is waybar's channel.
+    Always normal urgency: swaync keeps critical notifications on screen until
+    dismissed, and the bar indicator already holds whatever is unread.
+    """
+    command = ["notify-send", "-a", "GitHub", "-n", "github", "-u", "normal"]
+    icon = avatar_path(item.get("icon"))
+    if icon:
+        command += ["-i", str(icon)]
+    if item.get("click"):
+        # Read back by notif-center's recorder, so the history row opens the same page.
+        command += ["-h", f"string:x-notif-log-url:{item['click']}"]
+    command += ["-A", f"default={ACTION_OPEN}", "-A", f"read={ACTION_READ}"]
+    command += [item.get("title") or "", notification_body(item.get("message"))]
+    try:
+        result = subprocess.run(
+            command,
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            check=False,
+        )
+    except Exception as exc:
+        log(f"notify-send failed: {exc}")
+        return
+    action = (result.stdout or "").strip()
+    if action == "default":
+        if item.get("click"):
+            open_url(item["click"])
+        mark_read(item["id"])
+    elif action == "read":
+        mark_read(item["id"])
+
+
+def notify(item):
+    """Desktop notification for a genuinely new message. Never breaks the loop."""
+    threading.Thread(target=notify_and_wait, args=(item,), daemon=True).start()
+
+
+def add_message(message):
+    """Merge one ntfy message into the state. Returns True if the state changed."""
+    message_id = message.get("id")
+    with state_lock():
+        state = load_state()
+        if message_id in {item["id"] for item in state["items"]}:
+            return False
+        item = {
+            "id": message_id,
+            "time": message.get("time") or 0,
+            "title": message.get("title") or "",
+            "message": message.get("message") or "",
+            "click": message.get("click") or message.get("link") or "",
+            "icon": message.get("icon") or "",
+            "tags": message.get("tags") or [],
+            "read": False,
+        }
+        items = [item] + state["items"]
+        items.sort(key=lambda entry: entry.get("time") or 0, reverse=True)
+        state["items"] = items[:MAX_ITEMS]
+        # ntfy streams in chronological order, so the newest merged message is the
+        # watermark for the next `since=` request.
+        state["last_id"] = message_id
+        save_state(state)
+    return True
+
+
+def signal_daemon():
+    """Tell the running waybar daemon that the state changed. Ignore if it is absent."""
+    try:
+        subprocess.run(
+            ["pkill", "-USR1", "-f", "gh-feed waybar"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+    except Exception as exc:
+        log(f"pkill failed: {exc}")
+
+
+def mark_read(item_id):
+    with state_lock():
+        state = load_state()
+        for item in state["items"]:
+            if item["id"] == item_id:
+                item["read"] = True
+        save_state(state)
+    signal_daemon()
+
+
+def mark_all_read():
+    with state_lock():
+        state = load_state()
+        for item in state["items"]:
+            item["read"] = True
+        save_state(state)
+    signal_daemon()
+
+
+def cmd_waybar():
+    global NTFY_BASE, TOPIC
+    NTFY_BASE = setting("GH_FEED_NTFY_URL")
+    TOPIC = setting("GH_FEED_NTFY_TOPIC")
+    if not NTFY_BASE or not TOPIC:
+        log(f"GH_FEED_NTFY_URL and GH_FEED_NTFY_TOPIC must be set (env or {ENV_PATH})")
+        return 1
+    NTFY_BASE = NTFY_BASE.rstrip("/")
+    token = read_token()
+    if not token:
+        return 1
+
+    # Only the main thread writes stdout. The SIGUSR1 handler and the stream thread
+    # just raise this flag: writing from a signal handler can interrupt a write in
+    # progress (BufferedWriter raises "reentrant call"), and Event.set() from a
+    # handler can deadlock on the Event's own lock. A plain bool is neither.
+    dirty = [True]
+
+    def on_usr1(_signum, _frame):
+        dirty[0] = True
+
+    signal.signal(signal.SIGUSR1, on_usr1)
+    threading.Thread(target=stream_forever, args=(token, dirty), daemon=True).start()
+
+    try:
+        while True:
+            if dirty[0]:
+                dirty[0] = False
+                # Lock-free read: writes are atomic renames, so a read is always whole.
+                emit(waybar_line(load_state()))
+            time.sleep(0.2)
+    except (KeyboardInterrupt, BrokenPipeError):
+        return 0
+
+
+def stream_forever(token, dirty):
+    """Stream the topic, merge new messages into the state and flag a redraw."""
+    backoff = BACKOFF_MIN
+    while True:
+        try:
+            state = load_state()
+            since = state["last_id"] or "all"
+            first_run = not state["last_id"]
+            backlog_ids = message_ids(token) if first_run else set()
+            with open_topic(f"{NTFY_BASE}/{TOPIC}/json?since={since}", token) as stream:
+                for raw in stream:
+                    line = raw.strip()
+                    if not line:
+                        continue
+                    try:
+                        message = json.loads(line)
+                    except ValueError:
+                        continue
+                    if message.get("event") != "message" or not message.get("id"):
+                        continue
+                    # Every bar runs its own daemon on the shared state. Whichever
+                    # stores a message first notifies; the others still redraw.
+                    added = add_message(message)
+                    dirty[0] = True
+                    backoff = BACKOFF_MIN
+                    if not added:
+                        continue
+                    if first_run and (backlog_ids is None or message["id"] in backlog_ids):
+                        pass  # backlog replay on the very first start: no notification
+                    else:
+                        notify(message)
+        except Exception as exc:
+            log(f"stream error: {exc}")
+            time.sleep(backoff)
+            backoff = min(backoff * 2, BACKOFF_MAX)
+
+
+def ui_runtime():
+    sys.path.insert(0, str(WEBVIEW_DIR))
+    from runtime import Runtime
+
+    return Runtime(app="gh-feed", app_id="dev.ghfeed.ui", title="gh-feed")
+
+
+def cmd_serve():
+    runtime = ui_runtime()
+    sys.path.insert(0, str(UI_DIR))
+    from httpd import serve_forever
+    from server import Feed, make_feed_server
+
+    feed = Feed(
+        state_path=STATE_PATH,
+        avatar_dir=AVATAR_DIR,
+        load_state=load_state,
+        mark_read=mark_read,
+        mark_all_read=mark_all_read,
+    )
+    return serve_forever(make_feed_server(feed), runtime)
+
+
+def cmd_ui(args):
+    if args:
+        log("usage: gh-feed ui")
+        return 2
+    runtime = ui_runtime()
+    try:
+        port = runtime.ensure_server([sys.executable, str(Path(__file__).resolve()), "serve"])
+        runtime.open_page(f"http://127.0.0.1:{port}/github")
+    except RuntimeError as exc:
+        log(str(exc))
+        return 1
+    return 0
+
+
+def main(argv):
+    command = argv[1] if len(argv) > 1 else "waybar"
+    if command == "waybar":
+        return cmd_waybar()
+    if command == "ui":
+        return cmd_ui(argv[2:])
+    if command == "serve":
+        return cmd_serve()
+    if command == "read-all":
+        mark_all_read()
+        return 0
+    log(f"unknown subcommand: {command}")
+    return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))

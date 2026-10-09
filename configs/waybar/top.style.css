@@ -153,8 +153,13 @@ box.horizontal.modules-right {
 #custom-beets,
 #custom-pacman,
 #custom-docker,
-#custom-notification {
+#custom-notification,
+#custom-github {
   padding: 0 2px;
+}
+
+#custom-github.unread {
+  color: #ff4242;
 }
 
 #custom-beets {

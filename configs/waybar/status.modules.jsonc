@@ -1,0 +1,72 @@
+{
+  // Status modules shared by top.config (centre of the laptop bar) and
+  // external.config (right of the external-monitor bar). Pulled in with
+  // "include"; every module here is safe to run on two bars at once.
+  "custom/inhibitor": {
+    "exec": "~/.config/waybar/bin/idle-inhibit.sh",
+    "on-click": "~/.config/waybar/bin/idle-inhibit.sh --toggle",
+    "return-type": "json",
+    "escape": false,
+    "format": "{}  <span foreground='#999'>|</span>",
+    "interval": "once",
+    "signal": 3
+  },
+
+  "custom/hyprshade": {
+    "format": "{} ",
+    "exec": "~/.config/waybar/bin/hyprshade",
+    "tooltip-format": "Toggle blue light filter",
+    "interval": "once",
+    "signal": 2,
+    "on-click": "hyprshade on vibrance; pkill -RTMIN+2 -x waybar",
+    "on-click-right": "hyprshade on blue-light-filter; pkill -RTMIN+2 -x waybar"
+  },
+
+  "custom/pacman": {
+    "format": "󰣇  {}",
+    "return-type": "json",
+    "exec-if": "which waybar-module-pacman-updates",
+    "exec": "waybar-module-pacman-updates",
+  },
+
+  "custom/docker": {
+    "exec": "~/.config/waybar/bin/docker.sh",
+    "exec-if": "pgrep docker",
+    "return-type": "json",
+    "format": "󰡨  {}",
+    "interval": 60,
+    "max-length": 5
+  },
+
+  "custom/github": {
+    "exec": "~/.config/waybar/bin/gh-feed waybar",
+    "return-type": "json",
+    "escape": false,
+    "format": "{}",
+    "on-click": "~/.config/waybar/bin/gh-feed ui",
+    "on-click-right": "~/.config/waybar/bin/gh-feed read-all",
+    "tooltip": true
+  },
+
+  "custom/notification": {
+    "tooltip": false,
+    "format": "{icon}  {text}",
+    "format-icons": {
+      "notification": "<span foreground='#ff4242'><sup></sup></span>",
+      "none": "",
+      "dnd-notification": "<span foreground='#ff4242'><sup></sup></span>",
+      "dnd-none": "",
+      "inhibited-notification": "<span foreground='#ff4242'><sup></sup></span>",
+      "inhibited-none": "",
+      "dnd-inhibited-notification": "<span foreground='#ff4242'><sup></sup></span>",
+      "dnd-inhibited-none": ""
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "~/.config/swaync/notif-center/notif-center ui",
+    "on-click-right": "swaync-client -d -sw",
+    "on-click-middle": "swaync-client -t -sw",
+    "escape": true
+  }
+}

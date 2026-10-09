@@ -1,0 +1,437 @@
+#!/usr/bin/env python3
+# Battery/resource logger: `power-log sample` (run every minute by power-log.timer)
+# appends one JSON line per minute to ~/.local/state/power-log/YYYY-MM.jsonl.
+# `power-log report [--since 1d] [--all]` summarizes what drew power on battery.
+import glob
+import json
+import os
+import re
+import socket
+import sys
+import time
+from collections import defaultdict
+from datetime import datetime
+
+STATE = os.path.join(
+    os.environ.get("XDG_STATE_HOME") or os.path.expanduser("~/.local/state"), "power-log"
+)
+PREV = os.path.join(STATE, "prev.json")
+MAX_GAP = 300
+KEEP_DAYS = 90
+TOP_N = 10
+CLK_TCK = os.sysconf("SC_CLK_TCK")
+BAT = "/sys/class/power_supply/BAT0"
+
+
+def read(path, conv=str):
+    try:
+        with open(path) as f:
+            return conv(f.read().strip())
+    except (OSError, ValueError):
+        return None
+
+
+def hwmon_by_name(name):
+    for d in glob.glob("/sys/class/hwmon/hwmon*"):
+        if read(d + "/name") == name:
+            return d
+    return None
+
+
+def apu_watts():
+    d = hwmon_by_name("amdgpu")
+    uw = read(d + "/power1_input", int) if d else None
+    return round(uw / 1e6, 2) if uw is not None else None
+
+
+def gpu_busy():
+    for p in glob.glob("/sys/class/drm/card*/device/gpu_busy_percent"):
+        v = read(p, int)
+        if v is not None:
+            return v
+    return None
+
+
+def brightness_pct():
+    for d in glob.glob("/sys/class/backlight/*"):
+        cur, mx = read(d + "/brightness", int), read(d + "/max_brightness", int)
+        if cur is not None and mx:
+            return round(100 * cur / mx)
+    return None
+
+
+def proc_stat():
+    cpu = intr = None
+    with open("/proc/stat") as f:
+        for line in f:
+            if line.startswith("cpu "):
+                vals = [int(x) for x in line.split()[1:]]
+                idle = vals[3] + vals[4]
+                cpu = [sum(vals), idle]
+            elif line.startswith("intr "):
+                intr = int(line.split(None, 2)[1])
+    return cpu, intr
+
+
+def cgroup_usage():
+    out = {}
+    for root, dirs, files in os.walk("/sys/fs/cgroup"):
+        # Only leaves: parents' usage already includes their children.
+        if dirs or "cpu.stat" not in files:
+            continue
+        try:
+            with open(root + "/cpu.stat") as f:
+                usec = int(f.readline().split()[1])
+        except (OSError, ValueError, IndexError):
+            continue
+        out[root[len("/sys/fs/cgroup/"):]] = usec
+    return out
+
+
+def proc_usage():
+    out = {}
+    for pid in os.listdir("/proc"):
+        if not pid.isdigit():
+            continue
+        try:
+            with open(f"/proc/{pid}/stat") as f:
+                s = f.read()
+        except OSError:
+            continue
+        lp, rp = s.find("("), s.rfind(")")
+        comm = s[lp + 1 : rp]
+        rest = s[rp + 2 :].split()
+        # Key includes starttime so a reused pid is not diffed against another process.
+        out[f"{pid}:{rest[19]}"] = [comm, int(rest[11]) + int(rest[12])]
+    return out
+
+
+def docker_containers():
+    sock = "/var/run/docker.sock"
+    if not os.access(sock, os.R_OK | os.W_OK):
+        return None
+    try:
+        s = socket.socket(socket.AF_UNIX)
+        s.settimeout(1)
+        s.connect(sock)
+        s.sendall(b"GET /containers/json HTTP/1.0\r\nHost: docker\r\n\r\n")
+        buf = b""
+        while chunk := s.recv(65536):
+            buf += chunk
+        s.close()
+        body = buf.split(b"\r\n\r\n", 1)[1]
+        return {c["Id"]: c["Names"][0].lstrip("/") for c in json.loads(body)}
+    except (OSError, ValueError, IndexError, KeyError):
+        return None
+
+
+def hypr_socket():
+    runtime = os.environ.get("XDG_RUNTIME_DIR") or f"/run/user/{os.getuid()}"
+    sig = os.environ.get("HYPRLAND_INSTANCE_SIGNATURE")
+    if not sig:
+        # Under systemd the unit has no Hyprland env; the newest instance dir is the live one.
+        dirs = glob.glob(runtime + "/hypr/*/")
+        if not dirs:
+            return None
+        sig = os.path.basename(max(dirs, key=os.path.getmtime).rstrip("/"))
+    return f"{runtime}/hypr/{sig}/.socket.sock"
+
+
+def monitors():
+    # Talk to Hyprland's IPC socket directly: same reply as `hyprctl -j monitors all`
+    # without paying for a subprocess every minute.
+    path = hypr_socket()
+    if path is None:
+        return None
+    try:
+        s = socket.socket(socket.AF_UNIX)
+        s.settimeout(1)
+        s.connect(path)
+        s.sendall(b"j/monitors all")
+        buf = b""
+        while chunk := s.recv(65536):
+            buf += chunk
+        s.close()
+        return [
+            {"name": m["name"], "refresh": round(m["refreshRate"], 1), "enabled": not m.get("disabled", False)}
+            for m in json.loads(buf)
+        ]
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+
+
+def cgroup_label(path, names):
+    leaf = path.rsplit("/", 1)[-1]
+    m = re.match(r"docker-([0-9a-f]{64})\.scope$", leaf)
+    if m:
+        return "docker:" + (names or {}).get(m.group(1), m.group(1)[:12])
+    return normalize_unit(leaf)
+
+
+def normalize_unit(leaf):
+    # Strip per-instance ids so the same app aggregates across restarts:
+    # app-Hyprland-kitty-12345.scope, tmux-spawn-<uuid>.scope, run-p5319-i16967.scope.
+    leaf = re.sub(r"-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.scope$", ".scope", leaf)
+    leaf = re.sub(r"^run-p\d+-i\d+\.scope$", "run-transient.scope", leaf)
+    return re.sub(r"-\d+\.scope$", ".scope", leaf)
+
+
+def top(d, n=TOP_N):
+    return dict(sorted(((k, round(v)) for k, v in d.items() if v >= 1), key=lambda kv: -kv[1])[:n])
+
+
+def cleanup():
+    cutoff = time.time() - KEEP_DAYS * 86400
+    for p in glob.glob(STATE + "/*.jsonl"):
+        if os.path.getmtime(p) < cutoff:
+            os.remove(p)
+
+
+def cmd_sample():
+    os.makedirs(STATE, exist_ok=True)
+    now = time.time()
+    cpu, intr = proc_stat()
+    cg = cgroup_usage()
+    procs = proc_usage()
+    dock = docker_containers()
+
+    try:
+        with open(PREV) as f:
+            prev = json.load(f)
+    except (OSError, ValueError):
+        prev = None
+
+    dt = now - prev["ts"] if prev else None
+    valid = dt is not None and 0 < dt <= MAX_GAP
+    rec = {
+        "ts": round(now),
+        "dt": round(dt) if valid else None,
+        "ac": read("/sys/class/power_supply/AC/online", int),
+        "status": read(BAT + "/status"),
+        "capacity": read(BAT + "/capacity", int),
+        "energy_wh": (lambda v: round(v / 1e6, 2) if v is not None else None)(read(BAT + "/energy_now", int)),
+        "bat_w": (lambda v: round(v / 1e6, 2) if v is not None else None)(read(BAT + "/power_now", int)),
+        "apu_w": apu_watts(),
+        "gpu_busy": gpu_busy(),
+        "brightness_pct": brightness_pct(),
+        "monitors": monitors(),
+        "docker": sorted(dock.values()) if dock is not None else None,
+        "cpu_pct": None,
+        "irq_per_s": None,
+        "cgroups": None,
+        "procs": None,
+    }
+    if valid:
+        dtot, didle = cpu[0] - prev["cpu"][0], cpu[1] - prev["cpu"][1]
+        rec["cpu_pct"] = round(100 * (dtot - didle) / dtot, 1) if dtot > 0 else None
+        rec["irq_per_s"] = round((intr - prev["intr"]) / dt)
+        cgd = defaultdict(float)
+        for path, usec in cg.items():
+            cgd[cgroup_label(path, dock)] += (usec - prev["cg"].get(path, 0)) / 1000
+        rec["cgroups"] = top(cgd)
+        pd = defaultdict(float)
+        for key, (comm, ticks) in procs.items():
+            old = prev["procs"].get(key)
+            pd[comm] += (ticks - (old[1] if old else 0)) * 1000 / CLK_TCK
+        rec["procs"] = top(pd)
+
+    with open(os.path.join(STATE, datetime.fromtimestamp(now).strftime("%Y-%m.jsonl")), "a") as f:
+        f.write(json.dumps(rec, separators=(",", ":")) + "\n")
+    tmp = PREV + ".tmp"
+    with open(tmp, "w") as f:
+        json.dump({"ts": now, "cpu": cpu, "intr": intr, "cg": cg, "procs": procs}, f, separators=(",", ":"))
+    os.replace(tmp, PREV)
+    cleanup()
+
+
+def parse_since(s):
+    import argparse
+
+    m = re.fullmatch(r"(\d+)([mhd])", s)
+    if not m:
+        raise argparse.ArgumentTypeError("expected e.g. 30m, 6h, 7d")
+    return int(m.group(1)) * {"m": 60, "h": 3600, "d": 86400}[m.group(2)]
+
+
+def load(since_ts):
+    first = datetime.fromtimestamp(since_ts).strftime("%Y-%m")
+    recs = []
+    for p in sorted(glob.glob(STATE + "/*.jsonl")):
+        if os.path.basename(p)[:7] < first:
+            continue
+        with open(p) as f:
+            for line in f:
+                try:
+                    r = json.loads(line)
+                except ValueError:
+                    continue
+                if r["ts"] >= since_ts:
+                    recs.append(r)
+    recs.sort(key=lambda r: r["ts"])
+    return recs
+
+
+def stats(vals):
+    import statistics
+
+    vals = sorted(v for v in vals if v is not None)
+    if not vals:
+        return None
+    p90 = vals[min(len(vals) - 1, int(0.9 * len(vals)))]
+    return statistics.fmean(vals), statistics.median(vals), p90
+
+
+def fmt_dur(sec):
+    h, m = divmod(round(sec / 60), 60)
+    return f"{h}h{m:02d}m"
+
+
+def table(rows, headers):
+    widths = [max(len(str(x)) for x in col) for col in zip(headers, *rows)]
+    num = re.compile(r"-?\d[\d.]*[%shm\d]*$")
+    line = lambda r: "  ".join(str(c).rjust(w) if i and num.match(str(c)) else str(c).ljust(w) for i, (c, w) in enumerate(zip(r, widths)))
+    right = [bool(rows) and i > 0 and bool(num.match(str(rows[0][i]))) for i in range(len(headers))]
+    print("  " + "  ".join(h.rjust(w) if r else h.ljust(w) for h, w, r in zip(headers, widths, right)))
+    for r in rows:
+        print("  " + line(r))
+
+
+def edp(r):
+    for m in r.get("monitors") or []:
+        if m["name"].startswith("eDP"):
+            return f"{m['refresh']:g}Hz" if m["enabled"] else "off"
+    return "?"
+
+
+def external(r):
+    mons = r.get("monitors")
+    if mons is None:
+        return "?"
+    return "yes" if any(m["enabled"] and not m["name"].startswith("eDP") for m in mons) else "no"
+
+
+def bright_bucket(r):
+    b = r.get("brightness_pct")
+    if b is None:
+        return "?"
+    lo = min(int(b // 25) * 25, 75)
+    return f"{lo}-{lo + 25}%"
+
+
+def grouped(recs, keyf, title):
+    from statistics import fmean
+    g = defaultdict(list)
+    for r in recs:
+        if r.get("bat_w") is not None:
+            g[keyf(r)].append(r["bat_w"])
+    print(f"\nAvg draw by {title}:")
+    table([(k, len(v), f"{fmean(v):.1f}") for k, v in sorted(g.items())], [title, "samples", "bat_w"])
+
+
+def share_table(recs, field, title):
+    tot = defaultdict(float)
+    for r in recs:
+        for k, v in (r.get(field) or {}).items():
+            tot[normalize_unit(k) if field == "cgroups" else k] += v
+    total = sum(tot.values())
+    print(f"\nTop {title} by CPU time:")
+    if not total:
+        print("  (none)")
+        return
+    rows = sorted(tot.items(), key=lambda kv: -kv[1])[:15]
+    table([(k, fmt_dur(v / 1000) if v >= 60000 else f"{v / 1000:.1f}s", f"{100 * v / total:.1f}%") for k, v in rows], [title, "cpu", "share"])
+
+
+def cmd_report(args):
+    since_ts = time.time() - args.since
+    allrecs = load(since_ts)
+    recs = allrecs if args.all else [r for r in allrecs if r.get("ac") == 0]
+    scope = "all" if args.all else "battery"
+    if not recs:
+        hint = "" if args.all else "; --all includes samples on AC"
+        print(f"No {'' if args.all else 'battery '}samples in the selected period ({len(allrecs)} samples total{hint}).")
+        return
+
+    span = sum(r["dt"] for r in recs if r.get("dt")) or 60 * len(recs)
+    print(f"Samples: {len(recs)} ({scope}), covered time: {fmt_dur(span)}")
+    print(f"Period: {datetime.fromtimestamp(recs[0]['ts']):%Y-%m-%d %H:%M} .. {datetime.fromtimestamp(recs[-1]['ts']):%Y-%m-%d %H:%M}")
+
+    plat = [r["bat_w"] - r["apu_w"] for r in recs if r.get("bat_w") is not None and r.get("apu_w") is not None]
+    rows = []
+    for name, vals in (
+        ("bat_w", [r.get("bat_w") for r in recs]),
+        ("apu_w", [r.get("apu_w") for r in recs]),
+        ("platform_w", plat),
+        ("cpu_pct", [r.get("cpu_pct") for r in recs]),
+        ("gpu_busy", [r.get("gpu_busy") for r in recs]),
+        ("irq_per_s", [r.get("irq_per_s") for r in recs]),
+    ):
+        s = stats(vals)
+        if s:
+            rows.append((name, *(f"{x:.1f}" for x in s)))
+    print()
+    table(rows, ["metric", "avg", "median", "p90"])
+
+    bat = stats([r.get("bat_w") for r in recs])
+    efull = read(BAT + "/energy_full", int)
+    if bat and efull and bat[0] > 0:
+        print(f"\nEstimated runtime at avg draw: {fmt_dur(efull / 1e6 / bat[0] * 3600)} (energy_full {efull / 1e6:.1f} Wh)")
+
+    share_table(recs, "cgroups", "cgroup")
+    share_table(recs, "procs", "process")
+
+    grouped(recs, bright_bucket, "brightness")
+    grouped(recs, edp, "eDP refresh")
+    grouped(recs, external, "external monitor")
+    grouped(recs, lambda r: str(len(r["docker"])) if r.get("docker") is not None else "?", "docker containers")
+
+    print("\nHighest-draw samples:")
+    hi = sorted((r for r in recs if r.get("bat_w") is not None), key=lambda r: -r["bat_w"])[:10]
+    table(
+        [
+            (
+                f"{datetime.fromtimestamp(r['ts']):%m-%d %H:%M}",
+                f"{r['bat_w']:.1f}",
+                f"{r['apu_w']:.1f}" if r.get("apu_w") is not None else "-",
+                f"{r['cpu_pct']:.0f}" if r.get("cpu_pct") is not None else "-",
+                next(iter(r.get("procs") or {}), "-"),
+            )
+            for r in hi
+        ],
+        ["time", "bat_w", "apu_w", "cpu%", "top process"],
+    )
+
+    print("\nSleep drain (gaps > 5 min on battery):")
+    rows = []
+    for a, b in zip(allrecs, allrecs[1:]):
+        gap = b["ts"] - a["ts"]
+        if gap > MAX_GAP and a.get("ac") == 0 and b.get("ac") == 0 and a.get("capacity") is not None and b.get("capacity") is not None:
+            drop = a["capacity"] - b["capacity"]
+            rows.append((f"{datetime.fromtimestamp(a['ts']):%m-%d %H:%M}", fmt_dur(gap), f"{drop}%", f"{drop / (gap / 3600):.2f}"))
+    if rows:
+        table(rows, ["from", "gap", "drop", "%/h"])
+    else:
+        print("  (none)")
+
+
+def main():
+    # argparse costs ~30ms to import on 3.14; the per-minute sample path skips it.
+    if sys.argv[1:] in ([], ["sample"]):
+        return cmd_sample()
+    import argparse
+
+    ap = argparse.ArgumentParser(prog="power-log")
+    sub = ap.add_subparsers(dest="cmd", required=True)
+    sub.add_parser("sample")
+    rp = sub.add_parser("report")
+    rp.add_argument("--since", type=parse_since, default=86400, help="e.g. 6h, 1d, 7d (default 1d)")
+    rp.add_argument("--all", action="store_true", help="include samples on AC")
+    args = ap.parse_args()
+    if args.cmd == "report":
+        cmd_report(args)
+    else:
+        cmd_sample()
+
+
+if __name__ == "__main__":
+    sys.exit(main())

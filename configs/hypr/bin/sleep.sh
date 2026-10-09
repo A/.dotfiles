@@ -9,5 +9,4 @@ else
   sleep 2
 fi
 
-# systemctl suspend-then-hibernate
-systemctl suspend
+systemctl suspend-then-hibernate

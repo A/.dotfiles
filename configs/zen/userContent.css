@@ -1,0 +1,182 @@
+/* userContent.css — per-site dark themes for Zen/Firefox.
+ * Requires: toolkit.legacyUserProfileCustomizations.stylesheets = true
+ * Location: <profile>/chrome/userContent.css
+ */
+
+/* ---------------------------------------------------------------- rutracker */
+@-moz-document domain("rutracker.org"),
+               domain("rutracker.net"),
+               domain("rutracker.nl"),
+               domain("rutracker.cr") {
+
+  :root {
+    color-scheme: dark;
+
+    --rt-bg: #16181c;
+    --rt-bg-alt: #1b1e23;
+    --rt-bg-row1: #1c1f24;
+    --rt-bg-row2: #202429;
+    --rt-bg-head: #262b31;
+    --rt-bg-input: #23272d;
+    --rt-border: #333940;
+    --rt-fg: #c6ccd3;
+    --rt-fg-dim: #8b939c;
+    --rt-link: #6fa8dc;
+    --rt-link-visited: #a48fd6;
+    --rt-accent: #d99a4e;
+  }
+
+  html,
+  body {
+    background: var(--rt-bg) !important;
+    color: var(--rt-fg) !important;
+  }
+
+  /* strip the light backgrounds the site paints on structural elements,
+     then re-apply dark shades below */
+  body div, body table, body tbody, body thead, body tr, body td, body th,
+  body form, body fieldset, body ul, body ol, body li, body dl, body dt, body dd,
+  body p, body span, body h1, body h2, body h3, body h4, body header, body footer,
+  body section, body nav, body aside, body article, body pre, body blockquote {
+    background-color: transparent !important;
+    border-color: var(--rt-border) !important;
+  }
+
+  /* page shell */
+  #body_container,
+  #page_container,
+  #main_content,
+  #main_content_wrap,
+  .page-wrap,
+  .container,
+  .wrap {
+    background: var(--rt-bg) !important;
+  }
+
+  /* top nav / logo strip / sidebars */
+  .topmenu,
+  .site-nav,
+  .nav-btn,
+  .nav-icon,
+  .sb2-block,
+  .sb2-bg2,
+  .header,
+  .footer,
+  #topmenu,
+  #logo {
+    background: var(--rt-bg-alt) !important;
+    color: var(--rt-fg) !important;
+    border-color: var(--rt-border) !important;
+  }
+
+  /* forum / topic tables */
+  .forumline,
+  .forums,
+  .bordered,
+  table.forum,
+  table.topic {
+    background: var(--rt-bg-alt) !important;
+    border-color: var(--rt-border) !important;
+  }
+
+  .row1, .row4          { background: var(--rt-bg-row1) !important; }
+  .row2, .row3, .row5   { background: var(--rt-bg-row2) !important; }
+
+  .cat_title,
+  .tr_main_cats,
+  .catTitle,
+  th,
+  .thHead,
+  .thCornerL, .thCornerR, .thTop, .thLeft, .thRight,
+  .header-row,
+  .tablesorter-header {
+    background: var(--rt-bg-head) !important;
+    color: var(--rt-fg) !important;
+    border-color: var(--rt-border) !important;
+  }
+
+  tr:hover > td.row1,
+  tr:hover > td.row2 {
+    background: #272c33 !important;
+  }
+
+  /* links */
+  a, a:link            { color: var(--rt-link) !important; }
+  a:visited            { color: var(--rt-link-visited) !important; }
+  a:hover              { color: #8fc2ef !important; }
+  .forumlink a,
+  .cat_title a,
+  .topictitle,
+  .tLink               { color: var(--rt-link) !important; }
+  .cat_title a         { color: var(--rt-fg) !important; }
+
+  /* text helper classes the site colors explicitly */
+  .gen, .med, .small, .bold, .genmed, .postbody, .sf_title, .dot-sf,
+  .news_title, .news_date, .nav, .maintitle, .tCenter, .tRight, .vMiddle {
+    color: var(--rt-fg) !important;
+  }
+  .gensmall, .copyright, .footer-bottom-links, .med.grey, .grey {
+    color: var(--rt-fg-dim) !important;
+  }
+
+  /* posts, quotes, spoilers, code */
+  .post_body, .post-body, .signature,
+  .sp-wrap, .sp-head, .sp-body,
+  .q-wrap, .c-wrap, .q-head, .c-head, .q-body, .c-body,
+  .post_wrap, .message {
+    background: var(--rt-bg-alt) !important;
+    color: var(--rt-fg) !important;
+    border-color: var(--rt-border) !important;
+  }
+  .sp-head, .q-head, .c-head { background: var(--rt-bg-head) !important; }
+  code, pre, tt              { background: #101215 !important; color: #d8dee5 !important; }
+
+  /* form controls */
+  input, select, textarea, button,
+  .btn, .bold-btn, .genmed input {
+    background: var(--rt-bg-input) !important;
+    color: var(--rt-fg) !important;
+    border: 1px solid var(--rt-border) !important;
+  }
+  input::placeholder, textarea::placeholder { color: var(--rt-fg-dim) !important; }
+  input[type="submit"], input[type="button"], button, .btn {
+    background: var(--rt-bg-head) !important;
+  }
+  input[type="submit"]:hover, button:hover, .btn:hover {
+    background: #2f353d !important;
+  }
+
+  /* pagination / breadcrumbs */
+  .pg, .pagination, .nav-bar, .breadcrumbs, .navbar {
+    background: transparent !important;
+    color: var(--rt-fg-dim) !important;
+  }
+  .pg-active, .pg.pg-active { color: var(--rt-accent) !important; }
+
+  /* seed / leech / status colors — keep semantic, just lighten */
+  .seedmed, .seed, b.seedmed        { color: #6dbf6d !important; }
+  .leechmed, .leech, b.leechmed     { color: #e07a7a !important; }
+  .dl-stub, .dl-link                { color: #e0b060 !important; }
+  .tor-approved                     { color: #6dbf6d !important; }
+  .tor-dup, .tor-not-approved       { color: #e0b060 !important; }
+  .tor-consumed, .tor-closed        { color: #a0a6ad !important; }
+
+  /* inline styles the templates emit */
+  [style*="color:#000"], [style*="color: #000"],
+  [style*="color:#333"], [style*="color: #333"] { color: var(--rt-fg) !important; }
+  [style*="background:#fff"], [style*="background: #fff"],
+  [style*="background-color:#fff"], [style*="background-color: #fff"],
+  [style*="background:#FFF"], [style*="background-color:#FFF"] {
+    background: var(--rt-bg-alt) !important;
+  }
+
+  hr { border-color: var(--rt-border) !important; }
+
+  /* dim the light-background sprite icons so they don't glare */
+  .topic_icon, .f-icon-idx, .tor-icon, img.icon {
+    filter: brightness(0.88) contrast(1.05);
+  }
+
+  /* scrollbars */
+  * { scrollbar-color: #3a4148 var(--rt-bg); }
+}

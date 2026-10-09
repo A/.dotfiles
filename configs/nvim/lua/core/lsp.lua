@@ -22,8 +22,11 @@ vim.diagnostic.config({
   },
 })
 
+-- markdown-oxide logs every vault update / completion at WARN; keep lsp.log small
+vim.lsp.log.set_level(vim.log.levels.ERROR)
+
 vim.api.nvim_create_user_command("LspList", function()
-  local clients = vim.lsp.get_active_clients()
+  local clients = vim.lsp.get_clients()
   if #clients == 0 then
     print("No active LSP clients")
     return

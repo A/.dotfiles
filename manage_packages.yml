@@ -12,7 +12,10 @@
       tags:
         - always
     
-      loop: "{{ packages }}"
+      # private_packages comes from an optional second inventory (see CLAUDE.md).
+      loop: "{{ packages + (private_packages | default([])) }}"
       loop_control:
         loop_var: package
+        # Keep group contents out of the output.
+        label: "{{ package.name }}"
     

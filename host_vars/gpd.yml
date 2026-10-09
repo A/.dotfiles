@@ -191,19 +191,6 @@ packages:
       - src: "{{ dotfiles_source_dir }}/tmux/tmux.conf"
         dest: "{{ configs_home }}/tmux/tmux.conf"
 
-  - name: claude
-    links:
-      - src: "{{ dotfiles_source_dir }}/claude/CLAUDE.md"
-        dest: "{{ ansible_env.HOME }}/.claude/CLAUDE.md"
-      - src: "{{ dotfiles_source_dir }}/claude/settings.json"
-        dest: "{{ ansible_env.HOME }}/.claude/settings.json"
-      - src: "{{ dotfiles_source_dir }}/claude/statusline.sh"
-        dest: "{{ ansible_env.HOME }}/.claude/statusline.sh"
-      - src: "{{ dotfiles_source_dir }}/claude/skills"
-        dest: "{{ ansible_env.HOME }}/.claude/skills"
-      - src: "{{ dotfiles_source_dir }}/claude/commands"
-        dest: "{{ ansible_env.HOME }}/.claude/commands"
-
   - name: media
     pacman_packages:
       - name: mpv

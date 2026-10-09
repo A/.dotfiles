@@ -45,12 +45,46 @@ Two separate Neovim configurations selected via `NVIM_APPNAME`:
   - LSP configs: `configs/nvim/lua/lsp/` and `configs/nvim/after/lsp/`
 - **`nvim-notebook`** — Obsidian-like markdown editor. Launched with `NVIM_APPNAME=nvim-notebook nvim`. Stripped-down config with markdown-oxide, neo-tree, fzf
 
+### beets
+
+The `musicbrainz` plugin must be in `plugins` or autotagging finds nothing, and
+the genre field is `genres` (2.13 renamed it — `$genre` silently stops expanding
+in paths).
+
+### Private Companion Repo
+
+Personal configuration lives in a separate private repo checked out next to this
+one (`../.dotfiles-private`). It plugs into the same playbook rather than
+duplicating it:
+
+- It is a **second inventory source** with the same host names. Ansible loads its
+  `host_vars/`, which define `private_packages` (same schema as `packages`;
+  `manage_packages.yml` loops over both, group names are tags) and
+  `private_source_dir`. `ansible.cfg` lists it as a second `inventory` entry;
+  when the directory is absent ansible warns and runs with the public inventory
+  only. Don't use `ANSIBLE_INVENTORY` for this: the env var overrides
+  `ansible.cfg` in every other ansible repo on the host.
+- Its scripts are linked to `~/.bin-private` (on PATH via `10_path.zsh` when it
+  exists), its zsh snippets to `~/.config/zsh/private.d` (sourced by
+  `99_private.zsh`), its systemd units straight into `~/.config/systemd/user`.
+- Public scripts that need a personal host or URL read it from an environment
+  variable first, then from a KEY=VALUE file next to the app's own config,
+  `~/.config/<app>/<app>.env`, and have no built-in default. Those files are
+  plain files in the private repo, linked by a private group named like the
+  public one that installs the script (`waybar`, `misc-scripts`).
+
+Rule: anything that references LAN hosts or IPs, personal self-hosted services,
+personal repos, or personal agent tooling goes into the private repo. This repo
+must stay installable by anyone with only the public inventory.
+
 ### Custom Scripts
 
 `bin/` contains 60+ utility scripts (waybar helpers, theme switching, media controls, Hyprland integration, git repo sync).
 
 ## Conventions
 
+- **Hyprland binds**: everything after `exec,` is the command, so an inline
+  `# comment` on a bind line silently breaks it.
 - **Git commits**: Uses conventional commit format. Git aliases exist for types: `git feat`, `git fix`, `git chore`, etc. Supports `-s scope` and `-a` (breaking change) flags
 - **Lua formatting**: stylua (config at `configs/nvim/stylua.toml`)
 - **Default branch**: `master`

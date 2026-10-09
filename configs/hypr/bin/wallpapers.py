@@ -26,9 +26,13 @@ def is_already_running():
 
 
 WALLPAPERS_DIR = os.path.expanduser("~/Pictures/Wallpapers")
+ULTRAWIDE_DIR = os.path.join(WALLPAPERS_DIR, "ultrawide")
+CACHE_DIR = os.path.expanduser("~/.cache/wallpapers")
 INTERVAL = 60
 SUPPORTED_IMAGE_EXTS = ['.jpg', '.jpeg', '.png']
 THEME_FILE = os.path.expanduser("~/.wallpaper_theme") # File to store theme preference
+# Monitors that form a single span (e.g. PBP halves of one panel). Matched by model.
+SPAN_MODEL = "Odyssey G95NC"
 
 logging.basicConfig(
     format='wallpapers.py [%(levelname)s]: %(message)s',
@@ -104,26 +108,93 @@ def set_theme(theme):
     return True
 
 def get_wallpapers():
-    """Get all wallpapers without filtering"""
-    wallpapers = [p.resolve() for p in Path(WALLPAPERS_DIR).glob("**/*") if p.suffix.lower() in SUPPORTED_IMAGE_EXTS]
+    """Get all regular wallpapers (excludes the ultrawide span pool)"""
+    uw = os.path.realpath(ULTRAWIDE_DIR)
+    wallpapers = [
+        p.resolve() for p in Path(WALLPAPERS_DIR).glob("**/*")
+        if p.suffix.lower() in SUPPORTED_IMAGE_EXTS
+        and not os.path.realpath(p).startswith(uw)
+    ]
     logging.info(f'Found {len(wallpapers)} wallpapers')
     return wallpapers
 
 
+def get_ultrawide_wallpapers():
+    """Get wallpapers meant to span the PBP pair"""
+    if not os.path.isdir(ULTRAWIDE_DIR):
+        return []
+    wallpapers = [p.resolve() for p in Path(ULTRAWIDE_DIR).glob("**/*") if p.suffix.lower() in SUPPORTED_IMAGE_EXTS]
+    logging.info(f'Found {len(wallpapers)} ultrawide wallpapers')
+    return wallpapers
+
+
+def get_monitors():
+    stdout = subprocess.check_output('hyprctl monitors -j', shell=True).decode("utf-8")
+    monitors = json.loads(stdout)
+    logging.info(f'Found {[m["name"] for m in monitors]} displays')
+    return monitors
+
+
 def get_displays():
-    stdout = subprocess.check_output('hyprctl monitors -j | jq ".[].name"', shell=True).decode("utf-8")
-    displays = stdout.replace('"', '').split('\n')
-    displays = list(filter(len, displays))
-    logging.info(f'Found {[d for d in displays]} displays')
-    return displays
+    return [m["name"] for m in get_monitors()]
+
+
+def find_span_monitors(monitors):
+    """Return SPAN_MODEL monitors ordered left->right (2 = PBP pair, 1 = single input)"""
+    span = [m for m in monitors if m.get("model") == SPAN_MODEL]
+    span.sort(key=lambda m: m["x"])
+    return span
+
+
+def set_span_wallpaper(pair, wallpaper):
+    """Crop an ultrawide image into left/right halves and set on the pair.
+
+    Both halves are cropped up front, then applied back-to-back in a single
+    shell call so the two displays update as close to simultaneously as
+    possible (avoids a visible seam lag between halves).
+    """
+    os.makedirs(CACHE_DIR, exist_ok=True)
+    dims = subprocess.check_output(f"identify -format '%w %h' '{wallpaper}'", shell=True).decode("utf-8").split()
+    w, h = int(dims[0]), int(dims[1])
+    half = w // 2
+    targets = [
+        (pair[0], os.path.join(CACHE_DIR, "span_left.png"), 0),
+        (pair[1], os.path.join(CACHE_DIR, "span_right.png"), half),
+    ]
+
+    for mon, out, xoff in targets:
+        subprocess.run(f"convert '{wallpaper}' -crop {half}x{h}+{xoff}+0 +repage '{out}'", shell=True)
+
+    apply = " ; ".join(
+        f"hyprctl hyprpaper wallpaper {mon['name']},{out}" for mon, out, _ in targets
+    )
+    subprocess.run(apply, shell=True)
+    for mon, out, xoff in targets:
+        logging.info(f"Span wallpaper {mon['name']} <- {wallpaper} (+{xoff})")
+
 
 def set_wallpapers():
     """Set wallpapers on all displays"""
-    displays = get_displays()
-    subprocess.run("hyprctl hyprpaper unload all", shell=True)
+    monitors = get_monitors()
 
-    for display in displays:
-        set_wallpaper(display)
+    handled = set()
+    span = find_span_monitors(monitors)
+    ultrawide = get_ultrawide_wallpapers()
+    if span and ultrawide:
+        wallpaper = random.choice(ultrawide)
+        if len(span) == 2:
+            set_span_wallpaper(span, wallpaper)
+        else:
+            # single-input G9: whole ultrawide image, no split
+            name = span[0]["name"]
+            logging.info(f'Setting ultrawide wallpaper for {name}: {wallpaper}')
+            subprocess.run(f'hyprctl hyprpaper wallpaper {name},{wallpaper}', shell=True)
+        handled = {m["name"] for m in span}
+
+    for monitor in monitors:
+        if monitor["name"] in handled:
+            continue
+        set_wallpaper(monitor["name"])
 
 def set_wallpaper(display):
     """Set wallpaper for a specific display based on theme"""
@@ -159,8 +230,6 @@ def set_wallpaper(display):
         wallpaper = random.choice(wallpapers)
 
     logging.info(f'Setting wallpaper for {display}: {wallpaper}')
-    subprocess.run(f'hyprctl hyprpaper preload {wallpaper}', shell=True)
-    time.sleep(2)
     subprocess.run(f'hyprctl hyprpaper wallpaper {display},{wallpaper}', shell=True)
 
 def get_focused_display():

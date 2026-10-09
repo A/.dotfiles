@@ -1,0 +1,57 @@
+#!/bin/bash
+# Context7 documentation lookup over the public HTTP API -- no MCP server, no node.
+#
+# Usage:
+#   c7 <library-name> [topic]        resolve the name, then print the top hit's docs
+#   c7 search <library-name> [topic] list candidate library IDs, best match first
+#   c7 docs <library-id> [topic]     print docs for an already-resolved ID
+#
+# Library IDs are the context7.com URL path: /hyprwm/hyprland, /vercel/next.js,
+# /websites/uploadcare, optionally version-pinned as /vercel/next.js/v15.1.8.
+#
+# CONTEXT7_API_KEY is optional and only raises the rate limit.
+# C7_TOKENS caps the response size (default 5000).
+set -euo pipefail
+
+API="https://context7.com/api/v2"
+TOKENS="${C7_TOKENS:-5000}"
+
+auth=()
+[[ -n "${CONTEXT7_API_KEY:-}" ]] && auth=(-H "Authorization: Bearer $CONTEXT7_API_KEY")
+
+# curl -f turns a 4xx/5xx into a non-zero exit, but eats the body, so report the
+# status separately -- a bare "empty output" is impossible to act on.
+call() {
+  local path=$1; shift
+  local out status
+  out=$(curl -sS --get "$API/$path" "${auth[@]}" -w '\n%{http_code}' "$@") || {
+    echo "c7: request to $path failed" >&2; return 1; }
+  status=${out##*$'\n'}
+  [[ "$status" == 200 ]] || { echo "c7: $path returned HTTP $status" >&2; return 1; }
+  printf '%s' "${out%$'\n'*}"
+}
+
+search() { call "libs/search" --data-urlencode "libraryName=$1" --data-urlencode "query=${2-}"; }
+docs()   { call "context" --data-urlencode "libraryId=$1" --data-urlencode "query=${2-}" \
+                          --data-urlencode "type=txt" --data-urlencode "tokens=$TOKENS"; }
+
+usage() { sed -n '2,13p' "$0" | sed 's/^# \?//'; }
+
+case "${1-}" in
+  ""|-h|--help)
+    usage ;;
+  search)
+    [[ $# -ge 2 ]] || { usage >&2; exit 2; }
+    search "$2" "${3-}" |
+      jq -r '.results[] | "\(.id)\ttrust=\(.trustScore)\tsnippets=\(.totalSnippets)\t\(.description)"' ;;
+  docs)
+    [[ $# -ge 2 ]] || { usage >&2; exit 2; }
+    docs "$2" "${3-}" ;;
+  *)
+    # Highest-ranked result wins; `c7 search` is the escape hatch when it guesses wrong.
+    # An unknown name comes back as a 404, so a failed search is "not found", not an outage.
+    id=$(search "$1" "${2-}" 2>/dev/null | jq -r '.results[0].id // empty') || id=
+    [[ -n "$id" ]] || { echo "c7: no library matches '$1' -- try: c7 search '$1'" >&2; exit 1; }
+    echo "# context7: $id"
+    docs "$id" "${2-}" ;;
+esac

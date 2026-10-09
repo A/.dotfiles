@@ -9,7 +9,7 @@
 
 .control-center {
   background: @window-background;
-  border-radius: 3px;
+  border-radius: 10px;
   box-shadow: 0px 1px 8px 4px rgba(25, 27, 34, 0.25);
   border: 1px solid @window-border;
   padding: 0 8px;
@@ -19,7 +19,7 @@
 .widget-backlight {
   background: @block-background;
   border: 1px solid @block-border;
-  border-radius: 3px;
+  border-radius: 8px;
   padding: 0 16px;
 }
 
@@ -75,8 +75,13 @@ switch slider {
   background: @block-background;
   border: 1px solid @block-border;
   box-shadow: 0px 1px 4px 1px rgba(25, 27, 34, 0.25);
-  border-radius: 3px;
+  border-radius: 10px;
   padding: 0;
+}
+
+.notification.critical {
+  border-color: @block-color-accent;
+  box-shadow: inset 3px 0 @block-color-accent, 0px 1px 4px 1px rgba(25, 27, 34, 0.25);
 }
 
 .notification-content:hover {
@@ -84,24 +89,57 @@ switch slider {
 }
 
 .notification-content {
-  padding: 8px;
+  padding: 10px 10px 8px 10px;
 }
 
 .notification-content .image {
   background-color: @image-background;
-  border-radius: 3px;
-  padding: 12px;
+  border-radius: 100px;
+  margin: 2px 10px 2px 0;
+}
+
+.notification-content .text-box .summary {
+  font-weight: bold;
+}
+
+.notification-content .text-box .time {
+  font-weight: normal;
+  font-size: 0.85em;
+  color: alpha(@block-color, 0.6);
+}
+
+.notification-content .text-box .body {
+  margin-top: 2px;
+  color: alpha(@block-color, 0.85);
 }
 
 .notification-default-action {
-  border-radius: 3px;
+  border-radius: 10px;
+}
+
+.notification-default-action:not(:only-child) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.notification-alt-actions {
+  padding: 0 8px 8px 8px;
 }
 
 .notification-action {
   outline: 0;
+  margin: 0 3px;
+}
+
+.notification-action > button {
+  border-radius: 999px;
+  border: 1px solid @block-border;
+  background: alpha(@block-color, 0.06);
+  padding: 2px 12px;
+  min-height: 0;
 }
 
 .notification-default-action:hover,
-.notification-action:hover {
-  background-color: @button-transparent-background;
+.notification-action > button:hover {
+  background-color: alpha(@block-color, 0.12);
 }

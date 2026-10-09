@@ -6,3 +6,5 @@ todo.md
 bin.old
 pacman.pkgs
 aur.pkgs
+__pycache__/
+*.pyc

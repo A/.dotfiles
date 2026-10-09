@@ -1,0 +1,41 @@
+[Desktop Entry]
+# Local override of /usr/share/applications/org.telegram.desktop.desktop.
+#
+# Telegram Desktop accumulates an in-memory media/avatar cache that grows for as
+# long as the process lives; after ~3 weeks of uptime it sat at ~900M resident
+# plus ~950M paged out to swap. The systemd-run wrapper puts it in its own scope
+# with memory limits so that growth is bounded.
+#
+# The normal working set is already ~850M a minute after start, and MemoryHigh
+# throttles every allocation once crossed -- a low value (900M, plus a 256M swap
+# cap) kept the app pinned there and froze the UI for seconds at a time. Keep
+# MemoryHigh well above the steady state so it only catches weeks-long growth.
+#
+# MemoryHigh throttles via reclaim, MemoryMax is the hard backstop that would
+# OOM-kill the app -- keep a wide gap between the two so a burst never kills a
+# running conversation.
+#
+# DBusActivatable must stay false: with it on, launchers start Telegram through
+# D-Bus activation into a transient dbus-*.service and Exec= is ignored entirely,
+# which would silently drop the limits below.
+Name=Telegram
+Comment=New era of messaging
+TryExec=Telegram
+Exec=systemd-run --user --quiet --collect --scope --slice=app.slice -p MemoryHigh=2G -p MemoryMax=3G -- /usr/bin/Telegram -- %U
+Icon=org.telegram.desktop
+Terminal=false
+StartupWMClass=TelegramDesktop
+Type=Application
+Categories=Chat;Network;InstantMessaging;Qt;
+MimeType=x-scheme-handler/tg;x-scheme-handler/tonsite;
+Keywords=tg;chat;im;messaging;messenger;sms;tdesktop;
+Actions=quit;
+DBusActivatable=false
+SingleMainWindow=true
+X-GNOME-UsesNotifications=true
+X-GNOME-SingleWindow=true
+
+[Desktop Action quit]
+Exec=Telegram -quit
+Name=Quit Telegram
+Icon=application-exit

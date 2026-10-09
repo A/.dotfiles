@@ -1,0 +1,333 @@
+#! /bin/python3
+"""Play a haptic waveform on a Logitech mouse (MX Master 4).
+
+Talks HID++ 2.0 over hidraw directly instead of shelling out to `solaar config
+... haptic-play`, which takes ~2.4s per call (python import + full device
+enumeration) — too slow to fire on a desktop notification. This does the same
+write in ~0.07s.
+
+Solaar is still the reason this works without root: its udev rules put an ACL
+on the receiver's hidraw node for the logged-in user.
+
+Usage:
+    mouse-haptic              # default waveform
+    mouse-haptic KNOCK        # by name (case/space/underscore insensitive)
+    mouse-haptic 0x0c         # by raw waveform id
+    mouse-haptic --list       # print known waveform names
+    mouse-haptic --warm       # populate the device cache without buzzing
+"""
+
+import glob
+import os
+import select
+import sys
+
+# HID++ 2.0 wire format.
+REPORT_LONG = 0x11  # 20-byte report
+REPORT_SHORT = 0x10  # 7-byte report, also used for error replies
+ERROR_HIDPP20 = 0xFF
+ERROR_HIDPP10 = 0x8F
+# Tags our requests so replies are distinguishable. Nominally any 1..15, but
+# this receiver answers INVALID_SUBID to some values (0x05 among them); 0x0B is
+# what solaar uses and is known to work.
+SW_ID = 0x0B
+
+ROOT_FEATURE_INDEX = 0x00
+ROOT_GET_FEATURE = 0x00
+ROOT_PING = 0x10  # function 1, shifted into the high nibble
+PING_MARKER = 0xFB  # arbitrary; echoed back, which is what identifies the reply
+HAPTIC_FEATURE_ID = 0x19B0
+HAPTIC_PLAY_FUNCTION = 0x40  # function 4, shifted into the high nibble
+
+LOGITECH_VENDOR = "0000046D"
+
+# HID report descriptor fragments that mark an interface as HID++: the vendor
+# usage page 0xFF00, plus declarations of both report IDs.
+VENDOR_USAGE_PAGE = b"\x06\x00\xff"
+REPORT_ID_SHORT_DECL = b"\x85\x10"
+REPORT_ID_LONG_DECL = b"\x85\x11"
+
+# Receiver-attached devices are indexed 1..6; a directly connected (USB cable
+# or Bluetooth) device answers on 0xFF.
+DEVICE_INDICES = tuple(range(1, 7)) + (0xFF,)
+
+# From solaar's logitech_receiver.hidpp20_constants.HapticWaveForms.
+WAVEFORMS = {
+    "SHARP_STATE_CHANGE": 0x00,
+    "DAMP_STATE_CHANGE": 0x01,
+    "SHARP_COLLISION": 0x02,
+    "DAMP_COLLISION": 0x03,
+    "SUBTLE_COLLISION": 0x04,
+    "HAPPY_ALERT": 0x05,
+    "ANGRY_ALERT": 0x06,
+    "COMPLETED": 0x07,
+    "SQUARE": 0x08,
+    "WAVE": 0x09,
+    "FIREWORK": 0x0A,
+    "MAD": 0x0B,
+    "KNOCK": 0x0C,
+    "JINGLE": 0x0D,
+    "RINGING": 0x0E,
+    "WHISPER_COLLISION": 0x1B,
+}
+
+DEFAULT_WAVEFORM = "KNOCK"
+
+REQUEST_TIMEOUT = 4.0  # matches solaar's device request timeout
+
+CACHE_PATH = os.path.join(
+    os.environ.get("XDG_RUNTIME_DIR") or f"/run/user/{os.getuid()}",
+    "mouse-haptic-target",
+)
+
+
+def node_phys(node):
+    """The HID_PHYS line of a hidraw node, e.g. 'usb-…-1.1.4/input2'.
+
+    Stable across reboots for a given physical port, unlike the hidrawN number,
+    so it is what the cache keys on.
+    """
+    try:
+        with open(f"/sys/class/hidraw/{node}/device/uevent") as f:
+            uevent = f.read()
+    except OSError:
+        return None
+    if LOGITECH_VENDOR not in uevent:
+        return None
+    for line in uevent.splitlines():
+        if line.startswith("HID_PHYS="):
+            return line.partition("=")[2]
+    return None
+
+
+def speaks_hidpp(node):
+    """Whether a hidraw node exposes the HID++ report collections.
+
+    A receiver publishes several interfaces (keyboard, mouse, multitouch, …)
+    and only one of them carries HID++. The others accept a write and then
+    never answer, so without this check discovery spends its whole timeout
+    budget on dead nodes.
+    """
+    try:
+        with open(f"/sys/class/hidraw/{node}/device/report_descriptor", "rb") as f:
+            descriptor = f.read()
+    except OSError:
+        return False
+    return (
+        VENDOR_USAGE_PAGE in descriptor
+        and REPORT_ID_SHORT_DECL in descriptor
+        and REPORT_ID_LONG_DECL in descriptor
+    )
+
+
+def logitech_hidraw_nodes():
+    """Every writable Logitech hidraw node that speaks HID++."""
+    nodes = []
+    for sysfs in sorted(glob.glob("/sys/class/hidraw/hidraw*")):
+        node = os.path.basename(sysfs)
+        if node_phys(node) is None or not speaks_hidpp(node):
+            continue
+        path = "/dev/" + node
+        if os.access(path, os.W_OK):
+            nodes.append(path)
+    return nodes
+
+
+def read_reply(fd, want_device_index, want_feature_index, timeout):
+    """Read replies to our own request, skipping unsolicited event reports.
+
+    The mouse streams input events on the same node, so anything whose
+    software id doesn't match ours is someone else's traffic.
+    """
+    deadline = select.select
+    while True:
+        ready, _, _ = deadline([fd], [], [], timeout)
+        if not ready:
+            return None
+        data = os.read(fd, 64)
+        if len(data) < 4 or data[1] != want_device_index:
+            continue
+        if data[0] == REPORT_SHORT and data[2] in (ERROR_HIDPP10, ERROR_HIDPP20):
+            return None  # device rejected the request
+        if data[0] != REPORT_LONG or data[2] != want_feature_index:
+            continue
+        if data[3] & 0x0F != SW_ID:
+            continue
+        return data
+
+
+def ping(fd, device_index):
+    """Wake a device and confirm it exists.
+
+    An idle mouse ignores feature queries until something has woken its radio,
+    so this has to come first — without it discovery just times out on a device
+    that is present and perfectly healthy. Unused device indices are answered
+    by the receiver in a few milliseconds with UNKNOWN_DEVICE, so sweeping the
+    whole range stays cheap despite the generous timeout.
+    """
+    request = bytes([REPORT_SHORT, device_index, ROOT_FEATURE_INDEX,
+                     ROOT_PING | SW_ID, 0x00, 0x00, PING_MARKER])
+    try:
+        os.write(fd, request)
+    except OSError:
+        return False  # not a HID++ endpoint
+    reply = read_reply(fd, device_index, ROOT_FEATURE_INDEX, REQUEST_TIMEOUT)
+    return reply is not None and reply[6] == PING_MARKER
+
+
+def haptic_feature_index(fd, device_index):
+    """The device's index for the HAPTIC feature, or None if it has none."""
+    request = bytes([
+        REPORT_LONG,
+        device_index,
+        ROOT_FEATURE_INDEX,
+        ROOT_GET_FEATURE | SW_ID,
+        HAPTIC_FEATURE_ID >> 8,
+        HAPTIC_FEATURE_ID & 0xFF,
+    ]) + bytes(14)
+    try:
+        os.write(fd, request)
+    except OSError:
+        return None
+    reply = read_reply(fd, device_index, ROOT_FEATURE_INDEX, REQUEST_TIMEOUT)
+    if reply is None or reply[4] == 0x00:  # 0 means "feature not supported"
+        return None
+    return reply[4]
+
+
+def find_haptic_device():
+    """Locate (path, device_index, feature_index) for a device with haptics.
+
+    The feature index is per-device and assigned by firmware, so it has to be
+    asked for rather than hardcoded.
+    """
+    for path in logitech_hidraw_nodes():
+        try:
+            fd = os.open(path, os.O_RDWR | os.O_NONBLOCK)
+        except OSError:
+            continue
+        try:
+            for device_index in DEVICE_INDICES:
+                if not ping(fd, device_index):
+                    continue
+                feature_index = haptic_feature_index(fd, device_index)
+                if feature_index:
+                    return path, device_index, feature_index
+        finally:
+            os.close(fd)
+    return None
+
+
+def load_cache():
+    """Previously discovered target, if it still points at the same hardware."""
+    try:
+        with open(CACHE_PATH) as f:
+            node, phys, device_index, feature_index = f.read().split()
+    except (OSError, ValueError):
+        return None
+    if node_phys(node) != phys:  # renumbered or unplugged — rediscover
+        return None
+    path = "/dev/" + node
+    if not os.access(path, os.W_OK):
+        return None
+    return path, int(device_index), int(feature_index)
+
+
+def forget_cache():
+    try:
+        os.unlink(CACHE_PATH)
+    except OSError:
+        pass
+
+
+def save_cache(path, device_index, feature_index):
+    node = os.path.basename(path)
+    phys = node_phys(node)
+    if phys is None:
+        return
+    try:
+        os.makedirs(os.path.dirname(CACHE_PATH), exist_ok=True)
+        with open(CACHE_PATH, "w") as f:
+            f.write(f"{node} {phys} {device_index} {feature_index}\n")
+    except OSError:
+        pass  # cache is an optimisation; losing it only costs time
+
+
+def try_play(target, waveform_id):
+    path, device_index, feature_index = target
+    request = bytes([
+        REPORT_LONG,
+        device_index,
+        feature_index,
+        HAPTIC_PLAY_FUNCTION | SW_ID,
+        waveform_id,
+    ]) + bytes(15)
+    try:
+        fd = os.open(path, os.O_RDWR | os.O_NONBLOCK)
+    except OSError:
+        return False
+    try:
+        # A notification usually arrives while the mouse is untouched and its
+        # radio is idle, and a waveform sent to a sleeping mouse is dropped
+        # silently. The ping wakes it and confirms it is still there.
+        if not ping(fd, device_index):
+            return False
+        os.write(fd, request)
+        return True
+    except OSError:
+        return False
+    finally:
+        os.close(fd)
+
+
+def play(waveform_id):
+    if try_play(resolve_target(), waveform_id):
+        return
+    # The cache pointed somewhere stale — a re-pairing can move the device to a
+    # different index on the same receiver, which the phys check can't catch.
+    forget_cache()
+    if not try_play(resolve_target(), waveform_id):
+        sys.exit("mouse-haptic: device did not respond")
+
+
+def resolve_target():
+    """Cached (path, device_index, feature_index), discovering it if needed."""
+    target = load_cache()
+    if target is None:
+        target = find_haptic_device()
+        if target is None:
+            sys.exit("mouse-haptic: no Logitech device with haptic support found")
+        save_cache(*target)
+    return target
+
+
+def parse_waveform(arg):
+    key = arg.strip().upper().replace(" ", "_").replace("-", "_")
+    if key in WAVEFORMS:
+        return WAVEFORMS[key]
+    try:
+        value = int(arg, 0)
+    except ValueError:
+        sys.exit(f"mouse-haptic: unknown waveform {arg!r} (try --list)")
+    if not 0 <= value <= 0xFF:
+        sys.exit(f"mouse-haptic: waveform id {arg} out of range")
+    return value
+
+
+def main():
+    arg = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_WAVEFORM
+    if arg in ("-l", "--list"):
+        for name, value in WAVEFORMS.items():
+            print(f"{value:#04x}  {name}")
+        return
+    if arg in ("-h", "--help"):
+        print(__doc__)
+        return
+    if arg == "--warm":
+        resolve_target()  # populate the cache, play nothing
+        return
+    play(parse_waveform(arg))
+
+
+if __name__ == "__main__":
+    main()

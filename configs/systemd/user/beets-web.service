@@ -1,0 +1,15 @@
+[Unit]
+Description=beets web API (tailnet-only, bound to tailscale IP)
+# Bind target is the tailscale0 address, so the socket only exists on the
+# tailnet — never on home/cafe/office wifi. If tailscale isn't up yet the
+# bind fails and Restart retries until the interface appears.
+After=network-online.target tailscaled.service
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/beet web 100.80.188.47 8337
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

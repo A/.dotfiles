@@ -70,6 +70,11 @@ packages:
         state: latest
       - name: mesa-utils
         state: latest
+      # Image viewer driven by bin/img-preview
+      - name: imv
+        state: present
+      - name: imagemagick
+        state: present
     aur_packages:
       - name: hyprevents-git
         state: latest
@@ -111,6 +116,22 @@ packages:
         dest: "{{ configs_home }}/wlogout"
       - src: "{{ dotfiles_source_dir }}/swaync"
         dest: "{{ configs_home }}/swaync"
+      # notif-center's recorder (swaync/notif-center): logs every Notify call off
+      # the session bus. WantedBy=default.target hook symlinked directly, as with
+      # beets-web (systemctl enable refuses to wire a symlinked unit); default, not
+      # graphical-session.target, which Hyprland here never activates.
+      - src: "{{ dotfiles_source_dir }}/systemd/user/notif-center-recorder.service"
+        dest: "{{ configs_home }}/systemd/user/notif-center-recorder.service"
+      - src: "{{ dotfiles_source_dir }}/systemd/user/notif-center-recorder.service"
+        dest: "{{ configs_home }}/systemd/user/default.target.wants/notif-center-recorder.service"
+      - src: "{{ dotfiles_source_dir }}/imv"
+        dest: "{{ configs_home }}/imv"
+      # Makes bin/img-preview the default image handler (see mimeapps.list).
+      - src: "{{ dotfiles_source_dir }}/applications/img-preview.desktop"
+        dest: "{{ ansible_env.HOME }}/.local/share/applications/img-preview.desktop"
+      # Wraps Telegram in a memory-limited systemd scope; see the file header.
+      - src: "{{ dotfiles_source_dir }}/applications/org.telegram.desktop.desktop"
+        dest: "{{ ansible_env.HOME }}/.local/share/applications/org.telegram.desktop.desktop"
 
   - name: nvim
     git_config:
@@ -231,18 +252,17 @@ packages:
       - name: tokei
         state: present
 
-  - name: claude
+  # Per-minute battery/resource sampler (bin/power-log); timer symlinked
+  # directly into timers.target.wants (systemctl enable refuses to wire a
+  # symlinked unit).
+  - name: power-log
     links:
-      - src: "{{ dotfiles_source_dir }}/claude/CLAUDE.md"
-        dest: "{{ ansible_env.HOME }}/.claude/CLAUDE.md"
-      - src: "{{ dotfiles_source_dir }}/claude/settings.json"
-        dest: "{{ ansible_env.HOME }}/.claude/settings.json"
-      - src: "{{ dotfiles_source_dir }}/claude/statusline.sh"
-        dest: "{{ ansible_env.HOME }}/.claude/statusline.sh"
-      - src: "{{ dotfiles_source_dir }}/claude/skills"
-        dest: "{{ ansible_env.HOME }}/.claude/skills"
-      - src: "{{ dotfiles_source_dir }}/claude/commands"
-        dest: "{{ ansible_env.HOME }}/.claude/commands"
+      - src: "{{ dotfiles_source_dir }}/systemd/user/power-log.service"
+        dest: "{{ configs_home }}/systemd/user/power-log.service"
+      - src: "{{ dotfiles_source_dir }}/systemd/user/power-log.timer"
+        dest: "{{ configs_home }}/systemd/user/power-log.timer"
+      - src: "{{ dotfiles_source_dir }}/systemd/user/power-log.timer"
+        dest: "{{ configs_home }}/systemd/user/timers.target.wants/power-log.timer"
 
   - name: apps
     pacman_packages:
@@ -366,8 +386,17 @@ packages:
         dest: "{{ configs_home }}/beets/config.yaml"
       - src: "{{ dotfiles_source_dir }}/mpd/mpd.conf"
         dest: "{{ configs_home }}/mpd/mpd.conf"
+      - src: "{{ dotfiles_source_dir }}/systemd/user/beets-web.service"
+        dest: "{{ configs_home }}/systemd/user/beets-web.service"
+      # WantedBy=default.target hook — symlinked directly so autostart is
+      # reproducible (systemctl enable refuses to wire a symlinked unit).
+      - src: "{{ dotfiles_source_dir }}/systemd/user/beets-web.service"
+        dest: "{{ configs_home }}/systemd/user/default.target.wants/beets-web.service"
     pacman_packages:
       - name: beets
+        state: latest
+      # beets' lastgenre plugin needs pylast; without it beets refuses to load it
+      - name: python-pylast
         state: latest
       - name: mpd
         state: latest

@@ -1,7 +1,16 @@
 #!/bin/bash
 # Convert PDF to Markdown via marker API
 
-MARKER_API="${MARKER_API_URL:-http://10.0.0.106:8000}"
+if [[ -z "$MARKER_API_URL" ]]; then
+    env_file="${XDG_CONFIG_HOME:-$HOME/.config}/pdf2md/pdf2md.env"
+    # shellcheck disable=SC1090
+    [[ -f "$env_file" ]] && { set -a; . "$env_file"; set +a; }
+fi
+if [[ -z "$MARKER_API_URL" ]]; then
+    echo "Error: MARKER_API_URL is not set (base URL of a marker API server, e.g. http://host:8000)" >&2
+    exit 1
+fi
+MARKER_API="$MARKER_API_URL"
 
 if [[ -z "$1" ]]; then
     echo "Usage: pdf2md <file.pdf> [output.md]"

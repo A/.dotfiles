@@ -1,33 +1,19 @@
 #! /bin/sh
-# set -e
-#
-# REQUIREMENT: pip3 install neovim-remote
+# Switch nvim colorscheme: persists it for new instances and pushes it live
+# into every running nvim over its RPC socket (no external deps).
+set -e
 
-path=${path}:/home/anton/.local/bin;
-cwd="${bash_source%/*}"
+cwd=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 
+case "$1" in
+  light) scheme="trash-polka-light" ;;
+  dark)  scheme="trash-polka" ;;
+  *) echo "there is no \"$1\" command"; exit 1 ;;
+esac
 
-instances=$(ls "/run/user/1000/" | grep "nvim.")
+echo "vim.cmd 'colorscheme ${scheme}'" > "${cwd}/lua/colorscheme.lua"
 
-
-if [ "$1" = "light" ]; then
-  echo "vim.cmd 'colorscheme trash-polka-light'" > "${cwd}/lua/colorscheme.lua"
-  for instance in /run/user/1000/nvim*; do
-    nvr --servername=${instance} --remote-send '<esc>:colorscheme trash-polka-light<enter>'
-  done
-  exit 0;
-fi
-
-if [ "$1" = "dark" ]; then
-  echo "vim.cmd 'colorscheme trash-polka'" > "${cwd}/lua/colorscheme.lua"
-  for instance in /run/user/1000/nvim*; do
-    echo "$instance"
-    nvr --servername=${instance} --remote-send '<esc>:colorscheme trash-polka<enter>'
-    echo "$instance done"
-  done
-  exit 0;
-fi
-
-echo "there is no \"$1\" command"
-exit 1;
-
+for instance in "${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"/nvim.*; do
+  [ -S "$instance" ] || continue
+  nvim --server "$instance" --remote-expr "execute('colorscheme ${scheme}')" >/dev/null 2>&1 || true
+done
